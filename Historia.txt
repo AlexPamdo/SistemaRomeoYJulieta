@@ -1,0 +1,68 @@
+Hola, En este siguiente texto ire documentando que cambios se estan haciendo
+y los cambios que falten:
+
+Jueves 05, septiembre de 2024:
+
++ Cambio de mecanica en el sistema de patrones y prendas (Ahora la prenda se crea al momento de crear un patron)
+
++ Se a creado la tabla Patron Materiales la cual guardara varios materiales para un patron
+
+- Se han quitado 2 columnas de de la tabla patrones (material,cantidad)
+
++ Ahora se pueden poner varios materiales a un patron
+
++ modal para ver los materiales de un patron implementado
+
+
+Martes 03, Septiembre de 2024:
+
+Sistema general:
+
++ Diseño de la interfaz actualizado
+
+login:
+
++ Diseño del login arreglado
+
+Clientes :
+
++ Diseño superficial cambiado
+
+usuarios :
+
++ Recordar que se añadio la columna de usuario_eliminado a la BD (para hacer la eliminacion logica)
+
++ Se cambiaron los modales de crear y editar (se agrego la opcion para añadir la imagen)
+
++ Se agrego el comprovador de correo en uso a la hora de crear un usuario
+
++ se modifico la funcion de eliminar en el modelo para que la elimincaion sea logica y no fisica
+
++ se modifico el mostrar todo en el modelo para que no muestre las filas "eliminadas"
+
++ se agrego una validacion de contraseña mas completa al crear y al editar
+
++ se agrego a el modelo y al controlador la logica para restaurar un usuario eliminado (tambien sus respectivas notificaciones en el log)
+
+
+Sabado 31, Agosto de 2024:
+
+Sistema general:
+
++ Funcion para determinar si el usuario no tiene imagen de perfil agregada
+
++ Footer agregado
+
++ Selector de links añadido (ahora el link se marcara cuando se este en dicha pagina) añadido
+
+usuarios:
+
+- "accion" de la cabecera de la tabla removida
+
++ Imagen de la cuenta de perfil agregada al cuerpo de la tabla añadida
+
++ Buscador funcional añadido
+
++ El modelo de usuarios ahora esta completamente documentado
+
++ Recordar que se creo la columna de img_usuario en la BD

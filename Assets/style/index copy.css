@@ -1,0 +1,254 @@
+input::-webkit-inner-spin-button,
+input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+}
+
+colgroup {
+    color: #f3c1ff;
+    color: #fafb7b;
+    color: #fc5566;
+    color: #03dcd6;
+    color: #f8c3f2;
+}
+
+
+
+.bg-rj-blue {
+    background-color: #1ebda2;
+}
+
+.bg-rj-lred {
+    background-color: #ffbec5;
+}
+
+.bg-rj-lgreen {
+    background-color: #24c675;
+}
+
+.bg-rj-gray {
+    background-color: rgb(225, 225, 225);
+}
+
+.bg-rj-red {
+    background-color: #fc5566;
+}
+
+.bg-rj-yellow {
+    background-color: #e7cd08;
+}
+
+.bg-rj-lpink {
+    background-color: #c475d8;
+}
+
+.bg-rj-pink {
+    background-color: #cf79c5;
+}
+
+.rj-text-green {
+    color: #00a038;
+
+}
+
+.btn-rj-blue {
+    background-color: #008ca5;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 7px;
+    transition: all 300ms ease;
+}
+
+.btn-rj-blue:hover {
+    background-color: #005e70;
+    color: white;
+}
+
+.rj-link-active {
+    background-color: #00819b;
+}
+
+.active>.page-link {
+    z-index: 3;
+    background-color: #00b6bd;
+    color: white;
+    border-color: #00b6bd;
+}
+
+.page-item {
+    --bs-pagination-color: #00b6bd;
+}
+
+.navbar-nav .dropdown-menu {
+    position: absolute;
+}
+
+
+.rj-offcanva-link {
+    border-radius: 10px;
+}
+
+.rj-offcanva-link:hover {
+    background-color: #008ca5;
+
+}
+
+.admin {
+    background-color: rgb(17, 145, 81);
+    color: white;
+    border-radius: 10px;
+    text-align: center;
+    max-width: 100px;
+}
+
+.user {
+    background-color: rgb(17, 92, 145);
+    color: white;
+    border-radius: 10px;
+    text-align: center;
+    max-width: 100px;
+}
+
+.container-form {
+    max-width: 400px;
+}
+
+.Entregado {
+    background-color: rgb(36, 170, 81);
+    color: white;
+    border-radius: 10px;
+    padding: 5px;
+    text-align: center;
+}
+
+.no-Entregado {
+    background-color: rgb(170, 58, 36);
+    color: white;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.Entregado-pendiente {
+    background-color: rgb(186, 133, 20);
+    color: white;
+    border-radius: 10px;
+    padding: 5px;
+
+}
+
+.card-rj {
+    border-radius: 30px;
+    padding: 30px;
+}
+
+.card-link {
+    transition: all 300ms ease;
+    cursor: pointer;
+}
+
+.card-link:hover {
+    filter: brightness(1.1);
+}
+
+.link-rj {
+    color: white;
+    text-decoration: none;
+}
+
+.btn-rj-pink {
+    background-color: #8b36a1;
+    color: white;
+}
+
+.btn-rj-pink:hover {
+    background-color: #601f70;
+    color: white;
+}
+
+
+/* Confecciones*/
+
+.niñas {
+    background-color: #c475d8;
+    border-radius: 30px;
+}
+
+.niños {
+    background-color: #00b0d0;
+    border-radius: 30px;
+}
+
+
+.niñosActive {
+    display: block;
+}
+
+.niñosDesactive {
+    display: none;
+}
+
+#niños-niñas-table {
+    transition: all 300ms ease;
+    padding: 18px;
+}
+
+.btn-rj-niños {
+    border-radius: 40px;
+}
+
+.btn-rj-niñas {
+    background-color: #c475d8;
+}
+
+#cajaNiñes {
+    z-index: -5;
+    position: absolute;
+    width: 5rem;
+    background-color: #00b0d0;
+    height: 100%;
+    border-radius: 10px;
+    transition: all 300ms ease;
+}
+
+.cajaNiñesFondo {
+    background-color: #d7d7d7;
+    width: 140px;
+    height: 300px;
+    position: absolute;
+    z-index: -6;
+    border-radius: 10px;
+}
+
+
+/* Catalogo */
+
+.prendas-rj {
+    border-radius: 30px;
+}
+
+.img-catalogo {
+    border-radius: 30px;
+}
+
+/*Modal de editar*/
+
+/*fondo*/
+.fondoModal {
+    display: flex;
+    background: #00000073;
+    width: 100%;
+    height: 130%;
+    z-index: 1;
+    align-items: center;
+    justify-content: center;
+}
+
+.modalRj {
+    padding: 40px;
+    border-radius: 10px;
+}
+
+/* Cambiar el color del texto de notifier a blanco */
+.alertify-notifier .ajs-message {
+    color: #ffffff;
+}

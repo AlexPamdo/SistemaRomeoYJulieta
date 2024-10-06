@@ -1,0 +1,103 @@
+body {
+    background: linear-gradient(to right, #00c2a2, #006c5b);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-form {
+    background-color: #ffffff;
+    padding: 2.5rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+     width: 400px;
+    max-width: 450px;
+}
+
+.login-form img {
+    margin-bottom: 1.5rem;
+}
+
+.login-form h1,
+.login-form h2 {
+    font-weight: bold;
+    color: #00a38a;
+}
+
+.login-form h1 {
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.login-form h2 {
+    margin-bottom: 2rem;
+}
+
+.form-floating,
+.form-control {
+    margin-bottom: 1.5rem;
+}
+
+.form-label {
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+.form-control {
+    border-radius: 10px;
+    border: 1px solid #dfe6e9;
+}
+
+.form-control:focus {
+    border-color: #00a38a;
+    box-shadow: 0 0 5px rgba(0, 163, 138, 0.2);
+}
+
+.remember a {
+    color: #00a38a;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.remember a:hover {
+    text-decoration: underline;
+}
+
+.btn-primary,
+.btn-rj-blue {
+    background-color: #00a38a;
+    border: none;
+    border-radius: 10px;
+    transition: background-color 0.3s ease;
+    color: white;
+}
+
+.btn-primary:hover,
+.btn-rj-blue:hover {
+    background-color: #008974;
+}
+
+.modal-header {
+    background-color: #00a38a;
+    border-bottom: none;
+}
+
+.modal-title {
+    font-size: 1.25rem;
+    color: white;
+}
+
+.modal-content {
+    border-radius: 15px;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: space-between;
+}
+
+.modal-footer a,
+.modal-footer button {
+    width: 48%;
+}
