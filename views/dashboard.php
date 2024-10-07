@@ -7,17 +7,19 @@ require_once("templates/head.php");
 
 <body class="bg-light">
 
-    <main class="d-flex">
+    <main  class="d-flex">
 
         <!-- Barra lateral -->
         <?php
         include("views/templates/Header.php");
         ?>
 
-        <div class="flex-grow-1">
+        <div id="main-content" class="flex-grow-1">
             <!-- Header de la página -->
-            <header class="bg-custom-header p-3 d-flex justify-content-between align-items-center border-bottom">
+            <header class="bg-dark p-3 d-flex justify-content-between align-items-center border-bottom text-white">
+                
                 <div>
+
                     <h1 class="h4">Bienvenido, <?php echo htmlspecialchars($_SESSION["username"]); ?></h1>
                     <div class="d-flex align-items-center">
                         <i class="fs-3 fas fa-tachometer-alt"></i>

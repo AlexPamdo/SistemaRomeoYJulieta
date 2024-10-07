@@ -6,23 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cambiar Contraseña</title>
     <link rel="stylesheet" href="Assets/style/Login.css">
+    <link rel="stylesheet" href="libraries/bootstrap-5.3.3-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="Assets/style/index.css">
+    <link rel="stylesheet" href="Assets/style/index2.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 
 <body>
-
-    <?php
-    $usuarios = new usuarios();
-    $usuario = $usuarios->viewOne($_GET["id"]);
-    ?>
-
     <!-- Formulario de Cambio de Contraseña -->
     <div class="login-form">
         <h1>Cambio de Contraseña</h1>
-        <form class="needs-validation" method="post">
+        <form class="needs-validation" action="index.php?function=cambiarContraseña" method="post">
+            <input type="hidden" name="id" value="<?php echo $usuarioData["id_usuario"]?>">
             <div class="container p-0">
                 <div class="mb-3">
                     <label class="form-label">Pregunta de seguridad</label>
-                    <p><?php echo $usuario["pregunta"]; ?></p>
+                    <p><?php echo $usuarioData["pregunta"]; ?></p>
                 </div>
 
                 <div class="mb-3">
@@ -42,7 +41,7 @@
 
                 <div class="modal-footer">
                     <a href="index.php?page=login" class="btn btn-secondary">Cerrar</a>
-                    <button type="submit" name="btnSwichPassword" value="swichPassword" class="btn btn-primary">Registrar</button>
+                    <button type="submit"class="btn btn-primary">Registrar</button>
                 </div>
             </div>
         </form>

@@ -39,3 +39,12 @@
 </footer>
 
 <script src="libraries/bootstrap-5.3.3-dist/js/bootstrap.min.js"></script>
+<script>
+    function toggleMenu() {
+    const sidebar = document.getElementById('offcanvasSidebar');
+    const mainContent = document.getElementById('main-content');
+    
+    sidebar.classList.toggle('show'); // Muestra u oculta el sidebar
+    sidebar.classList.toggle('hide'); // Aplica clase "hide" cuando esté oculto
+}
+</script>

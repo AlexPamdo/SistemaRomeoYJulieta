@@ -10,16 +10,16 @@ require_once("templates/head.php");
 
 <body class="bg-body-secondary" data-bs-spy="scroll">
 
-    <main class="container-fluid p-0 d-flex">
+    <main class="container-fluid p-0 row m-0">
 
         <!-- Barra lateral -->
         <?php include("views/templates/Header.php"); ?>
 
         <div class="col bg-custom-content p-0">
             <!-- Header de la página -->
-            <header class="bg-custom-header">
+            <header class="bg-dark">
                 <div class="p-3 d-flex justify-content-between align-items-center border-bottom">
-                    <div class="d-flex align-items-center">
+                    <div class="d-flex align-items-center text-white">
                         <i class="fa-solid fa-users-gear fs-1 me-3"></i>
                         <h3 class="m-0">Gestor de Prendas Terminadas</h3>
                     </div>

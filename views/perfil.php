@@ -13,9 +13,9 @@ require_once("templates/head.php");
         <?php include("views/templates/Header.php"); ?>
 
         <div class="col bg-custom-content p-0">
-            <header class="bg-custom-header">
+            <header class="bg-dark">
                 <div class="p-3 d-flex justify-content-between align-items-center border-bottom">
-                    <div class="d-flex align-items-center">
+                    <div class="d-flex align-items-center text-white">
                         <i class="fa-solid fa-user-circle fs-1 me-3"></i>
                         <h3 class="ms-3">Perfil</h3>
                     </div>

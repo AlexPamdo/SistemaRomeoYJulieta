@@ -1,7 +1,9 @@
 <!-- Sidebar de navegación para la aplicación -->
 
+
+
 <div class="sidebar d-flex flex-column flex-shrink-0 p-3 bg-dark text-white col-3" style="width: 280px;" id="offcanvasSidebar">
-    <div class="d-flex justify-content-between align-items-center mb-3">
+    <div class="logo-conteiner d-flex justify-content-between align-items-center mb-3">
         <a href="#" class="text-white text-decoration-none d-flex align-items-center">
             <img src="Assets/img/logo2.png" alt="Logo" height="40" width="45" />
             <h5 class="ms-2 mb-0">ROMEO Y JULIETA</h5>
@@ -105,6 +107,10 @@
         </ul>
     </div>
 </div>
+
+<!-- Botón para abrir/cerrar el menú -->
+<button class="btn btn-dark" id="menu-toggle" onclick="toggleMenu()">&#9776;</button>
+
 
 <!-- Código para resaltar el enlace activo según la página actual -->
 <?php

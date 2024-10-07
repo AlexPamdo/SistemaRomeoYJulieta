@@ -1,10 +1,7 @@
 <?php
-// Protege el acceso a la página solo para usuarios autorizados
-require("controllers/protectedUser.php");
-
 require_once("templates/head.php");
 ?>
-
+<link rel="stylesheet" href="Assets/style/login.css">
     <title>Login</title>    
 </head>
 
@@ -39,7 +36,7 @@ require_once("templates/head.php");
                     <h5 class="modal-title" id="correoModalLabel">Recuperar Contraseña</h5>
                 </div>
                 <div class="modal-body">
-                    <form class="needs-validation" method="post">
+                    <form class="needs-validation" action="index.php?function=showCambiarContraseña" method="post">
                         <div class="mb-3">
                             <label for="validationCustom01" class="form-label fw-bold">Correo Electrónico</label>
                             <input type="email" name="correo" class="form-control" id="validationCustom01" placeholder="Introduzca su correo" required>
@@ -54,7 +51,7 @@ require_once("templates/head.php");
         </div>
     </div>
 
-   
+    <script src="libraries/bootstrap-5.3.3-dist/js/bootstrap.min.js"></script>
 </body>
 
 </html>

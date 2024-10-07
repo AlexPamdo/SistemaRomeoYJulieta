@@ -2,16 +2,18 @@
 
 
 include_once("model/loginModel.php");
-
+include_once "model/usuariosModel.php";
 
 class loginController
 {
 
     private $loginModel;
+    private $usuariosModel;
 
     public function __construct()
     {
         $this->loginModel = new login();
+        $this->usuariosModel = new usuarios();
     }
 
     public function show()
@@ -19,9 +21,15 @@ class loginController
         include_once("views/login.php");
     }
 
+    public function showCambiarContraseña()
+    {
+        $usuarioData = $this->usuariosModel->searchEmail($_POST["correo"]);
+        include_once("views/login/cambiarContrasena.php");
+    }
+
     public function login()
     {
-     
+
         $this->loginModel->setGmail($_POST["gmail_usuario"]);
         $this->loginModel->setContraseña($_POST["contraseña_usuario"]);
 
@@ -43,67 +51,34 @@ class loginController
             echo "<script>alert('Error al obtener el nombre del usuario');</script>";
         }
     }
-}
-
-
-
-include_once "model/usuariosModel.php";
-
-class olvideContraseña
-{
 
     public function verCorreo()
     {
+        $usuario = $this->usuariosModel->revisarCorreo($_POST["correo"]);
+        $id = $usuario["id_usuario"];
 
-        if (!empty($_POST["btnOlvide"])) {
-            $usuarios = new usuarios();
-
-            $correo = $_POST["correo"];
-
-            $usuario = $usuarios->revisarCorreo($correo);
-            $id = $usuario["id_usuario"];
-
-            if ($usuario) {
-                header("location:index.php?page=login&function=forgotPassword&id=$id");
-            } else {
-                header("location:index.php?page=login&error");
-            }
+        if ($usuario) {
+            header("location:index.php?page=login&function=forgotPassword&id=$id");
+        } else {
+            header("location:index.php?page=login&error");
         }
     }
 
     public function cambiarContraseña()
     {
+        $usuario = $this->usuariosModel->viewOne($_POST["id"]);
 
+        if ($_POST["answer"] === $usuario["respuesta"]) {
 
+            $this->usuariosModel->setPassword($_POST["password"]);
 
-
-        if (!empty($_POST["btnSwichPassword"])) {
-
-            $usuarios = new usuarios();
-
-            $id = $_GET["id"];
-
-            $usuario = $usuarios->viewOne($id);
-
-            $respuestaSeguridad = $usuario["respuesta"];
-
-            if ($_POST["answer"] === $respuestaSeguridad) {
-
-                if ($_POST["password"] === $_POST["c_password"]) {
-
-                    $usuarios->setPassword($_POST["password"]);
-
-                    if ($usuarios->updatePassword($id)) {
-                        header("location:index.php?page=login&succes=4");
-                    } else {
-                        header("location:index.php?page=login&function=forgotPassword&id=$id&error=4");
-                    }
-                } else {
-                    header("location:index.php?page=login&function=forgotPassword&id=$id&error=5");
-                }
+            if ($this->usuariosModel->updatePassword($_POST["id"])) {
+                header("location:index.php?page=login&succes=4");
             } else {
-                header("location:index.php?page=login&function=forgotPassword&id=$id&error=3");
+                header("location:index.php?page=login&error=4");
             }
+        } else {
+            header("location:index.php?page=login&error=5");
         }
     }
 }

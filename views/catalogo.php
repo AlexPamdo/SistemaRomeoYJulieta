@@ -10,13 +10,13 @@ require_once("templates/head.php");
 
 <body class="bg-body-secondary" data-bs-spy="scroll">
 
-    <main class="container-fluid p-0 d-flex">
+    <main class="container-fluid p-0 row m-0">
         <!-- Barra lateral -->
         <?php include("views/templates/Header.php"); ?>
 
         <div class="col bg-custom-content p-0">
             <!-- Header de la página -->
-            <header class="bg-custom-header p-3 d-flex justify-content-between align-items-center border-bottom">
+            <header class="bg-dark p-3 d-flex justify-content-between align-items-center border-bottom text-white">
                 <h3 class="m-0">Catálogo</h3>
                 <!-- Menú desplegable -->
                 <?php include("views/templates/menuDesplegable.php"); ?>
