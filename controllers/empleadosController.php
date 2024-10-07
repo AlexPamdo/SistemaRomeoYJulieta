@@ -1,87 +1,64 @@
 <?php
 
-function render()
-{
-    include_once("views/empleados.php");
-}
+require_once("interfaces/interface.php");
+require_once("model/empleadosModel.php");
 
-class crearEmpleado
+class empleadosController implements crudController
 {
+
+    private $model;
+
+    public function __construct()
+    {
+        $this->model = new empleados();
+    }
+
+    public function show()
+    {
+        $empleadosData = $this->model->viewAll();
+        require_once("views/empleados.php");
+    }
+
     public function create()
     {
-        $empleado = new empleados();
+        $this->model->setNombre($_POST["nombre_empleado"]);
+        $this->model->setApellido($_POST["apellido_empleado"]);
+        $this->model->setEmail($_POST["email_empleado"]);
+        $this->model->setTelefono($_POST["telefono_empleado"]);
+        $this->model->setOcupacion($_POST["id_ocupacion"]);
 
-        if (!empty($_POST["btnCrear"])) {
+        $this->model->setCedula($_POST["cedula_empleado"]);
 
-            $empleado->setNombre($_POST["nombre_empleado"]);
-            $empleado->setApellido($_POST["apellido_empleado"]);
-            $empleado->setEmail($_POST["email_empleado"]);
-            $empleado->setTelefono($_POST["telefono_empleado"]);
-            $empleado->setOcupacion($_POST["id_ocupacion"]);
-
-            $empleado->setCedula($_POST["cedula_empleado"]);
-
-            if ($empleado->create()) {
-                header("Location: index.php?page=empleados&succes=1");
-            } else {
-                header("Location: index.php?page=empleados&error=1");
-            }
+        if ($this->model->create()) {
+            header("Location: index.php?page=empleados&succes=1");
+        } else {
+            header("Location: index.php?page=empleados&error=1");
         }
-        include_once "views/empleados/crear.php";
     }
-}
-
-class eliminarEmpleado
-{
-    public function eliminar()
+    public function delete()
     {
-        $empleado = new empleados();
-
-        if (!empty($_GET["btnDelete"])) {
-
-            $id = ($_GET["id"]);
-
-            if ($empleado->delete($id)) {
-                header("Location: index.php?page=empleados&succes=2");
-            } else {
-                echo "<div class=' alert alert-danger'> Erro al eliminar Empleado</div> ";
-            }
+        if ($this->model->delete($_POST["id"])) {
+            header("Location: index.php?page=empleados&succes=2");
+        } else {
+            echo "<div class=' alert alert-danger'> Erro al eliminar Empleado</div> ";
         }
     }
-}
-
-
-class editEmpleado
-{
     public function edit()
     {
-        $empleado = new empleados();
-        $id = $_POST["id"] ?? null;
 
-        if (!empty($_POST["btnUpdate"])) {
-            switch ($_POST["btnUpdate"]) {
-                case "edit":
-                    $empleado->setNombre($_POST["nombre_empleado_edit"]);
-                    $empleado->setApellido($_POST["apellido_empleado_edit"]);
-                    $empleado->setEmail($_POST["email_empleado_edit"]);
-                    $empleado->setTelefono($_POST["telefono_empleado_edit"]);
-                    $empleado->setOcupacion($_POST["id_ocupacion_edit"]);
+        $this->model->setNombre($_POST["nombre_empleado_edit"]);
+        $this->model->setApellido($_POST["apellido_empleado_edit"]);
+        $this->model->setEmail($_POST["email_empleado_edit"]);
+        $this->model->setTelefono($_POST["telefono_empleado_edit"]);
+        $this->model->setOcupacion($_POST["id_ocupacion_edit"]);
 
-                    $empleado->setCedula($_POST["cedula_empleado_edit"]);
+        $this->model->setCedula($_POST["cedula_empleado_edit"]);
 
-                    if ($empleado->edit($id)) {
-                        header("Location: index.php?page=empleados&succes=3");
-                        exit;
-                    } else {
-                        header("Location: index.php?page=empleados&error=3");
-                    }
-                    break;
-
-                case "close":
-                    header("Location: index.php?page=empleados");
-                    exit;
-            }
+        if ($this->model->edit($_POST["id"])) {
+            header("Location: index.php?page=empleados&succes=3");
+            exit;
+        } else {
+            header("Location: index.php?page=empleados&error=3");
         }
-        include_once "views/empleados/editar.php";
     }
 }

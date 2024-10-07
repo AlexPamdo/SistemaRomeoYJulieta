@@ -1,20 +1,12 @@
 <?php
 // Protege el acceso a la página solo para usuarios autorizados
 require("controllers/protectedUser.php");
+
+require_once("templates/head.php");
 ?>
 
-<!DOCTYPE html>
-<html lang="es">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Proveedores</title>
-    <!-- Enlace a Bootstrap y FontAwesome -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>Proveedores</title>    
 </head>
-
 <body class="bg-body-secondary" data-bs-spy="scroll">
     <main class="container-fluid p-0 d-flex">
         <!-- Barra lateral -->
@@ -41,22 +33,15 @@ require("controllers/protectedUser.php");
                         Crear Proveedor <i class="fa-solid fa-plus ms-2"></i>
                     </button>
 
+                    <?php
+                        require_once("views/proveedores/registrar.php")
+                    ?>
+
                     <form class="d-flex" role="search" method="post">
                         <input class="form-control me-2" name="busqueda" type="search" placeholder="Buscar Proveedor" aria-label="Search">
                         <button class="btn btn-outline-success" type="submit">Buscar</button>
                     </form>
                 </div>
-
-                <?php
-                // Incluimos el modelo de proveedores
-                include_once("model/proveedorModel.php");
-                $proveedores = new Proveedores();
-
-                // Incluimos el controlador para crear proveedores
-                include_once("controllers/ProveedoresController.php");
-                $crearProveedor = new crearProveedor();
-                $crearProveedor->create();
-                ?>
 
                 <!-- Tabla de proveedores -->
                 <div class="table-responsive bg-white rounded shadow-sm p-4">
@@ -75,7 +60,7 @@ require("controllers/protectedUser.php");
                         </thead>
                         <tbody>
                             <?php
-                            $proveedoresData = $proveedores->viewAll();
+                            
                              foreach ($proveedoresData as $proveedor) : ?>
                                 <tr>
                                     <td><?php echo htmlspecialchars($proveedor['id_proveedor']); ?></td>
@@ -106,49 +91,13 @@ require("controllers/protectedUser.php");
                         </tbody>
                     </table>
                 </div>
-
-                <?php
-                // Incluimos las funciones de edición y eliminación de proveedores
-                $editarProveedor = new editProveedor();
-                $editarProveedor->edit();
-
-                $eliminarProveedor = new eliminarProveedor();
-                $eliminarProveedor->eliminar();
-
-                if (isset($_GET['succes'])) {
-                    switch ($_GET['succes']) {
-                        case 1:
-                            echo "<script> Swal.fire({
-                                icon: 'success',
-                                title: 'Proveedor registrado',
-                                showConfirmButton: false,
-                                timer: 1500
-                                }); </script>";
-                            break;
-                        case 2:
-                            echo "<script> Swal.fire({
-                                icon: 'success',
-                                title: 'Proveedor eliminado',
-                                showConfirmButton: false,
-                                timer: 1500
-                                }); </script>";
-                            break;
-                        case 3:
-                            echo "<script> Swal.fire({
-                                icon: 'success',
-                                title: 'Proveedor editado',
-                                showConfirmButton: false,
-                                timer: 1500
-                                }); </script>";
-                            break;
-                    }
-                }
-                ?>
             </div>
         </div>
     </main>
 
-    <?php include_once("views/templates/footer.php"); ?>
+    <?php 
+    include_once("views/proveedores/log.php");
+    include_once("views/templates/footer.php"); ?>
 
   
 </body>

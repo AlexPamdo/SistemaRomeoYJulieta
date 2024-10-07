@@ -1,11 +1,11 @@
-<!DOCTYPE html>
-<html lang="es">
+<?php
+// Protege el acceso a la página solo para usuarios autorizados
+require("controllers/protectedUser.php");
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciar Sesión</title>
-   <link rel="stylesheet" href="Assets/style/Login.css">
+require_once("templates/head.php");
+?>
+
+    <title>Login</title>    
 </head>
 
 <body>

@@ -1,6 +1,7 @@
 <?php
 
-function render()
-{
-    include_once("views/ventas.php");
+class ventasController {
+    public function show(){
+        require_once("views/ventas.php");
+    }
 }

@@ -1,134 +1,68 @@
 <?php
 
-function render()
-{
-    include_once("views/Clientes.php");
-}
+function render() {}
 
 
-
+require_once("interfaces/interface.php");
 include_once "model/clientesModel.php";
 
-class crearCliente
+class clientesController implements crudController
 {
+
+    private $model;
+
+    public function __construct()
+    {
+        $this->model = new clientes();
+    }
+
+    public function show()
+    {
+        $clientesData = $this->model->viewAll();
+        require_once("views/Clientes.php");
+    }
+
     public function create()
     {
-        $cliente = new clientes();
-
-        if (!empty($_POST["btnCrear"])) {
-            if (!empty($_POST["nombre"]) and !empty($_POST["apellido"]) and !empty($_POST["telefono"]) and !empty($_POST["email"]) and !empty($_POST["contraseña"]) and !empty($_POST["cedula"])) {
-
-
-                $cliente->setNombre($_POST["nombre"]);
-                $cliente->setApellido($_POST["apellido"]);
-                $cliente->setTelefono($_POST["telefono"]);
-                $cliente->setEmail($_POST["email"]);
-                $cliente->setContraseña($_POST["contraseña"]);
-                $cliente->setCedula($_POST["cedula"]);
+        $this->model->setNombre($_POST["nombre"]);
+        $this->model->setApellido($_POST["apellido"]);
+        $this->model->setTelefono($_POST["telefono"]);
+        $this->model->setEmail($_POST["email"]);
+        $this->model->setContraseña($_POST["contraseña"]);
+        $this->model->setCedula($_POST["cedula"]);
 
 
-                if ($cliente->create()) {
-                    header("Location: index.php?page=clientes&succes=1");
-                } else {
-                    header("Location: index.php?page=clientes&error=1");
-                }
-            } else {
-                echo "<div class='alert alert-warning'> Complete todos los campos </div> ";
-            }
+        if ($this->model->create()) {
+            header("Location: index.php?page=clientes&succes=1");
+        } else {
+            header("Location: index.php?page=clientes&error=1");
         }
-        include_once "views/clientes/crear.php";
     }
-}
 
-class eliminarClientes
-{
-    public function eliminar()
+    public function delete()
     {
-        $cliente = new clientes();
 
-        if (!empty($_GET["btnDelete"])) {
-
-            $id = ($_GET["id"]);
-
-            if ($cliente->delete($id)) {
-                header("Location: index.php?page=clientes&succes=2");
-            } else {
-                header("Location: index.php?page=clientes&error=2");
-            }
+        if ($this->model->delete($_POST["id"])) {
+            header("Location: index.php?page=clientes&succes=2");
+        } else {
+            header("Location: index.php?page=clientes&error=2");
         }
     }
-}
-
-
-class editCliente
-{
     public function edit()
     {
-        $cliente = new clientes();
-        $id = $_POST["id"] ?? null;
 
-        if (!empty($_POST["btnUpdate"])) {
-            switch ($_POST["btnUpdate"]) {
-                case "edit":
-                    $cliente->setNombre($_POST["nombre_edit"]);
-                    $cliente->setApellido($_POST["apellido_edit"]);
-                    $cliente->setTelefono($_POST["telefono_edit"]);
-                    $cliente->setEmail($_POST["email_edit"]);
-                    $cliente->setContraseña($_POST["contraseña_edit"]);
-                    $cliente->setCedula($_POST["cedula_edit"]);
 
-                    if ($cliente->edit($id)) {
-                        header("Location: index.php?page=clientes&succes=3");
-                    } else {
-                        header("Location: index.php?page=clientes&error=3");
-                    }
-                    break;
+        $this->model->setNombre($_POST["nombre_edit"]);
+        $this->model->setApellido($_POST["apellido_edit"]);
+        $this->model->setTelefono($_POST["telefono_edit"]);
+        $this->model->setEmail($_POST["email_edit"]);
+        $this->model->setContraseña($_POST["contraseña_edit"]);
+        $this->model->setCedula($_POST["cedula_edit"]);
 
-                case "close":
-                    header("Location: index.php?page=clientes");
-                    exit;
-            }
+        if ($this->model->edit($_POST["id"])) {
+            header("Location: index.php?page=clientes&succes=3");
+        } else {
+            header("Location: index.php?page=clientes&error=3");
         }
-        include_once "views/clientes/editar.php";
     }
 }
-
-
-/* class editUsuario
-{
-    public function edit()
-    {
-        $usuario = new usuarios();
-        $id = $_GET["id"] ?? null;
-
-        if ($id !== null && isset($_GET["btnEditar"]) && ($_GET["btnEditar"] === "ok")) {
-
-            $dataOne = $usuario->viewOne($id);
-
-            if (!empty($_POST["btnUpdate"])) {
-                switch ($_POST["btnUpdate"]) {
-                    case "edit":
-                        $usuario->setNombre($_POST["nombre_usuario_edit"]);
-                        $usuario->setApellido($_POST["apellido_usuario_edit"]);
-                        $usuario->setCedula($_POST["cedula_usuario_edit"]);
-                        $usuario->setGmail($_POST["gmail_usuario_edit"]);
-                        $usuario->setPassword($_POST["password_usuario_edit"]);
-                        $usuario->setPermisos($_POST["id_roles_edit"]);
-
-                        if ($usuario->edit($id)) {
-                            header("Location: index.php?page=usuarios");
-                            exit;
-                        } else {
-                            echo "<div class='alert alert-warning'> Error al Editar Usuario </div>";
-                        }
-                        break;
-
-                    case "close":
-                        header("Location: index.php?page=usuarios");
-                        exit;
-                }
-            }
-        }
-        include_once "views/usuarios/editar.php";
-    }
-} */

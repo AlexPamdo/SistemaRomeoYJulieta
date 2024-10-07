@@ -1,16 +1,11 @@
 <?php
 // Protege el acceso a la página solo para usuarios autorizados
 require("controllers/protectedUser.php");
+
+require_once("templates/head.php");
 ?>
 
-<!DOCTYPE html>
-<html lang="es">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prendas</title>
-
+    <title>Prendas</title>    
 </head>
 
 <body class="bg-body-secondary" data-bs-spy="scroll">
@@ -51,18 +46,7 @@ require("controllers/protectedUser.php");
                     </form>
                 </div>
 
-                <?php
-                // Incluimos el modelo de prendas
-                include_once("model/prendasModel.php");
-                $prenda = new Prenda();
-                $prendaData = $prenda->viewAll("stock");
-
-                // Incluimos el controlador para crear prendas
-                include_once("controllers/prendasController.php");
-                $crearPrenda = new crearPrenda();
-                $crearPrenda->create();
-                ?>
-
+           
                 <!-- Tabla de prendas -->
                 <div class="table-responsive bg-white rounded shadow-sm p-4">
                     <table class="table table-hover">
@@ -127,56 +111,15 @@ require("controllers/protectedUser.php");
                 <?php
                 include_once("views/prendas/sinStock.php");
                 ?>
-
-                <?php
-                // Incluimos las funciones de edición y eliminación de prendas
-                $editarPrenda = new editPrenda();
-                $editarPrenda->edit();
-
-                $eliminarPrenda = new eliminarPrenda();
-                $eliminarPrenda->eliminar();
-
-                if (isset($_GET['success'])) {
-                    switch ($_GET['success']) {
-                        case 1:
-                            echo "<script> Swal.fire({
-                                icon: 'success',
-                                title: 'Prenda creada',
-                                showConfirmButton: false,
-                                timer: 1500
-                            }); </script>";
-                            break;
-                        case 2:
-                            echo "<script> Swal.fire({
-                                icon: 'success',
-                                title: 'Prenda eliminada',
-                                showConfirmButton: false,
-                                timer: 1500
-                            }); </script>";
-                            break;
-                        case 3:
-                            echo "<script> Swal.fire({
-                                icon: 'success',
-                                title: 'Prenda editada',
-                                showConfirmButton: false,
-                                timer: 1500
-                            }); </script>";
-                            break;
-                    }
-                } elseif (isset($_GET['error'])) {
-                    switch ($_GET['error']) {
-                        case 3:
-                            echo "<script> alertify.error('Error al editar la prenda'); </script>";
-                            break;
-                    }
-                }
-                ?>
             </div>
         </div>
     </main>
 
-    <?php include_once("views/templates/footer.php"); ?>
-    <?php include("views/prendas/registrar.php"); ?>
+    <?php 
+    include_once("views/prendas/log.php");
+    include_once("views/templates/footer.php"); 
+    ?>
+   
 
 
 </body>

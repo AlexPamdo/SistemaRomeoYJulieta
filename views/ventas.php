@@ -1,19 +1,11 @@
 <?php
 // Protege el acceso a la página solo para usuarios autorizados
 require("controllers/protectedUser.php");
+
+require_once("templates/head.php");
 ?>
 
-<!DOCTYPE html>
-<html lang="es">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ventas</title>
-    <!-- Enlace a Bootstrap y FontAwesome -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="Assets/style/index.css">
+    <title>Ventas</title>    
 </head>
 
 <body class="bg-body-secondary" data-bs-spy="scroll">
@@ -41,6 +33,10 @@ require("controllers/protectedUser.php");
                 <button type="button" class="btn btn-rj-blue" data-bs-toggle="modal" data-bs-target="#CrearModal">
                         Registrar Venta <i class="fa-solid fa-plus ms-2"></i>
                     </button>
+
+                    <?php
+                        require_once("views/ventas/crear.php")
+                    ?>
 
                     <form class="d-flex" role="search">
                         <input class="form-control me-2" type="search" placeholder="Buscar Elemento" aria-label="Search">

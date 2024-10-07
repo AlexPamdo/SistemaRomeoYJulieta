@@ -1,16 +1,11 @@
 <?php
 // Protege el acceso a la página solo para usuarios autorizados
 require("controllers/protectedUser.php");
+
+require_once("templates/head.php");
 ?>
 
-<!DOCTYPE html>
-<html lang="es">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pedidos</title>
-
+<title>Pedidos</title>
 </head>
 
 <body class="bg-body-secondary" data-bs-spy="scroll">
@@ -39,6 +34,10 @@ require("controllers/protectedUser.php");
                         Crear <i class="fa-solid fa-plus ms-2"></i>
                     </button>
 
+                    <?php
+                        require_once("views/pedidos/crear.php")
+                    ?>
+
                     <form class="d-flex" role="search" method="get">
                         <input class="form-control me-2" type="search" placeholder="Buscar Elemento" aria-label="Search">
                         <button class="btn btn-success" type="submit">Buscar</button>
@@ -47,18 +46,6 @@ require("controllers/protectedUser.php");
                         </a>
                     </form>
                 </div>
-
-                <?php
-                // Incluimos el modelo de pedidos
-                include_once("model/pedidosModel.php");
-                $pedidos = new pedidos();
-                $pedidosData = $pedidos->viewAll();
-
-                // Incluimos el controlador para crear pedidos
-                include_once("controllers/pedidosController.php");
-                $crearpedido = new crearPedido();
-                $crearpedido->create();
-                ?>
 
                 <!-- Tabla de pedidos -->
                 <div class="table-responsive bg-white rounded shadow-sm p-4">
@@ -105,7 +92,7 @@ require("controllers/protectedUser.php");
                                             <button type="button" class="btn btn-danger m-1 btn-sm" data-bs-toggle="modal" data-bs-target="#eliminar<?php echo htmlspecialchars($pedido['id_pedido']); ?>">
                                                 <i class="fa-solid fa-ban"></i>
                                             </button>
-                                           
+
                                             <!-- Botón para abrir el modal de actualización -->
                                             <button type="button" class="btn btn-success m-1 btn-sm" data-bs-toggle="modal" data-bs-target="#actualizar<?php echo htmlspecialchars($pedido['id_pedido']); ?>">
                                                 <i class="fa-solid fa-hand-holding-dollar"></i>
@@ -122,53 +109,6 @@ require("controllers/protectedUser.php");
                         </tbody>
                     </table>
                 </div>
-
-                <?php
-                // Funciones para editar, eliminar y actualizar pedidos
-                $editarpedido = new editpedido();
-                $editarpedido->edit();
-
-                $eliminarpedido = new eliminarpedido();
-                $eliminarpedido->eliminar();
-
-                $actualizarPedido = new updatePedido();
-                $actualizarPedido->update();
-
-                if (isset($_GET['succes'])) {
-                    switch ($_GET['succes']) {
-                        case 1:
-                            echo "<script> Swal.fire({
-                                icon: 'success',
-                                title: 'Pedido creado',
-                                showConfirmButton: false,
-                                timer: 1500
-                            }); </script>";
-                            break;
-                        case 2:
-                            echo "<script> Swal.fire({
-                                icon: 'success',
-                                title: 'Pedido eliminado',
-                                showConfirmButton: false,
-                                timer: 1500
-                            }); </script>";
-                            break;
-                        case 3:
-                            echo "<script> Swal.fire({
-                                icon: 'success',
-                                title: 'Pedido editado',
-                                showConfirmButton: false,
-                                timer: 1500
-                            }); </script>";
-                            break;
-                    }
-                } elseif (isset($_GET['error'])) {
-                    switch ($_GET['error']) {
-                        case 3:
-                            echo "<script> alertify.error('Error al editar pedido'); </script>";
-                            break;
-                    }
-                }
-                ?>
             </div>
         </div>
     </main>

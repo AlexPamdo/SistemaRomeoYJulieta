@@ -1,10 +1,9 @@
-<!DOCTYPE html>
-<html lang="es">
+<?php
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfil</title>
+require_once("templates/head.php");
+?>
+
+    <title>Perfil</title>    
 </head>
 
 <body class="bg-body-secondary">

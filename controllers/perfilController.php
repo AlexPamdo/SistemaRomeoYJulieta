@@ -1,6 +1,7 @@
 <?php
 
-function render()
-{
-    include_once("views/perfil.php");
+class perfilController{
+    public function show(){
+        require_once("views/perfil.php");
+    }
 }

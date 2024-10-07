@@ -1,97 +1,68 @@
 <?php
-function render()
-{
-    include_once("views/prendas.php");
-}
-
+function render() {}
 
 include_once("model/prendasModel.php");
+require_once("interfaces/interface.php");
 
-class crearPrenda
+class prendasController implements crudController
 {
+    private $model;
+
+    public function __construct()
+    {
+        $this->model = new Prenda();
+    }
+
+    public function show()
+    {
+        $prendaData = $this->model->viewAll("stock");
+        require_once("views/prendas.php");
+    }
+
     public function create()
     {
-        $prenda = new Prenda();
+        $this->model->setNombre($_POST["nombre"]);
+        $this->model->setcategoria($_POST["id_categoria"]);
+        $this->model->setcolor($_POST["id_color"]);
+        $this->model->setcant($_POST["stock"]);
+        $this->model->setcoleccion($_POST["id_coleccion"]);
+        $this->model->settalla($_POST["id_talla"]);
+        $this->model->setgenero($_POST["id_genero"]);
+        $this->model->setprecio($_POST["precio"]);
 
-        if (!empty($_POST["btnCrear"])) {
-            if (!empty($_POST["nombre"]) and !empty($_POST["id_categoria"]) and !empty($_POST["id_color"]) and !empty($_POST["stock"]) and !empty($_POST["id_coleccion"]) and !empty($_POST["id_talla"]) and !empty($_POST["id_genero"]) and !empty($_POST["precio"])) {
-
-
-                $prenda->setNombre($_POST["nombre"]);
-                $prenda->setcategoria($_POST["id_categoria"]);
-                $prenda->setcolor($_POST["id_color"]);
-                $prenda->setcant($_POST["stock"]);
-                $prenda->setcoleccion($_POST["id_coleccion"]);
-                $prenda->settalla($_POST["id_talla"]);
-                $prenda->setgenero($_POST["id_genero"]);
-                $prenda->setprecio($_POST["precio"]);
-
-
-                if ($prenda->create()) {
-                    header("Location: index.php?page=prendas&succes=1");
-                } else {
-                    echo "<div class='alert alert-warning'> Error al registrar prenda </div> ";
-                }
-            } else {
-                echo "<div class='alert alert-warning'> Complete todos los campos </div> ";
-            }
+        if ($this->model->create()) {
+            header("Location: index.php?page=prendas&succes=1");
+        } else {
+            echo "<div class='alert alert-warning'> Error al registrar prenda </div> ";
         }
-        include_once "views/prendas/registrar.php";
     }
-}
 
-class editPrenda
-{
+    public function delete()
+    {
+        if ($this->model->delete($_POST["id"])) {
+            header("Location: index.php?page=prendas&succes=2");
+        } else {
+            echo "<div class=' alert alert-danger'> Error al eliminar proveedor</div> ";
+        }
+    }
+
     public function edit()
     {
-        $prenda = new Prenda();
-        $id = $_POST["id"] ?? null;
-
-        if (!empty($_POST["btnUpdate"])) {
-            switch ($_POST["btnUpdate"]) {
-                case "edit":
-                    $prenda->setNombre($_POST["nombre_edit"]);
-                    $prenda->setcategoria($_POST["categoria_edit"]);
-                    $prenda->settalla($_POST["talla_edit"]);
-                    $prenda->setcoleccion($_POST["coleccion_edit"]);
-                    $prenda->setcolor($_POST["color_edit"]);
-                    $prenda->setcant($_POST["cant_edit"]);
-                    $prenda->setgenero($_POST["genero_edit"]);
-                    $prenda->setprecio($_POST["precio_edit"]);
+        $this->model->setNombre($_POST["nombre_edit"]);
+        $this->model->setcategoria($_POST["categoria_edit"]);
+        $this->model->settalla($_POST["talla_edit"]);
+        $this->model->setcoleccion($_POST["coleccion_edit"]);
+        $this->model->setcolor($_POST["color_edit"]);
+        $this->model->setcant($_POST["cant_edit"]);
+        $this->model->setgenero($_POST["genero_edit"]);
+        $this->model->setprecio($_POST["precio_edit"]);
 
 
-                    if ($prenda->edit($id)) {
-                        header("Location: index.php?page=prendas&succes=3");
-                        exit;
-                    } else {
-                        echo "<div class='alert alert-warning'> Error al Editar proveedor </div>";
-                    }
-                    break;
-
-                case "close":
-                    header("Location: index.php?page=prendas");
-                    exit;
-            }
-        }
-        include_once "views/prendas/editar.php";
-    }
-}
-
-class eliminarPrenda
-{
-    public function eliminar()
-    {
-        $prenda = new Prenda();
-
-        if (!empty($_GET["btnDelete"])) {
-
-            $id = ($_GET["id"]);
-
-            if ($prenda->delete($id)) {
-                header("Location: index.php?page=prendas&succes=2");
-            } else {
-                echo "<div class=' alert alert-danger'> Error al eliminar proveedor</div> ";
-            }
+        if ($this->model->edit($_POST["id"])) {
+            header("Location: index.php?page=prendas&succes=3");
+            exit;
+        } else {
+            echo "<div class='alert alert-warning'> Error al Editar proveedor </div>";
         }
     }
 }

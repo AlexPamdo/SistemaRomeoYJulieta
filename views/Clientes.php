@@ -1,18 +1,11 @@
 <?php
 // Protege el acceso a la página solo para usuarios autorizados
 require("controllers/protectedUser.php");
+
+require_once("templates/head.php");
 ?>
 
-<!DOCTYPE html>
-<html lang="es">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestión de Clientes</title>
-    <!-- Enlace a Bootstrap y FontAwesome -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<title>Clientes</title>
 </head>
 
 <body class="bg-body-secondary" data-bs-spy="scroll">
@@ -41,22 +34,15 @@ require("controllers/protectedUser.php");
                         Crear Cliente <i class="fa-solid fa-plus ms-2"></i>
                     </button>
 
+                    <?php
+                        require_once("views/clientes/crear.php")
+                    ?>
+
                     <form class="d-flex" role="search" method="post">
                         <input class="form-control me-2" name="busqueda" type="search" placeholder="Buscar Cliente" aria-label="Search">
                         <button class="btn btn-custom-success" type="submit">Buscar</button>
                     </form>
                 </div>
-
-                <?php
-                // Incluye el modelo y controlador de clientes
-                include_once("model/clientesModel.php");
-                $cliente = new clientes();
-                $clientesData = $cliente->viewAll();
-                
-                include_once("controllers/clientesController.php");
-                $crearCliente = new crearCliente();
-                $crearCliente->create();
-                ?>
 
                 <!-- Tabla de clientes -->
                 <div class="table-responsive bg-white rounded shadow-sm p-4">
@@ -105,60 +91,13 @@ require("controllers/protectedUser.php");
                     </table>
                 </div>
 
-                <?php
-                // Funciones para editar y eliminar clientes
-                $editarCliente = new editCliente();
-                $editarCliente->edit();
-
-                $eliminarCliente = new eliminarClientes();
-                $eliminarCliente->eliminar();
-
-                // Mensajes de éxito y error
-                if (isset($_GET['succes'])) {
-                    switch ($_GET['succes']) {
-                        case 1:
-                            echo "<script> Swal.fire({
-                                icon: 'success',
-                                title: 'Cliente creado',
-                                showConfirmButton: false,
-                                timer: 1500
-                            }); </script>";
-                            break;
-                        case 2:
-                            echo "<script> Swal.fire({
-                                icon: 'success',
-                                title: 'Cliente eliminado',
-                                showConfirmButton: false,
-                                timer: 1500
-                            }); </script>";
-                            break;
-                        case 3:
-                            echo "<script> Swal.fire({
-                                icon: 'success',
-                                title: 'Cliente editado',
-                                showConfirmButton: false,
-                                timer: 1500
-                            }); </script>";
-                            break;
-                    }
-                } elseif (isset($_GET['error'])) {
-                    switch ($_GET['error']) {
-                        case 3:
-                            echo "<script> alertify.error('Error al editar cliente'); </script>";
-                            break;
-                    }
-                }
-                ?>
             </div>
         </div>
     </main>
 
-    <?php include_once("views/templates/footer.php"); ?>
-
-    <!-- Scripts de Bootstrap y FontAwesome -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+    <?php
+    include_once("views/clientes/log.php");
+    include_once("views/templates/footer.php"); ?>
 
     <!-- Script para mostrar/ocultar contraseñas -->
     <script>
