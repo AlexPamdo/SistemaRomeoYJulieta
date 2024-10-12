@@ -23,7 +23,7 @@ class PatronesController implements crudController
     public function show()
     {
         $patronesData = $this->patronModel->viewAll();
-        
+
         include_once("views/patrones.php");
     }
 
@@ -33,8 +33,8 @@ class PatronesController implements crudController
             // Iniciar la transacción
             $this->conn->beginTransaction();
 
-            // Asignar los atributos del patrón
-            $this->patronModel->setAtribute("prenda", $_POST["nombre"]);
+            // Obtener el ID del patrón recién insertado
+            $ultimoId = $this->patronModel->selectLastId() + 1 ?: 1;
 
             // Sacamos el precio segun los materiales para calcular el precio total               
             if (isset($_POST['material']) && is_array($_POST['material'])) {
@@ -46,23 +46,30 @@ class PatronesController implements crudController
                     if ($materiales['cantidad'] !== '' && $materiales['id_Material'] !== "none") {
                         // Vamos Sumando el precio segun los materiales ingresados
                         $total += $this->patronModel->getPrecio($materiales['id_Material'], $materiales['cantidad']);
+
+                        $this->patronMaterialModel->setAtributes($ultimoId, $materiales['id_Material'], $materiales['cantidad']);
+
+                        if (!$this->patronMaterialModel->create()) {
+                            throw new Exception("Error al insertar los materiales del patrón");
+                        }
                     } else {
-                        // Manejar el caso en el que no se encuentre el precio
-                        header("location:index.php?page=patrones&error=4");
-                        exit(); // Asegurarse de que el script no continúe ejecutándose
+                        throw new Exception("No se han proporcionado materiales válidos");
                     }
                 }
             } else {
-                throw new Exception("No se han proporcionado materiales válidos");
+                throw new Exception("No se han proporcionado materiales válidos: No se pudo verificar si existe y es un array");
             }
+
+
+            // Asignar los atributos del patrón
+            $this->patronModel->setAtribute("prenda", $_POST["nombre"]);
 
             // Asignamos el costo total 
             $this->patronModel->setCost($total);
 
+
             // Crear el patrón en la base de datos
             if ($this->patronModel->create()) {
-                // Obtener el ID del patrón recién insertado
-                $ultimoId = $this->patronModel->selectLastId();
 
                 // Asignar los atributos de la prenda con el ID del patrón recién creado
                 $this->prendaModel->setId($ultimoId); //El id de la prenda ira en conjunto con el del patron
@@ -92,23 +99,6 @@ class PatronesController implements crudController
                     $this->prendaModel->setImg("Assets/img/prendas/prendaDefault.png");
                 }
 
-                // Añadir los materiales al patrón
-                if (isset($_POST['material']) && is_array($_POST['material'])) {
-
-                    // Comprovamos si se eligio una cantidad, sino el material no se creara
-                    foreach ($_POST['material'] as $materiales) {
-
-                        if ($materiales['cantidad'] !== '' && $materiales['id_Material'] !== "none") {
-                            $this->patronMaterialModel->setAtributes($ultimoId, $materiales['id_Material'], $materiales['cantidad']);
-
-                            if (!$this->patronMaterialModel->create()) {
-                                throw new Exception("Error al insertar los materiales del patrón");
-                            }
-                        }
-                    }
-                } else {
-                    throw new Exception("No se han proporcionado materiales válidos");
-                }
 
                 // Crear la prenda
                 if ($this->prendaModel->create()) {
