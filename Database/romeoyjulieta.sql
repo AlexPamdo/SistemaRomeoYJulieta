@@ -391,6 +391,29 @@ INSERT INTO `patrones` (`id_patron`, `nombre_patron`, `costo_unitario`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `patron_material`
+--
+
+CREATE TABLE `patron_material` (
+  `id_patronMaterial` int(30) NOT NULL,
+  `id_patron` int(200) NOT NULL,
+  `id_material` int(200) NOT NULL,
+  `cantidad` int(200) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `patron_material`
+--
+
+INSERT INTO `patron_material` (`id_patronMaterial`, `id_patron`, `id_material`, `cantidad`) VALUES
+(3, 34, 7, 10),
+(4, 35, 9, 30),
+(5, 35, 8, 10);
+
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `pedidos`
 --
 

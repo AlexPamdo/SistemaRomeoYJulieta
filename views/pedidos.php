@@ -69,7 +69,7 @@ require_once("templates/head.php");
                                     <td><?php echo htmlspecialchars($pedido['id_proveedor']); ?></td>
                                     <td><?php echo htmlspecialchars($pedido['fecha_pedido']); ?></td>
                                     <td>
-                                        <?php echo $pedido['estado_pedido'] ? "<div class='Entregado'>completo</div>" : "<div class='no-Entregado'>incompleto</div>"; ?>
+                                        <?php echo $pedido['estado_pedido'] ? "<div class='Entregado'>Pago</div>" : "<div class='no-Entregado text-center'>No pagado</div>"; ?>
                                     </td>
                                     <td>
                                     <button type="button" class="btn btn-custom-danger m-1" data-bs-toggle="modal"

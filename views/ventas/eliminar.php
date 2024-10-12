@@ -13,7 +13,7 @@
                     <h3>¿Estas seguro?</h3>
                     <h5>esta accion anulara la venta</h5>
                     <div class="d-flex justify-content-center modal-footer">
-                        <form class="needs-validation" action="index.php" method="get" novalidate>
+                        <form class="needs-validation" action="index.php?page=" method="post" novalidate>
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                                 Cerrar
                             </button>

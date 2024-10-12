@@ -12,13 +12,12 @@
                     <h3>¿Estas seguro?</h3>
                     <h5>no podras recuperarlo luego</h5>
                     <div class="d-flex justify-content-center modal-footer">
-                        <form class="needs-validation" action="index.php" method="get" novalidate>
+                        <form class="needs-validation" action="index.php?page=pedidos&function=delete" method="post" novalidate>
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                                 Cerrar
                             </button>
-                            <input type="hidden" name="page" value="pedidos">
                             <input type="hidden" name="id" value="<?php echo ($pedido['id_pedido']) ?>">
-                            <button class="btn btn-danger" name="btnDelete" value="delete">Confirmar</button>
+                            <button class="btn btn-danger">Confirmar</button>
                         </form>
                     </div>
                 </div>

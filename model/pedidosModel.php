@@ -48,16 +48,17 @@ class pedidos
         }
     }
     public function viewOne($id)
-    {
-        $query = "SELECT * FROM " . $this->table . " WHERE id_pedido = " . $id;
-        $result = $this->conn->query($query);
+{
+    $query = "SELECT * FROM " . $this->table . " WHERE id_pedido = :id"; 
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
 
-        if ($result) {
-            return $result->fetchAll(PDO::FETCH_ASSOC);
-        } else {
-            return false;
-        }
+    if ($stmt->execute()) {
+        return $stmt->fetch(PDO::FETCH_ASSOC); 
+    } else {
+        return false;
     }
+}
 
     public function selectLastId()
     {

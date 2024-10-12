@@ -121,21 +121,27 @@ class pedidosController implements crudController
 
     public function update()
     {
-        $pago = ($_POST["pago"]);
-
-        if ($pago >= $_POST["total_pedido"]) {
-
-            $this->model->setEstado(true);
-            $this->model->setTotal($_POST["total_pedido"]);
-
+        $data = $this->model->viewOne($_POST["id"]);
+    
+        if ($data) {
+            // Verifica el estado del pedido
+            if ($data['estado_pedido'] == 0) {
+                $this->model->setEstado(1); // Cambia a "pagado"
+            } else{
+                $this->model->setEstado(0); // Cambia a "no pagado"
+            }
+    
+            // Intenta actualizar
             if ($this->model->update($_POST["id"])) {
-                header("Location: index.php?page=pedidos&succes=4");
+                header("Location: index.php?page=pedidos&success=4");
                 exit;
             } else {
+                // Agrega depuración aquí si es necesario
                 header("Location: index.php?page=pedidos&error=4");
             }
         } else {
-            header("Location: index.php?page=pedidos&error=montoInsuficiente");
+            header("Location: index.php?page=pedidos&error=la_variable_data_no_se_lleno");
         }
     }
+
 }

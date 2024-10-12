@@ -16,7 +16,7 @@ class PatronesController implements crudController
     {
         $this->patronModel = new patrones();
         $this->prendaModel = new Prenda();
-        $this->patronMaterialModel = new patronMaterial();
+       
         $this->conn = $this->patronModel->getDbConnection();
     }
 
@@ -34,7 +34,8 @@ class PatronesController implements crudController
             $this->conn->beginTransaction();
 
             // Obtener el ID del patrón recién insertado
-            $ultimoId = $this->patronModel->selectLastId() + 1 ?: 1;
+            $ultimoId = $this->patronModel->selectLastId();
+      
 
             // Sacamos el precio segun los materiales para calcular el precio total               
             if (isset($_POST['material']) && is_array($_POST['material'])) {
@@ -44,6 +45,9 @@ class PatronesController implements crudController
 
                     // Comprovamos si se eligio una cantidad, sino el no se sumara con el precio
                     if ($materiales['cantidad'] !== '' && $materiales['id_Material'] !== "none") {
+
+                        $this->patronMaterialModel = new patronMaterial();
+
                         // Vamos Sumando el precio segun los materiales ingresados
                         $total += $this->patronModel->getPrecio($materiales['id_Material'], $materiales['cantidad']);
 

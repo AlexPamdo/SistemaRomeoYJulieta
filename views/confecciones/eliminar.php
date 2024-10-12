@@ -13,11 +13,10 @@
                     <h3>¿Estas seguro?</h3>
                     <h5>no podras recuperarla luego</h5>
                     <div class="d-flex justify-content-center modal-footer">
-                        <form class="needs-validation" action="index.php" method="get" novalidate>
+                        <form class="needs-validation" action="index.php?page=confecciones&function=delete" method="post" novalidate>
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                                 Cerrar
                             </button>
-                            <input type="hidden" name="page" value="confecciones">
                             <input type="hidden" name="id" value="<?php echo ($confeccion['id_confeccion']) ?>">
                             <button class="btn btn-danger" name="btnDelete" value="delete">Confirmar</button>
                         </form>

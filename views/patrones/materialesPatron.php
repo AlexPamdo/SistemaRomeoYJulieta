@@ -21,8 +21,9 @@
                     </thead>
                     <tbody>
                         <?php
-                        $materiales = $this->patronMaterialModel->viewMaterials($patron['id_patron']);
-
+                        $patronMaterial = new patronMaterial();
+                        $materiales = $patronMaterial->viewMaterials($patron['id_patron']);
+                   
                         foreach ($materiales as $material) :
                         ?>
                             <tr>

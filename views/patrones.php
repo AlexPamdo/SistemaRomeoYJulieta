@@ -100,6 +100,7 @@ require_once("templates/head.php");
                     <!-- Modal para visualizar materiales de patrones
                      NOTA: lo puse aqui afuera pq se buggeaba si lo ponia dentro de otra tabla :u-->
                     <?php foreach ($patronesData as $patron) :
+                
                         include("views/patrones/editar.php");
                         include("views/patrones/materialesPatron.php");
                     endforeach; ?>
