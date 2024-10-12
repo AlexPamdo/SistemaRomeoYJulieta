@@ -35,7 +35,7 @@ require_once("templates/head.php");
                     </button>
 
                     <?php
-                        require_once("views/pedidos/crear.php")
+                    require_once("views/pedidos/crear.php")
                     ?>
 
                     <form class="d-flex" role="search" method="get">
@@ -55,12 +55,8 @@ require_once("templates/head.php");
                                 <th scope="col">ID</th>
                                 <th scope="col">Proveedor</th>
                                 <th scope="col">Fecha</th>
-                                <th scope="col">Fecha estimada</th>
-                                <th scope="col">Fecha real</th>
                                 <th scope="col">Estado</th>
                                 <th scope="col">Orden</th>
-                                <th scope="col">Cantidad</th>
-                                <th scope="col">Método de pago</th>
                                 <th scope="col">Usuario</th>
                                 <th scope="col">Total a pagar</th>
                                 <th scope="col">Acciones</th>
@@ -72,17 +68,14 @@ require_once("templates/head.php");
                                     <td><?php echo htmlspecialchars($pedido['id_pedido']); ?></td>
                                     <td><?php echo htmlspecialchars($pedido['id_proveedor']); ?></td>
                                     <td><?php echo htmlspecialchars($pedido['fecha_pedido']); ?></td>
-                                    <td><?php echo htmlspecialchars($pedido['fecha_estimada']); ?></td>
-                                    <td>
-                                        <?php echo $pedido['fecha_real'] == "0000-00-00" ? "<div class='no-Entregado'></div>" : htmlspecialchars($pedido['fecha_real']); ?>
-                                    </td>
                                     <td>
                                         <?php echo $pedido['estado_pedido'] ? "<div class='Entregado'>completo</div>" : "<div class='no-Entregado'>incompleto</div>"; ?>
                                     </td>
-                                    <td><?php echo htmlspecialchars($pedido['id_orden_pedido']); ?></td>
-                                    <td><?php echo htmlspecialchars($pedido['cantidad_pedido']); ?></td>
                                     <td>
-                                        <?php echo $pedido['id_metodo_pago'] == "ninguno" ? "<div class='no-Entregado'></div>" : htmlspecialchars($pedido['id_metodo_pago']); ?>
+                                    <button type="button" class="btn btn-custom-danger m-1" data-bs-toggle="modal"
+                                            data-bs-target="#orden<?php echo $pedido['id_pedido']?>">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </button>
                                     </td>
                                     <td><?php echo htmlspecialchars($pedido['id_usuario']); ?></td>
                                     <td><?php echo htmlspecialchars($pedido['total_pedido']); ?> bs</td>
@@ -108,13 +101,17 @@ require_once("templates/head.php");
                             <?php endforeach; ?>
                         </tbody>
                     </table>
+
+                    <?php foreach ($pedidosData as $pedido) :
+                        include("views/pedidos/orden.php");
+                    endforeach; ?>
                 </div>
             </div>
         </div>
     </main>
-
-    <?php include_once("views/templates/footer.php"); ?>
     <script src="Assets/js/patrones.js"></script>
+    <?php include_once("views/templates/footer.php"); ?>
+    
 </body>
 
 </html>

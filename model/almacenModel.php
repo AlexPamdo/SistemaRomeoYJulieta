@@ -151,7 +151,7 @@ class Material
 
     public function getMaterialPrice($idMaterial)
     {
-        $query = "SELECT stock FROM " . $this->table . " WHERE precio = :idMaterial";
+        $query = "SELECT precio FROM " . $this->table . " WHERE id_material = :idMaterial";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':idMaterial', $idMaterial, PDO::PARAM_INT);
         $stmt->execute();

@@ -10,13 +10,8 @@
              </div>
              <div class="container modal-body">
 
-                 <form class="needs-validation" action="index.php?page=pedidos" method="post">
-
-
+                 <form class="needs-validation" action="index.php?page=pedidos&function=create" method="post">
                      <div class="row g-3">
-
-                         <input type="hidden" name="page" value="pedidos">
-
                          <div class="container col-md-6 row">
                              <label class="fw-bold" for="validationCustom01">proveedor</label>
                              <div class="form-label input-group flex-nowrap m-2">
@@ -38,11 +33,7 @@
                              </div>
 
 
-                             <label class="fw-bold" for="">Fecha estimada</label>
-                             <div class="input-group pt-3 pb-3 ">
-                                 <input type="date" name="fecha_estimada" class="form-control" aria-label="Username"
-                                     aria-describedby="addon-wrapping" required />
-                             </div>
+                            
                          </div>
 
                          <div class="col-md-6">

@@ -18,7 +18,7 @@
 
                          <label class="fw-bold" for="">Metodo de pago</label>
                          <div class="input-group pt-3 pb-3 ">
-                             <select class="form-select" name="id_metodo_pago" id="inputGroupSelect02" required>
+                             <select class="form-select" name="id_metodo_pago"  required>
                                  <option selected value="1">Efectivo</option>
                                  <option value="2">Transferencia</option>
                              </select>

@@ -4,17 +4,9 @@ include_once("config/conexion.php");
 
 class pedidos
 {
-    private $id;
-
-
     private $proveedor;
     private $fecha_pedido;
-    private $fecha_estimada;
-    private $fecha_real;
     private $estado;
-    private $orden;
-    private $cantidad;
-    private $pago;
     private $usuario;
     private $total;
 
@@ -28,8 +20,9 @@ class pedidos
         $database = new connection;
         $this->conn = $database->getConnection();
     }
-    
-        public function getDbConnection(){
+
+    public function getDbConnection()
+    {
         return $this->conn;
     }
 
@@ -38,17 +31,11 @@ class pedidos
         $query = "SELECT 
         u.*, 
         p.nombre_proveedor AS id_proveedor, 
-        m.nombre_material AS id_orden_pedido,
-        t.metodo_pago AS id_metodo_pago,
         s.nombre_usuario AS id_usuario
     FROM 
         " . $this->table . " u
     INNER JOIN 
         proveedores p ON u.id_proveedor = p.id_proveedor
-    INNER JOIN 
-        almacen m ON u.id_orden_pedido = m.id_material
-    INNER JOIN 
-        metodo_pago t ON u.id_metodo_pago = t.id_metodo_pago
     INNER JOIN 
         usuarios s ON u.id_usuario = s.id_usuario;";
 
@@ -72,14 +59,37 @@ class pedidos
         }
     }
 
+    public function selectLastId()
+    {
+        $query = "SELECT MAX(id_pedido) as max_id FROM $this->table";
+        $consult = $this->conn->query($query);
+        $result = $consult->fetch(PDO::FETCH_ASSOC);
+
+        $lastId = $result['max_id'];
+
+        if ($lastId) {
+            return $lastId;
+        } else {
+            return false;
+        }
+    }
+
     //Recordatorio que sustituimos el campo de id_orden_pedido temporalmente para la mañana, 
     //Recordatorio 2: agregue la parte de cantidad para subir el stock, hay q quitarlo luego
 
     public function create()
     {
-        $query = "INSERT INTO " . $this->table . " (id_proveedor,fecha_pedido,fecha_estimada,fecha_real,estado_pedido,id_orden_pedido,cantidad_pedido,id_metodo_pago,id_usuario,total_pedido) VALUES('" . $this->proveedor . "','" . $this->fecha_pedido . "','" . $this->fecha_estimada . "','" .  $this->fecha_real . "','" . $this->estado . "','" . $this->orden . "','" . $this->cantidad . "','" . $this->pago . "','" . $this->usuario . "','" . $this->total . "');";
+        $query = "INSERT INTO " . $this->table . " (id_proveedor, fecha_pedido, estado_pedido, id_usuario, total_pedido) 
+        VALUES (:proveedor, :fecha_pedido, :estado, :usuario, :total)";
 
-        if ($this->conn->exec($query)) {
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':proveedor', $this->proveedor);
+        $stmt->bindParam(':fecha_pedido', $this->fecha_pedido);
+        $stmt->bindParam(':estado', $this->estado);
+        $stmt->bindParam(':usuario', $this->usuario);
+        $stmt->bindParam(':total', $this->total);
+
+        if ($stmt->execute()) {
             return true;
         } else {
             return false;
@@ -88,9 +98,11 @@ class pedidos
 
     public function delete($id)
     {
-        $query = "DELETE FROM " . $this->table . " WHERE id_pedido = " . $id;
-
-        if ($this->conn->exec($query)) {
+        $query = "DELETE FROM " . $this->table . " WHERE id_pedido = :id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $id);
+        
+        if ($stmt->execute()) {
             return true;
         } else {
             return false;
@@ -99,9 +111,17 @@ class pedidos
 
     public function edit($id)
     {
-        $query = "UPDATE " . $this->table . " SET id_proveedor = '" . $this->proveedor . "', fecha_pedido = '" . $this->fecha_pedido . "',  fecha_estimada = '" . $this->fecha_estimada . "',  fecha_real = '" . $this->fecha_real . "', estado_pedido = '" . $this->estado . "', id_orden_pedido = '" . $this->orden . "', cantidad_pedido = '" . $this->cantidad . "', id_metodo_pago = '"  . $this->pago .  "', id_usuario = '"  . $this->usuario . "', total_pedido = '"  . $this->total . "' WHERE id_pedido = " . $id;
+        $query = "UPDATE " . $this->table . " SET id_proveedor = :proveedor, fecha_pedido = :fecha_pedido, estado_pedido = :estado, id_usuario = :usuario, total_pedido = :total WHERE id_pedido = :id";
 
-        if ($this->conn->exec($query)) {
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':proveedor', $this->proveedor);
+        $stmt->bindParam(':fecha_pedido', $this->fecha_pedido);
+        $stmt->bindParam(':estado', $this->estado);
+        $stmt->bindParam(':usuario', $this->usuario);
+        $stmt->bindParam(':total', $this->total);
+        $stmt->bindParam(':id', $id);
+
+        if ($stmt->execute()) {
             return true;
         } else {
             return false;
@@ -110,9 +130,13 @@ class pedidos
 
     public function update($id)
     {
-        $query = "UPDATE " . $this->table . " SET fecha_real = '" . $this->fecha_real . "', estado_pedido = '" . $this->estado . "', id_metodo_pago = '" . $this->pago . "' WHERE id_pedido = " . $id;
+        $query = "UPDATE " . $this->table . " SET estado_pedido = :estado WHERE id_pedido = :id";
+        $stmt = $this->conn->prepare($query);
 
-        if ($this->conn->exec($query)) {
+        $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':estado', $this->estado);
+
+        if ($stmt->execute()) {
             return true;
         } else {
             return false;
@@ -135,22 +159,6 @@ class pedidos
     {
         return $this->fecha_pedido;
     }
-    public function setFecha_estimada($fecha_estimada)
-    {
-        $this->fecha_estimada = $fecha_estimada;
-    }
-    public function getFecha_estimada()
-    {
-        return $this->fecha_estimada;
-    }
-    public function setFecha_real($fecha_real)
-    {
-        $this->fecha_real = $fecha_real;
-    }
-    public function getFecha_real()
-    {
-        return $this->fecha_real;
-    }
     public function setEstado($estado)
     {
         $this->estado = $estado;
@@ -158,33 +166,6 @@ class pedidos
     public function getEstado()
     {
         return $this->estado;
-    }
-
-    public function setOrden($orden)
-    {
-        $this->orden = $orden;
-    }
-    public function getOrden()
-    {
-        return $this->orden;
-    }
-
-    public function setcantidad($cantidad)
-    {
-        $this->cantidad = $cantidad;
-    }
-    public function getcantidad()
-    {
-        return $this->cantidad;
-    }
-
-    public function setpago($pago)
-    {
-        $this->pago = $pago;
-    }
-    public function getpago()
-    {
-        return $this->pago;
     }
     public function setUsuario($usuario)
     {
