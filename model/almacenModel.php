@@ -149,6 +149,21 @@ class Material
         }
     }
 
+    public function getMaterialPrice($idMaterial)
+    {
+        $query = "SELECT stock FROM " . $this->table . " WHERE precio = :idMaterial";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':idMaterial', $idMaterial, PDO::PARAM_INT);
+        $stmt->execute();
+
+        if ($stmt) {
+            $data = $stmt->fetch(PDO::FETCH_COLUMN);
+            return $data ?: null; // Devolver null si no se encuentra ningún registro
+        } else {
+            return null; // Manejar el caso cuando la consulta falla
+        }
+    }
+
     public function setNombre($nombre)
     {
         $this->nombre = $nombre;

@@ -16,7 +16,7 @@
                         <!-- Sección de Datos de la Prenda -->
                         <div class="container col-md-6 row">
 
-                        <h4 class="text-center">Detalles de prenda</h4>
+                            <h4 class="text-center">Detalles de prenda</h4>
 
                             <div class="col">
                                 <label for="descripcion" class="form-label fw-bold mt-3">Descripción</label>
@@ -87,14 +87,14 @@
                         <!-- Sección de Materiales -->
                         <div class="col-md-6">
 
-                        <h4 class="text-center text-body">Materiales de la prenda</h4>
+                            <h4 class="text-center text-body">Materiales de la prenda</h4>
 
-                        <!-- boton para agregar materiales -->
-                        <div class="text-center d-flex flex-column align-content-center align-items-center">
-                        <button type="button" onclick="añadirMaterial()" name="btnAñadirMaterial" 
-                        class="btn btn-rj-blue w-50">Añadir Material +</button>
-                        <small class="form-text text-muted">Minimo un Material, Maximo: 10 Materiales</small>
-                        </div>
+                            <!-- boton para agregar materiales -->
+                            <div class="text-center d-flex flex-column align-content-center align-items-center">
+                                <button type="button" onclick="añadirMaterial()" name="btnAñadirMaterial"
+                                    class="btn btn-rj-blue w-50">Añadir Material +</button>
+                                <small class="form-text text-muted">Minimo un Material, Maximo: 10 Materiales</small>
+                            </div>
 
                             <!-- Tabla de materiales agregados -->
                             <div class="card mt-3">
@@ -138,7 +138,7 @@
                                                         class="fa-solid fa-xmark"></i></button></td>
                                         </tr>
 
-                             
+
                                     </tbody>
                                 </table>
                             </div>

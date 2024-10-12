@@ -28,6 +28,10 @@ class pedidos
         $database = new connection;
         $this->conn = $database->getConnection();
     }
+    
+        public function getDbConnection(){
+        return $this->conn;
+    }
 
     public function viewAll()
     {

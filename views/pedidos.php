@@ -114,7 +114,7 @@ require_once("templates/head.php");
     </main>
 
     <?php include_once("views/templates/footer.php"); ?>
-
+    <script src="Assets/js/patrones.js"></script>
 </body>
 
 </html>
