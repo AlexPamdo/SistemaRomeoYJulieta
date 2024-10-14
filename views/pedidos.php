@@ -18,8 +18,11 @@ require_once("templates/head.php");
             <header class="bg-dark">
                 <div class="p-3 d-flex justify-content-between align-items-center border-bottom">
                     <div class="d-flex align-items-center text-white">
-                        <i class="fa-solid fa-truck-fast fs-1 me-3"></i>
-                        <h3 class="m-0">Pedidos</h3>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" fill="currentColor" class="bi bi-clipboard2-check-fill" viewBox="0 0 16 16">
+  <path d="M10 .5a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5.5.5 0 0 1-.5.5.5.5 0 0 0-.5.5V2a.5.5 0 0 0 .5.5h5A.5.5 0 0 0 11 2v-.5a.5.5 0 0 0-.5-.5.5.5 0 0 1-.5-.5"/>
+  <path d="M4.085 1H3.5A1.5 1.5 0 0 0 2 2.5v12A1.5 1.5 0 0 0 3.5 16h9a1.5 1.5 0 0 0 1.5-1.5v-12A1.5 1.5 0 0 0 12.5 1h-.585q.084.236.085.5V2a1.5 1.5 0 0 1-1.5 1.5h-5A1.5 1.5 0 0 1 4 2v-.5q.001-.264.085-.5m6.769 6.854-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708.708"/>
+</svg>
+                        <h3 class="ms-3">Pedidos</h3>
                     </div>
                     <!-- Menú desplegable del perfil -->
                     <?php include_once("views/templates/menuDesplegable.php"); ?>
@@ -31,7 +34,7 @@ require_once("templates/head.php");
                 <!-- Barra de búsqueda y botón de crear pedido -->
                 <div class="d-flex justify-content-between mb-4">
                     <button type="button" class="btn btn-rj-blue" data-bs-toggle="modal" data-bs-target="#CrearModal">
-                        Crear <i class="fa-solid fa-plus ms-2"></i>
+                        Crear <?php include './Assets/bootstrap-icons-1.11.3/plus-lg.svg'; ?>
                     </button>
 
                     <?php
@@ -42,7 +45,7 @@ require_once("templates/head.php");
                         <input class="form-control me-2" type="search" placeholder="Buscar Elemento" aria-label="Search">
                         <button class="btn btn-success" type="submit">Buscar</button>
                         <a href="index.php?page=pedidos&function=print" target="_blank" class="btn btn-warning ms-1">
-                            <i class="fa-solid fa-print"></i>
+                        <?php include './Assets/bootstrap-icons-1.11.3/printer-fill.svg'; ?>
                         </a>
                     </form>
                 </div>
@@ -74,7 +77,7 @@ require_once("templates/head.php");
                                     <td>
                                     <button type="button" class="btn btn-custom-danger m-1" data-bs-toggle="modal"
                                             data-bs-target="#orden<?php echo $pedido['id_pedido']?>">
-                                            <i class="fa-solid fa-trash"></i>
+                                            <?php include './Assets/bootstrap-icons-1.11.3/trash-fill.svg'; ?>
                                         </button>
                                     </td>
                                     <td><?php echo htmlspecialchars($pedido['id_usuario']); ?></td>
@@ -83,12 +86,12 @@ require_once("templates/head.php");
                                         <!-- Boton de eliminar -->
                                         <form class="d-flex" action="index.php" method="get">
                                             <button type="button" class="btn btn-danger m-1 btn-sm" data-bs-toggle="modal" data-bs-target="#eliminar<?php echo htmlspecialchars($pedido['id_pedido']); ?>">
-                                                <i class="fa-solid fa-ban"></i>
+                                            <?php include './Assets/bootstrap-icons-1.11.3/ban.svg'; ?>
                                             </button>
 
                                             <!-- Botón para abrir el modal de actualización -->
                                             <button type="button" class="btn btn-success m-1 btn-sm" data-bs-toggle="modal" data-bs-target="#actualizar<?php echo htmlspecialchars($pedido['id_pedido']); ?>">
-                                                <i class="fa-solid fa-hand-holding-dollar"></i>
+                                            <?php include './Assets/bootstrap-icons-1.11.3/currency-dollar.svg'; ?>
                                             </button>
                                         </form>
                                     </td>

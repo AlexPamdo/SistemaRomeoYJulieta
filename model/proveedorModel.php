@@ -9,7 +9,7 @@ class Proveedores
     private $telefono;
     private $gmail;
     private $tipo;
-    private $estado;
+   
     private $notas;
 
     private $conn;
@@ -25,28 +25,13 @@ class Proveedores
 
     public function viewAll()
     {
-        //Falto una pequeña separacion luego de FROM
-        /* $query = "SELECT 
-        u.*, 
-        r.tipo_material AS tipo_material, 
-        c.color AS color_material
-    FROM 
-        " . $this->table . " u
-    INNER JOIN 
-        tipos_materiales r ON u.tipo_material = r.id_tipo_material
-    INNER JOIN 
-        colores_materiales c ON u.color_material = c.id_color;"; */
-
         $query = "SELECT 
         u.*, 
-        r.tipo AS id_tipo_proveedor, 
-        c.estado AS id_estado
+        r.tipo AS id_tipo_proveedor
     FROM 
         " . $this->table . " u
     INNER JOIN 
-        tipo_proveedor r ON u.id_tipo_proveedor = r.id_tipo_proveedor
-    INNER JOIN 
-        estado_proveedor c ON u.id_estado = c.id_estado;";
+        tipo_proveedor r ON u.id_tipo_proveedor = r.id_tipo_proveedor";
 
         $result = $this->conn->query($query);
 
@@ -68,7 +53,7 @@ class Proveedores
 
     public function create()
     {
-        $query = "INSERT INTO " . $this->table . " (nombre_proveedor,telefono_proveedor,gmail_proveedor,id_tipo_proveedor,id_estado,notas_proveedor) VALUES('" . $this->nombre . "','" . $this->telefono . "','" . $this->gmail . "','" .  $this->tipo . "','" . $this->estado . "','" . $this->notas . "');";
+        $query = "INSERT INTO " . $this->table . " (nombre_proveedor,telefono_proveedor,gmail_proveedor,id_tipo_proveedor,notas_proveedor) VALUES('" . $this->nombre . "','" . $this->telefono . "','" . $this->gmail . "','" .  $this->tipo . "','" . $this->notas . "');";
 
         if ($this->conn->exec($query)) {
             return true;
@@ -90,7 +75,7 @@ class Proveedores
 
     public function edit($id)
     {
-        $query = "UPDATE " . $this->table . " SET nombre_proveedor = '" . $this->nombre . "', telefono_proveedor = '" . $this->telefono . "',  gmail_proveedor = '" . $this->gmail . "', id_tipo_proveedor = '" . $this->tipo . "', id_estado = '" . $this->estado . "', notas_proveedor = '" . $this->notas . "' WHERE id_proveedor = " . $id;
+        $query = "UPDATE " . $this->table . " SET nombre_proveedor = '" . $this->nombre . "', telefono_proveedor = '" . $this->telefono . "',  gmail_proveedor = '" . $this->gmail . "', id_tipo_proveedor = '" . $this->tipo .  "', notas_proveedor = '" . $this->notas . "' WHERE id_proveedor = " . $id;
 
         if ($this->conn->exec($query)) {
             return true;
@@ -130,14 +115,6 @@ class Proveedores
     public function getTipo()
     {
         return $this->tipo;
-    }
-    public function setEstado($estado)
-    {
-        $this->estado = $estado;
-    }
-    public function getEstado()
-    {
-        return $this->estado;
     }
 
     public function setNotas($notas)

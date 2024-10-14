@@ -18,8 +18,11 @@ require_once("templates/head.php");
             <header class="bg-dark">
                 <div class="p-3 d-flex justify-content-between align-items-center border-bottom">
                     <div class="d-flex align-items-center text-white">
-                        <i class="fa-solid fa-users-gear fs-1 me-3"></i>
-                        <h3 class="m-0">Gestión de Usuarios</h3>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+  <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+  <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+</svg>
+                        <h3 class="ms-3">Gestión de Usuarios</h3>
                     </div>
                     <!-- Menú desplegable del perfil -->
                     <?php include_once("views/templates/menuDesplegable.php"); ?>
@@ -31,7 +34,7 @@ require_once("templates/head.php");
                 <!-- Barra de búsqueda y botón de crear usuario -->
                 <div class="d-flex justify-content-between mb-4">
                     <button type="button" class="btn btn-rj-blue" data-bs-toggle="modal" data-bs-target="#CrearModal">
-                        Crear Usuario <i class="fa-solid fa-plus ms-2"></i>
+                        Crear Usuario <?php include './Assets/bootstrap-icons-1.11.3/plus-lg.svg'; ?>
                     </button>
 
                     <!-- Incluimos el modal del formulario de crear -->
@@ -85,10 +88,10 @@ require_once("templates/head.php");
                                     <td class="d-flex">
                                         <!-- Botones de editar y eliminar -->
                                         <button type="button" class="btn btn-custom-danger m-1" data-bs-toggle="modal" data-bs-target="#eliminar<?php echo $usuario['id_usuario']; ?>">
-                                            <i class="fa-solid fa-trash"></i>
+                                        <?php include './Assets/bootstrap-icons-1.11.3/trash-fill.svg'; ?>
                                         </button>
                                         <button type="button" class="btn btn-custom-success m-1" data-bs-toggle="modal" data-bs-target="#editar<?php echo $usuario['id_usuario']; ?>">
-                                            <i class="fa-solid fa-pencil"></i>
+                                        <?php include './Assets/bootstrap-icons-1.11.3/pencil-fill.svg'; ?>
                                         </button>
                                     </td>
                                 </tr>
@@ -111,7 +114,7 @@ require_once("templates/head.php");
                 <!-- Botón para ver usuarios deshabilitados -->
                 <div class="d-flex justify-content-end mt-4">
                     <button class="btn btn-rj-blue p-3" data-bs-toggle="modal" data-bs-target="#UsuariosDesabilitados">
-                        <i class="fas fa-trash-alt"></i> Ver Usuarios Deshabilitados
+                    <?php include './Assets/bootstrap-icons-1.11.3/trash-fill.svg'; ?> Ver Usuarios Deshabilitados
                     </button>
                 </div>
 

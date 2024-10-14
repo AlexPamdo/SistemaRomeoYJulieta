@@ -18,8 +18,10 @@ require_once("templates/head.php");
             <header class="bg-dark">
                 <div class="p-3 d-flex justify-content-between align-items-center border-bottom">
                     <div class="d-flex align-items-center text-white">
-                        <i class="fa-solid fa-plane fs-1 me-3"></i>
-                        <h3 class="m-0">Gestor de Envios</h3>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" fill="currentColor" class="bi bi-envelope-fill" viewBox="0 0 16 16">
+  <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414zM0 4.697v7.104l5.803-3.558zM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586zm3.436-.586L16 11.801V4.697z"/>
+</svg>
+                        <h3 class="ms-3">Gestor de Envios</h3>
                     </div>
                     <!-- Menú desplegable del perfil -->
                     <?php include_once("views/templates/menuDesplegable.php"); ?>
@@ -31,7 +33,7 @@ require_once("templates/head.php");
                 <!-- Barra de búsqueda y botón de crear envio -->
                 <div class="d-flex justify-content-between mb-4">
                 <button type="button" class="btn btn-rj-blue" data-bs-toggle="modal" data-bs-target="#CrearModal">
-                        Registrar Envio <i class="fa-solid fa-plus ms-2"></i>
+                        Registrar Envio <?php include './Assets/bootstrap-icons-1.11.3/plus-lg.svg'; ?>
                     </button>
 
                     <?php
@@ -73,10 +75,10 @@ require_once("templates/head.php");
                                 <td>
                                     <div class="d-flex">
                                         <button class="btn btn-custom-success m-1" data-bs-toggle="modal" data-bs-target="#editar">
-                                            <i class="fa-solid fa-pencil"></i>
+                                        <?php include './Assets/bootstrap-icons-1.11.3/pencil-fill.svg'; ?>
                                         </button>
                                         <button class="btn btn-custom-danger m-1" data-bs-toggle="modal" data-bs-target="#eliminar">
-                                            <i class="fa-solid fa-trash"></i>
+                                        <?php include './Assets/bootstrap-icons-1.11.3/trash-fill.svg'; ?>
                                         </button>
                                     </div>
                                 </td>

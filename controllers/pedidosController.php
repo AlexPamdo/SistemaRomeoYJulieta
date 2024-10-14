@@ -57,8 +57,10 @@ class pedidosController implements crudController
                             //Anotar el material en la tabla ordenPedido
                             $this->ordenPedido->setAtributes($pedido, $materiales['id_Material'], $materiales['cantidad']);
                             if($this->ordenPedido->create()){
+                               
+                            }else{
                                 throw new Exception("Error al registrar el material");
-                            }        
+                            }       
                         } else {
                             throw new Exception("No se ha encontrado ningun precio del material ingresado VALUES: " .$this->almacenModel->getMaterialStock($materiales['id_Material']));
                         }

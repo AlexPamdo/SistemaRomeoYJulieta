@@ -44,7 +44,7 @@
                                             <input type="hidden" name="page" value="usuarios">
                                             <input type="hidden" name="function" value="restore">
                                             <input type="hidden" name="id" value="<?php echo $usuario['id_usuario']; ?>">
-                                            <button type="submit" class="btn btn-warning mx-1" name="btnRestaurar" value="ok"><i class="fas fa-trash-restore" style="color: #ffffff;"></i></button>
+                                            <button type="submit" class="btn btn-warning mx-1" name="btnRestaurar" value="ok"><?php include './Assets/bootstrap-icons-1.11.3/recycle.svg'; ?></button>
                                         </form>
                                     </td>
                                 </tr>

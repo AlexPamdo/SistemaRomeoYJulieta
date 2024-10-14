@@ -33,13 +33,20 @@
                                 <!-- carta para ver al cliente seleccionado -->
                                 <div class="card btn btn-light ">
                                     <div class="card-body p-0 d-flex justify-content-evenly align-items-center">
-                                        <i class="fa-solid fa-circle-user fs-1 "></i>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+  <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+  <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+</svg>
+
 
                                         <div class="text-center">
                                             <h4 class="m-0 f-4 fw-bold">Cliente tal</h4>
                                             <p class="m-0">V-30872742</p>
                                         </div>
-                                        <i class="fa-solid fa-plus fs-2"></i>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
+</svg>
+                                 </div>
                                     </div>
                                 </div>
                                 <div class="d-flex justify-content-evenly">
@@ -83,24 +90,21 @@
                                                 <td>Camisa a cuadros</td>
                                                 <td>2</td>
                                                 <td>10$</td>
-                                                <td><button class="btn btn-danger btn-sm"><i
-                                                            class="fa-solid fa-xmark"></i></button></td>
+                                                <td><button class="btn btn-danger btn-sm"><?php include './Assets/bootstrap-icons-1.11.3/x.svg'; ?></button></td>
                                             </tr>
                                             <tr>
                                                 <td>6</td>
                                                 <td>pantalon</td>
                                                 <td>1</td>
                                                 <td>5$</td>
-                                                <td><button class="btn btn-danger btn-sm"><i
-                                                            class="fa-solid fa-xmark"></i></button></td>
+                                                <td><button class="btn btn-danger btn-sm"> <?php include './Assets/bootstrap-icons-1.11.3/x.svg'; ?></button></td>
                                             </tr>
                                             <tr>
                                                 <td>10</td>
                                                 <td>franela roja</td>
                                                 <td>1</td>
                                                 <td>5$</td>
-                                                <td><button class="btn btn-danger btn-sm"><i
-                                                            class="fa-solid fa-xmark"></i></button></td>
+                                                <td><button class="btn btn-danger btn-sm"><?php include './Assets/bootstrap-icons-1.11.3/x.svg'; ?></button></td>
                                             </tr>
                                         </tbody>
                                     </table>

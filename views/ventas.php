@@ -18,8 +18,10 @@ require_once("templates/head.php");
             <header class="bg-dark">
                 <div class="p-3 d-flex justify-content-between align-items-center border-bottom">
                     <div class="d-flex align-items-center text-white">
-                        <i class="fa-solid fa-cart-shopping fs-1 me-3"></i>
-                        <h3 class="m-0">Gestor de Ventas</h3>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-file-earmark-bar-graph-fill" viewBox="0 0 16 16">
+  <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0M9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1m.5 10v-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5m-2.5.5a.5.5 0 0 1-.5-.5v-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5zm-3 0a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5z"/>
+</svg>
+                        <h3 class="ms-3">Gestor de Ventas</h3>
                     </div>
                     <!-- Menú desplegable del perfil -->
                     <?php include_once("views/templates/menuDesplegable.php"); ?>
@@ -31,7 +33,7 @@ require_once("templates/head.php");
                 <!-- Barra de búsqueda y botón de crear -->
                 <div class="d-flex justify-content-between mb-4">
                 <button type="button" class="btn btn-rj-blue" data-bs-toggle="modal" data-bs-target="#CrearModal">
-                        Registrar Venta <i class="fa-solid fa-plus ms-2"></i>
+                        Registrar Venta <?php include './Assets/bootstrap-icons-1.11.3/plus-lg.svg'; ?>
                     </button>
 
                     <?php
@@ -42,7 +44,7 @@ require_once("templates/head.php");
                         <input class="form-control me-2" type="search" placeholder="Buscar Elemento" aria-label="Search">
                         <button class="btn btn-custom-success me-2" type="submit">Buscar</button>
                         <button class="btn btn-warning" type="submit">
-                            <i class="fa-solid fa-print"></i>
+                        <?php include './Assets/bootstrap-icons-1.11.3/printer-fill.svg'; ?>
                         </button>
                     </form>
                 </div>
@@ -71,13 +73,13 @@ require_once("templates/head.php");
                                 <td>100bs</td>
                                 <td class="d-flex">
                                     <button class="btn btn-rj-blue m-1 btn-sm" data-bs-toggle="modal" data-bs-target="#visualizar">
-                                        <i class="fa-solid fa-eye"></i>
+                                    <?php include './Assets/bootstrap-icons-1.11.3/eye-fill.svg'; ?>
                                     </button>
                                     <button class="btn btn-custom-success m-1 btn-sm" data-bs-toggle="modal" data-bs-target="#editar">
-                                        <i class="fa-solid fa-pencil"></i>
+                                    <?php include './Assets/bootstrap-icons-1.11.3/pencil-fill.svg'; ?>
                                     </button>
                                     <button class="btn btn-custom-danger m-1 btn-sm" data-bs-toggle="modal" data-bs-target="#eliminar">
-                                        <i class="fa-solid fa-ban"></i>
+                                    <?php include './Assets/bootstrap-icons-1.11.3/ban.svg'; ?>
                                     </button>
                                 </td>
                             </tr>

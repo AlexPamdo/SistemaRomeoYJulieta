@@ -19,8 +19,10 @@ require_once("templates/head.php");
             <header class="bg-dark">
                 <div class="p-3 d-flex justify-content-between align-items-center border-bottom">
                     <div class="d-flex align-items-center text-white">
-                        <i class="fa-solid fa-tshirt fs-1 me-3"></i>
-                        <h3 class="m-0">Patrones</h3>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" fill="currentColor" class="bi bi-rulers" viewBox="0 0 16 16">
+  <path d="M1 0a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h5v-1H2v-1h4v-1H4v-1h2v-1H2v-1h4V9H4V8h2V7H2V6h4V2h1v4h1V4h1v2h1V2h1v4h1V4h1v2h1V2h1v4h1V1a1 1 0 0 0-1-1z"/>
+</svg>
+                        <h3 class="ms-3">Patrones</h3>
                     </div>
                     <!-- Menú desplegable del perfil -->
                     <?php include_once("views/templates/menuDesplegable.php"); ?>
@@ -33,7 +35,7 @@ require_once("templates/head.php");
                 <div class="d-flex justify-content-between mb-4">
                     <button type="button" class="btn btn-rj-blue" data-bs-toggle="modal"
                         data-bs-target="#crearPatrones">
-                        Crear Prenda/Patron <i class="fa-solid fa-plus ms-2"></i>
+                        Crear Prenda/Patron <?php include './Assets/bootstrap-icons-1.11.3/plus-lg.svg'; ?>
                     </button>
 
                     <?php
@@ -69,7 +71,7 @@ require_once("templates/head.php");
                                     <td>
                                         <button type="button" class="btn btn-custom-danger m-1" data-bs-toggle="modal"
                                             data-bs-target="#materialesPatron<?php echo $patron['id_patron']; ?>">
-                                            <i class="fa-solid fa-trash"></i>
+                                            <?php include './Assets/bootstrap-icons-1.11.3/trash-fill.svg'; ?>
                                         </button>
                                     </td>
                                     <td><?php echo htmlspecialchars($patron['costo_unitario']); ?> bs</td>
@@ -77,11 +79,11 @@ require_once("templates/head.php");
                                         <!-- Botones de editar y eliminar -->
                                         <button type="button" class="btn btn-custom-danger m-1" data-bs-toggle="modal"
                                             data-bs-target="#eliminar<?php echo $patron['id_patron']; ?>">
-                                            <i class="fa-solid fa-trash"></i>
+                                            <?php include './Assets/bootstrap-icons-1.11.3/trash-fill.svg'; ?>
                                         </button>
                                         <button type="button" class="btn btn-custom-success m-1" data-bs-toggle="modal"
                                             data-bs-target="#editarPatron<?php echo $patron['id_patron']; ?>">
-                                            <i class="fa-solid fa-pencil"></i>
+                                            <?php include './Assets/bootstrap-icons-1.11.3/pencil-fill.svg'; ?>
                                         </button>
                                     </td>
                                 </tr>

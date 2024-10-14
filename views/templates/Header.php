@@ -15,83 +15,83 @@
             <!-- Elementos visibles para todos los usuarios -->
             <li class="nav-item">
                 <a id="dashboard" class="nav-link-rj nav-link d-flex align-items-center gap-2" href="index.php?page=dashboard">
-                    <i class="fas fa-tachometer-alt"></i>
+                <?php include './Assets/bootstrap-icons-1.11.3/house-door-fill.svg'; ?>
                     Dashboard
                 </a>
             </li>
             <li class="nav-item">
                 <a id="catalogo" class="nav-link-rj nav-link d-flex align-items-center gap-2" href="index.php?page=catalogo">
-                    <i class="fas fa-book-open"></i>
+                <?php include './Assets/bootstrap-icons-1.11.3/book-fill.svg'; ?>
                     Catálogo
                 </a>
             </li>
             <li class="nav-item">
                 <a id="almacen" class="nav-link-rj nav-link d-flex align-items-center gap-2" href="index.php?page=almacen">
-                    <i class="fas fa-warehouse"></i>
+                <?php include './Assets/bootstrap-icons-1.11.3/box-seam-fill.svg'; ?>
                     Inventario
                 </a>
             </li>
             <li class="nav-item">
                 <a id="clientes" class="nav-link-rj nav-link d-flex align-items-center gap-2" href="index.php?page=clientes">
-                    <i class="fas fa-user-friends"></i>
+                <?php include './Assets/bootstrap-icons-1.11.3/people-fill.svg'; ?>
                     Clientes
                 </a>
             </li>
             <li class="nav-item">
                 <a id="facturas" class="nav-link-rj nav-link d-flex align-items-center gap-2" href="index.php?page=ventas">
-                    <i class="fas fa-file-invoice"></i>
+                    <?php include './Assets/bootstrap-icons-1.11.3/file-earmark-bar-graph-fill.svg'; ?>
                     Facturas
                 </a>
             </li>
             <li class="nav-item">
                 <a id="envios" class="nav-link-rj nav-link d-flex align-items-center gap-2" href="index.php?page=envios">
-                    <i class="fas fa-shipping-fast"></i>
+                <?php include './Assets/bootstrap-icons-1.11.3/rocket-takeoff-fill.svg'; ?>
                     Envios
                 </a>
             </li>
             <li class="nav-item">
                 <a id="proveedores" class="nav-link-rj nav-link d-flex align-items-center gap-2" href="index.php?page=proveedores">
-                    <i class="fas fa-truck"></i>
+                <?php include './Assets/bootstrap-icons-1.11.3/person-check-fill.svg'; ?>
                     Proveedores
                 </a>
             </li>
-
+            
             <!-- Elementos visibles solo para administradores -->
             <?php if ($_SESSION['rol'] == 1) : ?>
                 <hr class="my-3 text-secondary">
                 <li class="nav-item">
                     <a id="prendas" class="nav-link-rj nav-link d-flex align-items-center gap-2" href="index.php?page=prendas">
-                        <i class="fas fa-tshirt"></i>
+                    <?php include './Assets/bootstrap-icons-1.11.3/bookmark-check-fill.svg'; ?>
                         Prendas terminadas
                     </a>
                 </li>
                 <li class="nav-item">
                     <a id="confecciones" class="nav-link-rj nav-link d-flex align-items-center gap-2" href="index.php?page=confecciones">
-                        <i class="fas fa-cut"></i>
+                    <?php include './Assets/bootstrap-icons-1.11.3/scissors.svg'; ?>
                         Confecciones
                     </a>
                 </li>
                 <li class="nav-item">
                     <a id="patrones" class="nav-link-rj nav-link d-flex align-items-center gap-2" href="index.php?page=patrones">
-                        <i class="fas fa-ruler-combined"></i>
+                    <?php include './Assets/bootstrap-icons-1.11.3/rulers.svg'; ?>
                         Patrones
                     </a>
                 </li>
                 <li class="nav-item">
                     <a id="pedidos" class="nav-link-rj nav-link d-flex align-items-center gap-2" href="index.php?page=pedidos">
-                        <i class="fas fa-clipboard-list"></i>
+                    <?php include './Assets/bootstrap-icons-1.11.3/clipboard2-check-fill.svg'; ?>
                         Pedidos
                     </a>
                 </li>
                 <li class="nav-item">
                     <a id="empleados" class="nav-link-rj nav-link d-flex align-items-center gap-2" href="index.php?page=empleados">
-                        <i class="fas fa-user-tie"></i>
+                    <?php include './Assets/bootstrap-icons-1.11.3/person-vcard-fill.svg'; ?>
                         Empleados
                     </a>
                 </li>
                 <li class="nav-item">
                     <a id="usuarios" class="nav-link-rj nav-link d-flex align-items-center gap-2" href="index.php?page=usuarios">
-                        <i class="fas fa-users-cog"></i>
+                    <?php include './Assets/bootstrap-icons-1.11.3/person-circle.svg'; ?>
                         Usuarios
                     </a>
                 </li>
@@ -100,7 +100,7 @@
             <hr class="my-3 text-secondary">
             <li class="nav-item">
                 <a class="nav-link-rj nav-link d-flex align-items-center gap-2 text-white" href="views/logout.php">
-                    <i class="fas fa-sign-out-alt"></i>
+                <?php include './Assets/bootstrap-icons-1.11.3/box-arrow-left.svg'; ?>
                     Cerrar sesión
                 </a>
             </li>

@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 12-10-2024 a las 14:32:02
+-- Tiempo de generación: 14-10-2024 a las 22:36:28
 -- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.0.30
+-- Versión de PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -44,17 +44,18 @@ CREATE TABLE `almacen` (
   `tipo_material` int(11) DEFAULT NULL,
   `color_material` int(11) DEFAULT NULL,
   `stock` int(11) DEFAULT NULL,
-  `precio` int(11) DEFAULT NULL
+  `precio` int(11) DEFAULT NULL,
+  `eliminado` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `almacen`
 --
 
-INSERT INTO `almacen` (`id_material`, `nombre_material`, `tipo_material`, `color_material`, `stock`, `precio`) VALUES
-(7, 'Boton Azul', 1, 2, 503, 5),
-(8, 'Tela azul', 1, 1, 1447, 10),
-(9, 'Tela negra a rayas ', 1, 2, 16, 50);
+INSERT INTO `almacen` (`id_material`, `nombre_material`, `tipo_material`, `color_material`, `stock`, `precio`, `eliminado`) VALUES
+(7, 'Boton Azul', 1, 2, 503, 5, 0),
+(8, 'Tela azul', 1, 1, 1447, 10, 0),
+(9, 'Tela negra a rayas ', 1, 2, 55, 50, 0);
 
 -- --------------------------------------------------------
 
@@ -87,16 +88,17 @@ CREATE TABLE `clientes` (
   `telefono` varchar(30) NOT NULL,
   `email` varchar(30) DEFAULT NULL,
   `contraseña` varchar(30) DEFAULT NULL,
-  `cedula` int(11) DEFAULT NULL
+  `cedula` int(11) DEFAULT NULL,
+  `eliminado` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `clientes`
 --
 
-INSERT INTO `clientes` (`id_cliente`, `nombre`, `apellido`, `telefono`, `email`, `contraseña`, `cedula`) VALUES
-(38, 'Alexito', 'pire', '4145080744', 'alexmegasuper5@gmail.com', '43434343', 244444444),
-(40, 'Alex David P', 'Perez Perez', '2614664', 'alexmegasuper5@gmail.com', '123456789Dd+', 131);
+INSERT INTO `clientes` (`id_cliente`, `nombre`, `apellido`, `telefono`, `email`, `contraseña`, `cedula`, `eliminado`) VALUES
+(38, 'Alexito', 'pire', '4145080744', 'alexmegasuper5@gmail.com', '43434343', 244444444, 0),
+(40, 'Alex David P', 'Perez Perez', '2614664', 'alexmegasuper5@gmail.com', '123456789Dd+', 131, 0);
 
 -- --------------------------------------------------------
 
@@ -165,15 +167,9 @@ CREATE TABLE `confeccion` (
   `cantidad` int(30) NOT NULL,
   `tiempo_fabricacion` time DEFAULT NULL,
   `fecha_fabricacion` date DEFAULT NULL,
-  `id_empleado` int(11) DEFAULT NULL
+  `id_empleado` int(11) DEFAULT NULL,
+  `eliminado` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `confeccion`
---
-
-INSERT INTO `confeccion` (`id_confeccion`, `id_patron`, `cantidad`, `tiempo_fabricacion`, `fecha_fabricacion`, `id_empleado`) VALUES
-(25, 76, 1, '11:05:00', '2018-09-15', 10);
 
 -- --------------------------------------------------------
 
@@ -201,16 +197,17 @@ CREATE TABLE `empleados` (
   `email_empleado` varchar(30) DEFAULT NULL,
   `id_ocupacion` int(11) DEFAULT NULL,
   `sueldo` int(11) DEFAULT NULL,
-  `cedula_empleado` int(11) DEFAULT NULL
+  `cedula_empleado` int(11) DEFAULT NULL,
+  `eliminado` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `empleados`
 --
 
-INSERT INTO `empleados` (`id_empleado`, `nombre_empleado`, `apellido_empleado`, `telefono_empleado`, `email_empleado`, `id_ocupacion`, `sueldo`, `cedula_empleado`) VALUES
-(10, 'Alex David', 'Perez Perez', '2147483647', 'asdasd@gmail.com', 1, 30, 30873743),
-(11, 'Alex', 'Perz', '41454444444', 'alex@gmail.com', 1, 30, 3939393);
+INSERT INTO `empleados` (`id_empleado`, `nombre_empleado`, `apellido_empleado`, `telefono_empleado`, `email_empleado`, `id_ocupacion`, `sueldo`, `cedula_empleado`, `eliminado`) VALUES
+(10, 'Alex David', 'Perez Perez', '2147483647', 'asdasd@gmail.com', 1, 30, 30873743, 0),
+(11, 'Alex', 'Perz', '41454444444', 'alex@gmail.com', 1, 30, 3939393, 0);
 
 -- --------------------------------------------------------
 
@@ -226,7 +223,8 @@ CREATE TABLE `envios` (
   `id_destino` int(11) DEFAULT NULL,
   `estado` tinyint(1) NOT NULL,
   `fecha_llegada` date NOT NULL,
-  `starken_id` int(11) DEFAULT NULL
+  `starken_id` int(11) DEFAULT NULL,
+  `eliminado` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -239,25 +237,6 @@ CREATE TABLE `estados` (
   `id_estado` int(11) NOT NULL,
   `estado` varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `estado_proveedor`
---
-
-CREATE TABLE `estado_proveedor` (
-  `id_estado` int(11) NOT NULL,
-  `estado` varchar(30) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `estado_proveedor`
---
-
-INSERT INTO `estado_proveedor` (`id_estado`, `estado`) VALUES
-(1, 'activo'),
-(2, 'inactivo');
 
 -- --------------------------------------------------------
 
@@ -337,7 +316,8 @@ INSERT INTO `ocupaciones` (`id_ocupacion`, `ocupacion`) VALUES
 CREATE TABLE `orden` (
   `id_orden` int(11) NOT NULL,
   `id_prenda` int(11) DEFAULT NULL,
-  `precio` int(11) DEFAULT NULL
+  `precio` int(11) DEFAULT NULL,
+  `eliminado` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -361,7 +341,21 @@ INSERT INTO `orden_pedido` (`id_orden_pedido`, `id_pedido`, `id_material`, `cant
 (5, 1, 8, 8),
 (6, 29, 8, 3),
 (7, 29, 9, 2),
-(8, 30, 7, 3);
+(8, 30, 7, 3),
+(9, 31, 9, 23);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `orden_venta`
+--
+
+CREATE TABLE `orden_venta` (
+  `id_ordenVenta` int(255) NOT NULL,
+  `id_venta` int(255) NOT NULL,
+  `id_prenda` int(255) NOT NULL,
+  `cantidad_prenda` int(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -372,21 +366,18 @@ INSERT INTO `orden_pedido` (`id_orden_pedido`, `id_pedido`, `id_material`, `cant
 CREATE TABLE `patrones` (
   `id_patron` int(11) NOT NULL,
   `nombre_patron` varchar(30) NOT NULL,
-  `costo_unitario` int(11) DEFAULT NULL
+  `costo_unitario` int(11) DEFAULT NULL,
+  `eliminado` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `patrones`
 --
 
-INSERT INTO `patrones` (`id_patron`, `nombre_patron`, `costo_unitario`) VALUES
-(42, 'Camisa azul a rayas', 300),
-(43, 'Si', 15),
-(44, 'Si', 15),
-(75, 'Franela Roja', 65),
-(76, 'Nueva prenda', 240),
-(77, 'Nueva Prenda 2', 165),
-(78, 'goku', 175);
+INSERT INTO `patrones` (`id_patron`, `nombre_patron`, `costo_unitario`, `eliminado`) VALUES
+(43, 'Si', 15, 0),
+(44, 'Si', 15, 0),
+(80, '13', 100, 0);
 
 -- --------------------------------------------------------
 
@@ -408,8 +399,13 @@ CREATE TABLE `patron_material` (
 INSERT INTO `patron_material` (`id_patronMaterial`, `id_patron`, `id_material`, `cantidad`) VALUES
 (3, 34, 7, 10),
 (4, 35, 9, 30),
-(5, 35, 8, 10);
-
+(5, 35, 8, 10),
+(3, 34, 7, 10),
+(4, 35, 9, 30),
+(5, 35, 8, 10),
+(0, 78, 7, 23),
+(0, 44, 7, 12),
+(0, 44, 8, 4);
 
 -- --------------------------------------------------------
 
@@ -423,17 +419,9 @@ CREATE TABLE `pedidos` (
   `fecha_pedido` date NOT NULL,
   `estado_pedido` tinyint(1) NOT NULL,
   `id_usuario` int(30) NOT NULL,
-  `total_pedido` int(30) NOT NULL
+  `total_pedido` int(30) NOT NULL,
+  `eliminado` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `pedidos`
---
-
-INSERT INTO `pedidos` (`id_pedido`, `id_proveedor`, `fecha_pedido`, `estado_pedido`, `id_usuario`, `total_pedido`) VALUES
-(28, 14, '2024-10-12', 0, 100, 0),
-(29, 14, '2024-10-12', 0, 100, 0),
-(30, 14, '2024-10-12', 0, 100, 15);
 
 -- --------------------------------------------------------
 
@@ -452,19 +440,16 @@ CREATE TABLE `prendas` (
   `id_coleccion` int(30) NOT NULL,
   `id_talla` int(30) NOT NULL,
   `id_genero` int(30) NOT NULL,
-  `precio_unitario` int(11) DEFAULT NULL
+  `precio_unitario` int(11) DEFAULT NULL,
+  `eliminado` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `prendas`
 --
 
-INSERT INTO `prendas` (`id_prenda`, `img_prenda`, `nombre_prenda`, `patron_prenda`, `id_categoria`, `id_color`, `stock`, `id_coleccion`, `id_talla`, `id_genero`, `precio_unitario`) VALUES
-(42, 'Assets/img/prendas/descargar (1).jpg', 'Camisa azul a rayas', 42, 1, 1, 0, 1, 1, 1, 30),
-(75, 'Assets/img/prendas/OIP.jpg', 'Franela Roja', 75, 1, 1, 0, 1, 1, 1, 65),
-(76, 'Assets/img/prendas/prendaDefault.png', 'Nueva prenda', 76, 1, 1, 1, 1, 1, 1, 240),
-(77, 'Assets/img/prendas/prendaDefault.png', 'Nueva Prenda 2', 77, 1, 1, 0, 1, 1, 1, 165),
-(78, 'Assets/img/prendas/prendaDefault.png', 'goku', 78, 1, 1, 2147483647, 1, 1, 1, 175);
+INSERT INTO `prendas` (`id_prenda`, `img_prenda`, `nombre_prenda`, `patron_prenda`, `id_categoria`, `id_color`, `stock`, `id_coleccion`, `id_talla`, `id_genero`, `precio_unitario`, `eliminado`) VALUES
+(44, 'Assets/img/prendas/prendaDefault.png', '13', 44, 1, 1, 0, 1, 1, 1, 100, 0);
 
 -- --------------------------------------------------------
 
@@ -478,18 +463,16 @@ CREATE TABLE `proveedores` (
   `telefono_proveedor` varchar(30) NOT NULL,
   `gmail_proveedor` varchar(30) NOT NULL,
   `id_tipo_proveedor` int(30) NOT NULL,
-  `id_estado` int(30) NOT NULL,
-  `notas_proveedor` varchar(30) NOT NULL
+  `notas_proveedor` varchar(30) NOT NULL,
+  `eliminado` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `proveedores`
 --
 
-INSERT INTO `proveedores` (`id_proveedor`, `nombre_proveedor`, `telefono_proveedor`, `gmail_proveedor`, `id_tipo_proveedor`, `id_estado`, `notas_proveedor`) VALUES
-(14, 'Telas Alex', '4145080744', 'telasalex@gmail.com', 1, 1, 'es muy bueno'),
-(15, 'Telas Alex', '04145080744', 'telasalex@gmail.com', 1, 1, 'es god'),
-(16, '2614664', '26146644444', 'alexmegasuper5@gmail.com', 1, 1, 'kdskjad');
+INSERT INTO `proveedores` (`id_proveedor`, `nombre_proveedor`, `telefono_proveedor`, `gmail_proveedor`, `id_tipo_proveedor`, `notas_proveedor`, `eliminado`) VALUES
+(19, 'Raul', '321654987', 'aeld@gmail.com', 3, 'jkh', 0);
 
 -- --------------------------------------------------------
 
@@ -562,17 +545,6 @@ CREATE TABLE `tipos_venta` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tipo_pago`
---
-
-CREATE TABLE `tipo_pago` (
-  `id_pago` int(11) NOT NULL,
-  `pago` varchar(30) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `tipo_proveedor`
 --
 
@@ -640,7 +612,8 @@ CREATE TABLE `ventas` (
   `id_tipo_venta` int(30) NOT NULL,
   `id_orden` int(30) NOT NULL,
   `id_pago` int(30) NOT NULL,
-  `monto_total` int(30) NOT NULL
+  `monto_total` int(30) NOT NULL,
+  `eliminado` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -731,12 +704,6 @@ ALTER TABLE `estados`
   ADD PRIMARY KEY (`id_estado`);
 
 --
--- Indices de la tabla `estado_proveedor`
---
-ALTER TABLE `estado_proveedor`
-  ADD PRIMARY KEY (`id_estado`);
-
---
 -- Indices de la tabla `forma_entrega`
 --
 ALTER TABLE `forma_entrega`
@@ -775,6 +742,12 @@ ALTER TABLE `orden_pedido`
   ADD KEY `id_material` (`id_material`);
 
 --
+-- Indices de la tabla `orden_venta`
+--
+ALTER TABLE `orden_venta`
+  ADD PRIMARY KEY (`id_ordenVenta`);
+
+--
 -- Indices de la tabla `patrones`
 --
 ALTER TABLE `patrones`
@@ -808,8 +781,7 @@ ALTER TABLE `prendas`
 --
 ALTER TABLE `proveedores`
   ADD PRIMARY KEY (`id_proveedor`),
-  ADD KEY `id_tipo_proveedor` (`id_tipo_proveedor`,`id_estado`),
-  ADD KEY `id_estado` (`id_estado`);
+  ADD KEY `id_tipo_proveedor` (`id_tipo_proveedor`);
 
 --
 -- Indices de la tabla `roles`
@@ -834,12 +806,6 @@ ALTER TABLE `tipos_materiales`
 --
 ALTER TABLE `tipos_venta`
   ADD PRIMARY KEY (`id_tipo_venta`);
-
---
--- Indices de la tabla `tipo_pago`
---
-ALTER TABLE `tipo_pago`
-  ADD PRIMARY KEY (`id_pago`);
 
 --
 -- Indices de la tabla `tipo_proveedor`
@@ -942,12 +908,6 @@ ALTER TABLE `estados`
   MODIFY `id_estado` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `estado_proveedor`
---
-ALTER TABLE `estado_proveedor`
-  MODIFY `id_estado` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
 -- AUTO_INCREMENT de la tabla `forma_entrega`
 --
 ALTER TABLE `forma_entrega`
@@ -981,19 +941,25 @@ ALTER TABLE `orden`
 -- AUTO_INCREMENT de la tabla `orden_pedido`
 --
 ALTER TABLE `orden_pedido`
-  MODIFY `id_orden_pedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_orden_pedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT de la tabla `orden_venta`
+--
+ALTER TABLE `orden_venta`
+  MODIFY `id_ordenVenta` int(255) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `patrones`
 --
 ALTER TABLE `patrones`
-  MODIFY `id_patron` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
+  MODIFY `id_patron` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
 
 --
 -- AUTO_INCREMENT de la tabla `pedidos`
 --
 ALTER TABLE `pedidos`
-  MODIFY `id_pedido` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id_pedido` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT de la tabla `prendas`
@@ -1005,7 +971,7 @@ ALTER TABLE `prendas`
 -- AUTO_INCREMENT de la tabla `proveedores`
 --
 ALTER TABLE `proveedores`
-  MODIFY `id_proveedor` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id_proveedor` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`
@@ -1030,12 +996,6 @@ ALTER TABLE `tipos_materiales`
 --
 ALTER TABLE `tipos_venta`
   MODIFY `id_tipo_venta` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `tipo_pago`
---
-ALTER TABLE `tipo_pago`
-  MODIFY `id_pago` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `tipo_proveedor`
@@ -1122,8 +1082,7 @@ ALTER TABLE `prendas`
 -- Filtros para la tabla `proveedores`
 --
 ALTER TABLE `proveedores`
-  ADD CONSTRAINT `proveedores_ibfk_1` FOREIGN KEY (`id_tipo_proveedor`) REFERENCES `tipo_proveedor` (`id_tipo_proveedor`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `proveedores_ibfk_2` FOREIGN KEY (`id_estado`) REFERENCES `estado_proveedor` (`id_estado`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `proveedores_ibfk_1` FOREIGN KEY (`id_tipo_proveedor`) REFERENCES `tipo_proveedor` (`id_tipo_proveedor`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `usuarios`

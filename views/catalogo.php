@@ -16,8 +16,14 @@ require_once("templates/head.php");
 
         <div class="col bg-custom-content p-0">
             <!-- Header de la página -->
-            <header class="bg-dark p-3 d-flex justify-content-between align-items-center border-bottom text-white">
-                <h3 class="m-0">Catálogo</h3>
+            <header class="bg-dark">
+                <div class="p-3 d-flex justify-content-between align-items-center border-bottom">
+                    <div class="d-flex align-items-center text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-book-fill" viewBox="0 0 16 16">
+  <path d="M8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783"/>
+</svg>
+                        <h3 class="ms-3">Catálogo</h3>
+                    </div>
                 <!-- Menú desplegable -->
                 <?php include("views/templates/menuDesplegable.php"); ?>
             </header>
@@ -27,7 +33,7 @@ require_once("templates/head.php");
                 <!-- Barra de búsqueda y botón de crear elemento -->
                 <div class="d-flex justify-content-between mb-4">
                     <button type="button" class="btn btn-rj-blue" data-bs-toggle="modal" data-bs-target="#crearModal">
-                        Crear <i class="fa-solid fa-plus ms-2"></i>
+                        Crear <?php include './Assets/bootstrap-icons-1.11.3/plus-lg.svg'; ?>
                     </button>
 
                     <?php
@@ -71,10 +77,10 @@ require_once("templates/head.php");
                                 <td>
                                     <div class="d-flex">
                                         <button class="btn btn-success m-1 btn-sm" data-bs-toggle="modal" data-bs-target="#EditarModal">
-                                            <i class="fa-solid fa-pencil"></i>
+                                        <?php include './Assets/bootstrap-icons-1.11.3/pencil-fill.svg'; ?>
                                         </button>
                                         <button class="btn btn-danger m-1 btn-sm" data-bs-toggle="modal" data-bs-target="#BorrarModal">
-                                            <i class="fa-solid fa-trash"></i>
+                                        <?php include './Assets/bootstrap-icons-1.11.3/trash-fill.svg'; ?>
                                         </button>
                                     </div>
                                 </td>

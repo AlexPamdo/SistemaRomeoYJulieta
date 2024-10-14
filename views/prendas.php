@@ -20,8 +20,10 @@ require_once("templates/head.php");
             <header class="bg-dark">
                 <div class="p-3 d-flex justify-content-between align-items-center border-bottom">
                     <div class="d-flex align-items-center text-white">
-                        <i class="fa-solid fa-users-gear fs-1 me-3"></i>
-                        <h3 class="m-0">Gestor de Prendas Terminadas</h3>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" fill="currentColor" class="bi bi-bookmark-check-fill" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M2 15.5V2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5m8.854-9.646a.5.5 0 0 0-.708-.708L7.5 7.793 6.354 6.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0z"/>
+</svg>
+                        <h3 class="ms-3">Gestor de Prendas Terminadas</h3>
                     </div>
                     <!-- Menú desplegable del perfil -->
                     <?php include_once("views/templates/menuDesplegable.php"); ?>
@@ -104,7 +106,7 @@ require_once("templates/head.php");
                 <!-- Botón para ver prendas sin stocl -->
                 <div class="d-flex justify-content-end mt-4">
                     <button class="btn btn-rj-blue p-3" data-bs-toggle="modal" data-bs-target="#ningunStock">
-                        <i class="fas fa-trash-alt"></i> Prendas sin stock
+                    <?php include './Assets/bootstrap-icons-1.11.3/trash-fill.svg'; ?> Prendas sin stock
                     </button>
                 </div>
 

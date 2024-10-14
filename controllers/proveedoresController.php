@@ -25,9 +25,7 @@ class proveedoresController implements crudController
         $this->model->setTelefono($_POST["telefono_proveedor"]);
         $this->model->setGmail($_POST["gmail_proveedor"]);
         $this->model->setTipo($_POST["id_tipo_proveedor"]);
-        $this->model->setEstado($_POST["id_estado"]);
         $this->model->setNotas($_POST["notas_proveedor"]);
-
 
         if ($this->model->create()) {
             header("Location: index.php?page=proveedores&succes=1");
@@ -50,7 +48,6 @@ class proveedoresController implements crudController
         $this->model->setTelefono($_POST["telefono_proveedor_edit"]);
         $this->model->setGmail($_POST["gmail_proveedor_edit"]);
         $this->model->setTipo($_POST["id_tipo_proveedor_edit"]);
-        $this->model->setEstado($_POST["id_estado_edit"]);
         $this->model->setNotas($_POST["notas_proveedor_edit"]);
 
         if ($this->model->edit($_POST["id"])) {

@@ -18,8 +18,10 @@ require_once("templates/head.php");
             <header class="bg-dark">
                 <div class="p-3 d-flex justify-content-between align-items-center border-bottom">
                     <div class="d-flex align-items-center text-white">
-                        <i class="fa-solid fa-users-gear fs-1 me-3"></i>
-                        <h3 class="m-0">Gestión de Clientes</h3>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" class="bi bi-people-fill" viewBox="0 0 16 16">
+  <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6m-5.784 6A2.24 2.24 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.3 6.3 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1zM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5"/>
+</svg>
+                        <h3 class="ms-3">Gestión de Clientes</h3>
                     </div>
                     <!-- Menú desplegable del perfil -->
                     <?php include_once("views/templates/menuDesplegable.php"); ?>
@@ -31,7 +33,7 @@ require_once("templates/head.php");
                 <!-- Barra de búsqueda y botón de crear cliente -->
                 <div class="d-flex justify-content-between mb-4">
                     <button type="button" class="btn btn-rj-blue" data-bs-toggle="modal" data-bs-target="#CrearModal">
-                        Crear Cliente <i class="fa-solid fa-plus ms-2"></i>
+                        Crear Cliente <?php include './Assets/bootstrap-icons-1.11.3/plus-lg.svg'; ?>
                     </button>
 
                     <?php
@@ -77,10 +79,10 @@ require_once("templates/head.php");
                                     <td class="d-flex">
                                         <!-- Botones de editar y eliminar -->
                                         <button type="button" class="btn btn-custom-danger m-1" data-bs-toggle="modal" data-bs-target="#eliminar<?php echo htmlspecialchars($cliente['id_cliente']); ?>">
-                                            <i class="fa-solid fa-trash"></i>
+                                        <?php include './Assets/bootstrap-icons-1.11.3/trash-fill.svg'; ?>
                                         </button>
                                         <button type="button" class="btn btn-custom-success m-1" data-bs-toggle="modal" data-bs-target="#editar<?php echo htmlspecialchars($cliente['id_cliente']); ?>">
-                                            <i class="fa-solid fa-pencil"></i>
+                                        <?php include './Assets/bootstrap-icons-1.11.3/pencil-fill.svg'; ?>
                                         </button>
                                     </td>
                                     <?php include("views/clientes/editar.php"); ?>

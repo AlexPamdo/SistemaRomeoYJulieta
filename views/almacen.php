@@ -18,8 +18,10 @@ require_once("templates/head.php");
             <header class="bg-dark">
                 <div class="p-3 d-flex justify-content-between align-items-center border-bottom">
                     <div class="d-flex align-items-center text-white">
-                        <i class="fa-solid fa-boxes-stacked fs-1 me-3"></i>
-                        <h3 class="m-0">Gestion de Almacen</h3>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-box-seam-fill" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M15.528 2.973a.75.75 0 0 1 .472.696v8.662a.75.75 0 0 1-.472.696l-7.25 2.9a.75.75 0 0 1-.557 0l-7.25-2.9A.75.75 0 0 1 0 12.331V3.669a.75.75 0 0 1 .471-.696L7.443.184l.01-.003.268-.108a.75.75 0 0 1 .558 0l.269.108.01.003zM10.404 2 4.25 4.461 1.846 3.5 1 3.839v.4l6.5 2.6v7.922l.5.2.5-.2V6.84l6.5-2.6v-.4l-.846-.339L8 5.961 5.596 5l6.154-2.461z"/>
+</svg>
+                        <h3 class="ms-3">Gestion de Almacen</h3>
                     </div>
                     <!-- Menú desplegable del perfil -->
                     <?php include_once("views/templates/menuDesplegable.php"); ?>
@@ -31,7 +33,7 @@ require_once("templates/head.php");
                 <!-- Barra de búsqueda y botón de crear material -->
                 <div class="d-flex justify-content-between mb-4">
                     <button type="button" class="btn btn-rj-blue" data-bs-toggle="modal" data-bs-target="#CrearModalM">
-                        Registrar Elemento <i class="fa-solid fa-plus ms-2"></i>
+                        Registrar Elemento <?php include './Assets/bootstrap-icons-1.11.3/plus-lg.svg'; ?>
                     </button>
 
                     <?php require_once("views/almacen/crear.php") ?>
@@ -67,10 +69,10 @@ require_once("templates/head.php");
                                     <td class="d-flex">
                                         <!-- Botones de editar y eliminar -->
                                         <button type="button" class="btn btn-custom-danger m-1" data-bs-toggle="modal" data-bs-target="#eliminarM<?php echo $material['id_material']; ?>">
-                                            <i class="fa-solid fa-trash"></i>
+                                        <?php include './Assets/bootstrap-icons-1.11.3/trash-fill.svg'; ?>
                                         </button>
                                         <button type="button" class="btn btn-custom-success m-1" data-bs-toggle="modal" data-bs-target="#editarM<?php echo $material['id_material']; ?>">
-                                            <i class="fa-solid fa-pencil"></i>
+                                        <?php include './Assets/bootstrap-icons-1.11.3/pencil-fill.svg'; ?>
                                         </button>
                                     </td>
                                 </tr>
