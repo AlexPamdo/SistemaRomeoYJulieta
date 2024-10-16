@@ -13,13 +13,12 @@
                     <h3>¿Esta seguro?</h3>
                     <h5>no podras recuperarlo luego</h5>
                     <div class="modal-footer">
-                        <form class="needs-validation" action="index.php" method="get" novalidate>
+                        <form class="needs-validation" action="index.php?page=empleados&function=delete" method="post" novalidate>
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                                 Cerrar
                             </button>
-                            <input type="hidden" name="page" value="empleados">
                             <input type="hidden" name="id" value="<?php echo ($empleado['id_empleado']) ?>">
-                            <button class="btn btn-danger" name="btnDelete" value="delete">eliminar</button>
+                            <button class="btn btn-danger">eliminar</button>
                         </form>
                     </div>
                 </div>

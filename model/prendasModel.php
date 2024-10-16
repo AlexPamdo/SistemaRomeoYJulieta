@@ -67,55 +67,92 @@ class Prenda
         }
     }
     public function viewOne($id)
-    {
-        $query = "SELECT * FROM " . $this->table . " WHERE id_prenda = " . $id;
-        $result = $this->conn->query($query);
-
-        if ($result) {
-            return $result->fetchAll(PDO::FETCH_ASSOC);
-        } else {
-            return false;
-        }
+{
+    $query = "SELECT * FROM " . $this->table . " WHERE id_prenda = :id";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(':id', $id);
+    if($stmt->execute()){
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }else{
+        return false;
     }
+}
+public function create()
+{
+    $query = "INSERT INTO " . $this->table . " (id_prenda, img_prenda, nombre_prenda, patron_prenda, id_categoria, id_color, stock, id_coleccion, id_talla, id_genero, precio_unitario) VALUES (:id, :img, :nombre, :patron, :categoria, :color, :stock, :coleccion, :talla, :genero, :precio)";
 
-    public function create()
-    {
-        $query = "INSERT INTO " . $this->table . " (id_prenda,img_prenda,nombre_prenda,patron_prenda,id_categoria,id_color,stock,id_coleccion,id_talla,id_genero,precio_unitario) VALUES('" . $this->id . "','". $this->img . "','" . $this->nombre . "','" . $this->patron . "','" . $this->categoria . "','" . $this->color . "','" . $this->cant . "','" . $this->coleccion . "','" . $this->talla . "','" . $this->genero . "','" . $this->precio . "');";
+    $stmt = $this->conn->prepare($query);
+    
+    $stmt->bindParam(':id', $this->id);
+    $stmt->bindParam(':img', $this->img);
+    $stmt->bindParam(':nombre', $this->nombre);
+    $stmt->bindParam(':patron', $this->patron);
+    $stmt->bindParam(':categoria', $this->categoria);
+    $stmt->bindParam(':color', $this->color);
+    $stmt->bindParam(':stock', $this->cant);
+    $stmt->bindParam(':coleccion', $this->coleccion);
+    $stmt->bindParam(':talla', $this->talla);
+    $stmt->bindParam(':genero', $this->genero);
+    $stmt->bindParam(':precio', $this->precio);
+    
+   if($stmt->execute()){
+    return true;
+   }else{
+    return false;
+   }
+}
 
-        if ($this->conn->exec($query)) {
-            return true;
-        } else {
-            return false;
-        }
+
+     
+
+public function edit($id)
+{
+    $query = "UPDATE " . $this->table . " SET nombre_prenda = :nombre, id_categoria = :categoria, id_color = :color, stock = :stock, id_coleccion = :coleccion, id_talla = :talla, id_genero = :genero, precio_unitario = :precio WHERE id_prenda = :id";
+
+    $stmt = $this->conn->prepare($query);
+    
+    $stmt->bindParam(':nombre', $this->nombre);
+    $stmt->bindParam(':categoria', $this->categoria);
+    $stmt->bindParam(':color', $this->color);
+    $stmt->bindParam(':stock', $this->cant);
+    $stmt->bindParam(':coleccion', $this->coleccion);
+    $stmt->bindParam(':talla', $this->talla);
+    $stmt->bindParam(':genero', $this->genero);
+    $stmt->bindParam(':precio', $this->precio);
+    $stmt->bindParam(':id', $id);
+    
+    if($stmt->execute()){
+        return true;
+    }else{
+        return false;
     }
+}
+
+
+public function updateStockPrendas($id, $stock)
+{
+    $query = "UPDATE " . $this->table . " SET stock = stock + :stock WHERE id_prenda = :id";
+
+    $stmt = $this->conn->prepare($query);
+    
+    $stmt->bindParam(':stock', $stock);
+    $stmt->bindParam(':id', $id);
+    
+    if( $stmt->execute()){
+        return true;
+    }else{
+        return false;
+    }
+}
+
 
     public function delete($id)
     {
-        $query = "DELETE FROM " . $this->table . " WHERE id_prenda = " . $id;
+        $query = "UPDATE $this->table SET eliminado = 1 WHERE id_prenda = :id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":id", $id);
 
-        if ($this->conn->exec($query)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public function edit($id)
-    {
-        $query = "UPDATE " . $this->table . " SET nombre_prenda = '" . $this->nombre . "', id_categoria = '" . $this->categoria . "',  id_color= '" . $this->color . "',  stock= '" . $this->cant . "', id_coleccion= '" . $this->coleccion . "', id_talla = '" . $this->talla . "', id_genero = '" . $this->genero . "' , precio_unitario = '" . $this->precio . "' WHERE id_prenda = " . $id;
-
-        if ($this->conn->exec($query)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public function updateStockPrendas($id, $stock)
-    {
-        $query = "UPDATE " . $this->table . " SET stock = stock + '" . $stock . "' WHERE id_prenda = " . $id;
-
-        if ($this->conn->exec($query)) {
+        if ( $stmt->execute() ) {
             return true;
         } else {
             return false;

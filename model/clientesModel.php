@@ -49,11 +49,12 @@ class clientes
      */
     public function viewOne($id)
     {
-        $query = "SELECT * FROM " . $this->tabla . " WHERE id_cliente = " . $id;
-        $result = $this->conn->query($query);
+        $query = "SELECT * FROM " . $this->tabla . " WHERE id_cliente = :id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":id", $id);
 
-        if ($result) {
-            return $result->fetchAll(PDO::FETCH_ASSOC);
+        if ($stmt->execute()) {
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } else {
             return false;
         }
@@ -84,14 +85,24 @@ class clientes
      */
     public function create()
     {
-        $query = "INSERT INTO " . $this->tabla . " (nombre,apellido,telefono,email,contraseña,cedula) VALUES('" . $this->nombre . "','" . $this->apellido . "','" . $this->telefono . "','" .  $this->email . "','" . $this->contraseña . "','" . $this->cedula . "');";
+        $query = "INSERT INTO " . $this->tabla . " (nombre, apellido, telefono, email, contraseña, cedula) VALUES (:nombre, :apellido, :telefono, :email, :contraseña, :cedula)";
 
-        if ($this->conn->exec($query)) {
+        $stmt = $this->conn->prepare($query);
+
+        $stmt->bindParam(':nombre', $this->nombre);
+        $stmt->bindParam(':apellido', $this->apellido);
+        $stmt->bindParam(':telefono', $this->telefono);
+        $stmt->bindParam(':email', $this->email);
+        $stmt->bindParam(':contraseña', $this->contraseña);
+        $stmt->bindParam(':cedula', $this->cedula);
+
+        if ($stmt->execute()) {
             return true;
         } else {
             return false;
         }
     }
+
 
     /**
      * Elimina un registro de la tabla `clientes` por su ID.
@@ -101,9 +112,11 @@ class clientes
      */
     public function delete($id)
     {
-        $query = "DELETE FROM " . $this->tabla . " WHERE id_cliente = " . $id;
+        $query = "UPDATE $this->tabla SET eliminado = 1 WHERE id_cliente = :id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":id", $id);
 
-        if ($this->conn->exec($query)) {
+        if ($stmt->execute()) {
             return true;
         } else {
             return false;
@@ -118,9 +131,19 @@ class clientes
      */
     public function edit($id)
     {
-        $query = "UPDATE " . $this->tabla . " SET nombre = '" . $this->nombre . "', apellido = '" . $this->apellido . "', telefono = '" . $this->telefono . "', email = '" . $this->email . "', contraseña = '" . $this->contraseña . "', cedula = '" . $this->cedula . "' WHERE id_cliente = " . $id;
+        $query = "UPDATE " . $this->tabla . " SET nombre = :nombre, apellido = :apellido, telefono = :telefono, email = :email, contraseña = :contraseña, cedula = :cedula WHERE id_cliente = :id";
 
-        if ($this->conn->exec($query)) {
+        $stmt = $this->conn->prepare($query);
+
+        $stmt->bindParam(':nombre', $this->nombre);
+        $stmt->bindParam(':apellido', $this->apellido);
+        $stmt->bindParam(':telefono', $this->telefono);
+        $stmt->bindParam(':email', $this->email);
+        $stmt->bindParam(':contraseña', $this->contraseña);
+        $stmt->bindParam(':cedula', $this->cedula);
+        $stmt->bindParam(':id', $id);
+
+        if ($stmt->execute()) {
             return true;
         } else {
             return false;

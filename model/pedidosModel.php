@@ -37,14 +37,15 @@ class pedidos
     INNER JOIN 
         proveedores p ON u.id_proveedor = p.id_proveedor
     INNER JOIN 
-        usuarios s ON u.id_usuario = s.id_usuario;";
+        usuarios s ON u.id_usuario = s.id_usuario;
+        WHERE eliminado = 0";
 
         $result = $this->conn->query($query);
 
         if ($result) {
             return $result->fetchALL(PDO::FETCH_ASSOC);
         } else {
-            return false;
+            return false; 
         }
     }
     public function viewOne($id)
@@ -99,17 +100,16 @@ class pedidos
 
     public function delete($id)
     {
-        $query = "DELETE FROM " . $this->table . " WHERE id_pedido = :id";
+        $query = "UPDATE $this->table SET eliminado = 1 WHERE id_pedido = :id";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':id', $id);
-        
-        if ($stmt->execute()) {
+        $stmt->bindParam(":id", $id);
+
+        if ( $stmt->execute() ) {
             return true;
         } else {
             return false;
         }
     }
-
     public function edit($id)
     {
         $query = "UPDATE " . $this->table . " SET id_proveedor = :proveedor, fecha_pedido = :fecha_pedido, estado_pedido = :estado, id_usuario = :usuario, total_pedido = :total WHERE id_pedido = :id";

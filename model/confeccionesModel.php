@@ -46,11 +46,12 @@ INNER JOIN
     }
     public function viewOne($id)
     {
-        $query = "SELECT * FROM " . $this->table . " WHERE id_confeccion = " . $id;
-        $result = $this->conn->query($query);
+        $query = "SELECT * FROM " . $this->table . " WHERE id_confeccion = :id";
+        $stmmt = $this->conn->prepare($query);
+        $stmmt->bindParam(":id", $id);
 
-        if ($result) {
-            return $result->fetchAll(PDO::FETCH_ASSOC);
+        if ($stmmt->execute()) {
+            return $stmmt->fetch(PDO::FETCH_ASSOC);
         } else {
             return false;
         }
@@ -58,20 +59,31 @@ INNER JOIN
 
     public function create()
     {
-        $query = "INSERT INTO " . $this->table . " (id_patron, cantidad, tiempo_fabricacion, fecha_fabricacion, id_empleado) VALUES('" . $this->patron . "','" . $this->cantidad . "','" . $this->tiempoFabricacion . "','" .  $this->fechaFabricacion . "','" . $this->empleado . "');";
-
-        if ($this->conn->exec($query)) {
+        $query = "INSERT INTO " . $this->table . " (id_patron, cantidad, tiempo_fabricacion, fecha_fabricacion, id_empleado) VALUES (:patron, :cantidad, :tiempo_fabricacion, :fecha_fabricacion, :empleado)";
+    
+        $stmt = $this->conn->prepare($query);
+        
+        $stmt->bindParam(':patron', $this->patron);
+        $stmt->bindParam(':cantidad', $this->cantidad);
+        $stmt->bindParam(':tiempo_fabricacion', $this->tiempoFabricacion);
+        $stmt->bindParam(':fecha_fabricacion', $this->fechaFabricacion);
+        $stmt->bindParam(':empleado', $this->empleado);
+        
+        if ($stmt->execute()) {
             return true;
         } else {
             return false;
         }
     }
+    
 
     public function delete($id)
     {
-        $query = "DELETE FROM " . $this->table . " WHERE id_confeccion = " . $id;
+        $query = "UPDATE $this->table SET eliminado = 1 WHERE id_confeccion = :id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":id", $id);
 
-        if ($this->conn->exec($query)) {
+        if ( $stmt->execute() ) {
             return true;
         } else {
             return false;
@@ -80,14 +92,24 @@ INNER JOIN
 
     public function edit($id)
     {
-        $query = "UPDATE " . $this->table . " SET id_patron = '" . $this->patron . "', cantidad = '" . $this->cantidad . "',  tiempo_fabricacion = '" . $this->tiempoFabricacion . "', fecha_fabricacion = '" . $this->fechaFabricacion . "', id_empleado = '" . $this->empleado . "' WHERE id_usuario = " . $id;
-
-        if ($this->conn->exec($query)) {
+        $query = "UPDATE " . $this->table . " SET id_patron = :patron, cantidad = :cantidad, tiempo_fabricacion = :tiempo_fabricacion, fecha_fabricacion = :fecha_fabricacion, id_empleado = :empleado WHERE id_usuario = :id";
+    
+        $stmt = $this->conn->prepare($query);
+        
+        $stmt->bindParam(':patron', $this->patron);
+        $stmt->bindParam(':cantidad', $this->cantidad);
+        $stmt->bindParam(':tiempo_fabricacion', $this->tiempoFabricacion);
+        $stmt->bindParam(':fecha_fabricacion', $this->fechaFabricacion);
+        $stmt->bindParam(':empleado', $this->empleado);
+        $stmt->bindParam(':id', $id);
+        
+        if ($stmt->execute()) {
             return true;
         } else {
             return false;
         }
     }
+    
 
     public function setPatron($patron)
     {

@@ -28,29 +28,29 @@ class loginController
     }
 
     public function login()
-    {
+{
 
-        $this->loginModel->setGmail($_POST["gmail_usuario"]);
-        $this->loginModel->setContraseña($_POST["contraseña_usuario"]);
+    // Sanitiza y asigna los datos del formulario
+    $this->loginModel->setGmail(filter_input(INPUT_POST, 'gmail_usuario', FILTER_SANITIZE_EMAIL));
+    $this->loginModel->setContraseña(filter_input(INPUT_POST, 'contraseña_usuario', FILTER_SANITIZE_STRING));
 
-        $result = $this->loginModel->login();
+    $result = $this->loginModel->login();
 
-        if ($result) {
+    if ($result) {
+        $_SESSION["username"] = $result["nombre_usuario"];
+        $_SESSION["lastname"] = $result["apellido_usuario"];
+        $_SESSION["email"] = $result["gmail_usuario"];
+        $_SESSION["cedula"] = $result["cedula_usuario"];
+        $_SESSION["id_user"] = $result["id_usuario"];
+        $_SESSION["rol"] = $result["id_roles"];
+        $_SESSION["img"] = $result["img_usuario"];
 
-            $_SESSION["username"] = $result["nombre_usuario"];
-            $_SESSION["lastname"] = $result["apellido_usuario"];
-            $_SESSION["email"] = $result["gmail_usuario"];
-            $_SESSION["cedula"] = $result["cedula_usuario"];
-
-            $_SESSION["id_user"] = $result["id_usuario"];
-            $_SESSION["rol"] = $result["id_roles"];
-            $_SESSION["img"] = $result["img_usuario"];
-
-            header("location:index.php?page=dashboard");
-        } else {
-            echo "<script>alert('Error al obtener el nombre del usuario');</script>";
-        }
+        header("Location: index.php?page=dashboard");
+        exit(); // Detenemos la ejecución después de redirigir
+    } else {
+        echo "<script>alert('Credenciales incorrectas. Inténtalo de nuevo.');</script>";
     }
+}
 
     public function verCorreo()
     {

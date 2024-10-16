@@ -43,12 +43,13 @@ class patronMaterial
         INNER JOIN almacen n ON u.id_material = n.id_material
         INNER JOIN tipos_materiales t ON n.tipo_material = t.id_tipo_material
         INNER JOIN colores_materiales c ON n.color_material = c.id_color
-        WHERE u.id_patron = $idPatron";
+        WHERE u.id_patron = :id";
 
-        $result = $this->conn->query($query);
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":id", $idPatron);
 
-        if ($result) {
-            return $result->fetchAll(PDO::FETCH_ASSOC);
+        if ($stmt->execute()) {
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } else {
             return false;
         }

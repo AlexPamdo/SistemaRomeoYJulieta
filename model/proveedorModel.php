@@ -41,48 +41,73 @@ class Proveedores
     }
     public function viewOne($id)
     {
-        $query = "SELECT * FROM " . $this->table . " WHERE id_proveedor = " . $id;
-        $result = $this->conn->query($query);
-
-        if ($result) {
-            return $result->fetchAll(PDO::FETCH_ASSOC);
-        } else {
+        $query = "SELECT * FROM " . $this->table . " WHERE id_proveedor = :id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $id);
+        if($stmt->execute()){
+            $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }else{
             return false;
         }
+    
     }
+    
 
     public function create()
     {
-        $query = "INSERT INTO " . $this->table . " (nombre_proveedor,telefono_proveedor,gmail_proveedor,id_tipo_proveedor,notas_proveedor) VALUES('" . $this->nombre . "','" . $this->telefono . "','" . $this->gmail . "','" .  $this->tipo . "','" . $this->notas . "');";
-
-        if ($this->conn->exec($query)) {
+        $query = "INSERT INTO " . $this->table . " (nombre_proveedor, telefono_proveedor, gmail_proveedor, id_tipo_proveedor, notas_proveedor) VALUES (:nombre, :telefono, :gmail, :tipo, :notas)";
+    
+        $stmt = $this->conn->prepare($query);
+        
+        $stmt->bindParam(':nombre', $this->nombre);
+        $stmt->bindParam(':telefono', $this->telefono);
+        $stmt->bindParam(':gmail', $this->gmail);
+        $stmt->bindParam(':tipo', $this->tipo);
+        $stmt->bindParam(':notas', $this->notas);
+        
+        if($stmt->execute()){
             return true;
-        } else {
+        }else{
             return false;
         }
     }
-
-    public function delete($id)
-    {
-        $query = "DELETE FROM " . $this->table . " WHERE id_proveedor = " . $id;
-
-        if ($this->conn->exec($query)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+    
 
     public function edit($id)
     {
-        $query = "UPDATE " . $this->table . " SET nombre_proveedor = '" . $this->nombre . "', telefono_proveedor = '" . $this->telefono . "',  gmail_proveedor = '" . $this->gmail . "', id_tipo_proveedor = '" . $this->tipo .  "', notas_proveedor = '" . $this->notas . "' WHERE id_proveedor = " . $id;
+        $query = "UPDATE " . $this->table . " SET nombre_proveedor = :nombre, telefono_proveedor = :telefono, gmail_proveedor = :gmail, id_tipo_proveedor = :tipo, notas_proveedor = :notas WHERE id_proveedor = :id";
+    
+        $stmt = $this->conn->prepare($query);
+        
+        $stmt->bindParam(':nombre', $this->nombre);
+        $stmt->bindParam(':telefono', $this->telefono);
+        $stmt->bindParam(':gmail', $this->gmail);
+        $stmt->bindParam(':tipo', $this->tipo);
+        $stmt->bindParam(':notas', $this->notas);
+        $stmt->bindParam(':id', $id);
+        
+        if($stmt->execute()){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
 
-        if ($this->conn->exec($query)) {
+    public function delete($id)
+    {
+        $query = "UPDATE $this->table SET eliminado = 1 WHERE id_proveedor = :id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":id", $id);
+
+        if ( $stmt->execute() ) {
             return true;
         } else {
             return false;
         }
     }
+
+    
 
     public function setNombre($nombre)
     {

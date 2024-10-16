@@ -84,20 +84,14 @@ class patrones
 
     public function create()
     {
-        $query = "INSERT INTO " . $this->table . " (nombre_patron,costo_unitario) VALUES('" . $this->prenda . "','" . $this->costo . "');";
-
-        if ($this->conn->exec($query)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public function edit($id)
-    {
-        $query = "UPDATE " . $this->table - " SET nombre_patron = '" . $this->prenda . "',  id_material = '" . $this->material . "', cantidad_material = '" . $this->cantidad . "', costo_unitario = '" . $this->costo . "', WHERE id_patron = " . $id;
-
-        if ($this->conn->exec($query)) {
+        $query = "INSERT INTO " . $this->table . " (nombre_patron, costo_unitario) VALUES (:prenda, :costo)";
+    
+        $stmt = $this->conn->prepare($query);
+        
+        $stmt->bindParam(':prenda', $this->prenda);
+        $stmt->bindParam(':costo', $this->costo);
+        
+        if ($stmt->execute()) {
             return true;
         } else {
             return false;
@@ -105,11 +99,34 @@ class patrones
     }
     
 
+    public function edit($id)
+{
+    $query = "UPDATE " . $this->table . " SET nombre_patron = :prenda, id_material = :material, cantidad_material = :cantidad, costo_unitario = :costo WHERE id_patron = :id";
+
+    $stmt = $this->conn->prepare($query);
+    
+    $stmt->bindParam(':prenda', $this->prenda);
+    $stmt->bindParam(':material', $this->material);
+    $stmt->bindParam(':cantidad', $this->cantidad);
+    $stmt->bindParam(':costo', $this->costo);
+    $stmt->bindParam(':id', $id);
+    
+    if ($stmt->execute()) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+    
+
     public function delete($id)
     {
-        $query = "DELETE FROM " . $this->table . " WHERE id_patron = " . $id;
+        $query = "UPDATE $this->table SET eliminado = 1 WHERE id_patron = :id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":id", $id);
 
-        if ($this->conn->exec($query)) {
+        if ( $stmt->execute() ) {
             return true;
         } else {
             return false;

@@ -75,11 +75,11 @@ class Material
 
     public function delete($id)
     {
-        $query = "DELETE FROM " . $this->table . " WHERE id_material = :id";
+        $query = "UPDATE $this->table SET eliminado = 1 WHERE id_material = :id";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->bindParam(":id", $id);
 
-        if ($stmt->execute()) {
+        if ( $stmt->execute() ) {
             return true;
         } else {
             return false;

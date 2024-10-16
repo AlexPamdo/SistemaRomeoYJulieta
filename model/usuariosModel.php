@@ -98,11 +98,12 @@ class usuarios
      */
     public function viewOne($id)
     {
-        $query = "SELECT * FROM " . $this->table . " WHERE id_usuario = " . $id;
-        $result = $this->conn->query($query);
+        $query = "SELECT * FROM " . $this->table . " WHERE id_usuario = :id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":id", $id);
 
-        if ($result) {
-            return $result->fetch(PDO::FETCH_ASSOC);
+        if ( $stmt->execute() ) {
+            return $stmt->fetch(PDO::FETCH_ASSOC);
         } else {
             return false;
         }
@@ -116,11 +117,12 @@ class usuarios
      */
     public function searchEmail($email)
     {
-        $query = "SELECT * FROM " . $this->table . " WHERE gmail_usuario = '" . $email . "'";
-        $result = $this->conn->query($query);
+        $query = "SELECT * FROM " . $this->table . " WHERE gmail_usuario = :email";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":email", $email);
 
-        if ($result) {
-            return $result->fetch(PDO::FETCH_ASSOC);
+        if ($stmt->execute()) {
+            return $stmt->fetch(PDO::FETCH_ASSOC);
         } else {
             return false;
         }
@@ -133,14 +135,26 @@ class usuarios
      */
     public function create()
     {
-        $query = "INSERT INTO " . $this->table . " (nombre_usuario,apellido_usuario,gmail_usuario,contraseña_usuario,id_roles,pregunta,respuesta,img_usuario) VALUES('" . $this->nombre . "','" . $this->apellido . "','" .  $this->gmail . "','" . $this->password . "','" . $this->permisos . "','" . $this->pregunta . "','" . $this->res . "','" . $this->img . "');";
-
-        if ($this->conn->exec($query)) {
-            return true;
-        } else {
-            return false;
-        }
+        $query = "INSERT INTO " . $this->table . " (nombre_usuario, apellido_usuario, gmail_usuario, contraseña_usuario, id_roles, pregunta, respuesta, img_usuario) VALUES (:nombre, :apellido, :gmail, :contrasena, :roles, :pregunta, :respuesta, :img)";
+    
+        $stmt = $this->conn->prepare($query);
+        
+        $stmt->bindParam(':nombre', $this->nombre);
+        $stmt->bindParam(':apellido', $this->apellido);
+        $stmt->bindParam(':gmail', $this->gmail);
+        $stmt->bindParam(':contrasena', $this->password);
+        $stmt->bindParam(':roles', $this->permisos);
+        $stmt->bindParam(':pregunta', $this->pregunta);
+        $stmt->bindParam(':respuesta', $this->res);
+        $stmt->bindParam(':img', $this->img);
+        
+       if($stmt->execute()){
+        return true;
+       }else{
+        return false;
+       }
     }
+    
 
     /**
      * Elimina (lógicamente) un usuario específico por su ID.
@@ -189,15 +203,21 @@ class usuarios
      * @return bool True si el usuario se actualizó exitosamente, false en caso contrario.
      */
     public function edit($id)
-    {
-        $query = "UPDATE " . $this->table . " SET nombre_usuario = '" . $this->nombre . "', apellido_usuario = '" . $this->apellido . "', gmail_usuario = '" . $this->gmail . "', contraseña_usuario = '" . $this->password . "', id_roles = '" . $this->permisos . "' WHERE id_usuario = " . $id;
+{
+    $query = "UPDATE " . $this->table . " SET nombre_usuario = :nombre, apellido_usuario = :apellido, gmail_usuario = :gmail, contraseña_usuario = :contrasena, id_roles = :roles WHERE id_usuario = :id";
 
-        if ($this->conn->exec($query)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+    $stmt = $this->conn->prepare($query);
+    
+    $stmt->bindParam(':nombre', $this->nombre);
+    $stmt->bindParam(':apellido', $this->apellido);
+    $stmt->bindParam(':gmail', $this->gmail);
+    $stmt->bindParam(':contrasena', $this->password);
+    $stmt->bindParam(':roles', $this->permisos);
+    $stmt->bindParam(':id', $id);
+    
+    return $stmt->execute();
+}
+
 
     /**
      * Actualiza la contraseña de un usuario específico por su ID.
@@ -206,15 +226,17 @@ class usuarios
      * @return bool True si la contraseña se actualizó exitosamente, false en caso contrario.
      */
     public function updatePassword($id)
-    {
-        $sql = "UPDATE " . $this->table . " SET contraseña_usuario = '" . $this->password . "' WHERE id_usuario = " . $id;
+{
+    $sql = "UPDATE " . $this->table . " SET contraseña_usuario = :contraseña WHERE id_usuario = :id";
 
-        if ($this->conn->exec($sql)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+    $stmt = $this->conn->prepare($sql);
+    
+    $stmt->bindParam(':contraseña', $this->password);
+    $stmt->bindParam(':id', $id);
+    
+    return $stmt->execute();
+}
+
 
     /**
      * Establece el nombre del usuario.

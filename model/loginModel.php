@@ -6,7 +6,7 @@ class login
 {
 
     private $gmail;
-    private $contraseña;
+    private $contrasena;
     private $tabla = "usuarios";
 
     private $conn;
@@ -17,21 +17,33 @@ class login
         $this->conn = $database->getConnection();
     }
 
-
     public function login()
     {
-        $sql = "SELECT * FROM " . $this->tabla .  " WHERE gmail_usuario= '" . $this->gmail . "' and contraseña_usuario= '" . $this->contraseña . "';";
-
-        $result = $this->conn->query($sql);
-
-        if ($result) {
-            // Usuario autenticado correctamente
-            return $result->fetch(PDO::FETCH_ASSOC);
-        } else {
-            // No se encontró ningún usuario con las credenciales proporcionadas
-            return false;
+        try {
+            $sql = "SELECT * FROM " . $this->tabla . " WHERE gmail_usuario = :gmail AND contraseña_usuario = :contrasena";
+    
+            $stmt = $this->conn->prepare($sql);
+    
+            $stmt->bindParam(':gmail', $this->gmail);
+            // Cambiar ':contraseña' por ':contrasena' para que coincidan
+            $stmt->bindParam(':contrasena', $this->contrasena);
+    
+            if ($stmt->execute()) {
+                if ($stmt->rowCount() > 0) {
+                    // Usuario autenticado correctamente
+                    return $stmt->fetch(PDO::FETCH_ASSOC);
+                } else {
+                    // No se encontró ningún usuario con las credenciales proporcionadas
+                    return false;
+                }
+            } else {
+                throw new Exception('Error al Verificar el correo' . $this->gmail . " " . $this->contrasena);
+            }
+        } catch (PDOException $e) {
+            echo "Error" . $e->getMessage();
         }
     }
+    
 
 
 
@@ -42,6 +54,6 @@ class login
     }
     public function setContraseña($contraseña)
     {
-        $this->contraseña = $contraseña;
+        $this->contrasena = $contraseña;
     }
 }
