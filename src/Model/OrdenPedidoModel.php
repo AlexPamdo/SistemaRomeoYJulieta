@@ -2,42 +2,26 @@
 
 namespace src\Model;
 
-use src\Config\Connection;
 use PDO;
 
-class OrdenPedidoModel
+class OrdenPedidoModel extends ModeloBase
 {
 
-    private $pedido;
-    private $material;
-    private $cantidad;
-
-    private $conn;
+    protected $data = [];
     private $table = "orden_pedido";
 
-    public function __construct()
+    public function setData($pedido, $material, $cantidad)
     {
-        $database = new connection;
-        $this->conn = $database->getConnection();
+        $data = [
+            'pedido' => $pedido,
+            'material' => $material,
+            'cantidad' => $cantidad,
+        ];
     }
 
-    public function setAtributes($pedido, $material, $cantiadad)
+    public function viewMaterials($value = "", $column = "")
     {
-        $this->pedido = $pedido;
-        $this->material = $material;
-        $this->cantidad = $cantiadad;
-    }
-
-
-    /**
-     * Busca materiales por id del patron.
-     *
-     * @param string $busqueda El término de búsqueda para filtrar los usuarios.
-     * @return array|false Un array asociativo con los datos de los usuarios y sus roles que coinciden con la búsqueda, false en caso contrario.
-     */
-    public function viewMaterials($idPedido)
-    {
-        $query = "SELECT 
+        $sql = "SELECT 
         u.*, 
         n.nombre_material AS material,
         t.tipo_material AS tipo,
@@ -46,46 +30,38 @@ class OrdenPedidoModel
         FROM " . $this->table . " u
         INNER JOIN almacen n ON u.id_material = n.id_material
         INNER JOIN tipos_materiales t ON n.tipo_material = t.id_tipo_material
-        INNER JOIN colores c ON n.color_material = c.id_color
-        WHERE id_pedido = :id";
+        INNER JOIN colores c ON n.color_material = c.id_color";
 
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":id", $idPedido);
-
-        if ($stmt->execute()) {
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } else {
-            return false;
+        // Agregar condición si se proporciona un valor y columna
+        if ($value !== "" && $column !== "") {
+            // Asegurarse de que la columna sea válida (esto es importante para prevenir SQL Injection)
+            $sql .= " WHERE $column = :value";
         }
-    }
 
-    public function getDatosPatron($idPatron)
-    {
-        // Sanitizar el input para prevenir inyecciones SQL
-        $idPatron = intval($idPatron);
-        $query = "SELECT * FROM " . $this->table . " WHERE id_patron = :idPatron ";
+        // Preparar la consulta
+        $stmt = $this->prepare($sql);
 
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam('idPedido',$idPatron);
-
-        if ($stmt->execute()) {
-            $data = $stmt->fetch(PDO::FETCH_ASSOC);
-            return $data ?: null; // Devolver null si no se encuentra ningún registro
-        } else {
-            return null; // Manejar el caso cuando la consulta falla
+        // Bindea el parámetro solo si se proporciona un valor
+        if ($value !== "") {
+            $stmt->bindParam(":value", $value);
         }
-    }
 
+        // Ejecutar la consulta
+        $stmt->execute();
+
+        // Retornar los resultados
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
 
     public function create()
     {
         $query = "INSERT INTO " . $this->table . " (id_pedido, id_material, cantidad_material) VALUES (:pedido, :material, :cantidad)";
-        $stmt = $this->conn->prepare($query);
+        $stmt = $this->prepare($query);
 
-        $stmt->bindParam(':pedido', $this->pedido);
-        $stmt->bindParam(':material', $this->material);
-        $stmt->bindParam(':cantidad', $this->cantidad);
+        foreach($this->data as $param => $value){
+            $stmt->bindParam(":$param", $value);
+        }
 
         if ($stmt->execute()) {
             return true;
@@ -94,13 +70,5 @@ class OrdenPedidoModel
         }
     }
 
-    public function getMaterial()
-    {
-        return $this->material;
-    }
-
-    public function getCantidad()
-    {
-        return $this->cantidad;
-    }
+  public function edit($id){}
 }

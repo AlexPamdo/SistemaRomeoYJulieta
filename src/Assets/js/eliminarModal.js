@@ -49,7 +49,7 @@ $(".editar").click(function () {
   $("apellidoUser").text(apellido);
   $("gmail_usuario").text(email);
   $("password_create").text(password);
-  (existe alguna manera para ponerle la propiedad "select" al option segun el rol que se tomo?)
+
 
 
 });

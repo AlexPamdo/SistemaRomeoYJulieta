@@ -74,11 +74,8 @@ class AlmacenModel extends ModeloBase
         }
 
         // Ejecuta la consulta
-        if ($stmt->execute()) {
-            return true;
-        } else {
-            return false;
-        }
+        return $stmt->execute();
+   
     }
 
     public function softDelete($id)

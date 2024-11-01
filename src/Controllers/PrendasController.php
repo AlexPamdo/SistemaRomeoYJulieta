@@ -21,8 +21,8 @@ class PrendasController implements CrudController
 
     public function show()
     {
-        $prendaDesabilitadosData = $this->model->viewAll(true);
-        $prendaData = $this->model->viewAll(false);
+        $prendaDesabilitadosData = $this->model->viewAll(1,"eliminado");
+        $prendaData = $this->model->viewAll(0,"eliminado");
         require_once("src/Views/Prendas.php");
     }
 

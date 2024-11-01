@@ -19,12 +19,12 @@
                                      <?php
                                         //incluimos el controlador para acceder a la funcion ver todo
 
-use src\Model\AlmacenModel;
-use src\Model\ProveedoresModel;
+                                        use src\Model\AlmacenModel;
+                                        use src\Model\ProveedoresModel;
 
-                                    
+
                                         $proveedores = new ProveedoresModel();
-                                        $proveedoresData = $proveedores->viewAll(false);
+                                        $proveedoresData = $proveedores->viewProveedores(0,"eliminado");
                                         foreach ($proveedoresData as $proveedor) : ?>
 
                                          <!-- usamos el foreach para mostrar todos los proveedores disponibles -->
@@ -37,7 +37,7 @@ use src\Model\ProveedoresModel;
                              </div>
 
 
-                            
+
                          </div>
 
                          <div class="col-md-6">
@@ -71,9 +71,9 @@ use src\Model\ProveedoresModel;
                                                          <option value="none">Ninguno</option>
                                                          <?php
                                                             // Incluimos el controlador para acceder a los materiales disponibles
-                                                            
+
                                                             $materiales = new AlmacenModel();
-                                                            $materialesData = $materiales->viewAll(false);
+                                                            $materialesData = $materiales->viewAll(0,"eliminado");
                                                             foreach ($materialesData as $material) : ?>
                                                              <option value="<?php echo $material['id_material'] ?>">
                                                                  <?php echo $material['nombre_material'] ?>
@@ -85,7 +85,7 @@ use src\Model\ProveedoresModel;
                                                  </div>
                                              </td>
                                              <td><input type="number" class="form-control" name="material[0][cantidad]"
-                                                     id="cantidadMaterial" placeholder="Cantidad de materiales" >
+                                                     id="cantidadMaterial" placeholder="Cantidad de materiales">
                                                  <div class="invalid-feedback">Por favor, introduce la cantidad.</div>
                                              </td>
                                              <td><button class="btn btn-danger btn-sm"><i

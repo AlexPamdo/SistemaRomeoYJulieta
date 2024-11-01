@@ -18,8 +18,8 @@ class ProveedoresController implements CrudController
 
     public function show()
     {
-        $proveedoresDesabilitados = $this->model->viewAll(true);
-        $proveedoresData = $this->model->viewAll(false);
+        $proveedoresDesabilitados = $this->model->viewProveedores(1,"eliminado");
+        $proveedoresData = $this->model->viewProveedores(1,"eliminado");
         require_once("src/Views/Proveedores.php");
     }
     public function create()
