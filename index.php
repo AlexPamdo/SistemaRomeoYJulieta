@@ -1,51 +1,56 @@
 <?php
 
-//Iniciar una session solo si no hay una ya iniciada
-session_start();
+require_once __DIR__ . '/vendor/autoload.php';
 
+// Iniciar una sesión solo si no hay una ya iniciada
+session_start();
 
 ob_start();
 
-//funcion la cual nos ayudara a incluir los controladores
-//Dependiendo que pagina se encuentre activa
+// Función para incluir los controladores
 function includeController($controller)
 {
-    require_once "controllers/$controller.php";
+    require_once "src/Controllers/$controller.php"; // Aquí solo se pasa el nombre del controlador
 }
 
-//obtenemos la informacion de la pagina a navegar mediante un get
-$page = $_GET["page"] ?? "login"; //establecemos la pagina determinada como '/' si no se proporciona nada
-$function = $_GET["function"] ?? "show"; //Establecemos la funcion determinada como show si no se proporciona nada
-$controller = $page . "Controller"; //Añadimos la cadena "Controller" para invocar las funciones
+// Obtener la información de la página a navegar mediante un GET
+$page = filter_input(INPUT_GET, 'page', FILTER_SANITIZE_STRING) ?? "login";
+$function = filter_input(INPUT_GET, 'function', FILTER_SANITIZE_STRING) ?? "show";
+$controller = ucfirst($page) . "Controller"; // Solo el nombre del controlador
 
+$controllerPath = "src/Controllers/$controller.php"; // Ruta correcta del controlador
 
-$controllerPath = "controllers/$controller.php";
-
-//if para verificar si el controlador existe
+// Verificar si el controlador existe
 if (file_exists($controllerPath)) {
-
-    //incluimos el controlador selecionado con la funcion hecha previamente
     includeController($controller);
 
-    //si la seccion no esta iniciada redirigimos al login (el unico al que no le afecta es al login)
+    // Si la sesión no está iniciada, redirigir al login
     if (!isset($_SESSION['username']) && $page != "login") {
         header('Location: index.php?page=login');
         exit;
     }
 
-    $instance = new $controller(); //Creamos una instancia del controlador dado
+    if (class_exists("src\\Controllers\\" . $controller)) { // Asegúrate de usar el namespace correcto al verificar la clase
+        $instance = new ("src\\Controllers\\" . $controller)(); // Crear una instancia del controlador
 
-    //preguntamos si existe la funcion dada
-    if (method_exists($instance, $function)) {
-        $instance->$function(); //Activamos la funcion dada
+        // Preguntar si existe la función dada
+        if (method_exists($instance, $function)) {
+            $instance->$function(); // Activar la función dada
+        } else {
+            http_response_code(404);
+            echo 'Método no encontrado en el controlador.';
+        }
     } else {
         http_response_code(404);
-        echo 'Método no encontrado en el controlador.';
+        echo 'Clase del controlador no encontrada.';
     }
 } else {
     http_response_code(404);
     echo 'Controlador no encontrado';
 }
 
+
 ob_end_flush();
+
+
 ?>

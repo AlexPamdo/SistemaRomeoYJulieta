@@ -1,0 +1,3 @@
+function iniciarTour() {
+    introJs().start();
+  }

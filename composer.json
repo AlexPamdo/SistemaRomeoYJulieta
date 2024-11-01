@@ -1,0 +1,13 @@
+{
+    "name": "hp/sistema-romeo-yjulieta",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "src\\": "src/",
+            "Interfaces\\": "src/Interfaces/"
+        }
+    },
+    "require": {
+        "php": "^7.4 || ^8.0"
+    }
+}
