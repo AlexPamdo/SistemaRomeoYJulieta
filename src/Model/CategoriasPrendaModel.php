@@ -6,7 +6,7 @@ use PDO;
 
 class CategoriasPrendaModel extends ModeloBase{
 
-    private $table = "categorias_prenda";
+    protected $tabla = "categorias_prenda";
   
     public function viewCategorias($value = "",$condition = ""){
        $this->viewAll($value,$condition);

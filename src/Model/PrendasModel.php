@@ -11,7 +11,7 @@ class PrendasModel extends ModeloBase
 
 
     protected $data = [];
-    private $table = "prendas";
+    protected $tabla = "prendas";
 
 
     public function viewPrendas($value = "", $column = "")
@@ -24,8 +24,7 @@ class PrendasModel extends ModeloBase
         l.coleccion AS id_coleccion,
         t.cm AS id_talla,
         g.genero AS id_genero
-    FROM 
-        " . $this->table . " u
+    FROM {$this->tabla} u
     INNER JOIN 
         categorias_prenda p ON u.id_categoria = p.id_categoria
     INNER JOIN 
@@ -75,7 +74,7 @@ class PrendasModel extends ModeloBase
 
     public function create()
     {
-        $query = "INSERT INTO " . $this->table . " (img_prenda, nombre_prenda, patron_prenda, id_categoria, id_color, stock, id_coleccion, id_talla, id_genero, precio_unitario) VALUES (:img, :nombre, :patron, :categoria, :color, :stock, :coleccion, :talla, :genero, :precio)";
+        $query = "INSERT INTO {$this->tabla} (img_prenda, nombre_prenda, patron_prenda, id_categoria, id_color, stock, id_coleccion, id_talla, id_genero, precio_unitario) VALUES (:img, :nombre, :patron, :categoria, :color, :stock, :coleccion, :talla, :genero, :precio)";
 
         $stmt = $this->prepare($query);
 
@@ -91,7 +90,7 @@ class PrendasModel extends ModeloBase
 
     public function edit($id)
     {
-        $query = "UPDATE " . $this->table . " SET nombre_prenda = :nombre, id_categoria = :categoria, id_color = :color, stock = :stock, id_coleccion = :coleccion, id_talla = :talla, id_genero = :genero, precio_unitario = :precio WHERE id_prenda = :id";
+        $query = "UPDATE {$this->tabla} SET nombre_prenda = :nombre, id_categoria = :categoria, id_color = :color, stock = :stock, id_coleccion = :coleccion, id_talla = :talla, id_genero = :genero, precio_unitario = :precio WHERE id_prenda = :id";
 
         $stmt = $this->prepare($query);
 

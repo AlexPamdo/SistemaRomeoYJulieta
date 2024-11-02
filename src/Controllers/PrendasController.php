@@ -19,10 +19,12 @@ class PrendasController implements CrudController
         ->patronesModel = new PatronesModel();
     }
 
+    public function create(){}
+
     public function show()
     {
-        $prendaDesabilitadosData = $this->model->viewAll(1,"eliminado");
-        $prendaData = $this->model->viewAll(0,"eliminado");
+        $prendaDesabilitadosData = $this->model->viewPrendas(1,"eliminado");
+        $prendaData = $this->model->viewPrendas(0,"eliminado");
         require_once("src/Views/Prendas.php");
     }
 
@@ -62,14 +64,19 @@ class PrendasController implements CrudController
 
     public function edit()
     {
-        $this->model->setNombre($_POST["nombre_edit"]);
-        $this->model->setcategoria($_POST["categoria_edit"]);
-        $this->model->settalla($_POST["talla_edit"]);
-        $this->model->setcoleccion($_POST["coleccion_edit"]);
-        $this->model->setcolor($_POST["color_edit"]);
-        $this->model->setcant($_POST["cant_edit"]);
-        $this->model->setgenero($_POST["genero_edit"]);
-        $this->model->setprecio($_POST["precio_edit"]);
+    
+        $this->model->setData(
+            "si",
+            $_POST["nombre_edit"],
+            $_POST["id"],
+            $_POST["categoria_edit"],
+            $_POST["talla_edit"],
+            $_POST["coleccion_edit"],
+            $_POST["color_edit"],
+            $_POST["cant_edit"],
+            $_POST["genero_edit"],
+            $_POST["precio_edit"]
+        );
 
 
         if ($this->model->edit($_POST["id"])) {

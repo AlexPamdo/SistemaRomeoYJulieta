@@ -8,7 +8,7 @@ use PDO;
 class PatronMaterialModel extends ModeloBase
 {
     protected $data = [];
-    private $table = "patron_material";
+    protected $tabla = "patron_material";
 
     public function setData($patron,$material,$cantiad){
         $this->data = [
@@ -27,7 +27,7 @@ class PatronMaterialModel extends ModeloBase
         t.tipo_material AS tipo,
         c.color AS color,
         n.stock AS cantidad_Stock
-        FROM " . $this->table . " u
+        FROM {$this->tabla} u
         INNER JOIN almacen n ON u.id_material = n.id_material
         INNER JOIN tipos_materiales t ON n.tipo_material = t.id_tipo_material
         INNER JOIN colores c ON n.color_material = c.id_color
@@ -45,7 +45,7 @@ class PatronMaterialModel extends ModeloBase
 
     public function create()
     {
-        $query = "INSERT INTO " . $this->table . " (id_patron, id_material, cantidad) VALUES (:patron, :material, :cantidad)";
+        $query = "INSERT INTO {$this->tabla} (id_patron, id_material, cantidad) VALUES (:patron, :material, :cantidad)";
         $stmt = $this->prepare($query);
 
         foreach($this->data as $param => $value){
@@ -56,7 +56,7 @@ class PatronMaterialModel extends ModeloBase
     }
 
     public function delete($id){
-        $query = "DELETE FROM $this->table WHERE id_patron = :id";
+        $query = "DELETE FROM {$this->tabla} WHERE id_patron = :id";
         $stmt = $this->prepare($query);
 
         $stmt->bindParam(':id', $id);

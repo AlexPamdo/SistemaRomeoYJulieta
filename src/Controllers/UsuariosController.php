@@ -18,8 +18,9 @@ class UsuariosController implements CrudController
 
     public function show()
     {
-        $usuariosData = $this->usuariosModel->showUsers("");
+   
         $usuariosDesabilitadosData = $this->usuariosModel->showUsers(1,"eliminado");
+        $usuariosData = $this->usuariosModel->showUsers(0,"eliminado");
 
         include_once("src/Views/Usuarios.php");
     }

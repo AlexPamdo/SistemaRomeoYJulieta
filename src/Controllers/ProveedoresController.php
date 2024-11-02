@@ -36,11 +36,13 @@ class ProveedoresController implements CrudController
             }
 
             // Asignar valores a través del modelo
-            $this->model->setNombre(trim($_POST["nombre_proveedor"]));
-            $this->model->setRif(ucfirst(trim($_POST["rif_proveedor"])));
-            $this->model->setTelefono(trim($_POST["telefono_proveedor"]));
-            $this->model->setGmail(trim($_POST["gmail_proveedor"]));
-            $this->model->setNotas(trim($_POST["notas_proveedor"])); // Nota: Notas puede ser opcional
+            $this->model->setData(
+                $_POST["nombre_proveedor"],
+                $_POST["rif_proveedor"],
+                $_POST["telefono_proveedor"],
+                $_POST["gmail_proveedor"],
+                $_POST["notas_proveedor"],
+            );
 
             // Intentar crear el proveedor
             if ($this->model->create()) {
@@ -67,7 +69,7 @@ class ProveedoresController implements CrudController
 
     public function delete()
     {
-        if ($this->model->delete($_POST["id"])) {
+        if ($this->model->softDelete($_POST["id"])) {
             header("Location: index.php?page=proveedores&succes=delete");
         } else {
             header("Location: index.php?page=proveedores&error=delete");
@@ -86,11 +88,13 @@ class ProveedoresController implements CrudController
     }
     public function edit()
     {
-        $this->model->setNombre($_POST["nombre_proveedor_edit"]);
-        $this->model->setRif(ucfirst($_POST["rif_proveedor_edit"]));
-        $this->model->setTelefono($_POST["telefono_proveedor_edit"]);
-        $this->model->setGmail($_POST["gmail_proveedor_edit"]);
-        $this->model->setNotas($_POST["notas_proveedor_edit"]);
+        $this->model->setData(
+            $_POST["nombre_proveedor"],
+            $_POST["rif_proveedor"],
+            $_POST["telefono_proveedor"],
+            $_POST["gmail_proveedor"],
+            $_POST["notas_proveedor"],
+        );
 
         if ($this->model->edit($_POST["id"])) {
             header("Location: index.php?page=proveedores&succes=edit");

@@ -7,7 +7,7 @@ use PDO;
 
 class TallasModel extends ModeloBase{
 
-    private $table = "tallas";
+    protected $tabla = "tallas";
  
     public function viewCategorias($value = "",$condition = ""){
         $this->viewAll($value,$condition);

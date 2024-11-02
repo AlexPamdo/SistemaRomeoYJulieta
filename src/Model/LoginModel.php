@@ -1,67 +1,44 @@
 <?php
 
-
-
 namespace src\Model;
 
-use src\Config\Connection;
-
 use PDO;
-use PDOException;
-use Exception;
 
-class LoginModel
+class LoginModel extends ModeloBase
 {
 
-    private $gmail;
-    private $contrasena;
-    private $tabla = "usuarios";
+    protected $tabla = "usuarios";
+    protected $data = [];
 
-    private $conn;
-
-    public function __construct()
+    public function setData($gmail, $contrasena)
     {
-        $database = new Connection();
-        $this->conn = $database->getConnection();
+        $this->data = [
+            "gmail" => $gmail,
+            "contrasena" => $contrasena,
+        ];
     }
 
     public function login()
     {
-        try {
-            $sql = "SELECT * FROM " . $this->tabla . " WHERE gmail_usuario = :gmail AND contraseña_usuario = :contrasena";
-    
-            $stmt = $this->conn->prepare($sql);
-    
-            $stmt->bindParam(':gmail', $this->gmail);
-            // Cambiar ':contraseña' por ':contrasena' para que coincidan
-            $stmt->bindParam(':contrasena', $this->contrasena);
-    
-            if ($stmt->execute()) {
-                if ($stmt->rowCount() > 0) {
-                    // Usuario autenticado correctamente
-                    return $stmt->fetch(PDO::FETCH_ASSOC);
-                } else {
-                    // No se encontró ningún usuario con las credenciales proporcionadas
-                    return false;
-                }
+        $sql = "SELECT * FROM {$this->tabla} WHERE gmail_usuario = :gmail AND contraseña_usuario = :contrasena";
+        $stmt = $this->prepare($sql);
+
+        $stmt->bindParam(':gmail', $this->data["gmail"]);
+        $stmt->bindParam(':contrasena', $this->data["contrasena"]);
+
+        if ($stmt->execute()) {
+            if ($stmt->rowCount() > 0) {
+                // Usuario autenticado correctamente
+                return $stmt->fetch(PDO::FETCH_ASSOC);
             } else {
-                throw new Exception('Error al Verificar el correo' . $this->gmail . " " . $this->contrasena);
+                // No se encontró ningún usuario con las credenciales proporcionadas
+                return false;
             }
-        } catch (PDOException $e) {
-            echo "Error" . $e->getMessage();
+        } else {
+            return false;
         }
     }
-    
 
-
-
-
-    public function setGmail($gmail)
-    {
-        $this->gmail = $gmail;
-    }
-    public function setContraseña($contraseña)
-    {
-        $this->contrasena = $contraseña;
-    }
+    public function create(){}
+    public function edit($id){}
 }

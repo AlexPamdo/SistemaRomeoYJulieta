@@ -9,7 +9,7 @@ class PatronesModel extends ModeloBase
     //atributos
 
     protected $data = [];
-    protected $table = "patrones";
+    protected $tabla = "patrones";
 
 
     public function viewPatrones($value = "", $column = "")
@@ -17,14 +17,14 @@ class PatronesModel extends ModeloBase
         $sql = "SELECT 
         u.*,
         i.img_prenda AS img
-        FROM " .  $this->table . " u
+        FROM {$this->tabla} u
         INNER JOIN prendas i ON u.id_patron = i.id_prenda
         ";
 
         // Agregar condición si se proporciona un valor y columna
         if ($value !== "" && $column !== "") {
             // Asegurarse de que la columna sea válida (esto es importante para prevenir SQL Injection)
-            $sql .= " WHERE $column = :value";
+            $sql .= " WHERE u.$column = :value";
         }
 
         // Preparar la consulta
@@ -63,7 +63,7 @@ class PatronesModel extends ModeloBase
 
     public function edit($id)
     {
-        $query = "UPDATE " . $this->table . " SET nombre_patron = :n_patron WHERE id_patron = :id";
+        $query = "UPDATE {$this->tabla} SET nombre_patron = :n_patron WHERE id_patron = :id";
 
         $stmt = $this->prepare($query);
 

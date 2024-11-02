@@ -1,217 +1,101 @@
 <?php
+
 namespace src\Model;
 
 use src\Config\Connection;
 use PDO;
 
-class EmpleadosModel
+class EmpleadosModel extends ModeloBase
 {
-    private $id;
+    protected $data = [];
+    protected $tabla = "empleados";
 
-    private $nombre;
-    private $apellido;
-    private $telefono;
-    private $email;
-    private $ocupacion;
-
-    private $cedula;
-
-    private $conn;
-    private $table = "empleados";
-
-
-
-    public function __construct()
+    public function setData($nombre, $apellido, $telefono, $email, $ocupacion, $cedula)
     {
-        $database = new connection;
-        $this->conn = $database->getConnection();
+        $this->data = [
+            "nombre" => $nombre,
+            "apellido" => $apellido,
+            "telefono" => $telefono,
+            "email" => $email,
+            "ocupacion" => $ocupacion,
+            "cedula" => $cedula,
+        ];
     }
 
-    public function viewAll($delete)
+
+    public function viewEmpleados($value = "", $column = "")
     {
 
-        // Validar que $delete sea un booleano
-        if (!is_bool($delete)) {
-            return false; // O manejar el error de manera adecuada
-        }
-
-        $query = $query = "SELECT u.*, r.ocupacion AS id_ocupacion
+        $sql = "SELECT u.*, r.ocupacion AS id_ocupacion
         FROM empleados u 
-        INNER JOIN ocupaciones r ON u.id_ocupacion = r.id_ocupacion
-        WHERE eliminado = :delete";
-       // Preparar la declaración
-       $stmt = $this->conn->prepare($query);
+        INNER JOIN ocupaciones r ON u.id_ocupacion = r.id_ocupacion";
+        // Preparar la declaración
+        $stmt = $this->prepare($sql);
 
-       // Asignar el valor booleano de $delete a un parámetro
-       $stmt->bindValue(':delete', $delete, PDO::PARAM_BOOL);
-
-       // Ejecutar la declaración
-       if ($stmt->execute()) {
-           return $stmt->fetchAll(PDO::FETCH_ASSOC);
-       } else {
-           return false;
-       }
-    }
-    public function viewOne($id)
-    {
-        $query = "SELECT * FROM " . $this->table . " WHERE id_empleado = :id";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":id", $id);
-
-        if ( $stmt->execute() ) {
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } else {
-            return false;
+        // Agregar condición si se proporciona un valor y columna
+        if ($value !== "" && $column !== "") {
+            // Asegurarse de que la columna sea válida (esto es importante para prevenir SQL Injection)
+            $sql .= " WHERE $column = :value";
         }
-    }
 
-    public function totalCount()
-    {
-        $query = "SELECT COUNT(*) as total FROM " . $this->table;
-        $result = $this->conn->query($query);
+        // Preparar la consulta
+        $stmt = $this->prepare($sql);
 
-        if ($result) {
-            $row = $result->fetchAll(PDO::FETCH_ASSOC);
-            return $row[0]['total'];
-        } else {
-            return false;
+        // Bindea el parámetro solo si se proporciona un valor
+        if ($value !== "") {
+            $stmt->bindParam(":value", $value);
         }
+
+        // Ejecutar la consulta
+        $stmt->execute();
+
+        // Retornar los resultados
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function create()
     {
-        $query = "INSERT INTO " . $this->table . " (nombre_empleado, apellido_empleado, telefono_empleado, email_empleado, id_ocupacion, cedula_empleado) VALUES (:nombre, :apellido, :telefono, :email, :ocupacion, :cedula)";
-    
-        $stmt = $this->conn->prepare($query);
-        
-        $stmt->bindParam(':nombre', $this->nombre);
-        $stmt->bindParam(':apellido', $this->apellido);
-        $stmt->bindParam(':telefono', $this->telefono);
-        $stmt->bindParam(':email', $this->email);
-        $stmt->bindParam(':ocupacion', $this->ocupacion);
-        $stmt->bindParam(':cedula', $this->cedula);
-        
-        if ($stmt->execute()) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-    
+        $query = "INSERT INTO {$this->tabla} (nombre_empleado, apellido_empleado, telefono_empleado, email_empleado, id_ocupacion, cedula_empleado) VALUES (:nombre, :apellido, :telefono, :email, :ocupacion, :cedula)";
 
-    
+        $stmt = $this->prepare($query);
+
+        // Bindea los parámetros usando los datos del array $data
+        foreach ($this->data as $param => $value) {
+            $stmt->bindParam(":$param", $value);
+        }
+
+        // Ejecuta la consulta
+        return $stmt->execute();
+    }
+
+
+
     public function edit($id)
     {
-        $query = "UPDATE " . $this->table . " SET nombre_empleado = :nombre, apellido_empleado = :apellido, telefono_empleado = :telefono, email_empleado = :email, id_ocupacion = :ocupacion, cedula_empleado = :cedula WHERE id_empleado = :id";
-    
-        $stmt = $this->conn->prepare($query);
-        
-        $stmt->bindParam(':nombre', $this->nombre);
-        $stmt->bindParam(':apellido', $this->apellido);
-        $stmt->bindParam(':telefono', $this->telefono);
-        $stmt->bindParam(':email', $this->email);
-        $stmt->bindParam(':ocupacion', $this->ocupacion);
-        $stmt->bindParam(':cedula', $this->cedula);
-        $stmt->bindParam(':id', $id);
-        
-        if ($stmt->execute()) {
-            return true;
-        } else {
-            return false;
+        $query = "UPDATE {$this->tabla} SET nombre_empleado = :nombre, apellido_empleado = :apellido, telefono_empleado = :telefono, email_empleado = :email, id_ocupacion = :ocupacion, cedula_empleado = :cedula WHERE id_empleado = :id";
+
+        $stmt = $this->prepare($query);
+
+        // Bindea los parámetros usando los datos del array $data
+        foreach ($this->data as $param => $value) {
+            $stmt->bindParam(":$param", $value);
         }
+
+        // Ejecuta la consulta
+        return $stmt->execute();
     }
-    
-    public function delete($id)
+
+    public function softDelete($id)
     {
-        $query = "UPDATE $this->table SET eliminado = 1 WHERE id_empleado = :id";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":id", $id);
-
-        if ( $stmt->execute() ) {
-            return true;
-        } else {
-            return false;
-        }
+        return $this->toggleStatus(1, "id_empleado", $id);
     }
-    public function remove($id){
-        $query = "DELETE FROM " . $this->table . " WHERE id_empleado = :id";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":id",$id);
-
-        if($stmt->execute()){
-            return true;
-        }else{
-            return false;
-        }
+    public function remove($id)
+    {
+       return $this->hardDelete("id_empleado", $id);
     }
 
     public function active($id)
     {
-        // Validar que $id sea un número entero
-        if (!filter_var($id, FILTER_VALIDATE_INT)) {
-            return false; // O manejar el error de manera adecuada
-        }
-    
-        $query = "UPDATE $this->table SET eliminado = 0 WHERE id_empleado = :id";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-    
-        if ($stmt->execute()) {
-            return $stmt->rowCount() > 0; // Verifica si alguna fila fue afectada
-        } else {
-            return false;
-        }
-    }
-    
-
-    public function setNombre($nombre)
-    {
-        $this->nombre = $nombre;
-    }
-    public function getNombre()
-    {
-        return $this->nombre;
-    }
-    public function setApellido($apellido)
-    {
-        $this->apellido = $apellido;
-    }
-    public function getApellido()
-    {
-        return $this->apellido;
-    }
-    public function setTelefono($telefono)
-    {
-        $this->telefono = $telefono;
-    }
-    public function getTelefono()
-    {
-        return $this->telefono;
-    }
-
-    public function setEmail($email)
-    {
-        $this->email = $email;
-    }
-    public function getEmail()
-    {
-        return $this->email;
-    }
-    public function setOcupacion($ocupacion)
-    {
-        $this->ocupacion = $ocupacion;
-    }
-    public function getOcupacion()
-    {
-        return $this->ocupacion;
-    }
-
-    public function setCedula($cedula)
-    {
-        $this->cedula = $cedula;
-    }
-    public function getCedula()
-    {
-        return $this->cedula;
+        return $this->toggleStatus(0, "id_empleado", $id);
     }
 }

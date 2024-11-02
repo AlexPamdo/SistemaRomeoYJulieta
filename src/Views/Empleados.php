@@ -87,7 +87,7 @@ require_once("Templates/Head.php");
                                 <?php
                                 // Incluimos los modales para editar y eliminar empleados
                                 include("src/Views/Empleados/Editar.php");
-                                include("src/Views/Empleados/Eliminar.php");
+                            
                                 ?>
                             <?php endforeach; ?>
                         </tbody>

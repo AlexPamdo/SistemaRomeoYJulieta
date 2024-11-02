@@ -8,7 +8,7 @@ class OrdenPedidoModel extends ModeloBase
 {
 
     protected $data = [];
-    private $table = "orden_pedido";
+    protected $tabla = "orden_pedido";
 
     public function setData($pedido, $material, $cantidad)
     {
@@ -27,7 +27,7 @@ class OrdenPedidoModel extends ModeloBase
         t.tipo_material AS tipo,
         c.color AS color,
         n.stock AS cantidad_Stock
-        FROM " . $this->table . " u
+        FROM {$this->tabla} u
         INNER JOIN almacen n ON u.id_material = n.id_material
         INNER JOIN tipos_materiales t ON n.tipo_material = t.id_tipo_material
         INNER JOIN colores c ON n.color_material = c.id_color";
@@ -35,7 +35,7 @@ class OrdenPedidoModel extends ModeloBase
         // Agregar condición si se proporciona un valor y columna
         if ($value !== "" && $column !== "") {
             // Asegurarse de que la columna sea válida (esto es importante para prevenir SQL Injection)
-            $sql .= " WHERE $column = :value";
+            $sql .= " WHERE u.$column = :value";
         }
 
         // Preparar la consulta
@@ -56,7 +56,7 @@ class OrdenPedidoModel extends ModeloBase
 
     public function create()
     {
-        $query = "INSERT INTO " . $this->table . " (id_pedido, id_material, cantidad_material) VALUES (:pedido, :material, :cantidad)";
+        $query = "INSERT INTO {$this->tabla} (id_pedido, id_material, cantidad_material) VALUES (:pedido, :material, :cantidad)";
         $stmt = $this->prepare($query);
 
         foreach($this->data as $param => $value){

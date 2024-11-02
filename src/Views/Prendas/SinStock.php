@@ -30,7 +30,7 @@
 use src\Model\PrendasModel;
 
                        $prenda = new PrendasModel();
-                       $prendasData = $prenda->viewNoStock();
+                       $prendasData = $prenda->viewPrendas(0,"stock");
 
                          foreach ($prendasData as $prenda) : ?>
                             <tr>

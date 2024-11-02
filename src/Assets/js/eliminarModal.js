@@ -40,10 +40,6 @@ $(".editar").click(function () {
 
   console.log({ id, nombre, apellido, password, rol });
 
-  //Cambiamos el nombre y la funcion del modal
-  $("#tituloModal").text("Editar Usuario");
-  $("#formCreateUser").attr("action", "index.php?page=usuarios&function=edit");
-
   //Aplicamos los datos en los inputs
   $("nameUser").text(nombre);
   $("apellidoUser").text(apellido);

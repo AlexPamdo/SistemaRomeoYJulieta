@@ -23,7 +23,7 @@ class ConfeccionesController implements CrudController
     private $almacenModel; //La instacia del modelo de almacen para bajar el stock al momento de crear una prenda
     private $prendasModel; //La instacia del modelo de prendas para subir el stock al momento de crear una prenda
     private $patroMaterialModel; //la instancia del modelo de patron materiales, este es para saber que materiales y que cantidad se va a usar para la confeccion de dicha prenda
-    private $conn;
+
 
     public function __construct()
     {
@@ -31,14 +31,13 @@ class ConfeccionesController implements CrudController
         $this->almacenModel = new AlmacenModel();
         $this->prendasModel = new PrendasModel();
         $this->patroMaterialModel = new PatronMaterialModel();
-        $this->conn = $this->model->getDbConnection();
     }
 
     // Función que se encarga de renderizar la vista de confecciones.
     public function show()
     {
 
-        $confeccionesData = $this->model->viewAll();
+        $confeccionesData = $this->model->viewConfecciones(0,"eliminado");
 
         // Incluye la vista de confecciones para su visualización.
         include_once("src/Views/Confecciones.php");
@@ -50,7 +49,99 @@ class ConfeccionesController implements CrudController
         include_once("src/Libraries/fpdf/ConfeccionesPDF.php");
     }
 
+
+    public function comprobarStock($dataPatron)
+    {
+
+        // Iteración para obtener la cantidad total de material necesaria para la confección.
+        foreach ($dataPatron as $material):
+
+            // Extracción del id del material y la cantidad necesaria para el patrón.
+            $idMaterial = $material["id_material"];
+            $cantidad = $material["cantidad"];
+
+
+            // Cálculo de la cantidad total de material necesaria.
+            $cantidaTotal = $cantidad * $_POST["cantidad"];
+
+            // Obtención del stock disponible para el material.
+            $stock = $this->almacenModel->showColumn("stock", "id_material", $idMaterial);
+
+            // Comprobación de que hay suficiente stock para crear la confección.
+            if ($cantidaTotal > $stock) {
+                return false;
+            }
+        endforeach;
+
+        return true;
+    }
+
+    public function bajarStock($dataPatron)
+    {
+        foreach ($dataPatron as $material):
+            // Extracción del id del material y la cantidad necesaria para el patrón.
+            $idMaterial = $material["id_material"];
+            $cantidad = $material["cantidad"];
+
+            // Cálculo de la cantidad total de material necesaria.
+            $cantidaTotal = $cantidad * $_POST["cantidad"];
+
+            // Actualización del stock en el almacén y en las prendas.
+            if (!$this->almacenModel->updateColumn("stock", $cantidaTotal, "id_material", $idMaterial,)) {
+                return false;
+            };
+        endforeach;
+        return true;
+    }
+
+
     public function create()
+    {
+
+        try {
+            $this->model->beginTransaction();
+
+            // Asignación de los datos del formulario a los atributos del objeto confección.
+            $this->model->setData(
+                $_POST["patron"],
+                $_POST["cantidad"],
+                date('Y-m-d H:i:s'),
+                $_POST["empleado"],
+            );
+
+            // Obtención de los datos del patrón y los materiales asociados al patrón.
+            $dataPatron =  $this->patroMaterialModel->viewMaterials($_POST["patron"]);
+
+            if (!$this->comprobarStock($dataPatron)) {
+                throw new Exception("Insuficientes Materiales en el inventario para realizar la accion");
+            }
+
+            // Si hay stock suficiente, se crean los registros y se actualiza el stock.
+            if (!$this->bajarStock($dataPatron)) {
+                throw new Exception("No se pudo bajar el stock");
+            }
+
+            // Comprobamos si las funciones para crear la confeccion y actualizar el stock de prendas se ejecutaron 
+            if (
+                $this->model->create() &&
+                $this->prendasModel->updateColumn("stock", $_POST["cantidad"], "id_prenda", $_POST["patron"])
+            ) {
+                $this->model->commit();
+                // Redirecciona a la página con mensaje de éxito.
+                header("Location: index.php?page=confecciones&succes=create");
+            } else {
+                // Redirecciona a la página con mensaje de error.
+                header("Location: index.php?page=confecciones&error=create");
+            }
+        } catch (Exception $e) {
+            $this->model->rollBack();
+            header("Location: index.php?page=confecciones&error=other&errorDesc=" . $e->getMessage());
+        }
+    }
+
+
+
+    /*   public function create()
     {
 
         try {
@@ -138,13 +229,13 @@ class ConfeccionesController implements CrudController
             header("Location: index.php?page=confecciones&error=other&errorDesc=" . $e->getMessage());
         }
     }
-
+ */
 
 
     public function delete()
     {
         // Si se elimina correctamente la confección, redirecciona con mensaje de éxito.
-        if ($this->model->delete($_POST["id"])) {
+        if ($this->model->softDelete($_POST["id"])) {
             header("Location: index.php?page=confecciones&succes=2");
         } else {
             // Muestra un mensaje de error si no se puede eliminar.
@@ -173,10 +264,12 @@ class ConfeccionesController implements CrudController
     public function edit()
     {
         // Asignación de los datos del formulario a los atributos del objeto confección.
-        $this->model->setPatron($_POST["patron"]);
-        $this->model->setCantidad($_POST["cantidad"]);
-        $this->model->setFechaFabricacion($_POST["fecha"]);
-        $this->model->setempleado($_POST["empleado"]);
+        $this->model->setData(
+            $_POST["patron"],
+            $_POST["cantidad"],
+            date('Y-m-d H:i:s'),
+            $_POST["empleado"],
+        );
 
         // Si la edición es exitosa, redirecciona con mensaje de éxito.
         if ($this->model->edit($_POST["id"])) {

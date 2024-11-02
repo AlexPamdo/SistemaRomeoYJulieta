@@ -32,7 +32,7 @@ class PatronesController implements CrudController
 
     public function show()
     {
-        $patronesData = $this->patronModel->viewAll();
+        $patronesData = $this->patronModel->viewPatrones(0,"eliminado");
         include_once("src/Views/Patrones.php");
     }
 

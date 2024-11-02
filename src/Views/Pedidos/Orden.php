@@ -21,8 +21,7 @@
                     </thead>
                     <tbody>
                         <?php
-                        $materiales = $this->ordenPedido->viewMaterials($pedido['id_pedido']);
-
+                        $materiales = $this->ordenPedido->viewMaterials($pedido['id_pedido'],"id_material");
                         foreach ($materiales as $material) :
                         ?>
                             <tr>

@@ -28,7 +28,7 @@ class ProveedoresModel extends ModeloBase
 
     public function create()
     {
-        $query = "INSERT INTO " . $this->table . " (nombre_proveedor, rif_proveedor, telefono_proveedor, gmail_proveedor, notas_proveedor) VALUES (:nombre, :rif, :telefono, :gmail, :notas)";
+        $query = "INSERT INTO {$this->tabla} (nombre_proveedor, rif_proveedor, telefono_proveedor, gmail_proveedor, notas_proveedor) VALUES (:nombre, :rif, :telefono, :gmail, :notas)";
 
         $stmt = $this->prepare($query);
 
@@ -45,7 +45,7 @@ class ProveedoresModel extends ModeloBase
 
     public function edit($id)
     {
-        $query = "UPDATE " . $this->table . " SET nombre_proveedor = :nombre, rif_proveedor = :rif, telefono_proveedor = :telefono, gmail_proveedor = :gmail, notas_proveedor = :notas WHERE id_proveedor = :id";
+        $query = "UPDATE {$this->tabla} SET nombre_proveedor = :nombre, rif_proveedor = :rif, telefono_proveedor = :telefono, gmail_proveedor = :gmail, notas_proveedor = :notas WHERE id_proveedor = :id";
 
         $stmt = $this->prepare($query);
 

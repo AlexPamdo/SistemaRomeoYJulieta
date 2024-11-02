@@ -29,7 +29,7 @@ use src\Model\PatronesModel;
                                     <?php
                                     //incluimos el controlador para acceder a la funcion ver todo
                                     $patrones = new PatronesModel();
-                                    $patronesData = $patrones->viewAll();
+                                    $patronesData = $patrones->viewPatrones(0,"eliminado");
 
                                     foreach ($patronesData as $patron) : ?>
 
@@ -64,7 +64,7 @@ use src\Model\PatronesModel;
                                     //incluimos el controlador para acceder a la funcion ver todo
 
                                     $empleados = new EmpleadosModel();
-                                    $empleadosData = $empleados->viewAll(false);
+                                    $empleadosData = $empleados->viewAll(0,"eliminado");
 
                                     foreach ($empleadosData as $empleado) : ?>
 

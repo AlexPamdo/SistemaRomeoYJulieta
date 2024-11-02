@@ -39,7 +39,7 @@ class AlmacenModel extends ModeloBase
         // Agregar condición si se proporciona un valor y columna
         if ($value !== "" && $column !== "") {
             // Asegurarse de que la columna sea válida (esto es importante para prevenir SQL Injection)
-            $sql .= " WHERE $column = :value";
+            $sql .= " WHERE u.$column = :value";
         }
 
         // Preparar la consulta

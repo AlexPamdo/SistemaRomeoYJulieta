@@ -42,6 +42,8 @@ require_once("Templates/Head.php");
 
                     <!-- Incluimos el modal del formulario de crear -->
                     <?php include_once("src/Views/Usuarios/Crear.php"); ?>
+                    <?php include_once("src/Views/Usuarios/Editar.php"); ?>
+
 
 
                     <a href="index.php?page=pedidos&function=print" target="_blank" class="btn btn-warning ms-1">
@@ -94,7 +96,7 @@ require_once("Templates/Head.php");
                                         <button data-intro="Si se requiere eliminar algun usuario se puede hacer con este boton" data-step="5" type="button" class="btn btn-custom-danger m-1 eliminar" data-bs-toggle="modal" data-bs-target="#eliminar">
                                             <?php include './src/Assets/bootstrap-icons-1.11.3/trash-fill.svg'; ?>
                                         </button>
-                                        <button data-intro="Y si se requiere hacer alguna modificacion se puede hacer con este otro" data-step="6" type="button" class="btn btn-custom-success m-1 editar" data-bs-toggle="modal" data-bs-target="#crearModal">
+                                        <button data-intro="Y si se requiere hacer alguna modificacion se puede hacer con este otro" data-step="6" type="button" class="btn btn-custom-success m-1 editar" data-bs-toggle="modal" data-bs-target="#editar">
                                             <?php include './src/Assets/bootstrap-icons-1.11.3/pencil-fill.svg'; ?>
                                         </button>
                                     </td>

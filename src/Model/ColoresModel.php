@@ -4,7 +4,7 @@ namespace src\Model;
 
 class ColoresModel extends ModeloBase{
 
-    private $table = "colores";
+    protected $tabla = "colores";
   
     public function viewCategorias($value = "",$condition = ""){
        $this->viewAll($value,$condition);

@@ -55,24 +55,10 @@
                                      <option value="1">Admin</option>
                                  </select>
                              </div>
-                             <div class="col-md-6">
-                                 <label class="fw-bold" for="pregunta">Pregunta de seguridad</label>
-                                 <select class="form-select" name="pregunta" id="pregunta" required>
-                                     <option selected value="¿Cúal es su hobby?">¿Cúal es su hobby?</option>
-                                     <option value="¿Cúal es el nombre de su mascota?">¿Cúal es el nombre de su mascota?</option>
-                                     <option value="¿Cúal es su cantante favorito?">¿Cúal es su cantante favorito?</option>
-                                     <option value="¿Cúal es su deporte favorito?">¿Cúal es su deporte favorito?</option>
-                                 </select>
-                             </div>
+                            
                          </div>
 
-                         <div class="row mb-3">
-                             <div class="col-md-12">
-                                 <label class="fw-bold" for="respuesta">Respuesta a la pregunta de seguridad</label>
-                                 <input type="text" name="respuesta" class="form-control campo" id="respuesta" placeholder="Introduzca la respuesta"  />
-                                 <span class="error" id="respuestaError"></span>
-                             </div>
-                         </div>
+                    
 
                          <div class="row mb-3">
                              <div class="col-md-12 text-center">

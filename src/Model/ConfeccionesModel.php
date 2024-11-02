@@ -2,38 +2,29 @@
 
 namespace src\Model;
 
-use src\Config\Connection;
 use PDO;
 
-class ConfeccionesModel
+class ConfeccionesModel extends ModeloBase
 {
-    private $id;
 
-    private $patron;
-    private $cantidad;
-    private $fechaFabricacion;
-    private $empleado;
-
-    private $conn;
-    private $table = "confeccion";
+    protected $data = [];
+    protected $tabla = "confeccion";
 
 
-
-    public function __construct()
+    public function setData($patron, $cantidad, $fechaFabricacion, $empleado)
     {
-        $database = new connection;
-        $this->conn = $database->getConnection();
+        $this->data = [
+            "patron" => $patron,
+            "cantidad" => $cantidad,
+            "fecha_fabricacion" => $fechaFabricacion,
+            "empleado" => $empleado,
+        ];
     }
 
-    public function getDbConnection(){
-        $database = new connection;
-        $this->conn = $database->getConnection();
-        return $this->conn;
-    }
-
-    public function viewAll()
+    public function viewConfecciones($value = "", $column = "")
     {
-        $query = "SELECT 
+
+        $sql = "SELECT 
     u.*,
     e.nombre_empleado AS id_empleado,
     p.nombre_patron as id_prenda
@@ -44,148 +35,71 @@ INNER JOIN
 INNER JOIN
     patrones p ON u.id_patron = p.id_patron";
 
-        $result = $this->conn->query($query);
-
-        if ($result) {
-            return $result->fetchALL(PDO::FETCH_ASSOC);
-        } else {
-            return false;
+        // Agregar condición si se proporciona un valor y columna
+        if ($value !== "" && $column !== "") {
+            // Asegurarse de que la columna sea válida (esto es importante para prevenir SQL Injection)
+            $sql .= " WHERE u.$column = :value";
         }
-    }
-    public function viewOne($id)
-    {
-        $query = "SELECT * FROM " . $this->table . " WHERE id_confeccion = :id";
-        $stmmt = $this->conn->prepare($query);
-        $stmmt->bindParam(":id", $id);
 
-        if ($stmmt->execute()) {
-            return $stmmt->fetch(PDO::FETCH_ASSOC);
-        } else {
-            return false;
+        // Preparar la consulta
+        $stmt = $this->prepare($sql);
+
+        // Bindea el parámetro solo si se proporciona un valor
+        if ($value !== "") {
+            $stmt->bindParam(":value", $value);
         }
+
+        // Ejecutar la consulta
+        $stmt->execute();
+
+        // Retornar los resultados
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function totalCount()
-    {
-        $query = "SELECT COUNT(*) as total FROM " . $this->table;
-        $result = $this->conn->query($query);
-
-        if ($result) {
-            $row = $result->fetchAll(PDO::FETCH_ASSOC);
-            return $row[0]['total'];
-        } else {
-            return false;
-        }
-    }
 
     public function create()
     {
-        $query = "INSERT INTO " . $this->table . " (id_patron, cantidad, fecha_fabricacion, id_empleado) VALUES (:patron, :cantidad, :fecha_fabricacion, :empleado)";
-    
-        $stmt = $this->conn->prepare($query);
-        
-        $stmt->bindParam(':patron', $this->patron);
-        $stmt->bindParam(':cantidad', $this->cantidad);
+        $query = "INSERT INTO {$this->tabla} (id_patron, cantidad, fecha_fabricacion, id_empleado) VALUES (:patron, :cantidad, :fecha_fabricacion, :empleado)";
 
-        $stmt->bindParam(':fecha_fabricacion', $this->fechaFabricacion);
-        $stmt->bindParam(':empleado', $this->empleado);
-        
-        if ($stmt->execute()) {
-            return true;
-        } else {
-            return false;
+        $stmt = $this->prepare($query);
+
+        // Bindea los parámetros usando los datos del array $data
+        foreach ($this->data as $param => $value) {
+            $stmt->bindParam(":$param", $value);
         }
-    }
-    
 
-    public function delete($id)
+        return $stmt->execute();
+    }
+
+
+    public function softDelete($id)
     {
-        $query = "UPDATE $this->table SET eliminado = 1 WHERE id_confeccion = :id";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":id", $id);
-
-        if ( $stmt->execute() ) {
-            return true;
-        } else {
-            return false;
-        }
+        return $this->toggleStatus(1, "id_confeccion", $id);
     }
 
-    public function remove($id){
-        $query = "DELETE FROM " . $this->table . " WHERE id_confeccion = :id";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":id",$id);
-
-        if($stmt->execute()){
-            return true;
-        }else{
-            return false;
-        }
+    public function remove($id)
+    {
+      return $this->hardDelete("id_confeccion", $id);
     }
 
     public function active($id)
     {
-        $query = "UPDATE " . $this->table . " SET eliminado = FALSE WHERE id_pedido = :id";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-
-        if ($stmt->execute()) {
-            return $stmt->rowCount() > 0; // Verifica si alguna fila fue afectada
-        } else {
-            return false;
-        }
+       return $this->toggleStatus(0, "id_confeccion", $id);
+       
     }
 
     public function edit($id)
     {
-        $query = "UPDATE " . $this->table . " SET id_patron = :patron, cantidad = :cantidad, fecha_fabricacion = :fecha_fabricacion, id_empleado = :empleado WHERE id_usuario = :id";
-    
-        $stmt = $this->conn->prepare($query);
-        
-        $stmt->bindParam(':patron', $this->patron);
-        $stmt->bindParam(':cantidad', $this->cantidad);
-        $stmt->bindParam(':fecha_fabricacion', $this->fechaFabricacion);
-        $stmt->bindParam(':empleado', $this->empleado);
-        $stmt->bindParam(':id', $id);
-        
-        if ($stmt->execute()) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-    
+        $query = "UPDATE {$this->tabla} SET id_patron = :patron, cantidad = :cantidad, fecha_fabricacion = :fecha_fabricacion, id_empleado = :empleado WHERE id_usuario = :id";
 
-    public function setPatron($patron)
-    {
-        $this->patron = $patron;
+        $stmt = $this->prepare($query);
+
+        // Bindea los parámetros usando los datos del array $data
+        foreach ($this->data as $param => $value) {
+            $stmt->bindParam(":$param", $value);
+        }
+
+        return $stmt->execute();
     }
-    public function getPatron()
-    {
-        return $this->patron;
-    }
-    public function setCantidad($cantidad)
-    {
-        $this->cantidad = $cantidad;
-    }
-    public function getCantidad()
-    {
-        return $this->cantidad;
-    }
-    public function setFechaFabricacion($fechaFabricacion)
-    {
-        $this->fechaFabricacion = $fechaFabricacion;
-    }
-    public function getfechaFabricacion()
-    {
-        return $this->fechaFabricacion;
-    }
-    public function setempleado($empleado)
-    {
-        $this->empleado = $empleado;
-    }
-    public function getempleado()
-    {
-        return $this->empleado;
-    }
+
 }
