@@ -32,6 +32,11 @@ class PatronesController implements CrudController
 
     public function show()
     {
+        if ($_SESSION['rol'] == 2 ) {
+            header('Location: index.php?page=dashboard');
+            exit;
+        }
+
         $patronesData = $this->patronModel->viewPatrones(0,"eliminado");
         include_once("src/Views/Patrones.php");
     }
@@ -227,4 +232,6 @@ class PatronesController implements CrudController
             exit();
         }
     }
+
+    
 }

@@ -38,11 +38,12 @@
                                             pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
                                             title="La contraseña debe tener al menos 8 caracteres, incluyendo al menos una letra mayúscula, una letra minúscula y un número." />
 
-                                        <button class="btn btn-outline-secondary" type="button" id="togglePassword_create">Mostrar</button>
+                                        
                                     </div>
                                     <span class="error" id="password_createError"></span>
                                 </div>
                             </div>
+                            
 
                             <div class="row mb-3">
                                 <div class="col-md-6">
@@ -53,16 +54,6 @@
                                     </select>
                                 </div>
 
-                            </div>
-
-
-
-                            <div class="row mb-3">
-                                <div class="col-md-12 text-center">
-                                    <label class="fw-bold" for="imagen_usuario">Imagen de perfil</label>
-                                    <input type="file" name="file1" class="form-control-file" id="file1_edit" accept="image/*">
-                                    <small class="form-text text-muted">Opcional. Tamaño máximo: 2MB</small>
-                                </div>
                             </div>
 
                         </div>

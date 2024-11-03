@@ -1,8 +1,5 @@
 <?php
-// Protege el acceso a la página solo para usuarios autorizados
-
 require_once("Templates/Head.php");
-
 ?>
 
 <title>Almacen</title>
@@ -39,7 +36,10 @@ require_once("Templates/Head.php");
                     </button>
                     <?php } ?>
 
-                    <?php require_once("src/Views/Almacen/Crear.php") ?>
+                    <?php require_once("src/Views/Almacen/Crear.php");
+                             require_once("src/Views/Almacen/Editar.php");
+                             require_once("src/Views/Templates/Eliminar.php") ?>
+                    
 
                     <a href="index.php?page=almacen&function=print" target="_blank" class="btn btn-warning ms-1">
                         <?php include './src/Assets/bootstrap-icons-1.11.3/printer-fill.svg'; ?>
@@ -64,33 +64,29 @@ require_once("Templates/Head.php");
                         </thead>
                         <tbody>
                             <?php foreach ($materialData as $material) : ?>
+                               
                                 <tr class="table-custom-row">
                                     <td><?php echo htmlspecialchars($material['id_material']); ?></td>
-                                    <td><?php echo htmlspecialchars($material['nombre_material']); ?></td>
-                                    <td><?php echo htmlspecialchars($material['tipo_material']); ?></td>
-                                    <td><?php echo htmlspecialchars($material['color_material']); ?></td>
-                                    <td><?php echo htmlspecialchars($material['stock']); ?></td>
-                                    <td><?php echo htmlspecialchars($material['precio']); ?> bs</td>
+                                    <td class="desc"><?php echo htmlspecialchars($material['nombre_material']); ?></td>
+                                    <td><?php echo htmlspecialchars($material['tipo']); ?></td>
+                                    <input type="hidden" class="tipo" value="<?php echo htmlspecialchars($material['tipo_material']); ?>">
+                                    <td class="color"><?php echo htmlspecialchars($material['color_name']); ?></td>
+                                    <input type="hidden" class="color" value="<?php echo htmlspecialchars($material['color_material']); ?>">
+                                    <td class="stock"><?php echo htmlspecialchars($material['stock']); ?></td>
+                                    <td class="precio"><?php echo htmlspecialchars($material['precio']); ?> bs</td>
 
                                     <?php if ($_SESSION['rol'] == 1) { ?>
                                     <td class="d-flex">
                                         <!-- Botones de editar y eliminar -->
-                                        <button type="button" class="btn btn-custom-danger m-1" data-bs-toggle="modal" data-bs-target="#eliminarM<?php echo $material['id_material']; ?>">
+                                        <button type="button" class="btn btn-custom-danger m-1 eliminar" data-bs-toggle="modal" data-bs-target="#eliminar">
                                             <?php include './src/Assets/bootstrap-icons-1.11.3/trash-fill.svg'; ?>
                                         </button>
-                                        <button type="button" class="btn btn-custom-success m-1" data-bs-toggle="modal" data-bs-target="#editarM<?php echo $material['id_material']; ?>">
+                                        <button type="button" class="btn btn-custom-success m-1 editar" data-bs-toggle="modal" data-bs-target="#editar">
                                             <?php include './src/Assets/bootstrap-icons-1.11.3/pencil-fill.svg'; ?>
                                         </button>
                                     </td>
                                     <?php } ?>
                                 </tr>
-
-                                <?php
-                                // Incluimos los modales para editar y eliminar materiales
-                                include("src/Views/Almacen/Editar.php");
-                                include("src/Views/Almacen/Eliminar.php");
-                                ?>
-
                             <?php endforeach; ?>
                         </tbody>
                     </table>
@@ -98,7 +94,7 @@ require_once("Templates/Head.php");
 
                  <!-- Botón para ver usuarios items deshabilitados -->
                  <div class="d-flex justify-content-end mt-4">
-                    <button  data-intro="Con este boton podremos visualizar todos aquellos usuarios que se han eliminado" data-step="7" class="btn btn-rj-blue p-3" data-bs-toggle="modal" data-bs-target="#elementosDesabilitados">
+                    <button  data-intro="Con este boton podremos visualizar todos aquellos usuarios que se han eliminado" data-step="7" class="btn btn-rj-blue p-3 " data-bs-toggle="modal" data-bs-target="#elementosDesabilitados">
                         <?php include './src/Assets/bootstrap-icons-1.11.3/trash-fill.svg'; ?> Ver Elementos Deshabilitados
                     </button>
                 </div>

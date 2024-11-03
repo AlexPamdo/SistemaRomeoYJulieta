@@ -4,7 +4,6 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 // Iniciar una sesión solo si no hay una ya iniciada
 session_start();
-
 ob_start();
 
 // Función para incluir los controladores
@@ -24,11 +23,12 @@ $controllerPath = "src/Controllers/$controller.php"; // Ruta correcta del contro
 if (file_exists($controllerPath)) {
     includeController($controller);
 
-    // Si la sesión no está iniciada, redirigir al login
-    if (!isset($_SESSION['username']) && $page != "login") {
+    // Si la sesión no está iniciada con un usuario, redirigir al login
+    if (!isset($_SESSION['username']) && !in_array($page, ['login', 'logout'])) {
         header('Location: index.php?page=login');
-        exit;
+        exit();
     }
+
 
     if (class_exists("src\\Controllers\\" . $controller)) { // Asegúrate de usar el namespace correcto al verificar la clase
         $instance = new ("src\\Controllers\\" . $controller)(); // Crear una instancia del controlador
@@ -51,6 +51,3 @@ if (file_exists($controllerPath)) {
 
 
 ob_end_flush();
-
-
-?>

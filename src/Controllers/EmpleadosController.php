@@ -17,6 +17,11 @@ class EmpleadosController implements CrudController
 
     public function show()
     {
+        if ($_SESSION['rol'] == 2 ) {
+            header('Location: index.php?page=dashboard');
+            exit;
+        }
+
         $empleadosDesabilitadosData = $this->model->viewEmpleados(1,"eliminado");
         $empleadosData = $this->model->viewEmpleados(0,"eliminado");
         require_once("src/Views/Empleados.php");
@@ -86,4 +91,6 @@ class EmpleadosController implements CrudController
             header("Location: index.php?page=empleados&error=edit");
         }
     }
+
+    
 }

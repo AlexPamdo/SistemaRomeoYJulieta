@@ -1,6 +1,4 @@
 <?php
-// Protege el acceso a la página solo para usuarios autorizados
-require("src/Controllers/ProtectedUser.php");
 require_once("Templates/Head.php");
 ?>
 

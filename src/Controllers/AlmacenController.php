@@ -20,8 +20,8 @@ class AlmacenController implements CrudController
 
     public function show()
     {
-        $materialesDesabilitados = $this->materialModel->viewAll(1,"eliminado");
-        $materialData = $this->materialModel->viewAll();
+        $materialesDesabilitados = $this->materialModel->showMaterials(1,"eliminado");
+        $materialData = $this->materialModel->showMaterials(0,"eliminado");
 
         include_once("src/Views/Almacen.php");
     }
@@ -98,4 +98,6 @@ class AlmacenController implements CrudController
         }
 
     }
+
+    
 }

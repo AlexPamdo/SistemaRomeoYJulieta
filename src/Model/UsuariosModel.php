@@ -22,7 +22,28 @@ class UsuariosModel extends ModeloBase
 
     public function showUsers($value = "", $column = "")
     {
-        return $this->viewAll($value, $column);
+        // Comenzar la consulta SQL
+        $sql = "SELECT * FROM $this->tabla";
+
+        // Agregar condición si se proporciona un valor y columna
+        if ($value !== "" && $column !== "") {
+            // Asegurarse de que la columna sea válida (esto es importante para prevenir SQL Injection)
+            $sql .= " WHERE $column = :value";
+        }
+
+        // Preparar la consulta
+        $stmt = $this->prepare($sql);
+
+        // Bindea el parámetro solo si se proporciona un valor
+        if ($value !== "") {
+            $stmt->bindParam(":value", $value);
+        }
+
+        // Ejecutar la consulta
+        $stmt->execute();
+
+        // Retornar los resultados
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function create()
@@ -71,9 +92,13 @@ class UsuariosModel extends ModeloBase
         $stmt->bindParam(':gmail', $this->data['email']);
         $stmt->bindParam(':contrasena', $this->data['password']);
         $stmt->bindParam(':roles', $this->data['rol']);;
-        $stmt->bindParam(':img', $this->data['img']);
+        $stmt->bindParam(':id', $id);
 
-        return $stmt->execute();
+        if($stmt->execute()){
+            return true;
+        }else{
+            return false;
+        }
     }
 
 

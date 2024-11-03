@@ -25,6 +25,11 @@ class PedidosController implements CrudController
 
     public function show()
     {
+        if ($_SESSION['rol'] == 2 ) {
+            header('Location: index.php?page=dashboard');
+            exit;
+        }
+
         $pedidosDeleteData = $this->model->viewPedidos(1, "eliminado");
         $pedidosData = $this->model->viewPedidos(0, "eliminado");
         include_once("src/Views/Pedidos.php");
@@ -282,4 +287,6 @@ class PedidosController implements CrudController
             header("Location: index.php?page=pedidos&error=other&errorDesc=" . $e->getMessage());
         }
     }
+
+    
 }

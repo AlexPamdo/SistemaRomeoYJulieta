@@ -22,7 +22,14 @@ class PrendasController implements CrudController
     public function create(){}
 
     public function show()
+    
     {
+
+        if ($_SESSION['rol'] == 2 ) {
+            header('Location: index.php?page=dashboard');
+            exit;
+        }
+        
         $prendaDesabilitadosData = $this->model->viewPrendas(1,"eliminado");
         $prendaData = $this->model->viewPrendas(0,"eliminado");
         require_once("src/Views/Prendas.php");

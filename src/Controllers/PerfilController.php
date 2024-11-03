@@ -11,4 +11,6 @@ class PerfilController{
         $users = new UsuariosModel();
         require_once("src/Views/Perfil.php");
     }
+
+    
 }

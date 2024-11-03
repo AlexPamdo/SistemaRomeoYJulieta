@@ -30,22 +30,57 @@ $(".eliminar").click(function () {
 
 // ----------------------- Enviar Datos al modal de editar -----------------------
 $(".editar").click(function () {
+
+  // Identificamos en que pagina estamos para saber que parametros tomar
+  const url = new URL(window.location.href);
+  var page = url.searchParams.get("page");
+  console.log("La pagina actual es " + page)
+
   var parentRow = $(this).closest("tr");
   var id = parentRow.find("td:first").text();
-  var nombre = parentRow.find("td.nombreUsuario").text();
-  var apellido = parentRow.find("td.apellidoUsuario").text();
-  var email = parentRow.find("td.emailUsuario").text();
-  var password = parentRow.find("td.passwordUsuario div input").val();
-  var rol = parentRow.find("td.rolUsuario").text().trim() === "admin" ? 1 : 2;
 
-  console.log({ id, nombre, apellido, password, rol });
+  switch(page){
+    case "usuarios":
+      var nombre = parentRow.find("td.nombreUsuario").text();
+      var apellido = parentRow.find("td.apellidoUsuario").text();
+      var email = parentRow.find("td.emailUsuario").text();
+      var password = parentRow.find("td.passwordUsuario div input").val();
+      var rol = parentRow.find("td.rolUsuario").text().trim() === "admin" ? 1 : 2;
+    
+      //Depuracion para saber los datos
+      console.log({ id, nombre, apellido, password, rol });
+    
+      //Aplicamos los datos en los inputs
+      $("#id_edit").val(id);
+      $("#nameUser_edit").val(nombre);
+      $("#apellidoUser_edit").val(apellido);
+      $("#gmail_usuario_edit").val(email);
+      $("#password_create_edit").val(password);
+      $("#id_roles_edit").val(rol);
+    break;
 
-  //Aplicamos los datos en los inputs
-  $("nameUser").text(nombre);
-  $("apellidoUser").text(apellido);
-  $("gmail_usuario").text(email);
-  $("password_create").text(password);
+    case "almacen":
+      var desc = parentRow.find("td.desc").text();
+      var tipo = parentRow.find("input.tipo").val();
+      var color = parentRow.find("input.color").val();
+      var stock = parentRow.find("td.stock").text();
+      var precio = parentRow.find("td.precio").text();
+    
+      //Depuracion para saber los datos
+      console.log({ desc, tipo, color, stock, precio });
+    
+      //Aplicamos los datos en los inputs
+      $("#id_edit").val(id);
+      $("#desc_edit").val(desc);
+      $("#tipo_edit").val(tipo);
+      $("#color_edit").val(color);
+      $("#stock_edit").val(stock);
+      $("#precio_edit").val(precio);
+    break;
 
+  }
 
+  
+ 
 
 });

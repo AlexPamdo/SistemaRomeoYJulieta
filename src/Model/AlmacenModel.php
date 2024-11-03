@@ -27,8 +27,8 @@ class AlmacenModel extends ModeloBase
         // Comenzar la consulta SQL
         $sql = "SELECT 
                     u.*, 
-                    r.tipo_material AS tipo_material, 
-                    c.color AS color_material
+                    r.tipo_material AS tipo, 
+                    c.color AS color_name
                 FROM 
                     almacen u
                 INNER JOIN 
@@ -105,6 +105,7 @@ class AlmacenModel extends ModeloBase
         $stmt->bindParam(':color', $this->data['color'], PDO::PARAM_INT);
         $stmt->bindParam(':stock', $this->data['stock'], PDO::PARAM_INT);
         $stmt->bindParam(':precio', $this->data['precio'], PDO::PARAM_STR);
+        $stmt->bindParam(':id',$id,PDO::PARAM_INT);
 
         if ($stmt->execute()) {
             return true;

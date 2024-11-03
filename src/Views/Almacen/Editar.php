@@ -6,7 +6,7 @@ use src\Model\TiposMaterialModel;
 ?>
 
 <!-- Modal Para Editar Material -->
-<div class="modal fade" id="editarM<?php echo $material['id_material']; ?>" data-bs-backdrop="static"
+<div class="modal fade" id="editar" data-bs-backdrop="static"
     data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -19,15 +19,13 @@ use src\Model\TiposMaterialModel;
                 <form class="needs-validation bg-body-secondary formEdit" action="index.php?page=almacen&function=edit" method="post">
                     <div class="container container-form d-flex flex-column p-3">
                         <!-- Campo oculto para el ID del material -->
-                        <input type="hidden" name="id" value="<?php echo $material['id_material']; ?>">
-                        <input type="hidden" name="page" value="materiales">
-
+                        <input type="hidden" name="id" id="id_edit">
+         
                         <!-- Nombre del Material -->
                         <label class="fw-bold" class="form-label">Descripción</label>
                         <div class="form-label input-group flex-nowrap m-2">
-                            <input type="text" name="nombre_material" class="form-control campoEdit descripcionMaterialEdit"
-                                placeholder="Nombre del Material" aria-label="Nombre"
-                                value="<?php echo $material['nombre_material']; ?>">
+                            <input type="text" name="nombre_material" class="form-control campoEdit descripcionMaterialEdit" id="desc_edit"
+                                placeholder="Nombre del Material" aria-label="Nombre">
                             <div class="valid-feedback"></div>
                         </div>
                         <span class="error descripcionMaterialEditError"></span>
@@ -35,7 +33,7 @@ use src\Model\TiposMaterialModel;
                         <!-- Tipo de Material -->
                         <label class="fw-bold" class="form-label">Tipo de material</label>
                         <div class="input-group pt-3 pb-3">
-                            <select class="form-select" name="tipo_material" required>
+                            <select class="form-select" name="tipo_material" id="tipo_edit" required>
 
                                 <option selected>Seleccione un Tipo</option>
                                 <?php
@@ -51,7 +49,7 @@ use src\Model\TiposMaterialModel;
                         <!-- Color del Material -->
                         <label class="fw-bold" class="form-label">Color</label>
                         <div class="input-group pt-3 pb-3">
-                            <select class="form-select" name="color_material" id="inputGroupSelect02">
+                            <select class="form-select" name="color_material"  id="color_edit">
                                 <option selected>Seleccione un Color</option>
                                 <?php
                                 $coloresModel = new ColoresModel();
@@ -66,16 +64,16 @@ use src\Model\TiposMaterialModel;
                         <!-- Stock del Material -->
                         <label class="fw-bold" class="form-label">Stock</label>
                         <div class="input-group flex-nowrap m-2">
-                            <input type="" name="stock" class="form-control campoEdit stockMaterialEdit" placeholder="Stock"
-                                aria-label="Stock" value="<?php echo $material['stock']; ?>">
+                            <input type="" name="stock" class="form-control campoEdit stockMaterialEdit" id="stock_edit" placeholder="Stock"
+                                aria-label="Stock">
                         </div>
                         <span class="error stockMaterialEditError"></span>
 
                         <!-- Precio del Material -->
                         <label for="precio" class="fw-bold" class="form-label campoEdit precioMaterialEdit">Precio</label>
                         <div class="input-group flex-nowrap m-2">
-                            <input type="" name="precio" class="form-control campoEdit precioMaterialEdit" placeholder="Precio"
-                                aria-label="Precio" value="<?php echo $material['precio']; ?>">
+                            <input type="" name="precio" class="form-control campoEdit precioMaterialEdit" id="precio_edit" placeholder="Precio"
+                                aria-label="Precio">
                         </div>
                         <span class="error precioMaterialEditError"></span>
                     </div>

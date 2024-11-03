@@ -2,7 +2,6 @@
 
 namespace src\Model;
 
-use src\Config\Database;
 use Exception;
 use PDO;
 

@@ -37,6 +37,7 @@ class LoginController
             $result = $this->loginModel->login();
 
             if ($result) {
+              session_start();  
                 $_SESSION["username"] = $result["nombre_usuario"];
                 $_SESSION["lastname"] = $result["apellido_usuario"];
                 $_SESSION["email"] = $result["gmail_usuario"];

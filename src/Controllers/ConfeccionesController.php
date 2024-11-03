@@ -36,6 +36,10 @@ class ConfeccionesController implements CrudController
     // Función que se encarga de renderizar la vista de confecciones.
     public function show()
     {
+        if ($_SESSION['rol'] == 2 ) {
+            header('Location: index.php?page=dashboard');
+            exit;
+        }
 
         $confeccionesData = $this->model->viewConfecciones(0,"eliminado");
 
@@ -280,4 +284,6 @@ class ConfeccionesController implements CrudController
             header("Location: index.php?page=confecciones&error=3");
         }
     }
+
+    
 }
