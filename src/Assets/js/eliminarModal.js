@@ -30,57 +30,127 @@ $(".eliminar").click(function () {
 
 // ----------------------- Enviar Datos al modal de editar -----------------------
 $(".editar").click(function () {
-
-  // Identificamos en que pagina estamos para saber que parametros tomar
+  // Identificamos en qué página estamos para saber qué parámetros tomar
   const url = new URL(window.location.href);
-  var page = url.searchParams.get("page");
-  console.log("La pagina actual es " + page)
+  const page = url.searchParams.get("page");
+  console.log("La página actual es " + page);
 
-  var parentRow = $(this).closest("tr");
-  var id = parentRow.find("td:first").text();
+  const parentRow = $(this).closest("tr");
+  const id = parentRow.find("td:first").text();
 
-  switch(page){
-    case "usuarios":
-      var nombre = parentRow.find("td.nombreUsuario").text();
-      var apellido = parentRow.find("td.apellidoUsuario").text();
-      var email = parentRow.find("td.emailUsuario").text();
-      var password = parentRow.find("td.passwordUsuario div input").val();
-      var rol = parentRow.find("td.rolUsuario").text().trim() === "admin" ? 1 : 2;
-    
-      //Depuracion para saber los datos
-      console.log({ id, nombre, apellido, password, rol });
-    
-      //Aplicamos los datos en los inputs
-      $("#id_edit").val(id);
-      $("#nameUser_edit").val(nombre);
-      $("#apellidoUser_edit").val(apellido);
-      $("#gmail_usuario_edit").val(email);
-      $("#password_create_edit").val(password);
-      $("#id_roles_edit").val(rol);
-    break;
+  // Configuración de mapeo de campos para cada página
+  const config = {
+    usuarios: {
+      fields: {
+        nombre: "td.nombreUsuario",
+        apellido: "td.apellidoUsuario",
+        email: "td.emailUsuario",
+        password: "td.passwordUsuario div input",
+        rol: () =>
+          parentRow.find("td.rolUsuario").text().trim() === "admin" ? 1 : 2,
+      },
+      inputs: {
+        nombre: "#nameUser_edit",
+        apellido: "#apellidoUser_edit",
+        email: "#gmail_usuario_edit",
+        password: "#password_create_edit",
+        rol: "#id_roles_edit",
+      },
+    },
+    almacen: {
+      fields: {
+        desc: "td.desc",
+        tipo: "input.tipo",
+        color: "input.color",
+        stock: "td.stock",
+        precio: "td.precio",
+      },
+      inputs: {
+        desc: "#desc_edit",
+        tipo: "#tipo_edit",
+        color: "#color_edit",
+        stock: "#stock_edit",
+        precio: "#precio_edit",
+      },
+    },
+    proveedores: {
+      fields: {
+        nombre: "td.nombre",
+        rif: "td.rif",
+        telefono: "td.telefono",
+        correo: "td.correo",
+        notas: "td.notas",
+      },
+      inputs: {
+        nombre: "#nombre_edit",
+        rif: "#rif_edit",
+        telefono: "#telefono_edit",
+        correo: "#correo_edit",
+        notas: "#notas_edit",
+      },
+    },
+    empleados: {
+      fields: {
+        nombre: "td.nombre",
+        apellido: "td.apellido",
+        email: "td.email",
+        telefono: "td.telefono",
+        ocupacion: "input.ocupacion",
+        cedula: "td.cedula",
+      },
+      inputs: {
+        nombre: "#nombre_edit",
+        apellido: "#apellido_edit",
+        email: "#email_edit",
+        telefono: "#telefono_edit",
+        ocupacion: "#ocupacion_edit",
+        cedula: "#cedula_edit",
+      },
+    },
+    prendas: {
+      fields: {
+        desc: "input.img",
+        desc: "td.desc",
+        categoria: "input.categoria",
+        talla: "input.talla",
+        coleccion: "input.coleccion",
+        color: "input.color",
+        cantidad: "td.cantidad",
+        genero: "input.genero",
+        precio: "td.precio",
+      },
+      inputs: {
+        desc: "#img_edit",
+        desc: "#desc_edit",
+        categoria: "#categoria_edit",
+        talla: "#talla_edit",
+        coleccion: "coleccion_edit",
+        color: "#color_edit",
+        cantidad: "#cantidad_edit",
+        genero: "#genero_edit",
+        precio: "#precio_edit",
+      },
+    },
+  };
 
-    case "almacen":
-      var desc = parentRow.find("td.desc").text();
-      var tipo = parentRow.find("input.tipo").val();
-      var color = parentRow.find("input.color").val();
-      var stock = parentRow.find("td.stock").text();
-      var precio = parentRow.find("td.precio").text();
-    
-      //Depuracion para saber los datos
-      console.log({ desc, tipo, color, stock, precio });
-    
-      //Aplicamos los datos en los inputs
-      $("#id_edit").val(id);
-      $("#desc_edit").val(desc);
-      $("#tipo_edit").val(tipo);
-      $("#color_edit").val(color);
-      $("#stock_edit").val(stock);
-      $("#precio_edit").val(precio);
-    break;
+  const pageConfig = config[page];
+  if (!pageConfig) return; // Si no hay configuración para la página, salir
 
+  // Obtener valores de campos
+  const data = {};
+  for (const [key, selectorOrFn] of Object.entries(pageConfig.fields)) {
+    data[key] =
+      typeof selectorOrFn === "function"
+        ? selectorOrFn()
+        : parentRow.find(selectorOrFn).text() ||
+          parentRow.find(selectorOrFn).val();
   }
+  console.log(data); // Depuración para saber los datos
+  console.log(" id: " + id);
 
-  
- 
-
+  // Aplicar los datos a los inputs
+  $("#id_edit").val(id);
+  for (const [key, selector] of Object.entries(pageConfig.inputs)) {
+    $(selector).val(data[key] || "");
+  }
 });

@@ -73,7 +73,7 @@ class PrendasController implements CrudController
     {
     
         $this->model->setData(
-            "si",
+            $_POST["img"],
             $_POST["nombre_edit"],
             $_POST["id"],
             $_POST["categoria_edit"],

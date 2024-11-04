@@ -9,91 +9,73 @@
                 </h1>
             </div>
             <div class="modal-body">
-
                 <form class="needs-validation" action="index.php?page=prendas" method="post">
-                    <div class="container container-form d-flex flex-column p-3">
-
-                        <label for="validationCustom01">Descripcion</label>
-                        <div class="form-label input-group flex-nowrap m-2">
-                            <input type="text" class="form-control" id="validationCustom01"
-                                placeholder="Ingrese el nombre de la prenda" aria-label="Username"
-                                aria-describedby="addon-wrapping" name="nombre">
-                            <div class="valid-feedback"></div>
+                    <input type="hidden" name="id" id="id_edit">
+                    <div class="container container-form p-3">
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label for="validationCustom01">Descripción</label>
+                                <input type="text" class="form-control" id="validationCustom01"
+                                    placeholder="Ingrese el nombre de la prenda" aria-label="Username"
+                                    name="nombre" required>
+                            </div>
+                            <div class="col">
+                                <label for="">Categoría</label>
+                                <select class="form-select" name="id_categoria">
+                                    <option selected value="1">Franela</option>
+                                </select>
+                            </div>
+                            <div class="col">
+                                <label for="">Color</label>
+                                <select class="form-select" name="id_color">
+                                    <option selected>Seleccione un Color</option>
+                                    <?php foreach($coloresData as $color): ?>
+                                        <option value="<?php echo $color["id_color"]?>"><?php echo $color["color"] ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                            <div class="col">
+                                <label for="validationCustom01">Stock</label>
+                                <input type="number" class="form-control" id="validationCustom01" placeholder="Stock"
+                                    aria-label="Username" name="stock" required>
+                            </div>
                         </div>
-
-                        <label for="">Categoria</label>
-                        <div class="input-group pt-3 pb-3 ">
-                            <select class="form-select" name="id_categoria" id="inputGroupSelect02">
-                                <option selected value="1">Franela</option>
-
-                            </select>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label for="">Colección</label>
+                                <select class="form-select" name="id_coleccion">
+                                    <option value="1">Lima Limón</option>
+                                </select>
+                            </div>
+                            <div class="col">
+                                <label for="">Talla</label>
+                                <select class="form-select" name="id_talla">
+                                    <option selected value="1">S</option>
+                                </select>
+                            </div>
+                            <div class="col">
+                                <label for="">Género</label>
+                                <select class="form-select" name="id_genero">
+                                    <option selected value="1">Niño</option>
+                                </select>
+                            </div>
+                            <div class="col">
+                                <label for="validationCustom01">Precio</label>
+                                <input type="number" class="form-control" id="validationCustom01"
+                                    placeholder="Ingrese el precio de la prenda" aria-label="Username"
+                                    name="precio" required>
+                            </div>
                         </div>
-
-                        <label for="">color</label>
-                        <div class="input-group pt-3 pb-3 ">
-                            <select class="form-select" name="id_color" id="inputGroupSelect02">
-                            <option selected>Seleccione un Color</option>
-                                <?php foreach($coloresData as $color):?>
-                                <option value="<?php echo $color["id_color"]?>"><?php echo $color["color"] ?></option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
-
-                        <label for="validationCustom01">stock</label>
-                        <div class="form-label input-group flex-nowrap m-2">
-                            <input type="number" class="form-control" id="validationCustom01" placeholder="stock"
-                                aria-label="Username" aria-describedby="addon-wrapping" name="stock" required>
-                            <div class="valid-feedback"></div>
-                        </div>
-
-                        <label for="">Colección</label>
-                        <div class="input-group pt-3 pb-3 ">
-                            <select class="form-select" name="id_coleccion" id="inputGroupSelect02">
-
-                                <option value="1">Lima Limón</option>
-                            </select>
-                        </div>
-
-                        <label for="">talla</label>
-                        <div class="input-group pt-3 pb-3 ">
-                            <select class="form-select" name="id_talla" id="inputGroupSelect02">
-                                <option selected value="1">S</option>
-
-                            </select>
-                        </div>
-
-                        <label for="">genero</label>
-                        <div class="input-group pt-3 pb-3 ">
-                            <select class="form-select" name="id_genero" id="inputGroupSelect02">
-                                <option selected value="1">Niño</option>
-
-                            </select>
-                        </div>
-
-                        <label for="validationCustom01">Precio</label>
-                        <div class="form-label input-group flex-nowrap m-2">
-                            <input type="number" class="form-control" id="validationCustom01"
-                                placeholder="Ingrese el precio de la prenda" aria-label="Username"
-                                aria-describedby="addon-wrapping" name="precio" required>
-                            <div class="valid-feedback"></div>
-                        </div>
-
                     </div>
-
                     <div class="modal-footer">
-
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                             Cerrar
                         </button>
                         <button type="submit" name="btnCrear" value="crear" class="btn btn-rj-blue">
                             Registrar
                         </button>
-
                     </div>
-
-
                 </form>
-
             </div>
         </div>
     </div>

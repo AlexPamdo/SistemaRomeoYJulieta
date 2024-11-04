@@ -76,12 +76,12 @@ class EmpleadosController implements CrudController
     public function edit()
     {
         $this->model->setData(
-            $_POST["nombre_empleado"],
-            $_POST["apellido_empleado"],
-            $_POST["telefono_empleado"],
-            $_POST["email_empleado"],
-            $_POST["id_ocupacion"],
-            $_POST["cedula_empleado"]
+            $_POST["nombre_empleado_edit"],
+            $_POST["apellido_empleado_edit"],
+            $_POST["telefono_empleado_edit"],
+            $_POST["email_empleado_edit"],
+            $_POST["id_ocupacion_edit"],
+            $_POST["cedula_empleado_edit"]
         );
 
         if ($this->model->edit($_POST["id"])) {

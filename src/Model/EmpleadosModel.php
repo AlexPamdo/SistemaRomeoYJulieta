@@ -11,14 +11,14 @@ class EmpleadosModel extends ModeloBase
     protected $tabla = "empleados";
 
     public function setData($nombre, $apellido, $telefono, $email, $ocupacion, $cedula)
-    {
+    {        
         $this->data = [
-            "nombre" => $nombre,
-            "apellido" => $apellido,
-            "telefono" => $telefono,
-            "email" => $email,
-            "ocupacion" => $ocupacion,
-            "cedula" => $cedula,
+            "nombre" => trim($nombre), // Remueve espacios extra
+            "apellido" => trim($apellido),
+            "telefono" => preg_replace('/[^0-9]/', '', $telefono), // Asegura que solo haya números
+            "email" => filter_var($email, FILTER_SANITIZE_EMAIL), // Limpia el correo
+            "ocupacion" => (int)$ocupacion, // Asegura que sea un entero
+            "cedula" => trim($cedula),
         ];
     }
 
@@ -26,7 +26,7 @@ class EmpleadosModel extends ModeloBase
     public function viewEmpleados($value = "", $column = "")
     {
 
-        $sql = "SELECT u.*, r.ocupacion AS id_ocupacion
+        $sql = "SELECT u.*, r.ocupacion AS ocupaciones
         FROM empleados u 
         INNER JOIN ocupaciones r ON u.id_ocupacion = r.id_ocupacion";
         // Preparar la declaración
@@ -61,7 +61,7 @@ class EmpleadosModel extends ModeloBase
 
         // Bindea los parámetros usando los datos del array $data
         foreach ($this->data as $param => $value) {
-            $stmt->bindParam(":$param", $value);
+            $stmt->bindValue(":$param", $value);
         }
 
         // Ejecuta la consulta
@@ -78,8 +78,9 @@ class EmpleadosModel extends ModeloBase
 
         // Bindea los parámetros usando los datos del array $data
         foreach ($this->data as $param => $value) {
-            $stmt->bindParam(":$param", $value);
+            $stmt->bindValue(":$param", $value);
         }
+        $stmt->bindParam(":id",$id,PDO::PARAM_INT);
 
         // Ejecuta la consulta
         return $stmt->execute();
@@ -91,7 +92,7 @@ class EmpleadosModel extends ModeloBase
     }
     public function remove($id)
     {
-       return $this->hardDelete("id_empleado", $id);
+        return $this->hardDelete("id_empleado", $id);
     }
 
     public function active($id)

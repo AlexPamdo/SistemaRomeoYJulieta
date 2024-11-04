@@ -19,11 +19,11 @@ class PrendasModel extends ModeloBase
 
         $sql = "SELECT 
         u.*, 
-        p.nombre AS id_categoria, 
-        c.color AS id_color,
-        l.coleccion AS id_coleccion,
-        t.cm AS id_talla,
-        g.genero AS id_genero
+        p.nombre AS categoria, 
+        c.color AS color,
+        l.coleccion AS coleccion,
+        t.cm AS talla,
+        g.genero AS genero
     FROM {$this->tabla} u
     INNER JOIN 
         categorias_prenda p ON u.id_categoria = p.id_categoria
@@ -60,15 +60,15 @@ class PrendasModel extends ModeloBase
     {
         $this->data = [
             'imagen' => $img,
-            'nombre' => $nombre,
-            'patron' => $patron,
-            'categoria' => $categoria,
-            'color' => $color,
-            'stock' => $cant,
-            'coleccion' => $coleccion,
-            'talla' => $talla,
-            'genero' => $genero,
-            'precio' => $precio
+            'nombre' => trim($nombre),
+            'patron' => (int)$patron,
+            'categoria' => (int)$categoria,
+            'color' => (int)$color,
+            'stock' => (int)$cant,
+            'coleccion' => (int)$coleccion,
+            'talla' => (int)$talla,
+            'genero' => (int)$genero,
+            'precio' => (int)$precio
         ];
     }
 
@@ -78,7 +78,7 @@ class PrendasModel extends ModeloBase
 
         $stmt = $this->prepare($query);
 
-        foreach($this->data as $param => $value){
+        foreach ($this->data as $param => $value) {
             $stmt->bindParam(":$param", $value);
         }
 
@@ -94,27 +94,26 @@ class PrendasModel extends ModeloBase
 
         $stmt = $this->prepare($query);
 
-        foreach($this->data as $param => $value){
+        foreach ($this->data as $param => $value) {
             $stmt->bindParam(":$param", $value);
         }
-       
+
         return $stmt->execute();
     }
 
 
     public function softDelete($id)
     {
-        return $this->toggleStatus(1,"id_prenda",$id);
+        return $this->toggleStatus(1, "id_prenda", $id);
     }
 
     public function active($id)
     {
-        return $this->toggleStatus(0,"id_prenda",$id);
+        return $this->toggleStatus(0, "id_prenda", $id);
     }
 
     public function remove($id)
     {
-        return $this->hardDelete("id_prenda",$id);
+        return $this->hardDelete("id_prenda", $id);
     }
-
 }

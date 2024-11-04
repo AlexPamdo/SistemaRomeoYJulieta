@@ -35,7 +35,8 @@ require_once("Templates/Head.php");
                     </button>
 
                     <?php
-                    require_once("src/Views/Empleados/Crear.php")
+                    require_once("src/Views/Empleados/Crear.php");
+                    include("src/Views/Empleados/Editar.php");
                     ?>
 
                     <a href="index.php?page=pedidos&function=print" target="_blank" class="btn btn-warning ms-1">
@@ -64,28 +65,23 @@ require_once("Templates/Head.php");
                             foreach ($empleadosData as $empleado) : ?>
                                 <tr class="table-custom-row">
                                     <td><?php echo htmlspecialchars($empleado['id_empleado']); ?></td>
-                                    <td><?php echo htmlspecialchars($empleado['nombre_empleado']); ?></td>
-                                    <td><?php echo htmlspecialchars($empleado['apellido_empleado']); ?></td>
-                                    <td><?php echo htmlspecialchars($empleado['email_empleado']); ?></td>
-                                    <td><?php echo htmlspecialchars($empleado['telefono_empleado']); ?></td>
-                                    <td><?php echo htmlspecialchars($empleado['id_ocupacion']); ?></td>
-                                    <td><?php echo htmlspecialchars($empleado['cedula_empleado']); ?></td>
+                                    <td class="nombre"><?php echo htmlspecialchars($empleado['nombre_empleado']); ?></td>
+                                    <td class="apellido"><?php echo htmlspecialchars($empleado['apellido_empleado']); ?></td>
+                                    <td class="email"><?php echo htmlspecialchars($empleado['email_empleado']); ?></td>
+                                    <td class="telefono"><?php echo htmlspecialchars($empleado['telefono_empleado']); ?></td>
+                                    <td><?php echo htmlspecialchars($empleado['ocupaciones']); ?></td>
+                                    <input type="hidden" class="ocupacion" value="<?php echo htmlspecialchars($empleado['id_ocupacion']); ?>">
+                                    <td class="cedula"><?php echo htmlspecialchars($empleado['cedula_empleado']); ?></td>
                                     <td class="d-flex">
                                         <!-- Botones de editar y eliminar -->
                                         <button type="button" class="btn btn-custom-danger m-1 eliminar" data-bs-toggle="modal" data-bs-target="#eliminar">
                                             <?php include './src/Assets/bootstrap-icons-1.11.3/trash-fill.svg'; ?>
                                         </button>
-                                        <button type="button" class="btn btn-custom-success m-1" data-bs-toggle="modal" data-bs-target="#editar<?php echo $empleado['id_empleado']; ?>">
+                                        <button type="button" class="btn btn-custom-success m-1 editar" data-bs-toggle="modal" data-bs-target="#editar">
                                             <?php include './src/Assets/bootstrap-icons-1.11.3/pencil-fill.svg'; ?>
                                         </button>
                                     </td>
                                 </tr>
-
-                                <?php
-                                // Incluimos los modales para editar y eliminar empleados
-                                include("src/Views/Empleados/Editar.php");
-                            
-                                ?>
                             <?php endforeach; ?>
                         </tbody>
                     </table>

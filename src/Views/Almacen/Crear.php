@@ -15,7 +15,6 @@ use src\Model\TiposMaterialModel;
 
                  <form class="needs-validation form" action="index.php?page=almacen&function=create" method="post">
                      <div class="container container-form d-flex flex-column p-3">
-                         <input type="hidden" name="page" value="materia_prima">
 
                          <label class="fw-bold" for="descripcionMaterial">Descripcion del material</label>
                          <div class="form-label input-group flex-nowrap m-2">

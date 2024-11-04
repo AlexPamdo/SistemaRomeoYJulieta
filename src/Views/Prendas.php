@@ -67,33 +67,32 @@ require_once("Templates/Head.php");
                         <tbody>
                             <?php foreach ($prendaData as $prenda) : ?>
                                 <tr>
-                                    <td><?php echo htmlspecialchars($prenda['id_prenda']); ?></td>
+                                    <td ><?php echo htmlspecialchars($prenda['id_prenda']); ?></td>
                                     <td><img class="img-prenda" src="<?php echo htmlspecialchars($prenda['img_prenda']); ?>" alt="" height="60px" width="60px"></td>
-                                    <td><?php echo htmlspecialchars($prenda['nombre_prenda']); ?></td>
-                                    <td><?php echo htmlspecialchars($prenda['id_categoria']); ?></td>
-                                    <td><?php echo htmlspecialchars($prenda['id_talla']); ?>cm</td>
-                                    <td><?php echo htmlspecialchars($prenda['id_coleccion']); ?></td>
-                                    <td><?php echo htmlspecialchars($prenda['id_color']); ?></td>
-                                    <td><?php echo htmlspecialchars($prenda['stock']); ?></td>
-                                    <td><?php echo htmlspecialchars($prenda['id_genero']); ?></td>
-                                    <td><?php echo htmlspecialchars($prenda['precio_unitario']); ?> bs</td>
+                                    <input type="hidden" name="img" id="img_edit" value="<?php echo htmlspecialchars($prenda['img_prenda']); ?>">
+                                    <td class="desc"><?php echo htmlspecialchars($prenda['nombre_prenda']); ?></td>
+                                    <td><?php echo htmlspecialchars($prenda['categoria']); ?></td>
+                                    <input type="hidden" class="categoria" value="<?php echo htmlspecialchars($prenda['id_categoria']); ?>">
+                                    <td><?php echo htmlspecialchars($prenda['talla']); ?>cm</td>
+                                    <input type="hidden" class="talla" value="<?php echo htmlspecialchars($prenda['id_talla']); ?>">
+                                    <td><?php echo htmlspecialchars($prenda['coleccion']); ?></td>
+                                    <input type="hidden" class="coleccion" value="<?php echo htmlspecialchars($prenda['id_coleccion']); ?>">
+                                    <td><?php echo htmlspecialchars($prenda['color']); ?></td>
+                                    <input type="hidden" class="color" value="<?php echo htmlspecialchars($prenda['id_color']); ?>">
+                                    <td class="cantidad"><?php echo htmlspecialchars($prenda['stock']); ?></td>
+                                    <td><?php echo htmlspecialchars($prenda['genero']); ?></td>
+                                    <input type="hidden" class="genero" value="<?php echo htmlspecialchars($prenda['id_genero']); ?>">
+                                    <td class="precio"><?php echo htmlspecialchars($prenda['precio_unitario']); ?> <span>bs</span></td>
                                     <td class="d-flex">
                                         <!-- Botones de editar y eliminar -->
                                         <button type="button" class="btn btn-danger me-1 eliminar" data-bs-toggle="modal" data-bs-target="#eliminar">
                                             <i class="fa-solid fa-trash"></i>
                                         </button>
-                                        <button type="button" class="btn btn-success me-1" data-bs-toggle="modal" data-bs-target="#editar<?php echo htmlspecialchars($prenda['id_prenda']); ?>">
+                                        <button type="button" class="btn btn-success me-1 editar" data-bs-toggle="modal" data-bs-target="#editar">
                                             <i class="fa-solid fa-pencil"></i>
                                         </button>
                                     </td>
                                 </tr>
-
-                                <?php
-                                // Incluimos los modales para editar y eliminar prendas
-                                include("src/Views/Prendas/Editar.php");
-                                include("src/Views/Prendas/Eliminar.php");
-                                ?>
-
                             <?php endforeach; ?>
                         </tbody>
                     </table>
@@ -108,6 +107,7 @@ require_once("Templates/Head.php");
                 </div>
 
                 <?php
+                include("src/Views/Prendas/Editar.php");
                 include_once("src/Views/Prendas/SinStock.php");
                 ?>
 

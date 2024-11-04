@@ -37,7 +37,8 @@ require_once("Templates/Head.php");
                     <?php } ?>
 
                     <?php
-                        require_once("src/Views/Proveedores/Registrar.php")
+                        require_once("src/Views/Proveedores/Registrar.php");
+                        
                     ?>
 
 <a href="index.php?page=pedidos&function=print" target="_blank" class="btn btn-warning ms-1">
@@ -69,13 +70,13 @@ require_once("Templates/Head.php");
                              foreach ($proveedoresData as $proveedor) : ?>
                                 <tr>
                                     <td><?php echo htmlspecialchars($proveedor['id_proveedor']); ?></td>
-                                    <td><?php echo htmlspecialchars($proveedor['nombre_proveedor']); ?></td>
-                                    <td><?php echo htmlspecialchars($proveedor['rif_proveedor']); ?></td>
-                                    <td><?php echo htmlspecialchars($proveedor['telefono_proveedor']); ?></td>
-                                    <td><?php echo htmlspecialchars($proveedor['gmail_proveedor']); ?></td>
+                                    <td class="nombre"><?php echo htmlspecialchars($proveedor['nombre_proveedor']); ?></td>
+                                    <td class="rif"><?php echo htmlspecialchars($proveedor['rif_proveedor']); ?></td>
+                                    <td class="telefono"><?php echo htmlspecialchars($proveedor['telefono_proveedor']); ?></td>
+                                    <td class="correo"><?php echo htmlspecialchars($proveedor['gmail_proveedor']); ?></td>
                                   
                                     
-                                    <td><?php echo htmlspecialchars($proveedor['notas_proveedor']); ?></td>
+                                    <td class="notas"><?php echo htmlspecialchars($proveedor['notas_proveedor']); ?></td>
 
                                     <?php if ($_SESSION['rol'] == 1) { ?>
                                     <td class="d-flex">
@@ -83,19 +84,12 @@ require_once("Templates/Head.php");
                                         <button type="button" class="btn btn-custom-danger m-1 eliminar" data-bs-toggle="modal" data-bs-target="#eliminar">
                                         <?php include './src/Assets/bootstrap-icons-1.11.3/trash-fill.svg'; ?>
                                         </button>
-                                        <button type="button" class="btn btn-custom-success m-1" data-bs-toggle="modal" data-bs-target="#editar<?php echo $proveedor['id_proveedor']; ?>">
+                                        <button type="button" class="btn btn-custom-success m-1 editar" data-bs-toggle="modal" data-bs-target="#editar">
                                         <?php include './src/Assets/bootstrap-icons-1.11.3/pencil-fill.svg'; ?>
                                         </button>
                                     </td>
                                     <?php } ?>
                                 </tr>
-
-                                <?php
-                                // Incluimos los modales para editar y eliminar proveedores
-                                include("src/Views/Proveedores/Editar.php");
-                             
-                                ?>
-
                             <?php endforeach; ?>
                         </tbody>
                     </table>
@@ -109,6 +103,7 @@ require_once("Templates/Head.php");
                 </div>
 
                 <?php
+                require_once("src/Views/Proveedores/Editar.php");
                 // Restaurar
                 include_once("src/Views/Proveedores/Papelera.php");
                 ?>
