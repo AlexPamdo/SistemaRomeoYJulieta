@@ -6,7 +6,6 @@ require_once("Templates/Head.php");
 </head>
 
 <body class="bg-body-secondary" data-bs-spy="scroll">
-
     <main class="container-fluid p-0 row m-0">
         <!-- Barra lateral -->
         <?php include("src/Views/Templates/Header.php"); ?>

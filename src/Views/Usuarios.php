@@ -4,13 +4,12 @@ require_once("Templates/Head.php");
 
 <title>Gestión de Usuarios</title>
 </head>
-
 <body class="bg-body-secondary" data-bs-spy="scroll">
     <main class="container-fluid p-0 row m-0">
         <!-- Barra lateral -->
         <?php include("src/Views/Templates/Header.php"); ?>
 
-        <div id="main-content" class="col bg-custom-content p-0">
+        <div class="col bg-custom-content p-0">
             <!-- Header de la página -->
             <header class="bg-dark">
                 <div class="p-3 d-flex justify-content-between align-items-center border-bottom">
@@ -83,7 +82,7 @@ require_once("Templates/Head.php");
                                     <td class="emailUsuario"><?php echo htmlspecialchars($usuario['gmail_usuario']); ?></td>
                                     <td class="passwordUsuario">
                                         <div class="position-relative">
-                                            <input type="password" class="form-control" id="passwordInput<?php echo $usuario['id_usuario']; ?>" value="<?php echo htmlspecialchars($usuario['contraseña_usuario']); ?>" readonly>
+                                            <input type="password" class="form-control" id="passwordInput<?php echo $usuario['id_usuario']; ?>" value="<?php echo htmlspecialchars($usuario['contrasena_usuario']); ?>" readonly>
                                             <i class="fas fa-eye position-absolute end-0 top-50 translate-middle-y pe-3 password-toggle-icon" id="togglePasswordIcon<?php echo $usuario['id_usuario']; ?>" onclick="togglePasswordVisibility(<?php echo $usuario['id_usuario']; ?>)"></i>
                                         </div>
                                     </td>

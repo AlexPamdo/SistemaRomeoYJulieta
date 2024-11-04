@@ -9,7 +9,7 @@ class PedidosModel extends ModeloBase
 
     protected $data = [];
 
-    protected $table = "pedidos";
+    protected $tabla = "pedidos";
 
 
     public function setData($proveedor, $fecha_pedido, $estado, $usuario, $total)
@@ -32,7 +32,7 @@ class PedidosModel extends ModeloBase
         p.nombre_proveedor AS id_proveedor, 
         s.nombre_usuario AS id_usuario
     FROM 
-        " . $this->table . " u
+        " . $this->tabla . " u
     INNER JOIN 
         proveedores p ON u.id_proveedor = p.id_proveedor
     INNER JOIN 
@@ -63,7 +63,7 @@ class PedidosModel extends ModeloBase
 
     public function create()
     {
-        $stmt = $this->prepare("INSERT INTO " . $this->table . " (id_proveedor, fecha_pedido, estado_pedido, id_usuario, total_pedido) 
+        $stmt = $this->prepare("INSERT INTO {$this->tabla} (id_proveedor, fecha_pedido, estado_pedido, id_usuario, total_pedido) 
         VALUES (:proveedor, :fecha_pedido, :estado, :usuario, :total)");
 
         foreach($this->data as $param => $value){
@@ -91,7 +91,7 @@ class PedidosModel extends ModeloBase
     }
     public function edit($id)
     {
-        $stmt = $this->prepare("UPDATE " . $this->table . " SET id_proveedor = :proveedor, fecha_pedido = :fecha_pedido, estado_pedido = :estado, id_usuario = :usuario, total_pedido = :total WHERE id_pedido = :id");
+        $stmt = $this->prepare("UPDATE {$this->tabla} SET id_proveedor = :proveedor, fecha_pedido = :fecha_pedido, estado_pedido = :estado, id_usuario = :usuario, total_pedido = :total WHERE id_pedido = :id");
 
         foreach($this->data as $param => $value){
             $stmt->bindParam(":$param", $value);
