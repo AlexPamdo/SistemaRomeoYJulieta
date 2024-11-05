@@ -15,18 +15,16 @@
                          <div class="container col-md-6 row">
                              <label class="fw-bold" for="validationCustom01">proveedor</label>
                              <div class="form-label input-group flex-nowrap m-2">
-                                 <select class="form-select" name="id_proveedor" id="">
+                                 <select class="form-select" name="proveedor" id="">
                                      <?php
                                         //incluimos el controlador para acceder a la funcion ver todo
 
                                         use src\Model\AlmacenModel;
                                         use src\Model\ProveedoresModel;
 
-
                                         $proveedores = new ProveedoresModel();
-                                        $proveedoresData = $proveedores->viewProveedores(0,"eliminado");
+                                        $proveedoresData = $proveedores->viewProveedores(0,"estado");
                                         foreach ($proveedoresData as $proveedor) : ?>
-
                                          <!-- usamos el foreach para mostrar todos los proveedores disponibles -->
                                          <option value="<?php echo $proveedor['id_proveedor'] ?>">
                                              <?php echo $proveedor['nombre_proveedor'] ?></option>
@@ -73,7 +71,7 @@
                                                             // Incluimos el controlador para acceder a los materiales disponibles
 
                                                             $materiales = new AlmacenModel();
-                                                            $materialesData = $materiales->viewAll(0,"eliminado");
+                                                            $materialesData = $materiales->viewAll(0,"estado");
                                                             foreach ($materialesData as $material) : ?>
                                                              <option value="<?php echo $material['id_material'] ?>">
                                                                  <?php echo $material['nombre_material'] ?>

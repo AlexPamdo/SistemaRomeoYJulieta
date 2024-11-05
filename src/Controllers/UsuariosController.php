@@ -24,8 +24,8 @@ class UsuariosController implements CrudController
             exit;
         }
 
-        $usuariosDesabilitadosData = $this->usuariosModel->showUsers(1, "eliminado");
-        $usuariosData = $this->usuariosModel->showUsers(0, "eliminado");
+        $usuariosDesabilitadosData = $this->usuariosModel->showUsers(1, "estado");
+        $usuariosData = $this->usuariosModel->showUsers(0, "estado");
 
         include_once("src/Views/Usuarios.php");
     }

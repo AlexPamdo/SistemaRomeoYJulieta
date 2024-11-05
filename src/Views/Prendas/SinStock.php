@@ -8,9 +8,9 @@
             </div>
             <div class="modal-body">
                 <div class="container">
-                <table class="table table-striped table-hover align-middle text-center">
-                    <thead class="">
-                    <tr>
+                    <table class="table table-striped table-hover align-middle text-center">
+                        <thead class="">
+                            <tr>
                                 <th scope="col">Identificador</th>
                                 <th scope="col"></th>
                                 <th scope="col">Descripción</th>
@@ -23,47 +23,38 @@
                                 <th scope="col">Precio</th>
                                 <th scope="col">Opciones</th>
                             </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-
-use src\Model\PrendasModel;
-
-                       $prenda = new PrendasModel();
-                       $prendasData = $prenda->viewPrendas(0,"stock");
-
-                         foreach ($prendasData as $prenda) : ?>
-                            <tr>
-                                <td><?php echo htmlspecialchars($prenda['id_prenda']); ?></td>
-                                <td><img class="img-prenda" src="<?php echo htmlspecialchars($prenda['img_prenda']); ?>" alt="" height="60px" width="60px"></td>
-                                <td><?php echo htmlspecialchars($prenda['nombre_prenda']); ?></td>
-                                <td><?php echo htmlspecialchars($prenda['id_categoria']); ?></td>
-                                <td><?php echo htmlspecialchars($prenda['id_talla']); ?></td>
-                                <td><?php echo htmlspecialchars($prenda['id_coleccion']); ?></td>
-                                <td><?php echo htmlspecialchars($prenda['id_color']); ?></td>
-                                <td><?php echo htmlspecialchars($prenda['stock']); ?></td>
-                                <td><?php echo htmlspecialchars($prenda['id_genero']); ?></td>
-                                <td><?php echo htmlspecialchars($prenda['precio_unitario']); ?> bs</td>
-                                <td class="d-flex">
-                                    <!-- Botones de editar y eliminar -->
-                                    <button type="button" class="btn btn-danger me-1" data-bs-toggle="modal" data-bs-target="#eliminar<?php echo htmlspecialchars($prenda['id_prenda']); ?>">
-                                        <i class="fa-solid fa-trash"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-success me-1" data-bs-toggle="modal" data-bs-target="#editar<?php echo htmlspecialchars($prenda['id_prenda']); ?>">
-                                        <i class="fa-solid fa-pencil"></i>
-                                    </button>
-                                </td>
-                            </tr>
-
+                        </thead>
+                        <tbody>
                             <?php
-                            // Incluimos los modales para editar y eliminar prendas
-                            include("src/Views/prendas/editar.php");
-                            include("src/Views/prendas/eliminar.php");
-                            ?>
-
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
+                            foreach ($prendasNoStockData as $prenda) : ?>
+                                <tr>
+                                    <td><?php echo htmlspecialchars($prenda['id_prenda']); ?></td>
+                                    <td><img class="img-prenda" src="<?php echo htmlspecialchars($prenda['img_prenda']); ?>" alt="" height="60px" width="60px"></td>
+                                    <td><?php echo htmlspecialchars($prenda['nombre_prenda']); ?></td>
+                                    <td><?php echo htmlspecialchars($prenda['id_categoria']); ?></td>
+                                    <td><?php echo htmlspecialchars($prenda['id_talla']); ?></td>
+                                    <td><?php echo htmlspecialchars($prenda['id_coleccion']); ?></td>
+                                    <td><?php echo htmlspecialchars($prenda['id_color']); ?></td>
+                                    <td><?php echo htmlspecialchars($prenda['stock']); ?></td>
+                                    <td><?php echo htmlspecialchars($prenda['genero']); ?></td>
+                                    <td><?php echo htmlspecialchars($prenda['precio_unitario']); ?> bs</td>
+                                    <td class="d-flex">
+                                        <button type="button" class="btn btn-warning m-1" data-bs-toggle="modal"
+                                            data-bs-target="#materialesPatron<?php echo $prenda['id_prenda']; ?>">
+                                            <?php include './src/Assets/bootstrap-icons-1.11.3/eye-fill.svg'; ?>
+                                        </button>
+                                        <!-- Botones de editar y eliminar -->
+                                        <button type="button" class="btn btn-danger me-1" data-bs-toggle="modal" data-bs-target="#eliminar<?php echo htmlspecialchars($prenda['id_prenda']); ?>">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-success me-1" data-bs-toggle="modal" data-bs-target="#editar<?php echo htmlspecialchars($prenda['id_prenda']); ?>">
+                                            <i class="fa-solid fa-pencil"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
                 </div>
             </div>
             <div class="modal-footer">

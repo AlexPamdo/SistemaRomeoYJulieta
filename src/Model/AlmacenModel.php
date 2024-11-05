@@ -68,10 +68,12 @@ class AlmacenModel extends ModeloBase
 
         $stmt = $this->prepare($query);
 
-        // Bindea los parámetros usando los datos del array $data
-        foreach($this->data as $param => $value){
-            $stmt->bindParam(":$param", $value);
-        }
+       $stmt->bindParam(":nombre", $this->data["nombre"]);
+       $stmt->bindParam(":tipo", $this->data["tipo"]);
+       $stmt->bindParam(":color", $this->data["color"]);
+       $stmt->bindParam(":stock", $this->data["stock"]);
+       $stmt->bindParam(":precio", $this->data["precio"]);
+
 
         // Ejecuta la consulta
         return $stmt->execute();

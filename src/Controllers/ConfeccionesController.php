@@ -7,8 +7,7 @@ namespace src\Controllers;
 use src\Model\ConfeccionesModel;
 use src\Model\AlmacenModel;
 use src\Model\PrendasModel;
-use src\Model\PatronesModel;
-use src\Model\PatronMaterialModel;
+use src\Model\PrendaPatronModel;
 use Interfaces\CrudController;
 use Exception;
 
@@ -22,7 +21,7 @@ class ConfeccionesController implements CrudController
     private $model; // La instancia del modelo de confecciones (Para Accededer a y editar dicha tabla)
     private $almacenModel; //La instacia del modelo de almacen para bajar el stock al momento de crear una prenda
     private $prendasModel; //La instacia del modelo de prendas para subir el stock al momento de crear una prenda
-    private $patroMaterialModel; //la instancia del modelo de patron materiales, este es para saber que materiales y que cantidad se va a usar para la confeccion de dicha prenda
+    private $prendaPatronModel; //la instancia del modelo de patron materiales, este es para saber que materiales y que cantidad se va a usar para la confeccion de dicha prenda
 
 
     public function __construct()
@@ -30,7 +29,7 @@ class ConfeccionesController implements CrudController
         $this->model = new ConfeccionesModel();
         $this->almacenModel = new AlmacenModel();
         $this->prendasModel = new PrendasModel();
-        $this->patroMaterialModel = new PatronMaterialModel();
+        $this->prendaPatronModel = new PrendaPatronModel();
     }
 
     // Función que se encarga de renderizar la vista de confecciones.
@@ -41,7 +40,7 @@ class ConfeccionesController implements CrudController
             exit;
         }
 
-        $confeccionesData = $this->model->viewConfecciones(0,"eliminado");
+        $confeccionesData = $this->model->viewConfecciones(0,"estado");
 
         // Incluye la vista de confecciones para su visualización.
         include_once("src/Views/Confecciones.php");
@@ -87,11 +86,17 @@ class ConfeccionesController implements CrudController
             $idMaterial = $material["id_material"];
             $cantidad = $material["cantidad"];
 
+            // Obtención del stock disponible para el material.
+            $stockActual = $this->almacenModel->showColumn("stock","id_material", $idMaterial);
+
             // Cálculo de la cantidad total de material necesaria.
             $cantidaTotal = $cantidad * $_POST["cantidad"];
 
+            //Calculamos cuanto stock queda
+            $nuevoStock = $stockActual - $cantidaTotal;
+
             // Actualización del stock en el almacén y en las prendas.
-            if (!$this->almacenModel->updateColumn("stock", $cantidaTotal, "id_material", $idMaterial,)) {
+            if (!$this->almacenModel->updateColumn("stock", $nuevoStock, "id_material", $idMaterial,)) {
                 return false;
             };
         endforeach;
@@ -107,14 +112,14 @@ class ConfeccionesController implements CrudController
 
             // Asignación de los datos del formulario a los atributos del objeto confección.
             $this->model->setData(
-                $_POST["patron"],
+                $_POST["prenda"],
                 $_POST["cantidad"],
                 date('Y-m-d H:i:s'),
                 $_POST["empleado"],
             );
 
             // Obtención de los datos del patrón y los materiales asociados al patrón.
-            $dataPatron =  $this->patroMaterialModel->viewMaterials($_POST["patron"]);
+            $dataPatron =  $this->prendaPatronModel->viewMaterials($_POST["prenda"]);
 
             if (!$this->comprobarStock($dataPatron)) {
                 throw new Exception("Insuficientes Materiales en el inventario para realizar la accion");
@@ -125,10 +130,14 @@ class ConfeccionesController implements CrudController
                 throw new Exception("No se pudo bajar el stock");
             }
 
+            // obtenemos el stock de prendas actual
+            $actualStockPrenda = $this->prendaPatronModel->showColumn("stock","id_prenda",$_POST["prenda"]);
+            $nuevoStockPrenda = $actualStockPrenda + $_POST["cantidad"];
+
             // Comprobamos si las funciones para crear la confeccion y actualizar el stock de prendas se ejecutaron 
             if (
                 $this->model->create() &&
-                $this->prendasModel->updateColumn("stock", $_POST["cantidad"], "id_prenda", $_POST["patron"])
+                $this->prendasModel->updateColumn("stock", $nuevoStockPrenda, "id_prenda", $_POST["prenda"])
             ) {
                 $this->model->commit();
                 // Redirecciona a la página con mensaje de éxito.

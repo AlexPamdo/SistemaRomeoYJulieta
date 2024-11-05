@@ -59,7 +59,7 @@ abstract class ModeloBase extends Database
     }
     public function toggleStatus($status,$condition, $id)
     {
-        $stmt = $this->prepare("UPDATE {$this->tabla} SET eliminado = $status WHERE $condition = :id");
+        $stmt = $this->prepare("UPDATE {$this->tabla} SET estado = $status WHERE $condition = :id");
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
 
         if ($stmt->execute()) {

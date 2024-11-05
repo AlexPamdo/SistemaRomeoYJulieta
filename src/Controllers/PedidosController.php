@@ -30,14 +30,14 @@ class PedidosController implements CrudController
             exit;
         }
 
-        $pedidosDeleteData = $this->model->viewPedidos(1, "eliminado");
-        $pedidosData = $this->model->viewPedidos(0, "eliminado");
+        $pedidosDeleteData = $this->model->viewPedidos(1, "estado");
+        $pedidosData = $this->model->viewPedidos(0, "estado");
         include_once("src/Views/Pedidos.php");
     }
 
     public function print()
     {
-        $pedidosData = $this->model->viewPedidos(0, "eliminado");
+        $pedidosData = $this->model->viewPedidos(0, "estado");
         include_once("src/Libraries/fpdf/PedidosPDF.php");
     }
 
@@ -82,6 +82,10 @@ class PedidosController implements CrudController
                     throw new Exception("Error al Actualizar el stock del material");
                 }
 
+                if (!$id_pedido) {
+                    throw new Exception("Error al obtener el id del pedido");
+                }
+
                 //Anotar el material en la tabla ordenPedido
                 $this->ordenPedido->setData(
                     $id_pedido,
@@ -100,45 +104,49 @@ class PedidosController implements CrudController
 
 
     public function create()
-    {
-        try {
+{
+    try {
+        $this->model->beginTransaction();
 
-            $this->model->beginTransaction();
+        if (isset($_POST['material']) && is_array($_POST['material'])) {
+            $total = $this->calcularPrecio($_POST['material']);
 
-            if (isset($_POST['material']) && is_array($_POST['material'])) {
-
-                $total = $this->calcularPrecio($_POST['material']);
-
-                $this->model->setData(
-                    $_POST["id_proveedor"],
-                    date('Y-m-d H:i:s'),
-                    false,
-                    $_SESSION["id_user"],
-                    $total
-                );
-
-                $id_pedido = $this->model->create();
-
-                if (!$id_pedido) {
-                    throw new Exception("Error al registrar el pedido");
-                }
+            // Asignar el ID y otros datos
+            
+            $this->model->setData(
+                $_POST["proveedor"],
+                date('Y-m-d H:i:s'),
+                false,
+                $_SESSION["id_user"],
+                $total
+            );
 
 
-                $this->subirStock($_POST['material'], $id_pedido);
+            $id_pedido = $this->model->create();
 
-                $this->model->commit();
-                header("Location: index.php?page=pedidos&succes=create");
-
-            } else {
-                throw new Exception("No se han proporcionado materiales válidos");
+            // Intentar crear el pedido
+            if (!$id_pedido) {
+                throw new Exception("Error al registrar el pedido");
             }
-        } catch (Exception $e) {
-            $this->model->rollback();
-            header("Location: index.php?page=pedidos&error=other&errorDesc=" . $e->getMessage());
-           
+
+            if ($id_pedido) {
+                throw new Exception("El id del pedido es" , $id_pedido);
+            }
+
+            $this->subirStock($_POST['material'], $id_pedido);
+
+            $this->model->commit();
+            header("Location: index.php?page=pedidos&succes=create");
+        } else {
+            throw new Exception("No se han proporcionado materiales válidos");
         }
-        exit();  
+    } catch (Exception $e) {
+        $this->model->rollback();
+        header("Location: index.php?page=pedidos&error=other&errorDesc=" . $e->getMessage());
     }
+    exit();
+}
+
 
 
    /*  public function create()

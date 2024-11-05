@@ -48,12 +48,6 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a id="patrones" class="nav-link-rj nav-link d-flex align-items-center gap-2" href="index.php?page=patrones">
-                    <?php include './src/Assets/bootstrap-icons-1.11.3/rulers.svg'; ?>
-                        Patrones
-                    </a>
-                </li>
-                <li class="nav-item">
                     <a id="pedidos" class="nav-link-rj nav-link d-flex align-items-center gap-2" href="index.php?page=pedidos">
                     <?php include './src/Assets/bootstrap-icons-1.11.3/clipboard2-check-fill.svg'; ?>
                         Pedidos

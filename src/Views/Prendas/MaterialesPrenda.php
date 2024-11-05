@@ -1,7 +1,9 @@
-<?php use src\Model\PatronMaterialModel; ?>
+<?php
+use src\Model\PrendaPatronModel;
+ ?>
 
 <!-- Modal Para ver Los materiales del patron -->
-<div class="modal fade" id="materialesPatron<?php echo $patron['id_patron']; ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+<div class="modal fade" id="materialesPatron<?php echo $prenda['id_prenda'];?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="MaterialesPatronLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
@@ -25,9 +27,8 @@
                     </thead>
                     <tbody>
                         <?php
-                        $patronMaterial = new PatronMaterialModel();
-                        $materiales = $patronMaterial->viewMaterials($patron['id_patron']);
-
+                        $prendaMaterial = new PrendaPatronModel();
+                        $materiales = $prendaMaterial->viewMaterials($prenda['id_prenda']);
                         foreach ($materiales as $material):
                             ?>
                             <tr>

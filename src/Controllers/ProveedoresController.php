@@ -18,8 +18,8 @@ class ProveedoresController implements CrudController
 
     public function show()
     {
-        $proveedoresDesabilitados = $this->model->viewProveedores(1,"eliminado");
-        $proveedoresData = $this->model->viewProveedores(1,"eliminado");
+        $proveedoresDesabilitados = $this->model->viewProveedores(1,"estado");
+        $proveedoresData = $this->model->viewProveedores(0,"estado");
         require_once("src/Views/Proveedores.php");
     }
     public function create()
@@ -93,7 +93,7 @@ class ProveedoresController implements CrudController
             $_POST["rif_proveedor"],
             $_POST["telefono_proveedor"],
             $_POST["gmail_proveedor"],
-            $_POST["notas_proveedor"],
+            "dfs",
         );
 
         if ($this->model->edit($_POST["id"])) {

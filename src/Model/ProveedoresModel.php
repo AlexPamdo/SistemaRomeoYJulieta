@@ -16,6 +16,7 @@ class ProveedoresModel extends ModeloBase
             'rif' => $rif,
             'telefono' => $telefono,
             'gmail' => $gmail,
+            'notas' => $notas
         ];
     }
 
@@ -34,7 +35,7 @@ class ProveedoresModel extends ModeloBase
 
          // Bindea los parámetros usando los datos del array $data
          foreach($this->data as $param => $value){
-            $stmt->bindParam(":$param", $value);
+            $stmt->bindValue(":$param", $value);
         }
 
         // Ejecuta la consulta
@@ -49,10 +50,12 @@ class ProveedoresModel extends ModeloBase
 
         $stmt = $this->prepare($query);
 
-        // Bindea los parámetros usando los datos del array $data
-        foreach($this->data as $param => $value){
-            $stmt->bindParam(":$param", $value);
-        }
+        $stmt->bindParam(":nombre", $this->data["nombre"],PDO::PARAM_STR);
+        $stmt->bindParam(":rif", $this->data["rif"],PDO::PARAM_STR);
+        $stmt->bindParam(":telefono", $this->data["telefono"],PDO::PARAM_STR);
+        $stmt->bindParam(":gmail", $this->data["gmail"],PDO::PARAM_STR);
+        $stmt->bindParam(":notas", $this->data["notas"],PDO::PARAM_STR);
+        $stmt->bindParam(":id", $id,PDO::PARAM_INT);
 
         // Ejecuta la consulta
         return $stmt->execute();

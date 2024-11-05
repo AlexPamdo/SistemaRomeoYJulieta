@@ -2,24 +2,23 @@
 
 namespace src\Model;
 
-use src\Config\Connection;
 use PDO;
 
-class PatronMaterialModel extends ModeloBase
+class PrendaPatronModel extends ModeloBase
 {
     protected $data = [];
-    protected $tabla = "patron_material";
+    protected $tabla = "prenda_patron";
 
-    public function setData($patron,$material,$cantiad){
+    public function setData($prenda,$material,$cantiad){
         $this->data = [
-            'patron' => $patron,
+            'prenda' => $prenda,
             'material' => $material,
             'cantidad' => $cantiad
         ];
     }
 
     
-    public function viewMaterials($idPatron)
+    public function viewMaterials($idPrenda)
     {
         $query = "SELECT 
         u.*, 
@@ -31,10 +30,10 @@ class PatronMaterialModel extends ModeloBase
         INNER JOIN almacen n ON u.id_material = n.id_material
         INNER JOIN tipos_materiales t ON n.tipo_material = t.id_tipo_material
         INNER JOIN colores c ON n.color_material = c.id_color
-        WHERE u.id_patron = :id";
+        WHERE u.id_prenda = :id";
 
         $stmt = $this->prepare($query);
-        $stmt->bindParam(":id", $idPatron);
+        $stmt->bindParam(":id", $idPrenda);
 
         if ($stmt->execute()) {
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -45,18 +44,18 @@ class PatronMaterialModel extends ModeloBase
 
     public function create()
     {
-        $query = "INSERT INTO {$this->tabla} (id_patron, id_material, cantidad) VALUES (:patron, :material, :cantidad)";
+        $query = "INSERT INTO {$this->tabla} (id_prenda, id_material, cantidad) VALUES (:prenda, :material, :cantidad)";
         $stmt = $this->prepare($query);
 
-        foreach($this->data as $param => $value){
-            $stmt->bindParam(":$param", $value);
-        }
+        $stmt->bindParam(":prenda", $this->data["prenda"]);
+        $stmt->bindParam(":material", $this->data["material"]);
+        $stmt->bindParam(":cantidad", $this->data["cantidad"]);
 
         return $stmt->execute();
     }
 
     public function delete($id){
-        $query = "DELETE FROM {$this->tabla} WHERE id_patron = :id";
+        $query = "DELETE FROM {$this->tabla} WHERE id_prenda = :id";
         $stmt = $this->prepare($query);
 
         $stmt->bindParam(':id', $id);

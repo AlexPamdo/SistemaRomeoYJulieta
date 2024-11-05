@@ -42,8 +42,8 @@ class DashboardController
         foreach ($this->dashboardData as $key => &$metrics) {
             if (isset($data[$key])) {
 
-                $metrics["active"] = $data[$key]->viewAll(0, "eliminado");
-                $metrics["inactive"] = $data[$key]->viewAll(1, "eliminado");
+                $metrics["active"] = $data[$key]->viewAll(0, "estado");
+                $metrics["inactive"] = $data[$key]->viewAll(1, "estado");
 
                 switch ($key) {
 

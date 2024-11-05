@@ -83,7 +83,7 @@ class UsuariosModel extends ModeloBase
 
     public function edit($id)
     {
-        $query = "UPDATE {$this->tabla} SET nombre_usuario = :nombre, apellido_usuario = :apellido, gmail_usuario = :gmail, contraseña_usuario = :contrasena, rol = :roles WHERE id_usuario = :id";
+        $query = "UPDATE {$this->tabla} SET nombre_usuario = :nombre, apellido_usuario = :apellido, gmail_usuario = :gmail, contrasena_usuario = :contrasena, rol = :roles WHERE id_usuario = :id";
 
         $stmt = $this->prepare($query);
 

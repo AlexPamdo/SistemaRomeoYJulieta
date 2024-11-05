@@ -5,7 +5,6 @@ use src\Model\AlmacenModel;
 use src\Model\CategoriasPrendaModel;
 use src\Model\ColeccionesModel;
 use src\Model\ColoresModel;
-use src\Model\GenerosModel;
 use src\Model\TallasModel;
 
 $categoriasModel = new CategoriasPrendaModel();
@@ -13,7 +12,6 @@ $tallasModel = new TallasModel();
 $coloresModel = new ColoresModel();
 $materialesModel = new AlmacenModel();
 $coleccionesModel = new ColeccionesModel();
-$generosModel = new GenerosModel();
 ?>
 
 <div class="modal fade" id="editar" data-bs-backdrop="static"
@@ -97,12 +95,12 @@ $generosModel = new GenerosModel();
                             <div class="col-md-6">
                                 <label for="genero_edit">Género</label>
                                 <select class="form-select" name="genero_edit" id="genero_edit" required>
-                                    <option selected>Genero</option>
-                                    <?php
-                                    $generosData = $generosModel->viewAll();
-                                    foreach ($generosData as $genero): ?>
-                                        <option value="<?php echo $genero["id_genero"] ?>"><?php echo $genero["genero"] ?></option>
-                                    <?php endforeach; ?>
+                                    <option selected>Seleccione un genero</option>
+
+                                    <option value="Niño">Niño</option>
+                                    <option value="Niño">Niña</option>
+
+
                                 </select>
                             </div>
                             <div class="col-md-6">
@@ -110,6 +108,67 @@ $generosModel = new GenerosModel();
                                 <input type="text" class="form-control" id="precio_edit"
                                     placeholder="Ingrese el precio de la prenda" name="precio_edit"
                                     required>
+                            </div>
+                        </div>
+
+                        <div class="row g-3"> <!-- Div info -->
+                            <div class="col-md-6">
+
+                                <h4 class="text-center text-body">Materiales de la prenda</h4>
+
+                                <!-- boton para agregar materiales -->
+                                <div class="text-center d-flex flex-column align-content-center align-items-center">
+                                    <button type="button" onclick="añadirMaterialEdit(<?php echo $patron['id_patron'] ?>)" name="btnAñadirMaterial"
+                                        class="btn btn-rj-blue w-50">Añadir Material +</button>
+                                    <small class="form-text text-muted">Minimo un Material, Maximo: 10 Materiales</small>
+                                </div>
+
+                                <!-- Tabla de materiales agregados -->
+                                <div class="card mt-3">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col"></th>
+                                                <th scope="col">Nombre</th>
+                                                <th scope="col">Cantidad</th>
+                                                <th scope="col">Acción</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody class="tablaMateriales" data-patron="<?php echo $patron['id_patron'] ?>">
+                                            <tr>
+                                                <td>1</td>
+                                                <td>
+                                                    <div class="input-group">
+                                                        <select class="form-select materialSelect" name="material[0][id_Material]">
+                                                            <option value="none">Ninguno</option>
+                                                            <?php foreach ($materialesData as $material) : ?>
+                                                                <option value="<?php echo $material['id_material'] ?>">
+                                                                    <?php echo $material['nombre_material'] ?>
+                                                                </option>
+                                                            <?php endforeach; ?>
+                                                        </select>
+                                                        <div class="invalid-feedback">Por favor, selecciona un material.</div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <input type="number" class="cantidadInput form-control" name="material[0][cantidad]" placeholder="Cantidad de materiales">
+                                                    <div class="invalid-feedback">Por favor, introduce la cantidad.</div>
+                                                </td>
+                                                <td>
+                                                    <button type="button" class="btn btn-danger btn-sm eliminarBtn"><i class="fa-solid fa-xmark"></i></button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+
+                                    </table>
+                                </div>
+
+                                <!-- Botón para crear el patrón -->
+                                <div class="text-center mt-3">
+                                    <button type="submit" name="btnCrearPatron" value="crear"
+                                        class="btn btn-rj-blue w-100">Crear</button>
+                                </div>
                             </div>
                         </div>
                     </div>

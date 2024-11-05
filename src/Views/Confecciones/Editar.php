@@ -1,6 +1,6 @@
 <?php 
 use src\Model\EmpleadosModel;
-use src\Model\PatronesModel;
+use src\Model\PrendasModel;
 ?>
 
 <!-- Modal Para Crear -->
@@ -25,16 +25,16 @@ use src\Model\PatronesModel;
                             <label class="fw-bold" for="validationCustom01">Patrones</label>
                             <div class="form-label input-group flex-nowrap m-2">
                                 <select class="form-select" name="patron" id="">
-                                    <?php
+                                <?php
                                     //incluimos el controlador para acceder a la funcion ver todo
-                                    $patrones = new PatronesModel();
-                                    $patronesData = $patrones->viewAll();
+                                    $prendas = new PrendasModel();
+                                    $prendasData = $prendas->viewAll(0,"estado");
 
-                                    foreach ($patronesData as $patron) : ?>
+                                    foreach ($prendasData as $prenda) : ?>
 
                                         <!-- usamos el foreach para mostrar todas las recetas disponibles -->
-                                        <option value="<?php echo $patron['id_patron'] ?>">
-                                            <?php echo $patron['nombre_patron'] ?></option>
+                                        <option value="<?php echo $prenda['id_prenda'] ?>">
+                                            <?php echo $prenda['nombre_prenda'] ?></option>
                                     <?php endforeach; ?>
                                 </select>
                                 <div class="valid-feedback"></div>

@@ -11,10 +11,10 @@ class ConfeccionesModel extends ModeloBase
     protected $tabla = "confeccion";
 
 
-    public function setData($patron, $cantidad, $fechaFabricacion, $empleado)
+    public function setData($prenda, $cantidad, $fechaFabricacion, $empleado)
     {
         $this->data = [
-            "patron" => $patron,
+            "prenda" => $prenda,
             "cantidad" => $cantidad,
             "fecha_fabricacion" => $fechaFabricacion,
             "empleado" => $empleado,
@@ -26,14 +26,11 @@ class ConfeccionesModel extends ModeloBase
 
         $sql = "SELECT 
     u.*,
-    e.nombre_empleado AS id_empleado,
-    p.nombre_patron as id_prenda
+    e.nombre_empleado AS id_empleado
 FROM
     confeccion u
 INNER JOIN
-    empleados e ON u.id_empleado = e.id_empleado
-INNER JOIN
-    patrones p ON u.id_patron = p.id_patron";
+    empleados e ON u.id_empleado = e.id_empleado";
 
         // Agregar condición si se proporciona un valor y columna
         if ($value !== "" && $column !== "") {
@@ -59,14 +56,15 @@ INNER JOIN
 
     public function create()
     {
-        $query = "INSERT INTO {$this->tabla} (id_patron, cantidad, fecha_fabricacion, id_empleado) VALUES (:patron, :cantidad, :fecha_fabricacion, :empleado)";
+        $query = "INSERT INTO {$this->tabla} (id_prenda, cantidad, fecha_fabricacion, id_empleado) VALUES (:prenda, :cantidad, :fecha_fabricacion, :empleado)";
 
         $stmt = $this->prepare($query);
 
-        // Bindea los parámetros usando los datos del array $data
-        foreach ($this->data as $param => $value) {
-            $stmt->bindParam(":$param", $value);
-        }
+       $stmt->bindParam(":prenda", $this->data["prenda"]);
+       $stmt->bindParam(":cantidad", $this->data["cantidad"]);
+       $stmt->bindParam(":fecha_fabricacion", $this->data["fecha_fabricacion"]);
+       $stmt->bindParam(":empleado", $this->data["empleado"]);
+
 
         return $stmt->execute();
     }
@@ -90,14 +88,16 @@ INNER JOIN
 
     public function edit($id)
     {
-        $query = "UPDATE {$this->tabla} SET id_patron = :patron, cantidad = :cantidad, fecha_fabricacion = :fecha_fabricacion, id_empleado = :empleado WHERE id_usuario = :id";
+        $query = "UPDATE {$this->tabla} SET id_prenda = :prenda, cantidad = :cantidad, fecha_fabricacion = :fecha_fabricacion, id_empleado = :empleado WHERE id_usuario = :id";
 
         $stmt = $this->prepare($query);
 
-        // Bindea los parámetros usando los datos del array $data
-        foreach ($this->data as $param => $value) {
-            $stmt->bindParam(":$param", $value);
-        }
+        $stmt->bindParam(":prenda", $this->data["prenda"]);
+        $stmt->bindParam(":cantidad", $this->data["cantidad"]);
+        $stmt->bindParam(":fecha_fabricacion", $this->data["fecha_fabricacion"]);
+        $stmt->bindParam(":empleado", $this->data["empleado"]);
+        $stmt->bindParam(":id", $id);
+ 
 
         return $stmt->execute();
     }

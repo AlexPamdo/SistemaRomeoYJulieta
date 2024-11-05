@@ -2,7 +2,6 @@
 
 namespace src\Model;
 
-use src\Config\Connection;
 use PDO;
 
 class PrendasModel extends ModeloBase
@@ -14,7 +13,7 @@ class PrendasModel extends ModeloBase
     protected $tabla = "prendas";
 
 
-    public function viewPrendas($value = "", $column = "")
+    public function viewPrendas($value = "", $column = "", $stock = "")
     {
 
         $sql = "SELECT 
@@ -22,8 +21,7 @@ class PrendasModel extends ModeloBase
         p.nombre AS categoria, 
         c.color AS color,
         l.coleccion AS coleccion,
-        t.cm AS talla,
-        g.genero AS genero
+        t.cm AS talla
     FROM {$this->tabla} u
     INNER JOIN 
         categorias_prenda p ON u.id_categoria = p.id_categoria
@@ -32,14 +30,19 @@ class PrendasModel extends ModeloBase
     INNER JOIN 
         colecciones_prenda l ON u.id_coleccion = l.id_coleccion
     INNER JOIN 
-        tallas t ON u.id_talla = t.id_talla
-    INNER JOIN
-        generos_prenda g on u.id_genero = g.id_genero";
+        tallas t ON u.id_talla = t.id_talla";
 
         // Agregar condición si se proporciona un valor y columna
         if ($value !== "" && $column !== "") {
             // Asegurarse de que la columna sea válida (esto es importante para prevenir SQL Injection)
             $sql .= " WHERE u.$column = :value";
+
+            // Agregar condición si se proporciona stock
+            if ($stock === "") {
+                $sql.= " AND stock > 0";
+            }if( $stock === 0) {
+                $sql.= " AND stock <= 0";
+            }
         }
 
         // Preparar la consulta
@@ -56,33 +59,43 @@ class PrendasModel extends ModeloBase
         // Retornar los resultados
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    public function setData($img, $nombre, $patron, $categoria, $talla, $coleccion, $color, $cant, $genero, $precio)
+    public function setData($img, $nombre, $categoria, $talla, $coleccion, $color, $cant, $genero, $precio)
     {
         $this->data = [
             'imagen' => $img,
             'nombre' => trim($nombre),
-            'patron' => (int)$patron,
+            'genero' => $genero,
             'categoria' => (int)$categoria,
             'color' => (int)$color,
             'stock' => (int)$cant,
             'coleccion' => (int)$coleccion,
             'talla' => (int)$talla,
-            'genero' => (int)$genero,
             'precio' => (int)$precio
         ];
     }
 
     public function create()
     {
-        $query = "INSERT INTO {$this->tabla} (img_prenda, nombre_prenda, patron_prenda, id_categoria, id_color, stock, id_coleccion, id_talla, id_genero, precio_unitario) VALUES (:img, :nombre, :patron, :categoria, :color, :stock, :coleccion, :talla, :genero, :precio)";
+        $query = "INSERT INTO {$this->tabla} (img_prenda, nombre_prenda, genero,id_categoria, id_color, stock, id_coleccion, id_talla, precio_unitario) VALUES (:img, :nombre, :genero, :categoria, :color, :stock, :coleccion, :talla, :precio)";
 
         $stmt = $this->prepare($query);
 
-        foreach ($this->data as $param => $value) {
-            $stmt->bindParam(":$param", $value);
-        }
+        $stmt->bindParam(":img", $this->data["imagen"]);
+        $stmt->bindParam(":nombre", $this->data["nombre"]);
+        $stmt->bindParam(":genero", $this->data["genero"]);
+        $stmt->bindParam(":categoria", $this->data["categoria"]);
+        $stmt->bindParam(":color", $this->data["color"]);
+        $stmt->bindParam(":stock", $this->data["stock"]);
+        $stmt->bindParam(":coleccion", $this->data["coleccion"]);
+        $stmt->bindParam(":talla", $this->data["talla"]);
+        $stmt->bindParam(":precio", $this->data["precio"]);
 
-        return $stmt->execute();
+
+       if($stmt->execute()){
+        return $this->lastInsertId();
+       }else{
+        return false;
+       }
     }
 
 

@@ -4,33 +4,34 @@ namespace src\Model;
 
 use PDO;
 
-class OrdenPedidoModel extends ModeloBase
+class OrdenEntregaModel extends ModeloBase
 {
 
     protected $data = [];
-    protected $tabla = "orden_pedido";
+    protected $tabla = "orden_entrega";
 
-    public function setData($pedido, $material, $cantidad)
+    public function setData($entrega, $prenda, $cantidad)
     {
         $data = [
-            'pedido' => $pedido,
-            'material' => $material,
+            'entrega' => $entrega,
+            'prenda' => $prenda,
             'cantidad' => $cantidad,
         ];
     }
 
-    public function viewMaterials($value = "", $column = "")
+    public function viewPrendas($value = "", $column = "")
     {
         $sql = "SELECT 
         u.*, 
-        n.nombre_material AS material,
-        t.tipo_material AS tipo,
+        p.nombre AS categoria, 
         c.color AS color,
-        n.stock AS cantidad_Stock
-        FROM {$this->tabla} u
-        INNER JOIN almacen n ON u.id_material = n.id_material
-        INNER JOIN tipos_materiales t ON n.tipo_material = t.id_tipo_material
-        INNER JOIN colores c ON n.color_material = c.id_color";
+        l.coleccion AS coleccion,
+        t.cm AS talla
+    FROM {$this->tabla} u
+    INNER JOIN categorias_prenda p ON u.id_categoria = p.id_categoria
+    INNER JOIN colores c ON u.id_color = c.id_color
+    INNER JOIN colecciones_prenda l ON u.id_coleccion = l.id_coleccion
+    INNER JOIN tallas t ON u.id_talla = t.id_talla";
 
         // Agregar condición si se proporciona un valor y columna
         if ($value !== "" && $column !== "") {
@@ -56,13 +57,12 @@ class OrdenPedidoModel extends ModeloBase
 
     public function create()
     {
-        $query = "INSERT INTO {$this->tabla} (id_pedido, id_material, cantidad_material) VALUES (:pedido, :material, :cantidad)";
+        $query = "INSERT INTO {$this->tabla} (id_entrega, id_prenda, cantidad_prenda) VALUES (:pedido, :material, :cantidad)";
         $stmt = $this->prepare($query);
 
-        $stmt->bindParam(":pedido", $this->data["pedido"]);
-        $stmt->bindParam(":material", $this->data["material"]);
-        $stmt->bindParam(":cantidad", $this->data["cantidad"]);
-
+        foreach($this->data as $param => $value){
+            $stmt->bindParam(":$param", $value);
+        }
 
         if ($stmt->execute()) {
             return true;

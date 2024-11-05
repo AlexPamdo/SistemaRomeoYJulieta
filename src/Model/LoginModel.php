@@ -20,7 +20,7 @@ class LoginModel extends ModeloBase
 
     public function login()
     {
-        $sql = "SELECT * FROM {$this->tabla} WHERE gmail_usuario = :gmail AND contraseña_usuario = :contrasena";
+        $sql = "SELECT * FROM {$this->tabla} WHERE gmail_usuario = :gmail AND contrasena_usuario = :contrasena";
         $stmt = $this->prepare($sql);
 
         $stmt->bindParam(':gmail', $this->data["gmail"]);

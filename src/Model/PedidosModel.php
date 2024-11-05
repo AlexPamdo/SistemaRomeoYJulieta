@@ -3,7 +3,7 @@
 namespace src\Model;
 
 use PDO;
-
+use Exception;
 class PedidosModel extends ModeloBase
 {
 
@@ -12,17 +12,7 @@ class PedidosModel extends ModeloBase
     protected $tabla = "pedidos";
 
 
-    public function setData($proveedor, $fecha_pedido, $estado, $usuario, $total)
-    {
 
-        $this->data = [
-            'proveedor' => $proveedor,
-            'fecha_pedido' => $fecha_pedido,
-            'estado' => $estado,
-            'usuario' => $usuario,
-            'total' => $total,
-        ];
-    }
 
 
     public function viewPedidos($value = "", $column = "")
@@ -60,44 +50,60 @@ class PedidosModel extends ModeloBase
     }
 
 
+    public function setData($proveedor, $fecha_pedido, $estado, $usuario, $total)
+    {
+
+        $this->data = [
+            'proveedor' => $proveedor,
+            'fecha_pedido' => $fecha_pedido,
+            'estado' => $estado,
+            'usuario' => $usuario,
+            'total' => $total,
+        ];
+    }
+
+
 
     public function create()
-    {
-        $stmt = $this->prepare("INSERT INTO {$this->tabla} (id_proveedor, fecha_pedido, estado_pedido, id_usuario, total_pedido) 
-        VALUES (:proveedor, :fecha_pedido, :estado, :usuario, :total)");
+{
+    $stmt = $this->prepare("INSERT INTO {$this->tabla} ( id_proveedor, fecha_pedido, estado_pedido, id_usuario, total_pedido) 
+    VALUES ( :proveedor, :fecha_pedido, :estado, :usuario, :total)");
 
-        foreach($this->data as $param => $value){
-            $stmt->bindParam(":$param", $value);
-        }
+    $stmt->bindParam(":proveedor", $this->data["proveedor"]);
+    $stmt->bindParam(":fecha_pedido", $this->data["fecha_pedido"]);
+    $stmt->bindParam(":estado", $this->data["estado"]);
+    $stmt->bindParam(":usuario", $this->data["usuario"]);
+    $stmt->bindParam(":total", $this->data["total"]);
 
-        $stmt->execute();
-
+    if($stmt->execute()){
         return $this->lastInsertId();
+    }else{
+        return false;
     }
+}
 
     public function delete($id)
     {
-       return $this->toggleStatus(1,"id_pedido",$id);
+        return $this->toggleStatus(1, "id_pedido", $id);
     }
 
     public function active($id)
     {
-        return $this->toggleStatus(0,"id_pedido",$id);
+        return $this->toggleStatus(0, "id_pedido", $id);
     }
 
     public function remove($id)
     {
-        return $this->hardDelete("id_pedido",$id);
+        return $this->hardDelete("id_pedido", $id);
     }
     public function edit($id)
     {
         $stmt = $this->prepare("UPDATE {$this->tabla} SET id_proveedor = :proveedor, fecha_pedido = :fecha_pedido, estado_pedido = :estado, id_usuario = :usuario, total_pedido = :total WHERE id_pedido = :id");
 
-        foreach($this->data as $param => $value){
+        foreach ($this->data as $param => $value) {
             $stmt->bindParam(":$param", $value);
         }
 
         return $stmt->execute();
     }
-
 }

@@ -22,8 +22,8 @@ class EmpleadosController implements CrudController
             exit;
         }
 
-        $empleadosDesabilitadosData = $this->model->viewEmpleados(1,"eliminado");
-        $empleadosData = $this->model->viewEmpleados(0,"eliminado");
+        $empleadosDesabilitadosData = $this->model->viewEmpleados(1,"estado");
+        $empleadosData = $this->model->viewEmpleados(0,"estado");
         require_once("src/Views/Empleados.php");
     }
 
