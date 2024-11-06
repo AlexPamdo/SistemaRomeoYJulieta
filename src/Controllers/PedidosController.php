@@ -45,7 +45,7 @@ class PedidosController implements CrudController
     public function calcularPrecio($materialesData)
     {
         $total = 0;
-
+    
         foreach ($materialesData as $materiales) {
             if (!empty($materiales['cantidad']) && $materiales['id_Material'] !== "none") {
                 // Verifica que getPrecio esté funcionando correctamente
@@ -53,66 +53,73 @@ class PedidosController implements CrudController
                 if ($precio === false) {
                     throw new Exception("Error al obtener el precio del material con ID: " . $materiales['id_Material']);
                 }
-
-                $total += $precio;
+    
+                // Multiplica el precio por la cantidad
+                $total += $precio * $materiales['cantidad'];
             } else {
                 return null; // Retornar null si hay un material no válido
             }
         }
-
+    
         return $total > 0 ? $total : null; // Retornar null si no hay materiales válidos
     }
 
 
     public function subirStock($materialesData, $id_pedido)
-    {
-        foreach ($materialesData as $materiales) {
-            if ($materiales['cantidad'] !== '' && $materiales['id_Material'] !== "none") {
+{
+    // Verificación previa de id_pedido antes de iterar
+    if (!$id_pedido) {
+        throw new Exception("Error: id de pedido no válido");
+    }
 
-                //y vamos agregando el nuevo stock a dicho material
-                $stock = $this->almacenModel->showColumn("stock", "id_material", $materiales['id_Material']);
-                $newStock = $materiales['cantidad'] + $stock;
+    foreach ($materialesData as $materiales) {
+        if (!empty($materiales['cantidad']) && $materiales['id_Material'] !== "none") {
 
-                if (!$this->almacenModel->updateColumn(
-                    "stock",
-                    $newStock,
-                    "id_material",
-                    $materiales['id_Material']
-                )) {
-                    throw new Exception("Error al Actualizar el stock del material");
-                }
-
-                if (!$id_pedido) {
-                    throw new Exception("Error al obtener el id del pedido");
-                }
-
-                //Anotar el material en la tabla ordenPedido
-                $this->ordenPedido->setData(
-                    $id_pedido,
-                    $materiales['id_Material'],
-                    $materiales['cantidad'],
-                );
-
-                if (!$this->ordenPedido->create()) {
-                    throw new Exception("Error al registrar el material");
-                }
-            } else {
-                throw new Exception("No se han ingresado materiales validos para calcular el precio");
+            // Obtener el stock actual y calcular el nuevo stock
+            $stock = $this->almacenModel->showColumn("stock", "id_material", $materiales['id_Material']);
+            if ($stock === false) {
+                throw new Exception("Error al obtener el stock actual del material con ID: " . $materiales['id_Material']);
             }
+
+            $newStock = $materiales['cantidad'] + $stock;
+
+            // Actualizar el stock
+            if (!$this->almacenModel->updateColumn(
+                "stock",
+                $newStock,
+                "id_material",
+                $materiales['id_Material']
+            )) {
+                throw new Exception("Error al actualizar el stock del material con ID: " . $materiales['id_Material']);
+            }
+
+            // Registrar el material en la tabla ordenPedido
+            $this->ordenPedido->setData(
+                $id_pedido,
+                $materiales['id_Material'],
+                $materiales['cantidad']
+            );
+
+            if (!$this->ordenPedido->create()) {
+                throw new Exception("Error al registrar el material con ID: " . $materiales['id_Material'] . " en la orden de pedido");
+            }
+        } else {
+            // Opcional: podrías usar continue si quieres ignorar los materiales inválidos
+            throw new Exception("Material inválido detectado, verifique los datos ingresados.");
         }
     }
+}
 
 
     public function create()
 {
     try {
-        $this->model->beginTransaction();
+       
 
         if (isset($_POST['material']) && is_array($_POST['material'])) {
             $total = $this->calcularPrecio($_POST['material']);
 
             // Asignar el ID y otros datos
-            
             $this->model->setData(
                 $_POST["proveedor"],
                 date('Y-m-d H:i:s'),
@@ -124,24 +131,19 @@ class PedidosController implements CrudController
 
             $id_pedido = $this->model->create();
 
-            // Intentar crear el pedido
             if (!$id_pedido) {
                 throw new Exception("Error al registrar el pedido");
             }
 
-            if ($id_pedido) {
-                throw new Exception("El id del pedido es" , $id_pedido);
-            }
-
             $this->subirStock($_POST['material'], $id_pedido);
 
-            $this->model->commit();
+        
             header("Location: index.php?page=pedidos&succes=create");
         } else {
             throw new Exception("No se han proporcionado materiales válidos");
         }
     } catch (Exception $e) {
-        $this->model->rollback();
+       
         header("Location: index.php?page=pedidos&error=other&errorDesc=" . $e->getMessage());
     }
     exit();

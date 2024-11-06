@@ -4,6 +4,7 @@ namespace src\Model;
 
 use PDO;
 use Exception;
+
 class PedidosModel extends ModeloBase
 {
 
@@ -63,24 +64,34 @@ class PedidosModel extends ModeloBase
     }
 
 
-
     public function create()
-{
-    $stmt = $this->prepare("INSERT INTO {$this->tabla} ( id_proveedor, fecha_pedido, estado_pedido, id_usuario, total_pedido) 
-    VALUES ( :proveedor, :fecha_pedido, :estado, :usuario, :total)");
+    {
+        try {
+            // Preparar la consulta
+            $stmt = $this->prepare("INSERT INTO {$this->tabla} (id_proveedor, fecha_pedido, estado_pedido, id_usuario, total_pedido) 
+                                    VALUES (:proveedor, :fecha_pedido, :estado, :usuario, :total)");
 
-    $stmt->bindParam(":proveedor", $this->data["proveedor"]);
-    $stmt->bindParam(":fecha_pedido", $this->data["fecha_pedido"]);
-    $stmt->bindParam(":estado", $this->data["estado"]);
-    $stmt->bindParam(":usuario", $this->data["usuario"]);
-    $stmt->bindParam(":total", $this->data["total"]);
+            // Vincular parámetros
+            $stmt->bindParam(":proveedor", $this->data["proveedor"],PDO::PARAM_INT);
+            $stmt->bindParam(":fecha_pedido", $this->data["fecha_pedido"],PDO::PARAM_STR);
+            $stmt->bindParam(":estado", $this->data["estado"],PDO::PARAM_INT);
+            $stmt->bindParam(":usuario", $this->data["usuario"],PDO::PARAM_INT);
+            $stmt->bindParam(":total", $this->data["total"],PDO::PARAM_LOB);
 
-    if($stmt->execute()){
-        return $this->lastInsertId();
-    }else{
-        return false;
+            // Ejecutar la sentencia y verificar el resultado
+            if ($stmt->execute()) {
+                return (int) $this->lastInsertId();
+            } else {
+                // Captura de errores específicos si la ejecución falla
+                $errorInfo = $stmt->errorInfo();
+                throw new Exception("Error en la ejecución: {$errorInfo[2]}");
+            }
+        } catch (Exception $e) {
+            // Manejo de errores
+            echo "Error: " . $e->getMessage();
+            return false;
+        }
     }
-}
 
     public function delete($id)
     {

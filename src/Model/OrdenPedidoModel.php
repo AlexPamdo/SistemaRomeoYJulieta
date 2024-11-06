@@ -3,6 +3,7 @@
 namespace src\Model;
 
 use PDO;
+use PDOException;
 
 class OrdenPedidoModel extends ModeloBase
 {
@@ -12,10 +13,10 @@ class OrdenPedidoModel extends ModeloBase
 
     public function setData($pedido, $material, $cantidad)
     {
-        $data = [
-            'pedido' => $pedido,
-            'material' => $material,
-            'cantidad' => $cantidad,
+        $this->data = [
+            'pedido' => (int)$pedido,
+            'material' => (int)$material,
+            'cantidad' => (int)$cantidad,
         ];
     }
 
@@ -55,21 +56,31 @@ class OrdenPedidoModel extends ModeloBase
 
 
     public function create()
-    {
-        $query = "INSERT INTO {$this->tabla} (id_pedido, id_material, cantidad_material) VALUES (:pedido, :material, :cantidad)";
-        $stmt = $this->prepare($query);
+{
+    $query = "INSERT INTO {$this->tabla} (id_pedido, id_material, cantidad_material) VALUES (:pedido, :material, :cantidad)";
+    $stmt = $this->prepare($query);
 
-        $stmt->bindParam(":pedido", $this->data["pedido"]);
-        $stmt->bindParam(":material", $this->data["material"]);
-        $stmt->bindParam(":cantidad", $this->data["cantidad"]);
+    // Bind de parámetros con depuración
+    $stmt->bindParam(":pedido", $this->data["pedido"],PDO::PARAM_INT);
+    $stmt->bindParam(":material", $this->data["material"],PDO::PARAM_INT);
+    $stmt->bindParam(":cantidad", $this->data["cantidad"],PDO::PARAM_INT);
 
-
+    try {
         if ($stmt->execute()) {
+            echo "Inserción exitosa: Pedido: {$this->data["pedido"]}, Material: {$this->data["material"]}, Cantidad: {$this->data["cantidad"]}\n";
             return true;
         } else {
+            // Captura de errores específicos si falla el execute
+            $errorInfo = $stmt->errorInfo();
+            echo "Error en la ejecución de la consulta. SQLSTATE: {$errorInfo[0]}, Código de Error: {$errorInfo[1]}, Mensaje: {$errorInfo[2]}\n";
             return false;
         }
+    } catch (PDOException $e) {
+        // Manejo de excepciones
+        echo "Excepción capturada: " . $e->getMessage() . "\n";
+        return false;
     }
+}
 
   public function edit($id){}
 }
