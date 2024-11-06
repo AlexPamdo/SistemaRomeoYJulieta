@@ -4,7 +4,7 @@ namespace src\Controllers;
 
 use src\Model\AlmacenModel;
 use Interfaces\CrudController;
-
+use Exception;
 
 class AlmacenController implements CrudController
 {
@@ -14,14 +14,12 @@ class AlmacenController implements CrudController
     public function __construct()
     {
         $this->materialModel = new AlmacenModel();
-
-
     }
 
     public function show()
     {
-        $materialesDesabilitados = $this->materialModel->showMaterials(1,"estado");
-        $materialData = $this->materialModel->showMaterials(0,"estado");
+        $materialesDesabilitados = $this->materialModel->showMaterials(1, "estado");
+        $materialData = $this->materialModel->showMaterials(0, "estado");
 
         include_once("src/Views/Almacen.php");
     }
@@ -35,20 +33,27 @@ class AlmacenController implements CrudController
 
     public function create()
     {
+        try {
+            $this->materialModel->beginTransaction();
+            $this->materialModel->setData(
+                $_POST["nombre_material"],
+                $_POST["tipo_material"],
+                $_POST["color_material"],
+                $_POST["stock"],
+                $_POST["precio"]
+            );
 
-        $this->materialModel->setData(
-            $_POST["nombre_material"],
-            $_POST["tipo_material"],
-            $_POST["color_material"],
-            $_POST["stock"],
-            $_POST["precio"]
-        );
-
-        if ($this->materialModel->create()) {
-            header("Location: index.php?page=almacen&succes=create");
-        } else {
-            header("Location: index.php?page=almacen&error=create");
+            if ($this->materialModel->create()) {
+                $this->materialModel->commit();
+                header("Location: index.php?page=almacen&succes=create");
+            } else {
+                header("Location: index.php?page=almacen&error=create");
+            }
+        } catch (Exception $e) {
+            $this->materialModel->rollBack();
+            header("Location: index.php?page=almacen&error=other&errorDesc=". $e->getMessage());     
         }
+        exit();
     }
 
 
@@ -96,8 +101,5 @@ class AlmacenController implements CrudController
         } else {
             header("Location: index.php?page=almacen&error=edit");
         }
-
     }
-
-    
 }

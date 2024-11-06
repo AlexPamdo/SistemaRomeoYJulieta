@@ -14,12 +14,14 @@ abstract class ModeloBase extends Database
     {
         try {
             $sql = "SELECT * FROM {$this->tabla}";
-            if ($value) {
+            if ($value !== "" && $column !== "") {
                 $sql .= " WHERE $column = $value";
             }
             $stmt = $this->prepare($sql);
+
             $stmt->execute();
-            return $stmt->fetchAll();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
         } catch (\PDOException $e) {
             echo "Error:" . $e->getMessage();
             return [];
@@ -46,7 +48,8 @@ abstract class ModeloBase extends Database
         return $stmt->fetchColumn();
     }
 
-    public function hardDelete($condition,$id){
+    public function hardDelete($condition, $id)
+    {
         $stmt = $this->prepare("DELETE FROM {$this->tabla} WHERE $condition = :id");
         $stmt->bindParam(":id", $id);
 
@@ -57,7 +60,7 @@ abstract class ModeloBase extends Database
             throw new Exception("Error al eliminar: " . $errorInfo[2]);
         }
     }
-    public function toggleStatus($status,$condition, $id)
+    public function toggleStatus($status, $condition, $id)
     {
         $stmt = $this->prepare("UPDATE {$this->tabla} SET estado = $status WHERE $condition = :id");
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);

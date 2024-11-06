@@ -1,7 +1,7 @@
 <script>
     var succes = "<?php echo isset($_GET['succes']) ? $_GET['succes'] : ''; ?>"; // Asegúrate de que se maneje como una cadena
     var error = "<?php echo isset($_GET['error']) ? $_GET['error'] : ''; ?>"; // Asegúrate de que se maneje como una cadena
-    var errorDesc = "<?php echo isset($_GET['errorDesc']) ? $_GET['errorDesc'] : '';?>"
+    var errorDesc = "<?php echo isset($_GET['errorDesc']) ? $_GET['errorDesc'] : ''; ?>"
 
 
     switch (succes) {
@@ -25,15 +25,20 @@
             succes = "";
             break;
 
-            case "remove":
+        case "remove":
             alertify.success('Elemento Removido');
             succes = "";
             break;
 
-            case "changePassword":
-                alertify.success('Contraseña cambiada con exito');
-                succes = "";
-                break;
+        case "update":
+            alertify.success('Elemento Actualizado');
+            succes = "";
+            break;
+
+        case "changePassword":
+            alertify.success('Contraseña cambiada con exito');
+            succes = "";
+            break;
 
         default:
 
@@ -58,6 +63,11 @@
 
         case "restore":
             alertify.success('Error al Restaurar');
+            succes = "";
+            break;
+
+        case "update":
+            alertify.success('Error al Actualizar');
             succes = "";
             break;
 

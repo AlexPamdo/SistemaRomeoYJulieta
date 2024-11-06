@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 06-11-2024 a las 02:14:30
+-- Tiempo de generación: 06-11-2024 a las 20:50:05
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -42,7 +42,13 @@ CREATE TABLE `almacen` (
 --
 
 INSERT INTO `almacen` (`id_material`, `nombre_material`, `tipo_material`, `color_material`, `stock`, `precio`, `estado`) VALUES
-(44, 'Holaasd', 2, 18, 19, 23, 0);
+(62, 'materia prima 5', 1, 17, 2, 5, 0),
+(63, 'materia prima 5', 1, 17, -3, 5, 0),
+(64, 'materia prima 5', 1, 17, -2, 5, 0),
+(65, 'materia prima 5', 1, 17, -1, 5, 0),
+(66, 'materia prima 5', 1, 17, 10, 5, 0),
+(67, 'materia prima 5', 1, 17, 11, 5, 0),
+(68, 'materia prima 5', 1, 17, 6, 5, 0);
 
 -- --------------------------------------------------------
 
@@ -159,7 +165,7 @@ INSERT INTO `confeccion` (`id_confeccion`, `id_prenda`, `cantidad`, `tiempo_fabr
 (28, 105, 1, NULL, '2024-11-06', 1, 0),
 (29, 105, 1, NULL, '2024-11-06', 1, 0),
 (30, 105, 1, NULL, '2024-11-06', 5, 0),
-(31, 105, 1, NULL, '2024-11-06', 1, 0);
+(31, 105, 1, NULL, '2024-11-06', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -185,7 +191,7 @@ CREATE TABLE `empleados` (
 
 INSERT INTO `empleados` (`id_empleado`, `cedula_empleado`, `nombre_empleado`, `apellido_empleado`, `telefono_empleado`, `email_empleado`, `id_ocupacion`, `sueldo`, `estado`) VALUES
 (1, 'v-30873556', 'Alexito', 'Pérez', '04125640755', 'Alex123@gmail.com', 1, 1500, 0),
-(5, 'v-13344799', 'Luis', 'Ramírez', '3344556677', 'luis.ramirez@example.com', 5, 1000, 0);
+(5, 'v-13344799', 'Luis', 'Ramírez', '3344556677', 'luis.ramirez@example.com', 5, 1000, 1);
 
 -- --------------------------------------------------------
 
@@ -199,6 +205,13 @@ CREATE TABLE `entregas` (
   `total_entrega` int(11) NOT NULL,
   `estado` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `entregas`
+--
+
+INSERT INTO `entregas` (`id_entrega`, `fecha_entrega`, `total_entrega`, `estado`) VALUES
+(5, '2024-11-06', 23, 0);
 
 -- --------------------------------------------------------
 
@@ -250,6 +263,13 @@ CREATE TABLE `orden_entrega` (
   `cantidad_prenda` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `orden_entrega`
+--
+
+INSERT INTO `orden_entrega` (`id_orden_entrega`, `id_entrega`, `id_prenda`, `cantidad_prenda`) VALUES
+(2, 5, 105, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -268,7 +288,17 @@ CREATE TABLE `orden_pedido` (
 --
 
 INSERT INTO `orden_pedido` (`id_orden_pedido`, `id_pedido`, `id_material`, `cantidad_material`) VALUES
-(0, 22, 44, 3);
+(1, 26, 62, 3),
+(2, 26, 64, 3),
+(3, 27, 63, 3),
+(4, 27, 66, 5),
+(5, 27, 67, 6),
+(6, 27, 68, 1),
+(10, 31, 65, 1),
+(11, 32, 63, 3),
+(12, 32, 65, 1),
+(13, 33, 63, 5),
+(14, 33, 65, 3);
 
 -- --------------------------------------------------------
 
@@ -291,7 +321,15 @@ CREATE TABLE `pedidos` (
 --
 
 INSERT INTO `pedidos` (`id_pedido`, `id_proveedor`, `fecha_pedido`, `estado_pedido`, `id_usuario`, `total_pedido`, `estado`) VALUES
-(22, 26, '2024-11-06', 0, 1, 69, 0);
+(22, 26, '2024-11-06', 0, 1, 69, 0),
+(23, 26, '2024-11-06', 0, 1, 50, 0),
+(24, 26, '2024-11-06', 0, 1, 40, 0),
+(25, 26, '2024-11-06', 0, 1, 25, 0),
+(26, 27, '2024-11-06', 0, 1, 30, 1),
+(27, 26, '2024-11-06', 0, 1, 75, 0),
+(31, 27, '2024-11-06', 0, 1, 5, 1),
+(32, 27, '2024-11-06', 1, 1, 20, 1),
+(33, 26, '2024-11-06', 0, 1, 40, 1);
 
 -- --------------------------------------------------------
 
@@ -318,7 +356,8 @@ CREATE TABLE `prendas` (
 --
 
 INSERT INTO `prendas` (`id_prenda`, `img_prenda`, `nombre_prenda`, `genero`, `id_categoria`, `id_color`, `stock`, `id_coleccion`, `id_talla`, `precio_unitario`, `estado`) VALUES
-(105, 'src/Assets/img/prendas/prendaDefault.png', 'Camisa Negra', 'Niño', 1, 1, 1, 1, 2, 23, 0);
+(105, 'src/Assets/img/prendas/prendaDefault.png', 'Camisa Negra', 'Niño', 1, 1, -3, 1, 2, 23, 0),
+(106, 'src/Assets/img/prendas/prendaDefault.png', 'Prueba 2', 'Niño', 4, 1, 3, 3, 2, 10, 0);
 
 -- --------------------------------------------------------
 
@@ -338,7 +377,8 @@ CREATE TABLE `prenda_patron` (
 --
 
 INSERT INTO `prenda_patron` (`id_prenda_patron`, `id_prenda`, `id_material`, `cantidad`) VALUES
-(26, 105, 44, 1);
+(27, 106, 62, 3),
+(28, 106, 68, 5);
 
 -- --------------------------------------------------------
 
@@ -362,7 +402,7 @@ CREATE TABLE `proveedores` (
 
 INSERT INTO `proveedores` (`id_proveedor`, `rif_proveedor`, `nombre_proveedor`, `telefono_proveedor`, `gmail_proveedor`, `notas_proveedor`, `estado`) VALUES
 (26, 'V321321321', 'Telas Alex', '0450807444444', 'aeld@gmail.com', 'Exelente provedorr askjdksajdksajdskjdsakjd', 0),
-(27, 'V305223212', 'sis', '15465465465456454654', 'asdsad@gmail.comn', 'dfs', 0);
+(27, 'V305223212', 'sis', '15465465465456454654', 'asdsad@gmail.comn', 'dfs', 1);
 
 -- --------------------------------------------------------
 
@@ -440,7 +480,7 @@ INSERT INTO `usuarios` (`id_usuario`, `nombre_usuario`, `apellido_usuario`, `gma
 (143, '', '', '', '', 1, 'src/Assets/img/users/User_default_icon.png', 1),
 (144, 'Elena', 'Cachón', 'Eli123@gmail.com', 'Elena12345', 1, 'src/Assets/img/users/User_default_icon.png', 0),
 (145, 'Ane', 'Pere', 'Ane123@gmail.com', 'AnaMaria123', 2, 'src/Assets/img/users/User_default_icon.png', 0),
-(146, 'toño', 'Pere', 'Tono1234@hotmail.com', '123Aeiou', 1, 'src/Assets/img/users/User_default_icon.png', 0);
+(146, 'toño', 'Pere', 'Tono1234@hotmail.com', '123Aeiou', 1, 'src/Assets/img/users/User_default_icon.png', 1);
 
 --
 -- Índices para tablas volcadas
@@ -578,7 +618,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `almacen`
 --
 ALTER TABLE `almacen`
-  MODIFY `id_material` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `id_material` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 
 --
 -- AUTO_INCREMENT de la tabla `categorias_prenda`
@@ -614,7 +654,7 @@ ALTER TABLE `empleados`
 -- AUTO_INCREMENT de la tabla `entregas`
 --
 ALTER TABLE `entregas`
-  MODIFY `id_entrega` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_entrega` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `ocupaciones`
@@ -626,25 +666,31 @@ ALTER TABLE `ocupaciones`
 -- AUTO_INCREMENT de la tabla `orden_entrega`
 --
 ALTER TABLE `orden_entrega`
-  MODIFY `id_orden_entrega` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_orden_entrega` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de la tabla `orden_pedido`
+--
+ALTER TABLE `orden_pedido`
+  MODIFY `id_orden_pedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `pedidos`
 --
 ALTER TABLE `pedidos`
-  MODIFY `id_pedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id_pedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT de la tabla `prendas`
 --
 ALTER TABLE `prendas`
-  MODIFY `id_prenda` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=106;
+  MODIFY `id_prenda` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=107;
 
 --
 -- AUTO_INCREMENT de la tabla `prenda_patron`
 --
 ALTER TABLE `prenda_patron`
-  MODIFY `id_prenda_patron` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id_prenda_patron` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT de la tabla `proveedores`

@@ -10,7 +10,7 @@ use Interfaces\CrudController;
 
 use Exception;
 
-class EntregasController implements CrudController
+class EntregasController
 {
 
     private $model;
@@ -31,9 +31,9 @@ class EntregasController implements CrudController
             exit;
         }
 
-        $pedidosDeleteData = $this->model->viewEntregas(1, "estado");
-        $pedidosData = $this->model->viewEntregas(0, "estado");
-        include_once("src/Views/Pedidos.php");
+        $entregasDeleteData = $this->model->viewEntregas(1, "estado");
+        $entregasData = $this->model->viewEntregas(0, "estado");
+        include_once("src/Views/Entregas.php");
     }
 
     public function print()
@@ -107,15 +107,13 @@ class EntregasController implements CrudController
     {
         try {
 
-            $this->model->beginTransaction();
-
             if (isset($_POST['prenda']) && is_array($_POST['prenda'])) {
 
                 $total = $this->calcularPrecio($_POST['prenda']);
 
-                $this->model->setData(
-                    $_POST["id_proveedor"],
+                $this->model->setData(  
                     date('Y-m-d H:i:s'),
+                    $total
                 );
 
                 $id_entrega = $this->model->create();
@@ -124,6 +122,7 @@ class EntregasController implements CrudController
                     throw new Exception("Error al registrar el pedido");
                 }
 
+                $this->model->beginTransaction();
 
                 $this->uptdateStock("bajar",$_POST['prenda'], $id_entrega);
 
@@ -142,7 +141,8 @@ class EntregasController implements CrudController
     }
 
 
-    public function delete()
+
+   /*  public function delete()
     {
         try {
             $this->model->beginTransaction();
@@ -178,7 +178,7 @@ class EntregasController implements CrudController
             header("Location: index.php?page=entregas&error=other&errorDesc=" . $e->getMessage());
             exit();
         }
-    }
+    } */
 
 
     public function restore()

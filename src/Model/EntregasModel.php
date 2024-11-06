@@ -3,13 +3,14 @@
 namespace src\Model;
 
 use PDO;
+use Exception;
 
 class EntregasModel extends ModeloBase
 {
     protected $data = [];
     protected $tabla = "entregas";
 
-    public function setData($fecha,$total)
+    public function setData($fecha, $total)
     {
         $this->data = [
             'fecha' => $fecha,
@@ -26,18 +27,25 @@ class EntregasModel extends ModeloBase
 
     public function create()
     {
-        $query = "INSERT INTO {$this->tabla} (fecha_entrega, total_entrega) VALUES (:fecha, :total)";
+        try {
+            $query = "INSERT INTO {$this->tabla} (fecha_entrega, total_entrega) VALUES (:fecha, :total)";
 
-        $stmt = $this->prepare($query);
+            $stmt = $this->prepare($query);
 
-        $stmt->bindParam(":fecha", $this->data["fecha"], PDO::PARAM_STR);
-        $stmt->bindParam(":total", $this->data["total"], PDO::PARAM_LOB);
+            $stmt->bindParam(":fecha", $this->data["fecha"], PDO::PARAM_STR);
+            $stmt->bindParam(":total", $this->data["total"], PDO::PARAM_LOB);
 
-        // Ejecuta la consulta
-       $stmt->execute();
-
-        return $this->lastInsertId();
-   
+            // Ejecuta la consulta
+            if ($stmt->execute()) {
+                return (int) $this->lastInsertId();
+            } else {
+                $errorInfo = $stmt->errorInfo();
+                throw new Exception("Error en la ejecución: {$errorInfo[2]}");
+            }
+        } catch (\PDOException $e) {
+            echo "Error: " . $e->getMessage();
+            return false;
+        }
     }
 
 
@@ -52,24 +60,21 @@ class EntregasModel extends ModeloBase
 
         // Ejecuta la consulta
         return $stmt->execute();
-   
     }
 
 
     public function softDelete($id)
     {
-      return $this->toggleStatus(1,"id_entrega",$id);
+        return $this->toggleStatus(1, "id_entrega", $id);
     }
 
     public function remove($id)
     {
-       return $this->hardDelete("id_entrega",$id);
+        return $this->hardDelete("id_entrega", $id);
     }
 
     public function active($id)
     {
-        return $this->toggleStatus(0,"id_entrega",$id);
+        return $this->toggleStatus(0, "id_entrega", $id);
     }
-
-
 }

@@ -36,6 +36,12 @@
             <?php if ($_SESSION['rol'] == 1) : ?>
                 <hr class="my-3 text-secondary">
                 <li class="nav-item">
+                    <a id="entregas" class="nav-link-rj nav-link d-flex align-items-center gap-2" href="index.php?page=entregas">
+                    <?php include './src/Assets/bootstrap-icons-1.11.3/bookmark-check-fill.svg'; ?>
+                        Entregas
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a id="prendas" class="nav-link-rj nav-link d-flex align-items-center gap-2" href="index.php?page=prendas">
                     <?php include './src/Assets/bootstrap-icons-1.11.3/bookmark-check-fill.svg'; ?>
                         Prendas terminadas

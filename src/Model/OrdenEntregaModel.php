@@ -12,7 +12,7 @@ class OrdenEntregaModel extends ModeloBase
 
     public function setData($entrega, $prenda, $cantidad)
     {
-        $data = [
+        $this->data = [
             'entrega' => $entrega,
             'prenda' => $prenda,
             'cantidad' => $cantidad,
@@ -21,22 +21,12 @@ class OrdenEntregaModel extends ModeloBase
 
     public function viewPrendas($value = "", $column = "")
     {
-        $sql = "SELECT 
-        u.*, 
-        p.nombre AS categoria, 
-        c.color AS color,
-        l.coleccion AS coleccion,
-        t.cm AS talla
-    FROM {$this->tabla} u
-    INNER JOIN categorias_prenda p ON u.id_categoria = p.id_categoria
-    INNER JOIN colores c ON u.id_color = c.id_color
-    INNER JOIN colecciones_prenda l ON u.id_coleccion = l.id_coleccion
-    INNER JOIN tallas t ON u.id_talla = t.id_talla";
+        $sql = "SELECT * FROM {$this->tabla}";
 
         // Agregar condición si se proporciona un valor y columna
         if ($value !== "" && $column !== "") {
             // Asegurarse de que la columna sea válida (esto es importante para prevenir SQL Injection)
-            $sql .= " WHERE u.$column = :value";
+            $sql .= " WHERE $column = :value";
         }
 
         // Preparar la consulta
@@ -57,12 +47,12 @@ class OrdenEntregaModel extends ModeloBase
 
     public function create()
     {
-        $query = "INSERT INTO {$this->tabla} (id_entrega, id_prenda, cantidad_prenda) VALUES (:pedido, :material, :cantidad)";
+        $query = "INSERT INTO {$this->tabla} (id_entrega, id_prenda, cantidad_prenda) VALUES (:entrega, :prenda, :cantidad)";
         $stmt = $this->prepare($query);
 
-        foreach($this->data as $param => $value){
-            $stmt->bindParam(":$param", $value);
-        }
+        $stmt->bindParam(":entrega", $this->data["entrega"]);
+        $stmt->bindParam(":prenda", $this->data["prenda"]);
+        $stmt->bindParam(":cantidad", $this->data["cantidad"]);
 
         if ($stmt->execute()) {
             return true;
