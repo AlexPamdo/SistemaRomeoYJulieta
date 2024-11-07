@@ -48,7 +48,7 @@ class UsuariosModel extends ModeloBase
 
     public function create()
     {
-        $query = "INSERT INTO  {$this->tabla} (nombre_usuario, apellido_usuario, gmail_usuario, contraseña_usuario, rol, img_usuario) VALUES (:nombre, :apellido, :gmail, :contrasena, :roles, :img)";
+        $query = "INSERT INTO  {$this->tabla} (nombre_usuario, apellido_usuario, gmail_usuario, contrasena_usuario, rol, img_usuario) VALUES (:nombre, :apellido, :gmail, :contrasena, :roles, :img)";
 
         $stmt = $this->prepare($query);
 

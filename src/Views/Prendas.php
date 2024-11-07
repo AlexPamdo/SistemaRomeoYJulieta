@@ -36,7 +36,7 @@ require_once("Templates/Head.php");
                 <div class="d-flex justify-content-between mb-4">
 
                     <button type="button" class="btn btn-rj-blue" data-bs-toggle="modal" data-intro="Desde este boton podemos registrar un nuevo patron en el sistema" data-step="2"
-                        data-bs-target="#registrar">
+                        data-bs-target="#CrearModal">
                         Crear Prenda/Patron <?php include './src/Assets/bootstrap-icons-1.11.3/plus-lg.svg'; ?>
                     </button>
 

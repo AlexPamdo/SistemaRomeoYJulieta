@@ -11,7 +11,6 @@ colgroup {
   color: #f8c3f2;
 }
 
-
 .bg-rj-blue {
   background-color: #00c2a2;
 }
@@ -332,7 +331,6 @@ colgroup {
 
 .sidebar {
   position: initial;
- 
 }
 
 .sidebar.show {
@@ -355,15 +353,15 @@ colgroup {
   transition: 300ms all ease;
 }
 
-#menu-toggle:hover{
+#menu-toggle:hover {
   background-color: #111111;
 }
 
 /* Hacemos el sidebar responsive */
-@media (max-width: 900px ) or (max-height: 700px) {
-    #menu-toggle {
-        display: initial; 
-    }
+@media (max-width: 900px) or (max-height: 700px) {
+  #menu-toggle {
+    display: initial;
+  }
 
   .sidebar {
     position: fixed;
@@ -374,10 +372,9 @@ colgroup {
     transform: translateX(-100%); /* Lo ocultamos a la izquierda */
   }
 
-.logo-conteiner {
+  .logo-conteiner {
     padding-left: 60px;
   }
-  
 }
 
 /* Cuando el sidebar está oculto */
@@ -385,20 +382,174 @@ colgroup {
   margin-left: 0; /* Elimina el espacio cuando el sidebar está oculto */
 }
 
-
 body {
   display: flex;
   flex-direction: column;
   min-height: 100vh; /* Aseguramos que ocupe toda la altura de la ventana */
 }
 
-
-
 main {
-    flex-grow: 1; /* Crece para ocupar todo el espacio vertical disponible */
+  flex-grow: 1; /* Crece para ocupar todo el espacio vertical disponible */
 }
 
-.error{
+.error {
   color: rgb(255 0 0);
   font-size: 15px;
+}
+
+/* Eliminar cualquier transformación de desplazamiento en la animación del modal */
+.modal.fade .modal-dialog {
+  transform: none !important;
+  opacity: 0;
+  transition: opacity 0.1s ease-in-out; /* Solo animación de opacidad */
+}
+
+.modal.fade.show .modal-dialog {
+  opacity: 1;
+}
+.modal-backdrop {
+  backdrop-filter: blur(2px);
+  background-color: #00000087;
+  --bs-backdrop-zindex: none;
+  --bs-backdrop-bg: none;
+  --bs-backdrop-opacity: none;
+}
+
+/* Formularios renovados */
+
+.form-control-input {
+  display: block;
+  width: 100%;
+  padding: 0.375rem 0.75rem;
+  border: none;
+  border-bottom: 2px solid #0000004b;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--bs-body-color);
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: var(--bs-body-bg);
+  background-clip: padding-box;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-control-input:focus{
+  outline: none;
+  border-bottom: 2px solid #03937b;
+  color: #04455f;
+}
+
+.form-control-input::placeholder {
+  transition: color 0.3s ease; /* Añadimos una transición suave *//
+}
+
+.form-control-input:focus::placeholder {
+  color: #03937b; /* Color cuando el input tiene foco */
+}
+
+div .fw-bold {
+  color: rgb(0, 0, 0);
+  transition: color 0.3s ease; /* Añadimos una transición suave */
+}
+
+
+/* Radio input */
+/* Estilo base del radio */
+input[type="radio"] {
+  appearance: none; /* Elimina el estilo predeterminado del navegador */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+  background-color: #fff;
+  position: relative;
+  cursor: pointer;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+/* Estilo cuando el radio está seleccionado */
+input[type="radio"]:checked {
+  border-color: #03937b; /* Color del borde cuando está seleccionado */
+  background-color: #03937b; /* Fondo del radio cuando está seleccionado */
+}
+
+/* Estilo cuando el radio está seleccionado, agregando un "check" dentro del círculo */
+input[type="radio"]:checked::after {
+  content: "";
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 8px;
+  height: 8px;
+  background-color: #fff;
+  border-radius: 50%;
+}
+
+/* Opcional: Estilo de los labels cuando el radio está seleccionado */
+input[type="radio"]:checked + label {
+  color: #0a8bbebd; /* Cambia el color del texto del label cuando el radio está seleccionado */
+}
+
+/* ---------------------CUSTOM SELECTS------------------------------------------------ */
+
+/* Select2 personalizado */
+.select2-container--custom-theme .select2-selection--single {
+  display: block;
+  width: 100%;
+  border: none;
+  border-bottom: 2px solid #0000004b;
+  color: var(--bs-body-color);
+  background-color: var(--bs-body-bg);
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-clip: padding-box;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+/* Cambio de color en hover */
+.select2-container--custom-theme .select2-selection--single:hover {
+  border-bottom: 2px solid #03937b;
+  color: #03937b;
+}
+
+/* Flecha de despliegue estilo select2 */
+.select2-container--custom-theme .select2-selection__arrow b {
+  border-color: #00000088 transparent transparent transparent; /* Color de la flecha */
+  border-width: 5px 5px 0px 5px; /* Ajusta el tamaño de la flecha */
+}
+
+/* Dropdown (desplegable) del select */
+.select2-container--custom-theme .select2-dropdown {
+  background-color: var(--bs-body-bg);
+  border: 1px solid #0000004b;
+  border-radius: 0;
+}
+
+/* Opciones de la lista */
+.select2-container--custom-theme .select2-results__option {
+  padding: 8px;
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--bs-body-color);
+  transition: background-color 0.15s ease-in-out;
+}
+
+/* Color de fondo al hacer hover en las opciones */
+.select2-container--custom-theme .select2-results__option--highlighted[aria-selected] {
+  background-color: #03937b;
+    color: white;
+}
+
+/* Tamaño ajustado del dropdown */
+.select2-dropdown {
+  overflow-y: auto;
+  max-height: 300px;
+  width: auto !important;
+  min-width: 100%;
+  max-width: 100%;
 }

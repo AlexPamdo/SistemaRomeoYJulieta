@@ -49,7 +49,7 @@ use src\Model\PrendasModel;
                             <!-- cantidad de prendas a ingresar -->
                             <div class=" flex-nowrap p-4">
                                 <label class="fw-bold" for="">Cantidad</label>
-                                <input class="form-control campo" type="numbre" name="cantidad"
+                                <input class="form-control campo cant" type="text" name="cantidad"
                                     placeholder="Cantidad de prendas a confeccionar" id="cantidadConfeccion">
                                 <span class="error" id="cantidadConfeccionError"></span>
                             </div>

@@ -60,7 +60,7 @@ function añadirMaterialEdit(id) {
           </select>
       </td>
       <td>
-          <input type="number" name="material[${numeroFila}][cantidad]" class="cantidadInput form-control" min="1" placeholder="Cantidad">
+          <input type="text" name="material[${numeroFila}][cantidad]" class="cantidadInput form-control campo cant" min="1" placeholder="Cantidad">
       </td>
       <td>
           <button type="button" class="btn btn-danger btn-sm eliminarBtn"><i class="fa-solid fa-xmark"></i></button>

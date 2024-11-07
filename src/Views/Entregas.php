@@ -68,7 +68,6 @@ require_once("Templates/Head.php");
                                                 data-bs-target="#orden<?php echo $entrega['id_entrega'] ?>">
                                                 <?php include './src/Assets/bootstrap-icons-1.11.3/eye-fill.svg'; ?>
                                             </button>
-
                                             <button type="button" class="btn btn-danger m-1 btn-sm" data-bs-toggle="modal" data-bs-target="#eliminar<?php echo htmlspecialchars($pedido['id_pedido']); ?>">
                                                 <?php include './src/Assets/bootstrap-icons-1.11.3/ban.svg'; ?>
                                             </button>
@@ -76,7 +75,7 @@ require_once("Templates/Head.php");
                                     </td>
                                     <?php
                                     include("src/Views/Entregas/Eliminar.php");
-                                    
+
                                     ?>
                                 </tr>
                             <?php endforeach; ?>
@@ -102,7 +101,7 @@ require_once("Templates/Head.php");
             </div>
         </div>
     </main>
-    <script src="src/Assets/js/patrones.js"></script>
+
     <?php
     include_once("src/Views/Templates/Log.php");
     include_once("src/Views/Templates/Footer.php"); ?>

@@ -13,7 +13,7 @@
                     <h5>Podras recuperarlo luego</h5>
                     <div class="modal-footer">
                         <form class="needs-validation" action="" id="deleteForm" method="post" novalidate>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
                                 Cerrar
                             </button>
                             <input type="hidden" name="id" id="eliminarId" value="">

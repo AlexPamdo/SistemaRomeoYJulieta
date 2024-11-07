@@ -184,29 +184,6 @@ require_once("Templates/Head.php");
                         <div class="col-lg-4 col-md-6">
                             <div class="card card-dashboard-rj mb-3">
                                 <div class="card-body">
-                                    <a href="index.php?page=patrones" class="text-decoration-none text-blue-rj">
-                                        <div class="d-flex align-items-center">
-                                            <i class='bx bxs-ruler bx-lg'></i>
-                                            <h5 class="ms-3">Patrones</h5>
-                                        </div>
-                                        <div class="mt-3 d-flex justify-content-around">
-                                            <div>
-                                                <p class="mb-0 p-1">Patrones Registrados</p>
-                                                <h4 class="mb-0"><?php echo count($dashboardData["patrones"]["active"]) ?></h4>
-                                            </div>
-                                            <div>
-                                                <p class="mb-0 p-1">Patrones inactivos</p>
-                                                <h4 class="mb-0"><?php echo count($dashboardData["patrones"]["inactive"]) ?></h4>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
- 
-                        <div class="col-lg-4 col-md-6">
-                            <div class="card card-dashboard-rj mb-3">
-                                <div class="card-body">
                                     <a href="index.php?page=empleados" class="text-decoration-none text-blue-rj">
                                         <div class="d-flex align-items-center">
                                             <i class='bx bxs-user bx-lg'></i>

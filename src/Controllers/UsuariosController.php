@@ -34,7 +34,7 @@ class UsuariosController implements CrudController
     {
         try {
 
-            if (!$this->usuariosModel->viewAll($_POST["gmail_usuario"], "email_usuario")) {
+            if ($this->usuariosModel->viewAll($_POST["gmail_usuario"], "email_usuario")) {
                 throw new Exception("Email ya existe");
             }
 

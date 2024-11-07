@@ -15,7 +15,7 @@ class DashboardController
             "proveedores" => \src\Model\ProveedoresModel::class,
             "prendas" => \src\Model\PrendasModel::class,
             "confecciones" => \src\Model\ConfeccionesModel::class,
-            "patrones" => \src\Model\PatronesModel::class,
+            // "patrones" => \src\Model\PatronesModel::class,
             "empleados" => \src\Model\EmpleadosModel::class,
             "usuarios" => \src\Model\UsuariosModel::class
         ];

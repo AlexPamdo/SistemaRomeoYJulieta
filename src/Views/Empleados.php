@@ -37,11 +37,6 @@ require_once("Templates/Head.php");
                     require_once("src/Views/Empleados/Crear.php");
                     include("src/Views/Empleados/Editar.php");
                     ?>
-
-                    <a href="index.php?page=pedidos&function=print" target="_blank" class="btn btn-warning ms-1">
-                        <?php include './src/Assets/bootstrap-icons-1.11.3/printer-fill.svg'; ?>
-                    </a>
-
                 </div>
 
                 <!-- Tabla de empleados -->

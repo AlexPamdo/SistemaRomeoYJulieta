@@ -15,7 +15,7 @@ use src\Model\PrendasModel;
             </div>
             <div class="modal-body">
 
-                <form class="needs-validation" action="index.php?page=confecciones&function=edit" method="post">
+                <form class="needs-validation form" action="index.php?page=confecciones&function=edit" method="post">
 
                     <div class="container container-form d-flex flex-column p-3">
                        
@@ -47,7 +47,7 @@ use src\Model\PrendasModel;
                             <!-- cantidad de prendas a ingresar -->
                             <div class=" flex-nowrap p-4">
                                 <label class="fw-bold" for="">Cantidad</label>
-                                <input class="form-control campoEdit cantidadConfeccionEdit" type="numbre" name="cantidadConfeccionEdit"
+                                <input class="form-control campo cant" type="text" name="cantidadConfeccionEdit"
                                     placeholder="Cantidad de prendas a confeccionar">
                                 <span class="cantidadConfeccionEditError error "></span>
                             </div>

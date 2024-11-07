@@ -54,7 +54,6 @@ $(".editar").click(function () {
         apellido: "#apellidoUser_edit",
         email: "#gmail_usuario_edit",
         password: "#password_create_edit",
-        rol: "#id_roles_edit",
       },
     },
     almacen: {
@@ -63,7 +62,9 @@ $(".editar").click(function () {
         tipo: "input.tipo",
         color: "input.color",
         stock: "td.stock",
-        precio: "td.precio",
+            precio: function() {
+      return parentRow.find("td.precio").clone().children().remove().end().text().trim();
+    },
       },
       inputs: {
         desc: "#desc_edit",
@@ -134,9 +135,8 @@ $(".editar").click(function () {
   };
 
   const pageConfig = config[page];
-  if (!pageConfig) return; // Si no hay configuración para la página, salir
+  if (!pageConfig) return;
 
-  // Obtener valores de campos
   const data = {};
   for (const [key, selectorOrFn] of Object.entries(pageConfig.fields)) {
     data[key] =
@@ -145,12 +145,15 @@ $(".editar").click(function () {
         : parentRow.find(selectorOrFn).text() ||
           parentRow.find(selectorOrFn).val();
   }
-  console.log(data); // Depuración para saber los datos
-  console.log(" id: " + id);
 
-  // Aplicar los datos a los inputs
+  console.log(data);
+
+  // Aplica los valores a los inputs
   $("#id_edit").val(id);
   for (const [key, selector] of Object.entries(pageConfig.inputs)) {
     $(selector).val(data[key] || "");
   }
+
+  // Seleccionar el radio button basado en el rol
+  $("input[name='rol_usuario'][value='" + data.rol + "']").prop("checked", true);
 });

@@ -39,13 +39,6 @@ require_once("Templates/Head.php");
                     <!-- Incluimos el modal del formulario de crear -->
                     <?php include_once("src/Views/Usuarios/Crear.php"); ?>
                     <?php include_once("src/Views/Usuarios/Editar.php"); ?>
-
-
-
-                    <a href="index.php?page=pedidos&function=print" target="_blank" class="btn btn-warning ms-1">
-                        <?php include './src/Assets/bootstrap-icons-1.11.3/printer-fill.svg'; ?>
-                    </a>
-
                 </div>
 
                 <!-- Tabla de usuarios -->

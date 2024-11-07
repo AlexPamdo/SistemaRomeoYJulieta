@@ -93,7 +93,7 @@ class ProveedoresController implements CrudController
             $_POST["rif_proveedor"],
             $_POST["telefono_proveedor"],
             $_POST["gmail_proveedor"],
-            "dfs",
+            $_POST["notas_proveedor"],
         );
 
         if ($this->model->edit($_POST["id"])) {

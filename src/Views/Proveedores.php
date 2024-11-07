@@ -37,14 +37,8 @@ require_once("Templates/Head.php");
                     <?php } ?>
 
                     <?php
-                        require_once("src/Views/Proveedores/Registrar.php");
-                        
-                    ?>
-
-<a href="index.php?page=pedidos&function=print" target="_blank" class="btn btn-warning ms-1">
-                        <?php include './src/Assets/bootstrap-icons-1.11.3/printer-fill.svg'; ?>
-                        </a>
-        
+                        require_once("src/Views/Proveedores/Registrar.php");  
+                    ?>        
                 </div>
 
                 <!-- Tabla de proveedores -->
@@ -104,9 +98,8 @@ require_once("Templates/Head.php");
 
                 <?php
                     include_once("src/Views/Proveedores/Papelera.php");
-                require_once("src/Views/Proveedores/Editar.php");
-                // Restaurar
-            
+                    require_once("src/Views/Proveedores/Editar.php");
+       
                 ?>
             </div>
         </div>

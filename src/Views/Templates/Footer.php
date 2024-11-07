@@ -40,21 +40,25 @@
     </div>
 </footer>
 
-<script src="src/Assets/js/jquery-3.7.1.min.js"></script>
+
 <script src="src/Libraries/DataTables/datatables.min.js"></script>
 
+
+<!-- scrip de las estregas -->
+<script src="src/Assets/js/entregas.js"></script>
+
 <!-- validaciones -->
-<script src="src/Assets/js/validaciones.js"></script>
-<script src="src/Assets/js/editsVal.js"></script>
-<script src="src/Assets/js/validarCambioPass.js"></script>
+<script type="text/javascript" src="src/Assets/js/vals.js"></script>
 
 <script src="src/Libraries/Intro/intro.min.js"></script>
 
+<script src="src/Assets/js/select2.js"></script>
 
 <script src="src/Libraries/bootstrap-5.3.3-dist/js/bootstrap.min.js"></script>
 
 <script src="src/Assets/js/eliminarModal.js"></script>
 <script src="src/Assets/js/script.js"></script>
+
 
 
 <script>

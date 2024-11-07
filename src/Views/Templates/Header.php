@@ -37,7 +37,7 @@
                 <hr class="my-3 text-secondary">
                 <li class="nav-item">
                     <a id="entregas" class="nav-link-rj nav-link d-flex align-items-center gap-2" href="index.php?page=entregas">
-                    <?php include './src/Assets/bootstrap-icons-1.11.3/bookmark-check-fill.svg'; ?>
+                    <?php include './src/Assets/bootstrap-icons-1.11.3/shop.svg'; ?>
                         Entregas
                     </a>
                 </li>

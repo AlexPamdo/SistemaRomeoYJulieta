@@ -31,7 +31,7 @@ require_once("Templates/Head.php");
                 <div class="d-flex justify-content-between mb-4">
 
                 <?php if ($_SESSION['rol'] == 1) { ?>
-                    <button type="button" class="btn btn-rj-blue" data-bs-toggle="modal" data-bs-target="#CrearModalM"  data-intro="Desde este boton podemos registrar materiales en el sistema" data-step="2">
+                    <button type="button" class="btn btn-rj-blue" data-bs-toggle="modal" data-bs-target="#CrearModal"  data-intro="Desde este boton podemos registrar materiales en el sistema" data-step="2">
                         Registrar Elemento <?php include './src/Assets/bootstrap-icons-1.11.3/plus-lg.svg'; ?>
                     </button>
                     <?php } ?>
@@ -73,7 +73,7 @@ require_once("Templates/Head.php");
                                     <td class="color"><?php echo htmlspecialchars($material['color_name']); ?></td>
                                     <input type="hidden" class="color" value="<?php echo htmlspecialchars($material['color_material']); ?>">
                                     <td class="stock"><?php echo htmlspecialchars($material['stock']); ?></td>
-                                    <td class="precio"><?php echo htmlspecialchars($material['precio']); ?> bs</td>
+                                    <td class="precio"><?php echo htmlspecialchars($material['precio']); ?> <span>bs</span></td>
 
                                     <?php if ($_SESSION['rol'] == 1) { ?>
                                     <td class="d-flex">
