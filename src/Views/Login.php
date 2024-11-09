@@ -21,9 +21,7 @@ require_once("Templates/Head.php");
                 <input class="form-control" type="password" name="contraseña_usuario" id="floatingPassword" placeholder="Contraseña" required>
                 <label for="floatingPassword">Contraseña</label>
             </div>
-            <div class="remember text-end">
-                <a href="#" data-bs-toggle="modal" data-bs-target="#correoModal">Olvidé mi contraseña</a>
-            </div>
+         
             <button class="btn btn-primary w-100 py-2 mt-3" type="submit" name="btnLogin" value="ok">Iniciar Sesión</button>
         </form>
     </div>

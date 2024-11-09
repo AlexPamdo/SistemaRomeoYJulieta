@@ -55,7 +55,7 @@ class UsuariosController implements CrudController
                 $_POST["nombre_usuario"],
                 $_POST["apellido_usuario"],
                 $_POST["gmail_usuario"],
-                password_hash($_POST["password_usuario"], PASSWORD_DEFAULT),
+                $_POST["password_usuario"],
                 $_POST["rol_usuario"],
                 $ruta,
             );
@@ -104,9 +104,9 @@ class UsuariosController implements CrudController
                 $_POST["nombre_usuario"],
                 $_POST["apellido_usuario"],
                 $_POST["gmail_usuario"],
-                password_hash($_POST["password_usuario"], PASSWORD_DEFAULT),
+                $_POST["password_usuario"],
                 $_POST["rol_usuario"],
-            "none",
+                "none",
             );
 
             if ($this->usuariosModel->edit($_POST["id"])) {
