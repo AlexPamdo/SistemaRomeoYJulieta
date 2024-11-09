@@ -26,7 +26,7 @@ class EntregasController
 
     public function show()
     {
-        if ($_SESSION['rol'] == 2 ) {
+        if ($_SESSION['rol'] == 2) {
             header('Location: index.php?page=dashboard');
             exit;
         }
@@ -64,18 +64,29 @@ class EntregasController
         return $total > 0 ? $total : null; // Retornar null si no hay materiales válidos
     }
 
+    public function comprobarStock($prendasData)
+    {
+        foreach ($prendasData as $prenda) {
+            $stock = $this->prendasModel->showColumn('stock', 'id_prenda', $prenda['id_prenda']);
+
+            if($stock < $prenda['cantidad']){
+                return false;
+            }
+        }
+        return true;
+    }
 
     //Accion sera la operacion "subir" para aumentar el stock y "bajar" para quitar
-    public function uptdateStock($accion,$prendasData, $id_entrega)
+    public function uptdateStock($accion, $prendasData, $id_entrega)
     {
         foreach ($prendasData as $prenda) {
             if ($prenda['cantidad'] !== '' && $prenda['id_prenda'] !== "none") {
 
                 $stock = $this->prendasModel->showColumn("stock", "id_prenda", $prenda['id_prenda']);
 
-                $newStock = ($accion === 'subir') 
-                ? $stock + $prenda['cantidad'] 
-                : $stock - $prenda['cantidad'];
+                $newStock = ($accion === 'subir')
+                    ? $stock + $prenda['cantidad']
+                    : $stock - $prenda['cantidad'];
 
                 if (!$this->prendasModel->updateColumn(
                     "stock",
@@ -105,13 +116,17 @@ class EntregasController
 
     public function create()
     {
-        try {
-
+        try { 
             if (isset($_POST['prenda']) && is_array($_POST['prenda'])) {
+
+                if (!$this->comprobarStock($_POST['prenda'])) {
+                    throw new Exception("No hay suficientes prendas en el inventario para realizar el pedido");
+                }
 
                 $total = $this->calcularPrecio($_POST['prenda']);
 
-                $this->model->setData(  
+                $this->model->setData(
+                    $_POST["desc_entrega"],
                     date('Y-m-d H:i:s'),
                     $total
                 );
@@ -122,27 +137,21 @@ class EntregasController
                     throw new Exception("Error al registrar el pedido");
                 }
 
-                $this->model->beginTransaction();
+                $this->uptdateStock("bajar", $_POST['prenda'], $id_entrega);
 
-                $this->uptdateStock("bajar",$_POST['prenda'], $id_entrega);
-
-                $this->model->commit();
                 header("Location: index.php?page=entregas&succes=create");
-
             } else {
                 throw new Exception("No se han proporcionado materiales válidos");
             }
         } catch (Exception $e) {
-            $this->model->rollback();
             header("Location: index.php?page=entregas&error=other&errorDesc=" . $e->getMessage());
-           
         }
-        exit();  
+        exit();
     }
 
 
 
-   /*  public function delete()
+    /*  public function delete()
     {
         try {
             $this->model->beginTransaction();
@@ -220,6 +229,4 @@ class EntregasController
             header("Location: index.php?page=entregas&error=other&errorDesc=" . $e->getMessage());
         }
     }
-
-    
 }

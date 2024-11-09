@@ -20,7 +20,7 @@
                                 <th scope="col">Categoría</th>
                                 <th scope="col">Talla</th>
                                 <th scope="col">Colección</th>
-                                <th scope="col">Color</th>
+                    
                                 <th scope="col">Cantidad</th>
                                 <th scope="col">Género</th>
                                 <th scope="col">Precio</th>
@@ -38,7 +38,7 @@
                                     <td><?php echo htmlspecialchars($prenda['id_categoria']); ?></td>
                                     <td><?php echo htmlspecialchars($prenda['id_talla']); ?></td>
                                     <td><?php echo htmlspecialchars($prenda['id_coleccion']); ?></td>
-                                    <td><?php echo htmlspecialchars($prenda['id_color']); ?></td>
+                                   
                                     <td><?php echo htmlspecialchars($prenda['stock']); ?></td>
                                     <td><?php echo htmlspecialchars($prenda['id_genero']); ?></td>
                                     <td><?php echo htmlspecialchars($prenda['precio_unitario']); ?> bs</td>

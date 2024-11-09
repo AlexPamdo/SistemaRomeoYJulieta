@@ -89,7 +89,7 @@ $coleccionesModel = new ColeccionesModel();
                                     <select class="custom-select" name="id_talla" id="talla">
                                         <option selected>Talla</option>
                                         <?php
-                                        $tallaData = $tallasModel->viewAll();
+                                        $tallaData = $tallasModel->viewAll("");
                                         foreach ($tallaData as $talla): ?>
                                             <option value="<?php echo $talla["id_talla"] ?>"><?php echo $talla["edad"] ?></option>
                                         <?php endforeach; ?>
@@ -102,7 +102,7 @@ $coleccionesModel = new ColeccionesModel();
                                     <select class="custom-select" name="id_categoria" id="categoria">
                                         <option selected>Categoria</option>
                                         <?php
-                                        $categoriasData = $categoriasModel->viewAll();
+                                        $categoriasData = $categoriasModel->viewAll("");
                                         foreach ($categoriasData as $categoria): ?>
                                             <option value="<?php echo $categoria["id_categoria"] ?>"><?php echo $categoria["nombre"] ?></option>
                                         <?php endforeach; ?>
@@ -111,18 +111,7 @@ $coleccionesModel = new ColeccionesModel();
                                     <div class="invalid-feedback">Por favor, seleccione una categoría.</div>
                                 </div>
 
-                                <div class="p-2">
-                                    <label for="color" class="form-label fw-bold mt-3">Color</label>
-                                    <select class="custom-select" name="id_color" id="color">
-                                        <option selected>Color</option>
-                                        <?php
-                                        $coloresData = $coloresModel->viewAll();
-                                        foreach ($coloresData as $color): ?>
-                                            <option value="<?php echo $color["id_color"] ?>"><?php echo $color["color"] ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                    <div class="invalid-feedback">Por favor, seleccione un color.</div>
-                                </div>
+         
 
                             </div>
 
@@ -171,11 +160,11 @@ $coleccionesModel = new ColeccionesModel();
                                             <td id="numberMaterial">1</td>
                                             <td>
                                                 <div class="input-group">
-                                                    <select class="custom-select-table" name="material[0][id_Material]" id="material">
+                                                    <select class="form-select" name="material[0][id_Material]" id="material">
                                                         <option value="none">Ninguno</option>
                                                         <?php
                                                         // Incluimos el controlador para acceder a los materiales disponibles
-                                                        $materialesData = $materialesModel->viewAll(false);
+                                                        $materialesData = $materialesModel->viewAll(0,"estado");
 
                                                         foreach ($materialesData as $material) : ?>
                                                             <option value="<?php echo $material['id_material'] ?>">

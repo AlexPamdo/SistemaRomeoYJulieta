@@ -59,6 +59,19 @@ $coloresData = $coloresModel->viewAll();
                                 </div>
                             </div>
 
+                            <div class="row align-items-center py-2">
+                                <div class="col-2 ">
+                                    <label class="fw-bold" for="tipo_edit">Medida</label>
+                                </div>
+                                <div class="col-9">
+                                    <select class="form-control custom-select" name="medida_material" id="medida" required>
+                                    <option value="" select >Seleccione un tipo de medida</option>
+                                    <option value="Unidades" >Unidades</option>
+                                    <option value="Metros" >Metros</option>
+                                    </select>
+                                </div>
+                            </div>
+
                             <!-- Color del Material -->
                             <div class="row align-items-center py-2">
                                 <div class="col-2 ">

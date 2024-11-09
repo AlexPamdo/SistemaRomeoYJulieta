@@ -29,7 +29,7 @@ require_once("Templates/Head.php");
             <div class="ms-sm-auto p-4 bg-custom-content">
                 <!-- Barra de búsqueda y botones -->
                 <div class="d-flex justify-content-between mb-4">
-                    <button type="button" class="btn btn-rj-blue" data-bs-toggle="modal" data-bs-target="#crearConfeccion" data-intro="Desde este boton podemos crear una nueva confeccion en el sistema" data-step="2">
+                    <button type="button" class="btn btn-rj-blue" data-bs-toggle="modal" data-bs-target="#CrearModal" data-intro="Desde este boton podemos crear una nueva confeccion en el sistema" data-step="2">
                         Crear <?php include './src/Assets/bootstrap-icons-1.11.3/plus-lg.svg'; ?>
                     </button>
 
@@ -67,10 +67,10 @@ require_once("Templates/Head.php");
                                     <td class="d-flex">
                                         <!-- Botones de editar y eliminar -->
                                         <button type="button" class="btn btn-custom-danger m-1" data-bs-toggle="modal" data-bs-target="#eliminar<?php echo htmlspecialchars($confeccion['id_confeccion']); ?>">
-                                            <?php include './src/Assets/bootstrap-icons-1.11.3/trash-fill.svg'; ?>
+                                        <?php include './src/Assets/bootstrap-icons-1.11.3/ban.svg'; ?>
                                         </button>
                                         <button type="button" class="btn btn-custom-success m-1" data-bs-toggle="modal" data-bs-target="#editar<?php echo htmlspecialchars($confeccion['id_confeccion']); ?>">
-                                            <?php include './src/Assets/bootstrap-icons-1.11.3/pencil-fill.svg'; ?>
+                                        <i class="fa-solid fa-sync"></i>
                                         </button>
                                     </td>
                                 </tr>

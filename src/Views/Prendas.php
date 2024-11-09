@@ -63,7 +63,7 @@ require_once("Templates/Head.php");
                                 <th scope="col">Categoría</th>
                                 <th scope="col">Talla</th>
                                 <th scope="col">Colección</th>
-                                <th scope="col">Color</th>
+                        
                                 <th scope="col">Cantidad</th>
                                 <th scope="col">Género</th>
                                 <th scope="col">Precio</th>
@@ -83,8 +83,6 @@ require_once("Templates/Head.php");
                                     <input type="hidden" class="talla" value="<?php echo htmlspecialchars($prenda['id_talla']); ?>">
                                     <td><?php echo htmlspecialchars($prenda['coleccion']); ?></td>
                                     <input type="hidden" class="coleccion" value="<?php echo htmlspecialchars($prenda['id_coleccion']); ?>">
-                                    <td><?php echo htmlspecialchars($prenda['color']); ?></td>
-                                    <input type="hidden" class="color" value="<?php echo htmlspecialchars($prenda['id_color']); ?>">
                                     <td class="cantidad"><?php echo htmlspecialchars($prenda['stock']); ?></td>
                                     <td><?php echo htmlspecialchars($prenda['genero']); ?></td>
                                     <input type="hidden" class="genero" value="<?php echo htmlspecialchars($prenda['genero']); ?>">

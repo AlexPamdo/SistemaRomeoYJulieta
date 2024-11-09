@@ -19,14 +19,11 @@ class PrendasModel extends ModeloBase
         $sql = "SELECT 
         u.*, 
         p.nombre AS categoria, 
-        c.color AS color,
         l.coleccion AS coleccion,
         t.cm AS talla
     FROM {$this->tabla} u
     INNER JOIN 
         categorias_prenda p ON u.id_categoria = p.id_categoria
-    INNER JOIN 
-        colores c ON u.id_color = c.id_color
     INNER JOIN 
         colecciones_prenda l ON u.id_coleccion = l.id_coleccion
     INNER JOIN 
@@ -59,14 +56,13 @@ class PrendasModel extends ModeloBase
         // Retornar los resultados
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    public function setData($img, $nombre, $categoria, $talla, $coleccion, $color, $cant, $genero, $precio)
+    public function setData($img, $nombre, $genero, $categoria, $talla, $coleccion, $cant,  $precio)
     {
         $this->data = [
             'imagen' => $img,
             'nombre' => trim($nombre),
             'genero' => $genero,
             'categoria' => (int)$categoria,
-            'color' => (int)$color,
             'stock' => (int)$cant,
             'coleccion' => (int)$coleccion,
             'talla' => (int)$talla,
@@ -76,7 +72,7 @@ class PrendasModel extends ModeloBase
 
     public function create()
     {
-        $query = "INSERT INTO {$this->tabla} (img_prenda, nombre_prenda, genero,id_categoria, id_color, stock, id_coleccion, id_talla, precio_unitario) VALUES (:img, :nombre, :genero, :categoria, :color, :stock, :coleccion, :talla, :precio)";
+        $query = "INSERT INTO {$this->tabla} (img_prenda, nombre_prenda, genero, id_categoria, stock, id_coleccion, id_talla, precio_unitario) VALUES (:img, :nombre, :genero, :categoria, :stock, :coleccion, :talla, :precio)";
 
         $stmt = $this->prepare($query);
 
@@ -84,7 +80,6 @@ class PrendasModel extends ModeloBase
         $stmt->bindParam(":nombre", $this->data["nombre"]);
         $stmt->bindParam(":genero", $this->data["genero"]);
         $stmt->bindParam(":categoria", $this->data["categoria"]);
-        $stmt->bindParam(":color", $this->data["color"]);
         $stmt->bindParam(":stock", $this->data["stock"]);
         $stmt->bindParam(":coleccion", $this->data["coleccion"]);
         $stmt->bindParam(":talla", $this->data["talla"]);
@@ -103,7 +98,7 @@ class PrendasModel extends ModeloBase
 
     public function edit($id)
     {
-        $query = "UPDATE {$this->tabla} SET nombre_prenda = :nombre, id_categoria = :categoria, id_color = :color, stock = :stock, id_coleccion = :coleccion, id_talla = :talla, id_genero = :genero, precio_unitario = :precio WHERE id_prenda = :id";
+        $query = "UPDATE {$this->tabla} SET nombre_prenda = :nombre, id_categoria = :categoria, stock = :stock, id_coleccion = :coleccion, id_talla = :talla, id_genero = :genero, precio_unitario = :precio WHERE id_prenda = :id";
 
         $stmt = $this->prepare($query);
 

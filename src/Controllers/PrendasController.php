@@ -116,17 +116,17 @@ class PrendasController implements CrudController
 
             // Subir la imagen de la prenda
             $ruta = $this->subirImagen($_FILES["file1"]);
+        
 
             // Asignar los atributos de la prenda con el ID del patrón recién creado
             $this->prendaModel->setData(
                 $ruta,
                 $_POST["nombre"],
-                $_POST["stock"],
+                $_POST["id_genero"],
+                $_POST["id_categoria"],
                 $_POST["id_talla"],
                 $_POST["id_coleccion"],
-                $_POST["id_color"],
                 $_POST["stock"],
-                $_POST["id_genero"],
                 $total
             );
 
@@ -200,7 +200,6 @@ class PrendasController implements CrudController
             $_POST["categoria_edit"],
             $_POST["talla_edit"],
             $_POST["coleccion_edit"],
-            $_POST["color_edit"],
             $_POST["cant_edit"],
             $_POST["genero_edit"],
             $_POST["precio_edit"]

@@ -6,7 +6,7 @@ use src\Model\PrendasModel;
 ?>
 
 <!-- Modal Para Crear -->
-<div class="modal fade" id="crearConfeccion" data-bs-keyboard="false" tabindex="-1"
+<div class="modal fade" id="CrearModal" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -26,7 +26,7 @@ use src\Model\PrendasModel;
                             <!-- Buscador de Receta -->
                             <label class="fw-bold" for="validationCustom01">Patrones</label>
                             <div class="form-label input-group flex-nowrap m-2">
-                                <select class="form-select" name="prenda" id="">
+                                <select class="custom-select" name="prenda" id="">
                                     <?php
                                     //incluimos el controlador para acceder a la funcion ver todo
                                     $prendas = new PrendasModel();
@@ -42,14 +42,10 @@ use src\Model\PrendasModel;
                                 <div class="valid-feedback"></div>
                             </div>
 
-
-                            <!-- Carta para ver la receta seleccionada -->
-
-
                             <!-- cantidad de prendas a ingresar -->
                             <div class=" flex-nowrap p-4">
                                 <label class="fw-bold" for="">Cantidad</label>
-                                <input class="form-control campo cant" type="text" name="cantidad"
+                                <input class="form-control-input campo cant" type="text" name="cantidad"
                                     placeholder="Cantidad de prendas a confeccionar" id="cantidadConfeccion">
                                 <span class="error" id="cantidadConfeccionError"></span>
                             </div>
@@ -60,7 +56,7 @@ use src\Model\PrendasModel;
                             <!-- Buscador de Empleado -->
                             <label class="fw-bold" for="validationCustom01">Empleado encargado</label>
                             <div class="form-label input-group flex-nowrap m-2">
-                                <select class="form-select" name="empleado" id="">
+                                <select class="custom-select" name="empleado" id="">
                                     <?php
                                     //incluimos el controlador para acceder a la funcion ver todo
 

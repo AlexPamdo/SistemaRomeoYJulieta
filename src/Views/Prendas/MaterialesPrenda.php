@@ -33,10 +33,7 @@ use src\Model\PrendaPatronModel;
                             ?>
                             <tr>
                                 <td><?php echo $material['material']; ?></td>
-
                                 <td><?php echo $material['tipo']; ?></td>
-                                <td><?php echo $material['color']; ?></td>
-
                                 <td><?php echo $material['cantidad']; ?></td>
                                 <td><?php echo $material['cantidad_Stock']; ?></td>
                             </tr>

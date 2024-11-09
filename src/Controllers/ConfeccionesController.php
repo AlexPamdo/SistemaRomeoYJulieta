@@ -108,8 +108,7 @@ class ConfeccionesController implements CrudController
     {
 
         try {
-            $this->model->beginTransaction();
-
+           
             // Asignación de los datos del formulario a los atributos del objeto confección.
             $this->model->setData(
                 $_POST["prenda"],
@@ -126,12 +125,12 @@ class ConfeccionesController implements CrudController
             }
 
             // Si hay stock suficiente, se crean los registros y se actualiza el stock.
-            if (!$this->bajarStock($dataPatron)) {
+            if (!$this->bajarStock($dataPatron  )) {
                 throw new Exception("No se pudo bajar el stock");
             }
 
             // obtenemos el stock de prendas actual
-            $actualStockPrenda = $this->prendaPatronModel->showColumn("stock","id_prenda",$_POST["prenda"]);
+            $actualStockPrenda = $this->prendaPatronModel->showColumn("cantidad","id_prenda",$_POST["prenda"]);
             $nuevoStockPrenda = $actualStockPrenda + $_POST["cantidad"];
 
             // Comprobamos si las funciones para crear la confeccion y actualizar el stock de prendas se ejecutaron 
@@ -139,7 +138,7 @@ class ConfeccionesController implements CrudController
                 $this->model->create() &&
                 $this->prendasModel->updateColumn("stock", $nuevoStockPrenda, "id_prenda", $_POST["prenda"])
             ) {
-                $this->model->commit();
+              
                 // Redirecciona a la página con mensaje de éxito.
                 header("Location: index.php?page=confecciones&succes=create");
             } else {
@@ -147,7 +146,7 @@ class ConfeccionesController implements CrudController
                 header("Location: index.php?page=confecciones&error=create");
             }
         } catch (Exception $e) {
-            $this->model->rollBack();
+          
             header("Location: index.php?page=confecciones&error=other&errorDesc=" . $e->getMessage());
         }
     }

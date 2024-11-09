@@ -56,6 +56,7 @@ require_once("Templates/Head.php");
                                 <th scope="col">Tipo</th>
                                 <th scope="col">Color</th>
                                 <th scope="col">Stock</th>
+                                <th scope="col">Medida</th>
                                 <th scope="col">Precio</th>
                                 <?php if ($_SESSION['rol'] == 1) { ?>
                                 <th scope="col">Acciones</th>
@@ -73,6 +74,8 @@ require_once("Templates/Head.php");
                                     <td class="color"><?php echo htmlspecialchars($material['color_name']); ?></td>
                                     <input type="hidden" class="color" value="<?php echo htmlspecialchars($material['color_material']); ?>">
                                     <td class="stock"><?php echo htmlspecialchars($material['stock']); ?></td>
+                                    <td class="stock"><?php echo htmlspecialchars($material['unidad_medida']); ?></td>
+
                                     <td class="precio"><?php echo htmlspecialchars($material['precio']); ?> <span>bs</span></td>
 
                                     <?php if ($_SESSION['rol'] == 1) { ?>

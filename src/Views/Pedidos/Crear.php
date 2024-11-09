@@ -65,7 +65,7 @@ $materialesData = $materiales->viewAll(0, "estado");
                                         <tr id="filaMaterial">
                                             <td id="numberMaterial" class="text-center">1</td>
                                             <td>
-                                                <select class="custom-select-table" name="material[0][id_Material]" id="material" required>
+                                                <select class="form-select" name="material[0][id_Material]" id="material" required>
                                                     <option value="none">Ninguno</option>
                                                     <?php
                                                     foreach ($materialesData as $material) : ?>

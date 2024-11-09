@@ -50,6 +50,7 @@ require_once("Templates/Head.php");
                         <thead class="table-custom-header">
                             <tr>
                                 <th scope="col">ID</th>
+                                <th scope="col">Descripcion</th>
                                 <th scope="col">Fecha</th>
                                 <th scope="col">Total</th>
                                 <th scope="col">Acciones</th>
@@ -59,6 +60,7 @@ require_once("Templates/Head.php");
                             <?php foreach ($entregasData as $entrega) : ?>
                                 <tr>
                                     <td><?php echo htmlspecialchars($entrega['id_entrega']); ?></td>
+                                    <td><?php echo htmlspecialchars($entrega['desc_entrega']); ?></td>
                                     <td><?php echo htmlspecialchars($entrega['fecha_entrega']); ?></td>
                                     <td><?php echo htmlspecialchars($entrega['total_entrega']); ?></td>
                                     <td class="d-flex">
@@ -69,7 +71,10 @@ require_once("Templates/Head.php");
                                                 <?php include './src/Assets/bootstrap-icons-1.11.3/eye-fill.svg'; ?>
                                             </button>
                                             <button type="button" class="btn btn-danger m-1 btn-sm" data-bs-toggle="modal" data-bs-target="#eliminar<?php echo htmlspecialchars($pedido['id_pedido']); ?>">
-                                                <?php include './src/Assets/bootstrap-icons-1.11.3/ban.svg'; ?>
+                                            <?php include './src/Assets/bootstrap-icons-1.11.3/ban.svg'; ?>
+                                            </button>
+                                            <button type="button" class="btn btn-success m-1 btn-sm" data-bs-toggle="modal" data-bs-target="#actualizar<?php echo htmlspecialchars($pedido['id_pedido']); ?>">
+                                                <?php include './src/Assets/bootstrap-icons-1.11.3/currency-dollar.svg'; ?>
                                             </button>
                                         </form>
                                     </td>

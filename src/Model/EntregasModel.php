@@ -10,9 +10,10 @@ class EntregasModel extends ModeloBase
     protected $data = [];
     protected $tabla = "entregas";
 
-    public function setData($fecha, $total)
+    public function setData($desc, $fecha, $total)
     {
         $this->data = [
+            'desc_entrega' => $desc,
             'fecha' => $fecha,
             'total' => $total,
         ];
@@ -28,10 +29,11 @@ class EntregasModel extends ModeloBase
     public function create()
     {
         try {
-            $query = "INSERT INTO {$this->tabla} (fecha_entrega, total_entrega) VALUES (:fecha, :total)";
+            $query = "INSERT INTO {$this->tabla} (desc_entrega, fecha_entrega, total_entrega) VALUES (:desc_entrega, :fecha, :total)";
 
             $stmt = $this->prepare($query);
 
+            $stmt->bindParam(":desc_entrega", $this->data["desc_entrega"], PDO::PARAM_STR);
             $stmt->bindParam(":fecha", $this->data["fecha"], PDO::PARAM_STR);
             $stmt->bindParam(":total", $this->data["total"], PDO::PARAM_LOB);
 

@@ -40,7 +40,8 @@ class AlmacenController implements CrudController
                 $_POST["tipo_material"],
                 $_POST["color_material"],
                 $_POST["stock"],
-                $_POST["precio"]
+                $_POST["medida_material"],
+                $_POST["precio"],
             );
 
             if ($this->materialModel->create()) {
@@ -93,6 +94,7 @@ class AlmacenController implements CrudController
             $_POST["tipo_material"],
             $_POST["color_material"],
             $_POST["stock"],
+            $_POST["medida_material"],
             $_POST["precio"]
         );
         if ($this->materialModel->edit($_POST["id"] ?? null)) {

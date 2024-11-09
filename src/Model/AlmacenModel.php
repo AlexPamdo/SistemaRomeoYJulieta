@@ -11,13 +11,14 @@ class AlmacenModel extends ModeloBase
     protected $data = [];
     protected $tabla = "almacen";
 
-    public function setData($nombre, $tipo, $color, $stock, $precio)
+    public function setData($nombre, $tipo, $color, $stock, $medida, $precio)
     {
         $this->data = [
             'nombre' => $nombre,
             'tipo' => $tipo,
             'color' => $color,
             'stock' => $stock,
+            'medida' => $medida,
             'precio' => $precio
         ];
     }
@@ -63,21 +64,21 @@ class AlmacenModel extends ModeloBase
     public function create()
     {
         // Prepara la consulta SQL
-        $query = "INSERT INTO {$this->tabla} (nombre_material, tipo_material, color_material, stock, precio) 
-              VALUES (:nombre, :tipo, :color, :stock, :precio)";
+        $query = "INSERT INTO {$this->tabla} (nombre_material, tipo_material, color_material, stock, unidad_medida, precio) 
+              VALUES (:nombre, :tipo, :color, :stock, :medida, :precio)";
 
         $stmt = $this->prepare($query);
 
-       $stmt->bindParam(":nombre", $this->data["nombre"]);
-       $stmt->bindParam(":tipo", $this->data["tipo"]);
-       $stmt->bindParam(":color", $this->data["color"]);
-       $stmt->bindParam(":stock", $this->data["stock"]);
-       $stmt->bindParam(":precio", $this->data["precio"]);
+        $stmt->bindParam(":nombre", $this->data["nombre"]);
+        $stmt->bindParam(":tipo", $this->data["tipo"]);
+        $stmt->bindParam(":color", $this->data["color"]);
+        $stmt->bindParam(":stock", $this->data["stock"]);
+        $stmt->bindParam(":medida", $this->data["medida"]);
+        $stmt->bindParam(":precio", $this->data["precio"]);
 
 
         // Ejecuta la consulta
         return $stmt->execute();
-   
     }
 
     public function softDelete($id)
@@ -92,13 +93,13 @@ class AlmacenModel extends ModeloBase
 
     public function remove($id)
     {
-        return $this->hardDelete("id_material",$id);
+        return $this->hardDelete("id_material", $id);
     }
 
     public function edit($id)
     {
         $query = "UPDATE {$this->tabla}
-                  SET nombre_material = :nombre, tipo_material = :tipo, color_material = :color, stock = :stock, precio = :precio 
+                  SET nombre_material = :nombre, tipo_material = :tipo, color_material = :color, stock = :stock, unidad_medida = :medida, precio = :precio 
                   WHERE id_material = :id";
         $stmt = $this->prepare($query);
         // Bindea los parámetros usando los datos del array $data
@@ -106,8 +107,9 @@ class AlmacenModel extends ModeloBase
         $stmt->bindParam(':tipo', $this->data['tipo'], PDO::PARAM_INT);
         $stmt->bindParam(':color', $this->data['color'], PDO::PARAM_INT);
         $stmt->bindParam(':stock', $this->data['stock'], PDO::PARAM_INT);
+        $stmt->bindParam(":medida", $this->data["medida"]);
         $stmt->bindParam(':precio', $this->data['precio'], PDO::PARAM_STR);
-        $stmt->bindParam(':id',$id,PDO::PARAM_INT);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
             return true;
@@ -115,7 +117,4 @@ class AlmacenModel extends ModeloBase
             return false;
         }
     }
-
-  
-    }
-
+}
