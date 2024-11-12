@@ -1,68 +1,20 @@
-Hola, En este siguiente texto ire documentando que cambios se estan haciendo
-y los cambios que falten:
+Eliminados:
 
-Jueves 05, septiembre de 2024:
+1-Se elimino la columna precio de la tabla almacen 
 
-+ Cambio de mecanica en el sistema de patrones y prendas (Ahora la prenda se crea al momento de crear un patron)
+Agregados:
 
-+ Se a creado la tabla Patron Materiales la cual guardara varios materiales para un patron
+1-Se agrego la columna "proceso" en confecciones (entero, 1 de longitud)
+2-Se cambio el nombre de la tabla "pedidos" a "pedidos_proveedores"
+3-se cambio el nombre de la tabla "entregas" a "pedidos_prendas"
+4-se cambiaron el nombre de las columnas de "pedidos_prendas" para que coincidan con su nuevo nombre
+5-se agrego la columna "proceso" en "pedidos_prendas
+6-se cambiaron los archivos para que coincidan con los nuevos nombres
+7-Se agrego la columna "ocupado" en la tabla empleados (tinyint, 1 de longitud)
+8-Ahora las confecciones se crean pero no se altera el stock de la prenda inmediatamente (el de materia prima si)
+9-Funcion de actualizar confeccion y anularla esta añadida
+10-cuando la confeccion se actulize el empleado pasara a estar libre y la opcion de actualizar sera removida
 
-- Se han quitado 2 columnas de de la tabla patrones (material,cantidad)
+Bugs detectados:
 
-+ Ahora se pueden poner varios materiales a un patron
-
-+ modal para ver los materiales de un patron implementado
-
-
-Martes 03, Septiembre de 2024:
-
-Sistema general:
-
-+ Diseño de la interfaz actualizado
-
-login:
-
-+ Diseño del login arreglado
-
-Clientes :
-
-+ Diseño superficial cambiado
-
-usuarios :
-
-+ Recordar que se añadio la columna de usuario_eliminado a la BD (para hacer la eliminacion logica)
-
-+ Se cambiaron los modales de crear y editar (se agrego la opcion para añadir la imagen)
-
-+ Se agrego el comprovador de correo en uso a la hora de crear un usuario
-
-+ se modifico la funcion de eliminar en el modelo para que la elimincaion sea logica y no fisica
-
-+ se modifico el mostrar todo en el modelo para que no muestre las filas "eliminadas"
-
-+ se agrego una validacion de contraseña mas completa al crear y al editar
-
-+ se agrego a el modelo y al controlador la logica para restaurar un usuario eliminado (tambien sus respectivas notificaciones en el log)
-
-
-Sabado 31, Agosto de 2024:
-
-Sistema general:
-
-+ Funcion para determinar si el usuario no tiene imagen de perfil agregada
-
-+ Footer agregado
-
-+ Selector de links añadido (ahora el link se marcara cuando se este en dicha pagina) añadido
-
-usuarios:
-
-- "accion" de la cabecera de la tabla removida
-
-+ Imagen de la cuenta de perfil agregada al cuerpo de la tabla añadida
-
-+ Buscador funcional añadido
-
-+ El modelo de usuarios ahora esta completamente documentado
-
-+ Recordar que se creo la columna de img_usuario en la BD
+1-los empleados eliminados aparecen en el select al momento de hacer una confeccion

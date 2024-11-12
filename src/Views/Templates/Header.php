@@ -36,9 +36,9 @@
             <?php if ($_SESSION['rol'] == 1) : ?>
                 <hr class="my-3 text-secondary">
                 <li class="nav-item">
-                    <a id="entregas" class="nav-link-rj nav-link d-flex align-items-center gap-2" href="index.php?page=entregas">
+                    <a id="pedidosPrendas" class="nav-link-rj nav-link d-flex align-items-center gap-2" href="index.php?page=pedidosPrendas">
                     <?php include './src/Assets/bootstrap-icons-1.11.3/shop.svg'; ?>
-                        Entregas
+                        Pedidos de prendas
                     </a>
                 </li>
                 <li class="nav-item">
@@ -54,9 +54,9 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a id="pedidos" class="nav-link-rj nav-link d-flex align-items-center gap-2" href="index.php?page=pedidos">
+                    <a id="pedidosProveedores" class="nav-link-rj nav-link d-flex align-items-center gap-2" href="index.php?page=pedidosProveedores">
                     <?php include './src/Assets/bootstrap-icons-1.11.3/clipboard2-check-fill.svg'; ?>
-                        Pedidos
+                        Pedidos a Proveedores
                     </a>
                 </li>
                 <li class="nav-item">
@@ -69,6 +69,11 @@
                     <a id="usuarios" class="nav-link-rj nav-link d-flex align-items-center gap-2" href="index.php?page=usuarios">
                     <?php include './src/Assets/bootstrap-icons-1.11.3/person-circle.svg'; ?>
                         Usuarios
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a id="reportes" class="nav-link-rj nav-link d-flex align-items-center gap-2" href="index.php?page=reportes">
+                        Reportes
                     </a>
                 </li>
             <?php endif; ?>

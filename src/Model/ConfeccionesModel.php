@@ -26,11 +26,14 @@ class ConfeccionesModel extends ModeloBase
 
         $sql = "SELECT 
     u.*,
-    e.nombre_empleado AS id_empleado
+    e.nombre_empleado AS id_empleado,
+    p.nombre_prenda AS id_prenda
 FROM
     confeccion u
 INNER JOIN
-    empleados e ON u.id_empleado = e.id_empleado";
+    empleados e ON u.id_empleado = e.id_empleado
+    INNER JOIN
+    prendas p ON u.id_prenda = p.id_prenda";
 
         // Agregar condición si se proporciona un valor y columna
         if ($value !== "" && $column !== "") {
@@ -60,10 +63,10 @@ INNER JOIN
 
         $stmt = $this->prepare($query);
 
-       $stmt->bindParam(":prenda", $this->data["prenda"]);
-       $stmt->bindParam(":cantidad", $this->data["cantidad"]);
-       $stmt->bindParam(":fecha_fabricacion", $this->data["fecha_fabricacion"]);
-       $stmt->bindParam(":empleado", $this->data["empleado"]);
+        $stmt->bindParam(":prenda", $this->data["prenda"]);
+        $stmt->bindParam(":cantidad", $this->data["cantidad"]);
+        $stmt->bindParam(":fecha_fabricacion", $this->data["fecha_fabricacion"]);
+        $stmt->bindParam(":empleado", $this->data["empleado"]);
 
 
         return $stmt->execute();
@@ -77,13 +80,12 @@ INNER JOIN
 
     public function remove($id)
     {
-      return $this->hardDelete("id_confeccion", $id);
+        return $this->hardDelete("id_confeccion", $id);
     }
 
     public function active($id)
     {
-       return $this->toggleStatus(0, "id_confeccion", $id);
-       
+        return $this->toggleStatus(0, "id_confeccion", $id);
     }
 
     public function edit($id)
@@ -97,9 +99,8 @@ INNER JOIN
         $stmt->bindParam(":fecha_fabricacion", $this->data["fecha_fabricacion"]);
         $stmt->bindParam(":empleado", $this->data["empleado"]);
         $stmt->bindParam(":id", $id);
- 
+
 
         return $stmt->execute();
     }
-
 }

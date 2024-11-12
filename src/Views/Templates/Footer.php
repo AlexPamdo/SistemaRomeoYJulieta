@@ -59,6 +59,9 @@
 <script src="src/Assets/js/eliminarModal.js"></script>
 <script src="src/Assets/js/script.js"></script>
 
+<!-- confecciones -->
+<script src="src/Assets/js/confecciones.js"></script>
+
 
 
 <script>

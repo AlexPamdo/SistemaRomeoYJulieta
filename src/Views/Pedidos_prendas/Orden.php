@@ -3,7 +3,7 @@ use src\Model\OrdenEntregaModel;
 ?>
 
 <!-- Modal Para ver Los materiales del patron -->
-<div class="modal fade" id="orden<?php echo $entrega['id_entrega']?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="MaterialesPatronLabel" aria-hidden="true">
+<div class="modal fade" id="orden<?php echo $entrega['id_pedido_prenda']?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="MaterialesPatronLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header bg-dark text-white">
@@ -24,11 +24,11 @@ use src\Model\OrdenEntregaModel;
                     <tbody>
                         <?php
                         $ordenEntrega = new OrdenEntregaModel();
-                        $prendas = $ordenEntrega->viewPrendas($entrega['id_entrega'],"id_entrega");
+                        $prendas = $ordenEntrega->viewPrendas($entrega['id_pedido_prenda'],"id_pedido_prenda");
                         foreach ($prendas as $prenda) :
                         ?>
                             <tr>
-                                <td><?php echo $prenda['id_entrega']; ?></td>
+                                <td><?php echo $prenda['id_pedido_prenda']; ?></td>
                                 <td><?php echo $prenda['id_prenda']; ?></td>
                                 <td><?php echo $prenda['cantidad_prenda']; ?></td>
                             </tr>

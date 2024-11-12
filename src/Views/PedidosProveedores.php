@@ -37,7 +37,7 @@ require_once("Templates/Head.php");
 
 
                     <?php
-                    require_once("src/Views/Pedidos/Crear.php")
+                    require_once("src/Views/Pedidos_proveedores/Crear.php")
                     ?>
 
                     <a href="index.php?page=pedidos&function=print" target="_blank" class="btn btn-warning ms-1">
@@ -92,8 +92,8 @@ require_once("Templates/Head.php");
                                         </form>
                                     </td>
                                     <?php
-                                    include("src/Views/Pedidos/Eliminar.php");
-                                    include("src/Views/Pedidos/Actualizar.php");
+                                    include("src/Views/Pedidos_proveedores/Eliminar.php");
+                                    include("src/Views/Pedidos_proveedores/Actualizar.php");
                                     ?>
                                 </tr>
                             <?php endforeach; ?>
@@ -101,7 +101,7 @@ require_once("Templates/Head.php");
                     </table>
 
                     <?php foreach ($pedidosData as $pedido) :
-                        include("src/Views/Pedidos/Orden.php");
+                        include("src/Views/Pedidos_proveedores/Orden.php");
                     endforeach; ?>
                 </div>
 
@@ -114,7 +114,7 @@ require_once("Templates/Head.php");
 
                 <?php
                 // Restaurar
-                include_once("src/Views/Pedidos/Papelera.php");
+                include_once("src/Views/Pedidos_proveedores/Papelera.php");
                 ?>
             </div>
         </div>

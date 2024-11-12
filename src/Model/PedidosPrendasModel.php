@@ -5,15 +5,15 @@ namespace src\Model;
 use PDO;
 use Exception;
 
-class EntregasModel extends ModeloBase
+class PedidosPrendasModel extends ModeloBase
 {
     protected $data = [];
-    protected $tabla = "entregas";
+    protected $tabla = "Pedidos_prendas";
 
     public function setData($desc, $fecha, $total)
     {
         $this->data = [
-            'desc_entrega' => $desc,
+            'desc_pedido_prenda' => $desc,
             'fecha' => $fecha,
             'total' => $total,
         ];
@@ -29,11 +29,11 @@ class EntregasModel extends ModeloBase
     public function create()
     {
         try {
-            $query = "INSERT INTO {$this->tabla} (desc_entrega, fecha_entrega, total_entrega) VALUES (:desc_entrega, :fecha, :total)";
+            $query = "INSERT INTO {$this->tabla} (desc_pedido_prenda, fecha_pedido_prenda, total_pedido_prenda) VALUES (:desc_pedido_prenda, :fecha, :total)";
 
             $stmt = $this->prepare($query);
 
-            $stmt->bindParam(":desc_entrega", $this->data["desc_entrega"], PDO::PARAM_STR);
+            $stmt->bindParam(":desc_pedido_prenda", $this->data["desc_pedido_prenda"], PDO::PARAM_STR);
             $stmt->bindParam(":fecha", $this->data["fecha"], PDO::PARAM_STR);
             $stmt->bindParam(":total", $this->data["total"], PDO::PARAM_LOB);
 
@@ -53,7 +53,7 @@ class EntregasModel extends ModeloBase
 
     public function edit($id)
     {
-        $query = "UPDATE {$this->tabla} SET fecha_entrega = :fecha, total_entrega = :total WHERE id_entrega = :id";
+        $query = "UPDATE {$this->tabla} SET fecha_pedido_prenda = :fecha, total_pedido_prenda = :total WHERE id_pedido_prenda = :id";
 
         $stmt = $this->prepare($query);
 
@@ -67,16 +67,16 @@ class EntregasModel extends ModeloBase
 
     public function softDelete($id)
     {
-        return $this->toggleStatus(1, "id_entrega", $id);
+        return $this->toggleStatus(1, "id_pedido_prenda", $id);
     }
 
     public function remove($id)
     {
-        return $this->hardDelete("id_entrega", $id);
+        return $this->hardDelete("id_pedido_prenda", $id);
     }
 
     public function active($id)
     {
-        return $this->toggleStatus(0, "id_entrega", $id);
+        return $this->toggleStatus(0, "id_pedido_prenda", $id);
     }
 }

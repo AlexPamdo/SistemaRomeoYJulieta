@@ -11,7 +11,7 @@ class DashboardController
 
         $modelos = [
             "almacen" => \src\Model\AlmacenModel::class,
-            "pedidos" => \src\Model\PedidosModel::class,
+            "pedidos" => \src\Model\PedidosProveedoresModel::class,
             "proveedores" => \src\Model\ProveedoresModel::class,
             "prendas" => \src\Model\PrendasModel::class,
             "confecciones" => \src\Model\ConfeccionesModel::class,

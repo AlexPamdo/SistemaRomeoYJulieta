@@ -1,5 +1,5 @@
 <!--Modal de eliminar -->
-<div class="modal fade" id="eliminar<?php echo ($entrega['id_entrega']) ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="eliminar<?php echo ($entrega['id_pedido_prenda']) ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
 
@@ -16,7 +16,7 @@
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                                 Cerrar
                             </button>
-                            <input type="hidden" name="id" value="<?php echo ($entrega['id_entrega']) ?>">
+                            <input type="hidden" name="id" value="<?php echo ($entrega['id_pedido_prenda']) ?>">
                             <button class="btn btn-danger">Confirmar</button>
                         </form>
                     </div>

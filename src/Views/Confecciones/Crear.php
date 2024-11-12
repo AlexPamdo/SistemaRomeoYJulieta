@@ -61,7 +61,7 @@ use src\Model\PrendasModel;
                                     //incluimos el controlador para acceder a la funcion ver todo
 
                                     $empleados = new EmpleadosModel();
-                                    $empleadosData = $empleados->viewAll(0,"estado");
+                                    $empleadosData = $empleados->viewAll(0,"ocupado");
 
                                     foreach ($empleadosData as $empleado) : ?>
 

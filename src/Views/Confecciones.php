@@ -34,13 +34,15 @@ require_once("Templates/Head.php");
                     </button>
 
                     <?php
-                    require_once("src/Views/Confecciones/Crear.php")
+                    require_once("src/Views/Confecciones/Crear.php");
+                    require_once("src/Views/Confecciones/Actualizar.php");
+                    require_once("src/Views/Confecciones/Eliminar.php")
                     ?>
 
-<a href="index.php?page=confecciones&function=print" target="_blank" class="btn btn-warning ms-1">
+                    <a href="index.php?page=confecciones&function=print" target="_blank" class="btn btn-warning ms-1">
                         <?php include './src/Assets/bootstrap-icons-1.11.3/printer-fill.svg'; ?>
-                        </a>
-                  
+                    </a>
+
                 </div>
                 <!-- Tabla de confecciones -->
                 <div class="table-responsive bg-white rounded shadow-sm p-4">
@@ -50,9 +52,9 @@ require_once("Templates/Head.php");
                                 <th scope="col">ID</th>
                                 <th scope="col">Prenda</th>
                                 <th scope="col">Cantidad</th>
-                  
                                 <th scope="col">Fecha de fabricación</th>
                                 <th scope="col">Empleado encargado</th>
+                                <th scope="col">Estado</th>
                                 <th scope="col">Acciones</th>
                             </tr>
                         </thead>
@@ -64,20 +66,25 @@ require_once("Templates/Head.php");
                                     <td><?php echo htmlspecialchars($confeccion['cantidad']); ?></td>
                                     <td><?php echo htmlspecialchars($confeccion['fecha_fabricacion']); ?></td>
                                     <td><?php echo htmlspecialchars($confeccion['id_empleado']); ?></td>
+                                    <td><?php echo $confeccion['proceso'] == 0 ? 'En proceso' : ($confeccion['proceso'] == 1 ? 'completada' : 'Cancelada'); ?></td>
                                     <td class="d-flex">
                                         <!-- Botones de editar y eliminar -->
-                                        <button type="button" class="btn btn-custom-danger m-1" data-bs-toggle="modal" data-bs-target="#eliminar<?php echo htmlspecialchars($confeccion['id_confeccion']); ?>">
-                                        <?php include './src/Assets/bootstrap-icons-1.11.3/ban.svg'; ?>
+                                        <!-- El boton de actualizar sera removido si la confeccion ya esta actualizada -->
+
+                                        <button type="button" class="btn btn-custom-danger m-1 anularConfeccion"
+                                            <?= $confeccion['proceso'] == 1 ? 'disabled' : ""; ?>
+                                            data-bs-toggle="modal" data-bs-target="#anularConfeccion">
+                                            <?php include './src/Assets/bootstrap-icons-1.11.3/ban.svg'; ?>
                                         </button>
-                                        <button type="button" class="btn btn-custom-success m-1" data-bs-toggle="modal" data-bs-target="#editar<?php echo htmlspecialchars($confeccion['id_confeccion']); ?>">
-                                        <i class="fa-solid fa-sync"></i>
+
+                                        <button type="button" class="btn btn-custom-success m-1 actualizarConfeccion"
+                                            <?= $confeccion['proceso'] == 1 ? 'disabled' : ""; ?>
+                                            data-bs-toggle="modal" data-bs-target="#actualizarConfeccion">
+                                            <i class="fa-solid fa-sync"></i>
                                         </button>
+
                                     </td>
                                 </tr>
-                                <?php
-                                include("src/Views/Confecciones/Editar.php");
-                                include("src/Views/Confecciones/Eliminar.php");
-                                ?>
                             <?php endforeach; ?>
                         </tbody>
                     </table>
@@ -88,7 +95,7 @@ require_once("Templates/Head.php");
 
 
     <?php
-       include_once("src/Views/Templates/Log.php");
+    include_once("src/Views/Templates/Log.php");
     include_once("src/Views/Templates/Footer.php"); ?>
 
 

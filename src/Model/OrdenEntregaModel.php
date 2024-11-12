@@ -8,7 +8,7 @@ class OrdenEntregaModel extends ModeloBase
 {
 
     protected $data = [];
-    protected $tabla = "orden_entrega";
+    protected $tabla = "orden_pedido_prenda";
 
     public function setData($entrega, $prenda, $cantidad)
     {
@@ -47,7 +47,7 @@ class OrdenEntregaModel extends ModeloBase
 
     public function create()
     {
-        $query = "INSERT INTO {$this->tabla} (id_entrega, id_prenda, cantidad_prenda) VALUES (:entrega, :prenda, :cantidad)";
+        $query = "INSERT INTO {$this->tabla} (id_pedido_prenda, id_prenda, cantidad_prenda) VALUES (:entrega, :prenda, :cantidad)";
         $stmt = $this->prepare($query);
 
         $stmt->bindParam(":entrega", $this->data["entrega"]);

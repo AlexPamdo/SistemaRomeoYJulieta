@@ -2,7 +2,7 @@
 
 namespace src\Controllers;
 
-use src\Model\EntregasModel;
+use src\Model\PedidosPrendasModel;
 use src\Model\PrendasModel;
 use src\Model\OrdenEntregaModel;
 
@@ -10,7 +10,7 @@ use Interfaces\CrudController;
 
 use Exception;
 
-class EntregasController
+class PedidosPrendasController
 {
 
     private $model;
@@ -19,7 +19,7 @@ class EntregasController
 
     public function __construct()
     {
-        $this->model = new EntregasModel();
+        $this->model = new PedidosPrendasModel();
         $this->prendasModel = new PrendasModel();
         $this->ordenEntrega = new OrdenEntregaModel();
     }
@@ -33,7 +33,7 @@ class EntregasController
 
         $entregasDeleteData = $this->model->viewEntregas(1, "estado");
         $entregasData = $this->model->viewEntregas(0, "estado");
-        include_once("src/Views/Entregas.php");
+        include_once("src/Views/PedidosPrendas.php");
     }
 
     public function print()
@@ -77,7 +77,7 @@ class EntregasController
     }
 
     //Accion sera la operacion "subir" para aumentar el stock y "bajar" para quitar
-    public function uptdateStock($accion, $prendasData, $id_entrega)
+    public function uptdateStock($accion, $prendasData, $id_pedido_prenda)
     {
         foreach ($prendasData as $prenda) {
             if ($prenda['cantidad'] !== '' && $prenda['id_prenda'] !== "none") {
@@ -99,7 +99,7 @@ class EntregasController
 
                 //Anotar el material en la tabla ordenPedido
                 $this->ordenEntrega->setData(
-                    $id_entrega,
+                    $id_pedido_prenda,
                     $prenda['id_prenda'],
                     $prenda['cantidad'],
                 );
@@ -126,18 +126,18 @@ class EntregasController
                 $total = $this->calcularPrecio($_POST['prenda']);
 
                 $this->model->setData(
-                    $_POST["desc_entrega"],
+                    $_POST["desc_pedido_prenda"],
                     date('Y-m-d H:i:s'),
                     $total
                 );
 
-                $id_entrega = $this->model->create();
+                $id_pedido_prenda = $this->model->create();
 
-                if (!$id_entrega) {
+                if (!$id_pedido_prenda) {
                     throw new Exception("Error al registrar el pedido");
                 }
 
-                $this->uptdateStock("bajar", $_POST['prenda'], $id_entrega);
+                $this->uptdateStock("bajar", $_POST['prenda'], $id_pedido_prenda);
 
                 header("Location: index.php?page=entregas&succes=create");
             } else {

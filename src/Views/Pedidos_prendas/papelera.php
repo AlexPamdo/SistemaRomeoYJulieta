@@ -23,9 +23,9 @@
                         <tbody>
                             <?php foreach ($entregasDeleteData as $entrega) : ?>
                                 <tr>
-                                <td><?php echo htmlspecialchars($entrega['id_entrega']); ?></td>
-                                    <td><?php echo htmlspecialchars($entrega['fecha_entrega']); ?></td>
-                                    <td><?php echo htmlspecialchars($entrega['total_entrega']); ?></td>
+                                <td><?php echo htmlspecialchars($entrega['id_pedido_prenda']); ?></td>
+                                    <td><?php echo htmlspecialchars($entrega['fecha_pedido_prenda']); ?></td>
+                                    <td><?php echo htmlspecialchars($entrega['total_pedido_prenda']); ?></td>
                                     <td class="d-flex">
                                         <!-- Boton de eliminar -->
                                         <form class="d-flex" action="index.php" method="get">

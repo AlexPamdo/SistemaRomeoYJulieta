@@ -56,5 +56,5 @@
 </div>
 
 <?php foreach ($pedidosDeleteData as $pedido) :
-                        include("src/Views/Pedidos/Orden.php");
+                        include("src/Views/Pedidos_proveedores/Orden.php");
                     endforeach; ?>

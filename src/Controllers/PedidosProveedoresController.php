@@ -2,14 +2,14 @@
 
 namespace src\Controllers;
 
-use src\Model\PedidosModel;
+use src\Model\PedidosProveedoresModel;
 use src\Model\AlmacenModel;
 use src\Model\OrdenPedidoModel;
 use Interfaces\CrudController;
 
 use Exception;
 
-class PedidosController implements CrudController
+class PedidosProveedoresController implements CrudController
 {
 
     private $model;
@@ -18,7 +18,7 @@ class PedidosController implements CrudController
 
     public function __construct()
     {
-        $this->model = new PedidosModel;
+        $this->model = new PedidosProveedoresModel();
         $this->almacenModel = new AlmacenModel();
         $this->ordenPedido = new OrdenPedidoModel();
     }
@@ -32,7 +32,7 @@ class PedidosController implements CrudController
 
         $pedidosDeleteData = $this->model->viewPedidos(1, "estado");
         $pedidosData = $this->model->viewPedidos(0, "estado");
-        include_once("src/Views/Pedidos.php");
+        include_once("src/Views/PedidosProveedores.php");
     }
 
     public function print()

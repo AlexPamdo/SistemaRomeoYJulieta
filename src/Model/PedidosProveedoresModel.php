@@ -5,16 +5,12 @@ namespace src\Model;
 use PDO;
 use Exception;
 
-class PedidosModel extends ModeloBase
+class PedidosProveedoresModel extends ModeloBase
 {
 
     protected $data = [];
 
-    protected $tabla = "pedidos";
-
-
-
-
+    protected $tabla = "pedidos_proveedores";
 
     public function viewPedidos($value = "", $column = "")
     {

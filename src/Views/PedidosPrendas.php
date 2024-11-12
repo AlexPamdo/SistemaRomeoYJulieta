@@ -2,7 +2,7 @@
 require_once("Templates/Head.php");
 ?>
 
-<title>Entregas</title>
+<title>Pedidos de Prendas</title>
 </head>
 
 <body class="bg-body-secondary" data-bs-spy="scroll">
@@ -19,7 +19,7 @@ require_once("Templates/Head.php");
                             <path d="M10 .5a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5.5.5 0 0 1-.5.5.5.5 0 0 0-.5.5V2a.5.5 0 0 0 .5.5h5A.5.5 0 0 0 11 2v-.5a.5.5 0 0 0-.5-.5.5.5 0 0 1-.5-.5" />
                             <path d="M4.085 1H3.5A1.5 1.5 0 0 0 2 2.5v12A1.5 1.5 0 0 0 3.5 16h9a1.5 1.5 0 0 0 1.5-1.5v-12A1.5 1.5 0 0 0 12.5 1h-.585q.084.236.085.5V2a1.5 1.5 0 0 1-1.5 1.5h-5A1.5 1.5 0 0 1 4 2v-.5q.001-.264.085-.5m6.769 6.854-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708.708" />
                         </svg>
-                        <h3 class="ms-3" data-intro="Este es el modulo de los pedidos, desde aqui se pueden crear pedidos en el sistema" data-step="1">Entregas</h3>
+                        <h3 class="ms-3" data-intro="Este es el modulo de los pedidos, desde aqui se pueden crear pedidos en el sistema" data-step="1">Pedidos de Prendas</h3>
                     </div>
                     <!-- Menú desplegable del perfil -->
                     <?php include_once("src/Views/Templates/MenuDesplegable.php"); ?>
@@ -35,7 +35,7 @@ require_once("Templates/Head.php");
                     </button>
 
                     <?php
-                    require_once("src/Views/Entregas/Crear.php")
+                    require_once("src/Views/Pedidos_prendas/Crear.php")
                     ?>
 
                     <a href="index.php?page=pedidos&function=print" target="_blank" class="btn btn-warning ms-1">
@@ -59,15 +59,15 @@ require_once("Templates/Head.php");
                         <tbody>
                             <?php foreach ($entregasData as $entrega) : ?>
                                 <tr>
-                                    <td><?php echo htmlspecialchars($entrega['id_entrega']); ?></td>
-                                    <td><?php echo htmlspecialchars($entrega['desc_entrega']); ?></td>
-                                    <td><?php echo htmlspecialchars($entrega['fecha_entrega']); ?></td>
-                                    <td><?php echo htmlspecialchars($entrega['total_entrega']); ?></td>
+                                    <td><?php echo htmlspecialchars($entrega['id_pedido_prenda']); ?></td>
+                                    <td><?php echo htmlspecialchars($entrega['desc_pedido_prenda']); ?></td>
+                                    <td><?php echo htmlspecialchars($entrega['fecha_pedido_prenda']); ?></td>
+                                    <td><?php echo htmlspecialchars($entrega['total_pedido_prenda']); ?></td>
                                     <td class="d-flex">
                                         <!-- Boton de eliminar -->
                                         <form class="d-flex" action="index.php" method="get">
                                             <button type="button" class="btn btn-warning m-1" data-bs-toggle="modal"
-                                                data-bs-target="#orden<?php echo $entrega['id_entrega'] ?>">
+                                                data-bs-target="#orden<?php echo $entrega['id_pedido_prenda'] ?>">
                                                 <?php include './src/Assets/bootstrap-icons-1.11.3/eye-fill.svg'; ?>
                                             </button>
                                             <button type="button" class="btn btn-danger m-1 btn-sm" data-bs-toggle="modal" data-bs-target="#eliminar<?php echo htmlspecialchars($pedido['id_pedido']); ?>">
@@ -79,7 +79,7 @@ require_once("Templates/Head.php");
                                         </form>
                                     </td>
                                     <?php
-                                    include("src/Views/Entregas/Eliminar.php");
+                                    include("src/Views/Pedidos_prendas/Eliminar.php");
 
                                     ?>
                                 </tr>
@@ -88,7 +88,7 @@ require_once("Templates/Head.php");
                     </table>
 
                     <?php foreach ($entregasData as $entrega) :
-                        include("src/Views/Entregas/Orden.php");
+                        include("src/Views/Pedidos_prendas/Orden.php");
                     endforeach; ?>
                 </div>
 
@@ -101,7 +101,7 @@ require_once("Templates/Head.php");
 
                 <?php
                 // Restaurar
-                include_once("src/Views/Entregas/Papelera.php");
+                include_once("src/Views/Pedidos_prendas/Papelera.php");
                 ?>
             </div>
         </div>
