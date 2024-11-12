@@ -66,7 +66,6 @@ require_once("Templates/Head.php");
                         
                                 <th scope="col">Cantidad</th>
                                 <th scope="col">Género</th>
-                                <th scope="col">Precio</th>
                                 <th scope="col">Opciones</th>
                             </tr>
                         </thead>
@@ -86,7 +85,6 @@ require_once("Templates/Head.php");
                                     <td class="cantidad"><?php echo htmlspecialchars($prenda['stock']); ?></td>
                                     <td><?php echo htmlspecialchars($prenda['genero']); ?></td>
                                     <input type="hidden" class="genero" value="<?php echo htmlspecialchars($prenda['genero']); ?>">
-                                    <td class="precio"><?php echo htmlspecialchars($prenda['precio_unitario']); ?> <span>bs</span></td>
                                     <td class="d-flex">
                                         <!-- Botones de editar y eliminar -->
                                         <button type="button" class="btn btn-warning m-1" data-bs-toggle="modal"

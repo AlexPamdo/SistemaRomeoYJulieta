@@ -207,10 +207,23 @@ class ConfeccionesController implements CrudController
 
     public function delete()
     {
+        $confeccion = $_POST["id"];
+        $empleado = $this->model->showColumn("id_empleado", "id_confeccion", $_POST["id"]);
+
         try {
             // Si se elimina correctamente la confección, redirecciona con mensaje de éxito.
-            if (!$this->model->softDelete($_POST["id"])) {
+            if (!$this->model->softDelete($confeccion)) {
                 throw new Exception("Error al anular la confeccion");
+            }
+
+            //Actualizamos el estado de la confeccion a cancelado
+            if(!$this->model->updateColumn("proceso",3,"id_confeccion",$confeccion)) {
+                throw new Exception("Error al marcar la confeccion como anulada");
+            }
+
+            //y el empleado pasara a estar libre
+            if(!$this->empleadosModel->updateColumn("ocupado",0,"id_empleado",$empleado)) {
+                throw new Exception("Error al marcar la confeccion como anulada");
             }
 
             header("Location: index.php?page=confecciones&succes=delete");

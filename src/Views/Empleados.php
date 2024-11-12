@@ -67,7 +67,11 @@ require_once("Templates/Head.php");
                                     <td><?php echo htmlspecialchars($empleado['ocupaciones']); ?></td>
                                     <input type="hidden" class="ocupacion" value="<?php echo htmlspecialchars($empleado['id_ocupacion']); ?>">
                                     <td class="cedula"><?php echo htmlspecialchars($empleado['cedula_empleado']); ?></td>
-                                    <td><?php echo $empleado['ocupado'] == 0 ? 'Libre' : ($empleado['ocupado'] == 1 ? 'ocupado' : 'Error'); ?></td>
+                                    <td>
+                                        <span class="<?= $empleado['ocupado'] == 1 ? 'en_curso' : 'completado'; ?>">
+                                            <?php echo $empleado['ocupado'] == 0 ? 'Libre' : ($empleado['ocupado'] == 1 ? 'ocupado' : 'Error'); ?>
+                                        </span>
+                                    </td>
                                     <td class="d-flex">
                                         <!-- Botones de editar y eliminar -->
                                         <button type="button" class="btn btn-custom-danger m-1 eliminar" data-bs-toggle="modal" data-bs-target="#eliminar">

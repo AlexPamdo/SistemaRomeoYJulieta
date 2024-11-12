@@ -108,16 +108,9 @@ class PrendasController implements CrudController
                 throw new Exception("No se han proporcionado materiales válidos: No se pudo verificar si existe y es un array");
             }
 
-            $total = $this->calcularPrecio($_POST['material']);
-
-            if (!$total) {
-                throw new Exception('No se pudo calcular ningun precio');
-            }
-
             // Subir la imagen de la prenda
             $ruta = $this->subirImagen($_FILES["file1"]);
         
-
             // Asignar los atributos de la prenda con el ID del patrón recién creado
             $this->prendaModel->setData(
                 $ruta,
@@ -127,7 +120,6 @@ class PrendasController implements CrudController
                 $_POST["id_talla"],
                 $_POST["id_coleccion"],
                 $_POST["stock"],
-                $total
             );
 
 

@@ -47,7 +47,7 @@ class PedidosProveedoresModel extends ModeloBase
     }
 
 
-    public function setData($proveedor, $fecha_pedido, $estado, $usuario, $total)
+    public function setData($proveedor, $fecha_pedido, $estado, $usuario)
     {
 
         $this->data = [
@@ -55,7 +55,6 @@ class PedidosProveedoresModel extends ModeloBase
             'fecha_pedido' => $fecha_pedido,
             'estado' => $estado,
             'usuario' => $usuario,
-            'total' => $total,
         ];
     }
 
@@ -64,15 +63,14 @@ class PedidosProveedoresModel extends ModeloBase
     {
         try {
             // Preparar la consulta
-            $stmt = $this->prepare("INSERT INTO {$this->tabla} (id_proveedor, fecha_pedido, estado_pedido, id_usuario, total_pedido) 
-                                    VALUES (:proveedor, :fecha_pedido, :estado, :usuario, :total)");
+            $stmt = $this->prepare("INSERT INTO {$this->tabla} (id_proveedor, fecha_pedido, estado_pedido, id_usuario) 
+                                    VALUES (:proveedor, :fecha_pedido, :estado, :usuario)");
 
             // Vincular parámetros
             $stmt->bindParam(":proveedor", $this->data["proveedor"],PDO::PARAM_INT);
             $stmt->bindParam(":fecha_pedido", $this->data["fecha_pedido"],PDO::PARAM_STR);
             $stmt->bindParam(":estado", $this->data["estado"],PDO::PARAM_INT);
             $stmt->bindParam(":usuario", $this->data["usuario"],PDO::PARAM_INT);
-            $stmt->bindParam(":total", $this->data["total"],PDO::PARAM_LOB);
 
             // Ejecutar la sentencia y verificar el resultado
             if ($stmt->execute()) {

@@ -35,14 +35,6 @@ $coloresData = $coloresModel->viewAll();
                             <input type="" name="stock" class="form-control-input campo stock w-100" placeholder="Stock del material" aria-label="Username" aria-describedby="addon-wrapping" id="stockMaterial" required />
                         </div>
 
-
-                        <div class="input-group flex-nowrap m-2 d-flex flex-column">
-                            <label class="fw-bold" for="precioMaterial">Precio</label>
-
-                            <input type="text" name="precio" class="form-control-input campo precio w-100" id="precioMaterial" placeholder="00.00Bs" aria-label="Username" aria-describedby="addon-wrapping" required />
-
-                        </div>
-
                         <div class="container p-3">
                             <!-- Tipo de Material -->
                             <div class="row align-items-center py-2">

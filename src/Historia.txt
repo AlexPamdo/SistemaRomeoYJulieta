@@ -1,6 +1,8 @@
 Eliminados:
 
 1-Se elimino la columna precio de la tabla almacen 
+2-se elimino la columna "total_pedido" de la tabla pedidos_proveedores
+3-se elimino la columna de "precio_unitario" de la tabla "prendas" y su parametro su modelo y controlador
 
 Agregados:
 
@@ -14,7 +16,15 @@ Agregados:
 8-Ahora las confecciones se crean pero no se altera el stock de la prenda inmediatamente (el de materia prima si)
 9-Funcion de actualizar confeccion y anularla esta añadida
 10-cuando la confeccion se actulize el empleado pasara a estar libre y la opcion de actualizar sera removida
+11-se cambio el tipo de dato de la columna "estado_pedido" de la tabla "pedidos_proveedores"
+12-logica aplicada en el apartado de pedidos
 
 Bugs detectados:
 
 1-los empleados eliminados aparecen en el select al momento de hacer una confeccion
+
+falta:
+
+1-aplicar la logica en el apartado de pedidos de pedidos_prendas
+2-quiza añadir la opcion de confeccionar varias prendas a la vez
+3-modulo de reportes

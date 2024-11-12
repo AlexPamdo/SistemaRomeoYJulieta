@@ -17,7 +17,7 @@
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                                 Cerrar
                             </button>
-                            <input type="text" name="id" id="idEliminarConfeccion" value="">
+                            <input type="hidden" name="id" id="idEliminarConfeccion" value="">
                             <button class="btn btn-danger" name="btnDelete" value="delete">Confirmar</button>
                         </form>
                     </div>

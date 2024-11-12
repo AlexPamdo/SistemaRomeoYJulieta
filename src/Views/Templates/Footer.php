@@ -59,6 +59,9 @@
 <script src="src/Assets/js/eliminarModal.js"></script>
 <script src="src/Assets/js/script.js"></script>
 
+<!-- Pedidos a proveedores -->
+<script src="src/Assets/js/pedidosProveedores.js"></script>
+
 <!-- confecciones -->
 <script src="src/Assets/js/confecciones.js"></script>
 

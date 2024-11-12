@@ -37,7 +37,9 @@ require_once("Templates/Head.php");
 
 
                     <?php
-                    require_once("src/Views/Pedidos_proveedores/Crear.php")
+                    require_once("src/Views/Pedidos_proveedores/Crear.php");
+                    require_once("src/Views/Pedidos_proveedores/Actualizar.php");
+                    require_once("src/Views/Pedidos_proveedores/Eliminar.php")
                     ?>
 
                     <a href="index.php?page=pedidos&function=print" target="_blank" class="btn btn-warning ms-1">
@@ -57,7 +59,6 @@ require_once("Templates/Head.php");
                                 <th scope="col">Estado</th>
                                 <th scope="col">Orden</th>
                                 <th scope="col">Usuario</th>
-                                <th scope="col">Total a pagar</th>
                                 <th scope="col">Acciones</th>
                             </tr>
                         </thead>
@@ -68,8 +69,9 @@ require_once("Templates/Head.php");
                                     <td><?php echo htmlspecialchars($pedido['id_proveedor']); ?></td>
                                     <td><?php echo htmlspecialchars($pedido['fecha_pedido']); ?></td>
                                     <td>
-                                        <?php echo $pedido['estado_pedido'] ? "<div class='Entregado'>Pago</div>" : "<div class='no-Entregado text-center'>No pagado</div>"; ?>
-                                    </td>
+                                        <span class="
+                                        <?= $pedido['estado_pedido'] == 0 ? 'en_curso' : ($pedido['estado_pedido'] == 1 ? 'completado' : 'anulado') ?>">
+                                        <?php echo $pedido['estado_pedido'] == 0 ? 'En proceso' : ($pedido['estado_pedido'] == 1 ? 'completado' : 'Cancelado'); ?></span></td>
                                     <td>
                                         <button type="button" class="btn btn-warning m-1" data-bs-toggle="modal"
                                             data-bs-target="#orden<?php echo $pedido['id_pedido'] ?>">
@@ -77,24 +79,20 @@ require_once("Templates/Head.php");
                                         </button>
                                     </td>
                                     <td><?php echo htmlspecialchars($pedido['id_usuario']); ?></td>
-                                    <td><?php echo htmlspecialchars($pedido['total_pedido']); ?> bs</td>
                                     <td class="d-flex">
-                                        <!-- Boton de eliminar -->
                                         <form class="d-flex" action="index.php" method="get">
-                                            <button type="button" class="btn btn-danger m-1 btn-sm" data-bs-toggle="modal" data-bs-target="#eliminar<?php echo htmlspecialchars($pedido['id_pedido']); ?>">
+                                            <!-- Boton de eliminar -->
+
+                                            <button type="button" class="btn btn-custom-danger m-1 btn-sm anularPedidoProveedor" data-bs-toggle="modal" data-bs-target="#anularPedidoProveedor" <?= $pedido['estado_pedido'] == 1 ? 'disabled' : ""; ?>>
                                                 <?php include './src/Assets/bootstrap-icons-1.11.3/ban.svg'; ?>
                                             </button>
 
                                             <!-- Botón para abrir el modal de actualización -->
-                                            <button type="button" class="btn btn-success m-1 btn-sm" data-bs-toggle="modal" data-bs-target="#actualizar<?php echo htmlspecialchars($pedido['id_pedido']); ?>">
+                                            <button type="button" class="btn btn-custom-success m-1 btn-sm actualizarPedidoProveedor" data-bs-toggle="modal" data-bs-target="#actualizar" <?= $pedido['estado_pedido'] == 1 ? 'disabled' : ""; ?>>
                                                 <?php include './src/Assets/bootstrap-icons-1.11.3/currency-dollar.svg'; ?>
                                             </button>
                                         </form>
                                     </td>
-                                    <?php
-                                    include("src/Views/Pedidos_proveedores/Eliminar.php");
-                                    include("src/Views/Pedidos_proveedores/Actualizar.php");
-                                    ?>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
@@ -105,9 +103,9 @@ require_once("Templates/Head.php");
                     endforeach; ?>
                 </div>
 
-                 <!-- Botón para ver usuarios items deshabilitados -->
-                 <div class="d-flex justify-content-end mt-4">
-                    <button  data-intro="Con este boton podremos visualizar todos aquellos usuarios que se han estado" data-step="7" class="btn btn-rj-blue p-3" data-bs-toggle="modal" data-bs-target="#elementosDesabilitados">
+                <!-- Botón para ver usuarios items deshabilitados -->
+                <div class="d-flex justify-content-end mt-4">
+                    <button data-intro="Con este boton podremos visualizar todos aquellos usuarios que se han estado" data-step="7" class="btn btn-rj-blue p-3" data-bs-toggle="modal" data-bs-target="#elementosDesabilitados">
                         <?php include './src/Assets/bootstrap-icons-1.11.3/trash-fill.svg'; ?> Elementos Deshabilitados
                     </button>
                 </div>

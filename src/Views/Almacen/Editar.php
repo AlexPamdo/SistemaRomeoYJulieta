@@ -43,14 +43,6 @@ $coloresData = $coloresModel->viewAll();
                                 aria-label="Stock">
                         </div>
 
-                        <!-- Precio del Material -->
-                        <div class="input-group flex-nowrap m-2 d-flex flex-column">
-                            <label for="precio" class="fw-bold" class="form-label campoEdit precioMaterialEdit">Precio</label>
-
-                            <input type="" name="precio" class="form-control-input campo precio w-100" id="precio_edit" placeholder="Precio"
-                                aria-label="Precio">
-                        </div>
-
                         <div class="container p-3">
                             <!-- Tipo de Material -->
                             <div class="row align-items-center py-2">

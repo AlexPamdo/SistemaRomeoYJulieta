@@ -66,7 +66,9 @@ require_once("Templates/Head.php");
                                     <td><?php echo htmlspecialchars($confeccion['cantidad']); ?></td>
                                     <td><?php echo htmlspecialchars($confeccion['fecha_fabricacion']); ?></td>
                                     <td><?php echo htmlspecialchars($confeccion['id_empleado']); ?></td>
-                                    <td><?php echo $confeccion['proceso'] == 0 ? 'En proceso' : ($confeccion['proceso'] == 1 ? 'completada' : 'Cancelada'); ?></td>
+                                    <td><span class="
+                                    <?= $confeccion['proceso'] == 0 ? 'en_curso' : ($confeccion['proceso'] == 1 ? 'completado' : 'anulado') ?>">
+                                    <?php echo $confeccion['proceso'] == 0 ? 'En proceso' : ($confeccion['proceso'] == 1 ? 'completada' : 'Cancelada'); ?></span></td>
                                     <td class="d-flex">
                                         <!-- Botones de editar y eliminar -->
                                         <!-- El boton de actualizar sera removido si la confeccion ya esta actualizada -->

@@ -25,7 +25,7 @@ class PedidosProveedoresController implements CrudController
 
     public function show()
     {
-        if ($_SESSION['rol'] == 2 ) {
+        if ($_SESSION['rol'] == 2) {
             header('Location: index.php?page=dashboard');
             exit;
         }
@@ -45,7 +45,7 @@ class PedidosProveedoresController implements CrudController
     public function calcularPrecio($materialesData)
     {
         $total = 0;
-    
+
         foreach ($materialesData as $materiales) {
             if (!empty($materiales['cantidad']) && $materiales['id_Material'] !== "none") {
                 // Verifica que getPrecio esté funcionando correctamente
@@ -53,45 +53,54 @@ class PedidosProveedoresController implements CrudController
                 if ($precio === false) {
                     throw new Exception("Error al obtener el precio del material con ID: " . $materiales['id_Material']);
                 }
-    
+
                 // Multiplica el precio por la cantidad
                 $total += $precio * $materiales['cantidad'];
             } else {
                 return null; // Retornar null si hay un material no válido
             }
         }
-    
+
         return $total > 0 ? $total : null; // Retornar null si no hay materiales válidos
     }
 
 
-    public function subirStock($materialesData, $id_pedido)
-{
-    // Verificación previa de id_pedido antes de iterar
-    if (!$id_pedido) {
-        throw new Exception("Error: id de pedido no válido");
-    }
-
-    foreach ($materialesData as $materiales) {
-        if (!empty($materiales['cantidad']) && $materiales['id_Material'] !== "none") {
-
-            // Obtener el stock actual y calcular el nuevo stock
-            $stock = $this->almacenModel->showColumn("stock", "id_material", $materiales['id_Material']);
-            if ($stock === false) {
-                throw new Exception("Error al obtener el stock actual del material con ID: " . $materiales['id_Material']);
+    public function subirStock($materialesData)
+    {
+        foreach ($materialesData as $materiales) {
+            if (empty($materiales['cantidad_material']) && $materiales['id_material'] == "none") {
+                throw new Exception("Material inválido detectado, verifique los datos ingresados.");
             }
 
-            $newStock = $materiales['cantidad'] + $stock;
+            // Obtener el stock actual y calcular el nuevo stock
+            $stock = $this->almacenModel->showColumn("stock", "id_material", $materiales['id_material']);
+            if (!$stock) {
+                throw new Exception("Error al obtener el stock actual del material con ID: " . $materiales['id_material']);
+            }
+
+            $newStock = $materiales['cantidad_material'] + $stock;
 
             // Actualizar el stock
             if (!$this->almacenModel->updateColumn(
                 "stock",
                 $newStock,
                 "id_material",
-                $materiales['id_Material']
+                $materiales['id_material']
             )) {
-                throw new Exception("Error al actualizar el stock del material con ID: " . $materiales['id_Material']);
+                throw new Exception("Error al actualizar el stock del material con ID: " . $materiales['id_material']);
             }
+        }
+        return true;
+    }
+
+    public function registrarMateriales($materialesData, $id_pedido)
+    {
+        // Verificación previa de id_pedido antes de iterar
+        if (!$id_pedido) {
+            throw new Exception("Error: id de pedido no válido");
+        }
+
+        foreach ($materialesData as $materiales) {
 
             // Registrar el material en la tabla ordenPedido
             $this->ordenPedido->setData(
@@ -103,22 +112,20 @@ class PedidosProveedoresController implements CrudController
             if (!$this->ordenPedido->create()) {
                 throw new Exception("Error al registrar el material con ID: " . $materiales['id_Material'] . " en la orden de pedido");
             }
-        } else {
-            // Opcional: podrías usar continue si quieres ignorar los materiales inválidos
-            throw new Exception("Material inválido detectado, verifique los datos ingresados.");
         }
+        return true;
     }
-}
 
 
     public function create()
-{
-    try {
-       
-        if (isset($_POST['material']) && is_array($_POST['material'])) {
-            $total = $this->calcularPrecio($_POST['material']);
-            
-         
+    {
+        try {
+
+
+            // Verificar que los datos de entrada son válidos
+            if (!isset($_POST['material']) && !is_array($_POST['material'])) {
+                throw new Exception("No se encontraron materiales validos");
+            }
 
             // Asignar el ID y otros datos
             $this->model->setData(
@@ -126,44 +133,92 @@ class PedidosProveedoresController implements CrudController
                 date('Y-m-d H:i:s'),
                 false,
                 $_SESSION["id_user"],
-                $total
             );
-          
+
+            //Creamos y obtemeos el ultimo id
             $id_pedido = $this->model->create();
-            
             if (!$id_pedido) {
                 throw new Exception("Error al registrar el pedido");
             }
 
             $this->model->beginTransaction();
 
-            $this->subirStock($_POST['material'], $id_pedido);
+            // Registrar los materiales en la orden de pedido
+            if (!$this->registrarMateriales($_POST['material'], $id_pedido)) {
+                throw new Exception("Error al registrar los materiales en la orden de pedido");
+            }
 
             $this->model->commit();
-            header("Location: index.php?page=pedidos&succes=create");
-        } else {
-            throw new Exception("No se han proporcionado materiales válidos");
+            header("Location: index.php?page=pedidosProveedores&succes=create");
+        } catch (Exception $e) {
+            $this->model->rollback();
+            header("Location: index.php?page=pedidosProveedores&error=other&errorDesc=" . $e->getMessage());
         }
-    } catch (Exception $e) {
-        $this->model->rollback();
-        header("Location: index.php?page=pedidos&error=other&errorDesc=" . $e->getMessage());
+        exit();
     }
-    exit();
-}
 
 
+    public function update()
+    {
+        $pedido = $_POST['id'];
 
+        try {
 
+            $this->model->beginTransaction();
+
+            //Obetenemos la orden del pedido mediante su id
+            $ordenPedido = $this->ordenPedido->viewAll($pedido, "id_pedido");
+            if (!$ordenPedido) {
+                throw new Exception("No se ha encontrado el pedido con ID: " . $pedido);
+            }
+
+            //subimos el stock del almacen segun el pedido 
+            if (!$this->subirStock($ordenPedido)) {
+                throw new Exception("Error al actualizar el stock de los materiales");
+            }
+
+            //cambiamos el estado del pedido a "completado"
+            if (!$this->model->updateColumn("estado_pedido", 1, "id_pedido", $pedido)) {
+                throw new Exception("Error al actualizar el estado del pedido");
+            }
+
+            $this->model->commit();
+            header("Location: index.php?page=pedidosProveedores&succes=update");
+        } catch (Exception $e) {
+            $this->model->rollback();
+            header("Location: index.php?page=pedidosProveedores&error=other&errorDesc=" . urlencode($e->getMessage()));
+        }
+        exit();
+    }
 
     public function delete()
+    {
+        try {
+
+            if (!$this->model->delete($_POST["id"])) {
+                throw new Exception("Error al eliminar el pedido");
+            }
+
+            if (!$this->model->updateColumn("estado_pedido", 3, "id_pedido", $_POST["id"])) {
+                throw new Exception("Error al actualizar el estado del pedido");
+            }
+
+            header("Location: index.php?page=pedidosProveedores&succes=delete");
+        } catch (Exception $e) {
+            header("Location: index.php?page=pedidosProveedores&error=other&errorDesc=" . urlencode($e->getMessage()));
+        }
+    }
+
+
+    /* public function delete()
     {
         try {
             $this->model->beginTransaction();
 
             // Vamos a obtener la lista de materiales para saber cuanto quitar a que material en el stock
-            $ordenPedidoData = $this->ordenPedido->viewMaterials($_POST["id"],"id_pedido");
+            $ordenPedidoData = $this->ordenPedido->viewMaterials($_POST["id"], "id_pedido");
 
-        
+
             //Una vez obtenida la lista, vamos a ir iterando entre los materiales para conocer la cantidad y asi quitarla del stock
             foreach ($ordenPedidoData as $material) {
                 $cantidadMaterialDelPedido = $material["cantidad_material"];
@@ -192,7 +247,7 @@ class PedidosProveedoresController implements CrudController
             header("Location: index.php?page=pedidos&error=other&errorDesc=" . $e->getMessage());
             exit();
         }
-    }
+    } */
 
 
     public function restore()
@@ -207,7 +262,7 @@ class PedidosProveedoresController implements CrudController
     public function edit() {}
 
 
-    public function update()
+    public function updte()
     {
         try {
             $estado = $this->model->showColumn("estado_pedido", "id_pedido", (int)$_POST["id"]);
@@ -234,6 +289,4 @@ class PedidosProveedoresController implements CrudController
             header("Location: index.php?page=pedidos&error=other&errorDesc=" . $e->getMessage());
         }
     }
-
-    
 }

@@ -553,3 +553,26 @@ input[type="radio"]:checked + label {
   min-width: 100%;
   max-width: 100%;
 }
+
+
+
+/* --------------------- ESTILOS PARA LAS COSAS COMPLETADAS DE TABLAS------------------------------------------------ */
+
+.completado,
+.en_curso,
+.anulado{
+  border-radius: 10px;
+  color: white;
+  padding: 5px;
+}
+
+.completado{
+  background-color: #03937b;
+}
+.en_curso{
+  color: black;
+  background-color: #ffc107;;
+}
+.anulado{
+  background-color: #e95f5f;
+}

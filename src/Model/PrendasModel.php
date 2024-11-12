@@ -56,7 +56,7 @@ class PrendasModel extends ModeloBase
         // Retornar los resultados
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    public function setData($img, $nombre, $genero, $categoria, $talla, $coleccion, $cant,  $precio)
+    public function setData($img, $nombre, $genero, $categoria, $talla, $coleccion, $cant)
     {
         $this->data = [
             'imagen' => $img,
@@ -66,13 +66,12 @@ class PrendasModel extends ModeloBase
             'stock' => (int)$cant,
             'coleccion' => (int)$coleccion,
             'talla' => (int)$talla,
-            'precio' => (int)$precio
         ];
     }
 
     public function create()
     {
-        $query = "INSERT INTO {$this->tabla} (img_prenda, nombre_prenda, genero, id_categoria, stock, id_coleccion, id_talla, precio_unitario) VALUES (:img, :nombre, :genero, :categoria, :stock, :coleccion, :talla, :precio)";
+        $query = "INSERT INTO {$this->tabla} (img_prenda, nombre_prenda, genero, id_categoria, stock, id_coleccion, id_talla) VALUES (:img, :nombre, :genero, :categoria, :stock, :coleccion, :talla)";
 
         $stmt = $this->prepare($query);
 
@@ -83,7 +82,6 @@ class PrendasModel extends ModeloBase
         $stmt->bindParam(":stock", $this->data["stock"]);
         $stmt->bindParam(":coleccion", $this->data["coleccion"]);
         $stmt->bindParam(":talla", $this->data["talla"]);
-        $stmt->bindParam(":precio", $this->data["precio"]);
 
 
        if($stmt->execute()){
@@ -98,7 +96,7 @@ class PrendasModel extends ModeloBase
 
     public function edit($id)
     {
-        $query = "UPDATE {$this->tabla} SET nombre_prenda = :nombre, id_categoria = :categoria, stock = :stock, id_coleccion = :coleccion, id_talla = :talla, id_genero = :genero, precio_unitario = :precio WHERE id_prenda = :id";
+        $query = "UPDATE {$this->tabla} SET nombre_prenda = :nombre, id_categoria = :categoria, stock = :stock, id_coleccion = :coleccion, id_talla = :talla, id_genero = :genero WHERE id_prenda = :id";
 
         $stmt = $this->prepare($query);
 
