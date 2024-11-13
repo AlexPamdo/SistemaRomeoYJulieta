@@ -19,10 +19,9 @@ use src\Model\PrendaPatronModel;
                     <thead>
                         <tr>
                             <th scope="col">Descripción</th>
-                            <th scope="col">Tipod</th>
+                            <th scope="col">Tipo</th>
                             <th scope="col">Color</th>
                             <th scope="col">Cantidad</th>
-                            <th scope="col">Stock</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -34,8 +33,8 @@ use src\Model\PrendaPatronModel;
                             <tr>
                                 <td><?php echo $material['material']; ?></td>
                                 <td><?php echo $material['tipo']; ?></td>
+                                <td><?php echo $material['color']; ?></td>
                                 <td><?php echo $material['cantidad']; ?></td>
-                                <td><?php echo $material['cantidad_Stock']; ?></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>

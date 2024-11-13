@@ -24,9 +24,11 @@ class PrendaPatronModel extends ModeloBase
         u.*, 
         n.nombre_material AS material,
         t.tipo_material AS tipo,
+        c.color AS color,
         n.stock AS cantidad_Stock
         FROM {$this->tabla} u
         INNER JOIN almacen n ON u.id_material = n.id_material
+        INNER JOIN colores c ON n.color_material = c.id_color
         INNER JOIN tipos_materiales t ON n.tipo_material = t.id_tipo_material
         WHERE u.id_prenda = :id";
 

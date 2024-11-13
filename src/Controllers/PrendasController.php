@@ -194,7 +194,6 @@ class PrendasController implements CrudController
             $_POST["coleccion_edit"],
             $_POST["cant_edit"],
             $_POST["genero_edit"],
-            $_POST["precio_edit"]
         );
 
 
