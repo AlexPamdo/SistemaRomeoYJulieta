@@ -16,20 +16,22 @@ use src\Model\OrdenEntregaModel;
                 <table class="table table-striped table-hover align-middle text-center">
                     <thead>
                         <tr>
-                            <th scope="col">ID</th>
                             <th scope="col">Prenda</th>
+                            <th scope="col">Coleccion</th>
+                            <th scope="col">Talla</th>
                             <th scope="col">Cantidad</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
                         $ordenEntrega = new OrdenEntregaModel();
-                        $prendas = $ordenEntrega->viewPrendas($entrega['id_pedido_prenda'],"id_pedido_prenda");
+                        $prendas = $ordenEntrega->viewPrendas($entrega['id_pedido_prenda'],"id_entrega");
                         foreach ($prendas as $prenda) :
                         ?>
                             <tr>
-                                <td><?php echo $prenda['id_pedido_prenda']; ?></td>
                                 <td><?php echo $prenda['id_prenda']; ?></td>
+                                <td><?php echo $prenda['coleccion']; ?></td>
+                                <td><?php echo $prenda['talla']; ?><span>cm</span></td>
                                 <td><?php echo $prenda['cantidad_prenda']; ?></td>
                             </tr>
                         <?php endforeach; ?>

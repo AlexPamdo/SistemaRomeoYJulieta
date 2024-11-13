@@ -8,7 +8,7 @@ class OrdenEntregaModel extends ModeloBase
 {
 
     protected $data = [];
-    protected $tabla = "orden_pedido_prenda";
+    protected $tabla = "orden_entrega";
 
     public function setData($entrega, $prenda, $cantidad)
     {
@@ -21,12 +21,21 @@ class OrdenEntregaModel extends ModeloBase
 
     public function viewPrendas($value = "", $column = "")
     {
-        $sql = "SELECT * FROM {$this->tabla}";
+
+        $sql = "SELECT u.*, 
+        p.nombre_prenda AS id_prenda,
+        l.coleccion AS coleccion,
+        t.cm AS talla
+        FROM {$this->tabla} u
+        INNER JOIN prendas p ON u.id_prenda = p.id_prenda
+        INNER JOIN colecciones_prenda l ON p.id_coleccion = l.id_coleccion
+        INNER JOIN tallas t ON p.id_talla = t.id_talla";
+
 
         // Agregar condición si se proporciona un valor y columna
         if ($value !== "" && $column !== "") {
             // Asegurarse de que la columna sea válida (esto es importante para prevenir SQL Injection)
-            $sql .= " WHERE $column = :value";
+            $sql .= " WHERE U.$column = :value";
         }
 
         // Preparar la consulta
@@ -47,7 +56,7 @@ class OrdenEntregaModel extends ModeloBase
 
     public function create()
     {
-        $query = "INSERT INTO {$this->tabla} (id_pedido_prenda, id_prenda, cantidad_prenda) VALUES (:entrega, :prenda, :cantidad)";
+        $query = "INSERT INTO {$this->tabla} (id_entrega, id_prenda, cantidad_prenda) VALUES (:entrega, :prenda, :cantidad)";
         $stmt = $this->prepare($query);
 
         $stmt->bindParam(":entrega", $this->data["entrega"]);
@@ -61,5 +70,5 @@ class OrdenEntregaModel extends ModeloBase
         }
     }
 
-  public function edit($id){}
+    public function edit($id) {}
 }

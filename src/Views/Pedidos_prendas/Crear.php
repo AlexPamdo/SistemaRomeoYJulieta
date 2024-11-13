@@ -16,7 +16,7 @@
 
              <!-- Cuerpo del Modal -->
              <div class="modal-body container">
-                 <form class="needs-validation" action="index.php?page=entregas&function=create" method="post">
+                 <form class="needs-validation" action="index.php?page=pedidosPrendas&function=create" method="post">
                      <div class="row g-4 m-3">
                          <div class="col-md-10 mx-auto">
 
@@ -24,6 +24,14 @@
                                  <label class="fw-bold" for="descEntrega">Descripcion</label>
 
                                  <input type="text" name="desc_pedido_prenda" class="form-control-input campo name w-100" id="descEntrega"
+                                     placeholder="Introduzca una descripcion" aria-label="Username"
+                                     aria-describedby="addon-wrapping">
+                             </div>
+
+                             <div class="input-group flex-nowrap m-2 d-flex flex-column p-2">
+                                 <label class="fw-bold" for="fechaEstimada">Fecha estimada</label>
+
+                                 <input type="date" name="fecha_estimada" class="form-control-input campo date w-100" id="fechaEstimada"
                                      placeholder="Introduzca una descripcion" aria-label="Username"
                                      aria-describedby="addon-wrapping">
                              </div>

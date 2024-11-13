@@ -56,9 +56,8 @@ require_once("Templates/Head.php");
                                 <th scope="col">ID</th>
                                 <th scope="col">Proveedor</th>
                                 <th scope="col">Fecha</th>
-                                <th scope="col">Estado</th>
-                                <th scope="col">Orden</th>
                                 <th scope="col">Usuario</th>
+                                <th scope="col">Estado</th>
                                 <th scope="col">Acciones</th>
                             </tr>
                         </thead>
@@ -68,19 +67,18 @@ require_once("Templates/Head.php");
                                     <td><?php echo htmlspecialchars($pedido['id_pedido']); ?></td>
                                     <td><?php echo htmlspecialchars($pedido['id_proveedor']); ?></td>
                                     <td><?php echo htmlspecialchars($pedido['fecha_pedido']); ?></td>
+                                    <td><?php echo htmlspecialchars($pedido['id_usuario']); ?></td>
                                     <td>
                                         <span class="
                                         <?= $pedido['estado_pedido'] == 0 ? 'en_curso' : ($pedido['estado_pedido'] == 1 ? 'completado' : 'anulado') ?>">
-                                        <?php echo $pedido['estado_pedido'] == 0 ? 'En proceso' : ($pedido['estado_pedido'] == 1 ? 'completado' : 'Cancelado'); ?></span></td>
-                                    <td>
-                                        <button type="button" class="btn btn-warning m-1" data-bs-toggle="modal"
-                                            data-bs-target="#orden<?php echo $pedido['id_pedido'] ?>">
-                                            <?php include './src/Assets/bootstrap-icons-1.11.3/eye-fill.svg'; ?>
-                                        </button>
+                                            <?php echo $pedido['estado_pedido'] == 0 ? 'En proceso' : ($pedido['estado_pedido'] == 1 ? 'completado' : 'Cancelado'); ?></span>
                                     </td>
-                                    <td><?php echo htmlspecialchars($pedido['id_usuario']); ?></td>
                                     <td class="d-flex">
                                         <form class="d-flex" action="index.php" method="get">
+                                            <button type="button" class="btn btn-warning m-1" data-bs-toggle="modal"
+                                                data-bs-target="#orden<?php echo $pedido['id_pedido'] ?>">
+                                                <?php include './src/Assets/bootstrap-icons-1.11.3/eye-fill.svg'; ?>
+                                            </button>
                                             <!-- Boton de eliminar -->
 
                                             <button type="button" class="btn btn-custom-danger m-1 btn-sm anularPedidoProveedor" data-bs-toggle="modal" data-bs-target="#anularPedidoProveedor" <?= $pedido['estado_pedido'] == 1 ? 'disabled' : ""; ?>>

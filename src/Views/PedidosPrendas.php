@@ -35,7 +35,10 @@ require_once("Templates/Head.php");
                     </button>
 
                     <?php
-                    require_once("src/Views/Pedidos_prendas/Crear.php")
+                    require_once("src/Views/Pedidos_prendas/Crear.php");
+                    require_once("src/Views/Pedidos_prendas/Actualizar.php");
+                    require_once("src/Views/Pedidos_prendas/Eliminar.php");
+
                     ?>
 
                     <a href="index.php?page=pedidos&function=print" target="_blank" class="btn btn-warning ms-1">
@@ -52,7 +55,8 @@ require_once("Templates/Head.php");
                                 <th scope="col">ID</th>
                                 <th scope="col">Descripcion</th>
                                 <th scope="col">Fecha</th>
-                                <th scope="col">Total</th>
+                                <th scope="col">Fecha Estimada</th>
+                                <th scope="col">Estado</th>
                                 <th scope="col">Acciones</th>
                             </tr>
                         </thead>
@@ -62,7 +66,12 @@ require_once("Templates/Head.php");
                                     <td><?php echo htmlspecialchars($entrega['id_pedido_prenda']); ?></td>
                                     <td><?php echo htmlspecialchars($entrega['desc_pedido_prenda']); ?></td>
                                     <td><?php echo htmlspecialchars($entrega['fecha_pedido_prenda']); ?></td>
-                                    <td><?php echo htmlspecialchars($entrega['total_pedido_prenda']); ?></td>
+                                    <td><?php echo htmlspecialchars($entrega['fecha_estimada']); ?></td>
+                                    <td>
+                                        <span class="<?= $entrega["proceso"] == 0 ? 'en_curso' : ($entrega["proceso"] == 1 ? 'completado' : 'cancelado') ?>">
+                                            <?= $entrega["proceso"] == 0 ? 'En Curso' : ($entrega["proceso"] == 1 ? 'Entregado' : 'Cancelado') ?>
+                                    </td>
+                                    </span>
                                     <td class="d-flex">
                                         <!-- Boton de eliminar -->
                                         <form class="d-flex" action="index.php" method="get">
@@ -70,18 +79,18 @@ require_once("Templates/Head.php");
                                                 data-bs-target="#orden<?php echo $entrega['id_pedido_prenda'] ?>">
                                                 <?php include './src/Assets/bootstrap-icons-1.11.3/eye-fill.svg'; ?>
                                             </button>
-                                            <button type="button" class="btn btn-danger m-1 btn-sm" data-bs-toggle="modal" data-bs-target="#eliminar<?php echo htmlspecialchars($pedido['id_pedido']); ?>">
-                                            <?php include './src/Assets/bootstrap-icons-1.11.3/ban.svg'; ?>
-                                            </button>
-                                            <button type="button" class="btn btn-success m-1 btn-sm" data-bs-toggle="modal" data-bs-target="#actualizar<?php echo htmlspecialchars($pedido['id_pedido']); ?>">
+                                            <button type="button" class="btn btn-custom-success m-1 btn-sm actualizarPedidoPrenda" data-bs-toggle="modal" data-bs-target="#actualizarPedidoPrenda"
+                                                <?= $entrega["proceso"] == 1 ? 'disabled' : "" ?>>
                                                 <?php include './src/Assets/bootstrap-icons-1.11.3/currency-dollar.svg'; ?>
                                             </button>
+                                            <button type="button" class="btn btn-custom-danger m-1 btn-sm anularPedidoPrenda" data-bs-toggle="modal" data-bs-target="#anularPedidoPrenda"
+                                                <?= $entrega["proceso"] == 1 ? 'disabled' : "" ?>>
+                                                <?php include './src/Assets/bootstrap-icons-1.11.3/ban.svg'; ?>
+                                            </button>
+
                                         </form>
                                     </td>
-                                    <?php
-                                    include("src/Views/Pedidos_prendas/Eliminar.php");
 
-                                    ?>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>

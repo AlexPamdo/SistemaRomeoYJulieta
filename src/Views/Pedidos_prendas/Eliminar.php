@@ -1,5 +1,5 @@
 <!--Modal de eliminar -->
-<div class="modal fade" id="eliminar<?php echo ($entrega['id_pedido_prenda']) ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="anularPedidoPrenda" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
 
@@ -12,11 +12,11 @@
                     <h3>¿Estas seguro?</h3>
                     <h5>no podras recuperarlo luego</h5>
                     <div class="d-flex justify-content-center modal-footer">
-                        <form class="needs-validation" action="index.php?page=pedidos&function=delete" method="post" novalidate>
+                        <form class="needs-validation" action="index.php?page=pedidosPrendas&function=delete" method="post" novalidate>
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                                 Cerrar
                             </button>
-                            <input type="hidden" name="id" value="<?php echo ($entrega['id_pedido_prenda']) ?>">
+                            <input type="hidden" name="id" id="idAnularPedidoPrenda" value="">
                             <button class="btn btn-danger">Confirmar</button>
                         </form>
                     </div>

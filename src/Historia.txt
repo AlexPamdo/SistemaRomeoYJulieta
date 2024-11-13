@@ -1,8 +1,23 @@
+-------------------------------------13/11/24-------------------------------------
+Eliminados:
+
+1-Columna de "total_pedido_prenda" eliminados de la tabla "pedidos_prendas" 
+
+Agregados:
+
+1-Columna de "fecha_estimada" agregada a la tabla "pedidos_prendas" (tipo date, 11 de longitud), luego de la columna "fecha_pedido_prenda"
+2-Se agrego el input para añadir la fecha estimada del pedido de prenda y sus parametros en el controlador y modelo
+3-logica de confirmacion manual aplicada al modulo de pedidos de pedidos_prendas
+4-se cambio el orden de las columnas del modulo pedido a proveedores
+
+-------------------------------------12/11/24-------------------------------------
+
 Eliminados:
 
 1-Se elimino la columna precio de la tabla almacen 
 2-se elimino la columna "total_pedido" de la tabla pedidos_proveedores
 3-se elimino la columna de "precio_unitario" de la tabla "prendas" y su parametro su modelo y controlador
+4-se elimino todo input de las columnas eliminadas
 
 Agregados:
 
@@ -28,3 +43,4 @@ falta:
 1-aplicar la logica en el apartado de pedidos de pedidos_prendas
 2-quiza añadir la opcion de confeccionar varias prendas a la vez
 3-modulo de reportes
+4-reportes parametrizados
