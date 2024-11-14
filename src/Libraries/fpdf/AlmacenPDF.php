@@ -3,6 +3,8 @@
 ob_start(); // Iniciar el almacenamiento en búfer de salida
 require("src/Libraries/fpdf/fpdf.php");
 
+require_once('src/Model/Database.php');
+
 class PDF extends FPDF
 {
    // Cabecera de página
@@ -45,13 +47,12 @@ class PDF extends FPDF
       $this->SetTextColor(255, 255, 255);
       $this->SetDrawColor(163, 163, 163);
       $this->SetFont('Arial', 'B', 11);
-      $this->Cell(30);
+      $this->Cell(45);
       $this->Cell(30, 10, utf8_decode('ID MATERIAL'), 1, 0, 'C', 1);
       $this->Cell(40, 10, utf8_decode('NOMBRE MATERIAL'), 1, 0, 'C', 1);
       $this->Cell(40, 10, utf8_decode('TIPO MATERIAL'), 1, 0, 'C', 1);
-      $this->Cell(30, 10, utf8_decode('COLOR MATERIAL'), 1, 0, 'C', 1);
-      $this->Cell(25, 10, utf8_decode('STOCK'), 1, 0, 'C', 1);
-      $this->Cell(30, 10, utf8_decode('PRECIO'), 1, 1, 'C', 1);
+      $this->Cell(45, 10, utf8_decode('COLOR MATERIAL'), 1, 0, 'C', 1);
+      $this->Cell(25, 10, utf8_decode('STOCK'), 1, 1, 'C', 1);
    }
 
    // Pie de página
@@ -75,15 +76,46 @@ $pdf->AliasNbPages();
 $pdf->SetFont('Arial', '', 12);
 $pdf->SetDrawColor(163, 163, 163);
 
+// Asumiendo que tienes una conexión PDO para acceder a la base de datos
+try {
+    $db = new \src\Model\Database(); // Instanciamos la clase Database
+    $pdo = $db; // Ahora tienes acceso al PDO a través de $pdo
+} catch (PDOException $e) {
+    die("Error de conexión: " . $e->getMessage());
+}
+
+   // Consulta para obtener solo los materiales activos (estado = 0)
+   $queryMaterial = "SELECT * FROM almacen WHERE estado = 0";
+   $stmtMaterial = $pdo->prepare($queryMaterial);
+   $stmtMaterial->execute();
+   $materialData = $stmtMaterial->fetchAll(PDO::FETCH_ASSOC);
+
 // Cargar Datos de la Tabla
 foreach ($materialData as $material) :
-   $pdf->Cell(30);
+
+
+   // Consulta para obtener el nombre del tipo de material
+   $queryTipoMaterial = "SELECT tipo_material FROM tipos_materiales WHERE id_tipo_material = ?";
+   $stmtTipoMaterial = $pdo->prepare($queryTipoMaterial);
+   $stmtTipoMaterial->execute([$material['tipo_material']]);
+   $tipoMaterial = $stmtTipoMaterial->fetch(PDO::FETCH_ASSOC);
+   $nombreTipoMaterial = $tipoMaterial ? utf8_decode($tipoMaterial['tipo_material']) : utf8_decode($material['tipo_material']);
+   
+   // Consulta para obtener el nombre del color de material
+   $queryColorMaterial = "SELECT color FROM colores WHERE id_color = ?";
+   $stmtColorMaterial = $pdo->prepare($queryColorMaterial);
+   $stmtColorMaterial->execute([$material['color_material']]);
+   $colorMaterial = $stmtColorMaterial->fetch(PDO::FETCH_ASSOC);
+   $nombreColorMaterial = $colorMaterial ? utf8_decode($colorMaterial['color']) : utf8_decode($material['color_material']);
+   
+   // Imprimir los datos en el PDF
+   $pdf->Cell(45);
    $pdf->Cell(30, 10, utf8_decode($material['id_material']), 1, 0, 'C', 0);
    $pdf->Cell(40, 10, utf8_decode($material['nombre_material']), 1, 0, 'C', 0);
-   $pdf->Cell(40, 10, utf8_decode($material['tipo_material']), 1, 0, 'C', 0);
-   $pdf->Cell(30, 10, utf8_decode($material['color_material']), 1, 0, 'C', 0);
-   $pdf->Cell(25, 10, utf8_decode($material['stock']), 1, 0, 'C', 0);
-   $pdf->Cell(30, 10, utf8_decode($material['precio'] . " bs"), 1, 1, 'C', 0);
+   $pdf->Cell(40, 10, $nombreTipoMaterial, 1, 0, 'C', 0); // Mostrar nombre del tipo de material
+   $pdf->Cell(45, 10, $nombreColorMaterial, 1, 0, 'C', 0); // Mostrar nombre del color de material
+   $pdf->Cell(25, 10, utf8_decode($material['stock']), 1, 1, 'C', 0);
+   
 endforeach;
 
 $pdf->Output('ReporteMateriales.pdf', 'I'); // nombreDescarga, Visor

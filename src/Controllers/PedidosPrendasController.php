@@ -38,8 +38,8 @@ class PedidosPrendasController
 
     public function print()
     {
-        $pedidosData = $this->model->viewEntregas(0, "estado");
-        include_once("src/Libraries/fpdf/PedidosPDF.php");
+        $entregasData = $this->model->viewEntregas(0, "estado");
+        include_once("src/Libraries/fpdf/PrendasPDF.php");
     }
 
 

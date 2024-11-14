@@ -3,6 +3,9 @@
 ob_start(); // Iniciar el almacenamiento en búfer de salida
 require("src/Libraries/fpdf/fpdf.php");
 
+// Incluir el archivo de la clase Database
+require_once('src/Model/Database.php');
+
 class PDF extends FPDF
 {
    // Cabecera de página
@@ -37,7 +40,7 @@ class PDF extends FPDF
       $this->SetTextColor(102, 205, 170);
       $this->Cell(85);
       $this->SetFont('Arial', 'B', 15);
-      $this->Cell(100, 10, utf8_decode("REPORTE DE MATERIALES"), 0, 1, 'C', 0);
+      $this->Cell(100, 10, utf8_decode("REPORTE DE CONFECCIONES"), 0, 1, 'C', 0);
       $this->Ln(7);
 
       // Encabezado de Tabla
@@ -47,7 +50,7 @@ class PDF extends FPDF
       $this->SetFont('Arial', 'B', 11);
       $this->Cell(30);
       $this->Cell(30, 10, utf8_decode('ID'), 1, 0, 'C', 1);
-      $this->Cell(40, 10, utf8_decode('NOMBRE PRENDA'), 1, 0, 'C', 1);
+      $this->Cell(50, 10, utf8_decode('NOMBRE PRENDA'), 1, 0, 'C', 1);
       $this->Cell(40, 10, utf8_decode('CANTIDAD'), 1, 0, 'C', 1);
       $this->Cell(60, 10, utf8_decode('FECHA DE FABRICACION'), 1, 0, 'C', 1);
       $this->Cell(50, 10, utf8_decode('EMPLEADO'), 1, 1, 'C', 1);
@@ -67,6 +70,18 @@ class PDF extends FPDF
    }
 }
 
+// Crear una instancia de la clase Database para obtener la conexión
+try {
+    $db = new \src\Model\Database(); // Instanciamos la clase Database
+    $pdo = $db; // Ahora tienes acceso al PDO a través de $pdo
+} catch (PDOException $e) {
+    die("Error de conexión: " . $e->getMessage());
+}
+
+// Obtener las fechas desde la URL (si existen)
+$fechaInicio = isset($_GET['fecha_inicio']) ? $_GET['fecha_inicio'] : '';
+$fechaFin = isset($_GET['fecha_fin']) ? $_GET['fecha_fin'] : '';
+
 // Crear PDF
 $pdf = new PDF();
 $pdf->AddPage("landscape");
@@ -74,14 +89,48 @@ $pdf->AliasNbPages();
 $pdf->SetFont('Arial', '', 12);
 $pdf->SetDrawColor(163, 163, 163);
 
+// Si las fechas son proporcionadas, filtramos las confecciones por el rango de fechas
+if ($fechaInicio && $fechaFin) {
+    $queryConfecciones = "SELECT * FROM confeccion WHERE estado = 0 AND fecha_fabricacion BETWEEN ? AND ?";
+    $stmtConfecciones = $pdo->prepare($queryConfecciones);
+    $stmtConfecciones->execute([$fechaInicio, $fechaFin]);
+} else {
+    // Si no se pasan fechas, mostramos todas las confecciones
+    $queryConfecciones = "SELECT * FROM confeccion WHERE estado = 0";
+    $stmtConfecciones = $pdo->prepare($queryConfecciones);
+    $stmtConfecciones->execute();
+}
+
+$confeccionesData = $stmtConfecciones->fetchAll(PDO::FETCH_ASSOC);
+
 // Cargar Datos de la Tabla
 foreach ($confeccionesData as $confecciones) :
-   $pdf->Cell(30);
-   $pdf->Cell(30, 10, utf8_decode($confecciones['id_confeccion']), 1, 0, 'C', 0);
-   $pdf->Cell(40, 10, utf8_decode($confecciones['id_prenda']), 1, 0, 'C', 0);
-   $pdf->Cell(40, 10, utf8_decode($confecciones['cantidad']), 1, 0, 'C', 0);
-   $pdf->Cell(60, 10, utf8_decode($confecciones['fecha_fabricacion']), 1, 0, 'C', 0);
-   $pdf->Cell(50, 10, utf8_decode($confecciones['id_empleado']), 1, 0, 'C', 0);
+    // Consulta para obtener el nombre de la prenda
+    $queryPrenda = "SELECT nombre_prenda FROM prendas WHERE id_prenda = ?";
+    $stmtPrenda = $pdo->prepare($queryPrenda);
+    $stmtPrenda->execute([$confecciones['id_prenda']]);
+    $prenda = $stmtPrenda->fetch(PDO::FETCH_ASSOC);
+    
+    // Si se encuentra la prenda, muestra el nombre, si no, muestra el ID
+    $nombrePrenda = $prenda ? utf8_decode($prenda['nombre_prenda']) : utf8_decode($confecciones['id_prenda']);
+
+    // Consulta para obtener el nombre del empleado
+    $queryEmpleado = "SELECT nombre_empleado FROM empleados WHERE id_empleado = ?";
+    $stmtEmpleado = $pdo->prepare($queryEmpleado);
+    $stmtEmpleado->execute([$confecciones['id_empleado']]);
+    $empleado = $stmtEmpleado->fetch(PDO::FETCH_ASSOC);
+    
+    // Si se encuentra el empleado, muestra el nombre, si no, muestra el ID
+    $nombreEmpleado = $empleado ? utf8_decode($empleado['nombre_empleado']) : utf8_decode($confecciones['id_empleado']);
+
+    // Imprimir los datos en el PDF
+    $pdf->Cell(30);
+    $pdf->Cell(30, 10, utf8_decode($confecciones['id_confeccion']), 1, 0, 'C', 0);
+    $pdf->Cell(50, 10, $nombrePrenda, 1, 0, 'C', 0); 
+    $pdf->Cell(40, 10, utf8_decode($confecciones['cantidad']), 1, 0, 'C', 0);
+    $pdf->Cell(60, 10, utf8_decode($confecciones['fecha_fabricacion']), 1, 0, 'C', 0);
+    $pdf->Cell(50, 10, $nombreEmpleado, 1, 1, 'C', 0); // Mostrar el nombre del empleado
 endforeach;
 
-$pdf->Output('ReporteMateriales.pdf', 'I'); // nombreDescarga, Visor
+$pdf->Output('ReporteConfecciones.pdf', 'I'); // Mostrar el PDF
+
