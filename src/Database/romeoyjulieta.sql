@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 13-11-2024 a las 23:53:26
+-- Tiempo de generación: 14-11-2024 a las 17:30:45
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -258,16 +258,6 @@ CREATE TABLE `orden_entrega` (
   `cantidad_prenda` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `orden_entrega`
---
-
-INSERT INTO `orden_entrega` (`id_orden_entrega`, `id_entrega`, `id_prenda`, `cantidad_prenda`) VALUES
-(12, 23, 109, 3),
-(13, 24, 109, 3),
-(14, 25, 109, 4),
-(15, 26, 109, 44);
-
 -- --------------------------------------------------------
 
 --
@@ -317,19 +307,6 @@ CREATE TABLE `pedidos_prendas` (
   `proceso` int(1) NOT NULL,
   `estado` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `pedidos_prendas`
---
-
-INSERT INTO `pedidos_prendas` (`id_pedido_prenda`, `desc_pedido_prenda`, `fecha_pedido_prenda`, `fecha_estimada`, `proceso`, `estado`) VALUES
-(11, 'Si ', '2024-11-13', '2024-03-23', 0, 0),
-(12, 'llogomon', '2024-11-13', '2423-12-24', 0, 0),
-(13, 'llogomonssss', '2024-11-13', '2323-02-23', 0, 0),
-(23, 'llogomontres', '2024-11-13', '1212-12-12', 1, 0),
-(24, 'Llogomon cuatro', '2024-11-13', '1212-12-12', 1, 0),
-(25, 'Llogomon cuatrosss', '2024-11-13', '1212-12-12', 1, 0),
-(26, 'Llogomon cuatrofsdfdsf', '2024-11-13', '2323-02-23', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -411,8 +388,6 @@ CREATE TABLE `prenda_patron` (
 --
 
 INSERT INTO `prenda_patron` (`id_prenda_patron`, `id_prenda`, `id_material`, `cantidad`) VALUES
-(27, 106, 62, 3),
-(28, 106, 68, 5),
 (29, 109, 69, 15);
 
 -- --------------------------------------------------------
@@ -689,7 +664,7 @@ ALTER TABLE `ocupaciones`
 -- AUTO_INCREMENT de la tabla `orden_entrega`
 --
 ALTER TABLE `orden_entrega`
-  MODIFY `id_orden_entrega` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id_orden_entrega` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT de la tabla `orden_pedido`
@@ -701,7 +676,7 @@ ALTER TABLE `orden_pedido`
 -- AUTO_INCREMENT de la tabla `pedidos_prendas`
 --
 ALTER TABLE `pedidos_prendas`
-  MODIFY `id_pedido_prenda` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id_pedido_prenda` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT de la tabla `pedidos_proveedores`
