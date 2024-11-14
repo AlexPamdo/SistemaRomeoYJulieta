@@ -1,4 +1,5 @@
-<!-- Modal Para Editar -->
+<!-- Modal Para Crear Patrones -->
+
 <?php
 
 use src\Model\AlmacenModel;
@@ -14,171 +15,188 @@ $materialesModel = new AlmacenModel();
 $coleccionesModel = new ColeccionesModel();
 ?>
 
-<div class="modal fade" id="editar" data-bs-backdrop="static"
-    data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+
+<div class="modal fade" id="editar" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="crearPatronLabel" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header bg-rj-blue">
-                <h1 class="modal-title fs-5 text-white" id="staticBackdropLabel">
-                    Editar Prenda
-                </h1>
+            <!-- Modal Header -->
+            <div class="modal-header bg-dark text-white">
+                <h5 class="modal-title" id="editarPrendaLabel">Editar Prenda</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
             </div>
-            <div class="modal-body">
-                <form class="needs-validation" action="" method="post" novalidate>
-                    <div class="container p-3">
-                        <input type="hidden" name="id" id="id_edit">
-                        <input type="hidden" name="img" id="img_edit" value="">
 
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <label for="nombre_edit">Descripción</label>
-                                <input type="text" class="form-control" id="desc_edit"
-                                    placeholder="Ingrese el nombre de la prenda" name="nombre_edit"
-                                    required>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="categoria_edit">Categoría</label>
-                                <select class="form-select" name="categoria_edit" id="categoria_edit" required>
-                                    <option selected>Categoria</option>
-                                    <?php
-                                    $categoriasData = $categoriasModel->viewAll();
-                                    foreach ($categoriasData as $categoria): ?>
-                                        <option value="<?php echo $categoria["id_categoria"] ?>"><?php echo $categoria["nombre"] ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <label for="talla_edit">Talla</label>
-                                <select class="form-select" name="talla_edit" id="talla_edit" required>
-                                    <option selected>Talla</option>
-                                    <?php
-                                    $tallaData = $tallasModel->viewAll();
-                                    foreach ($tallaData as $talla): ?>
-                                        <option value="<?php echo $talla["id_talla"] ?>"><?php echo $talla["edad"] ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="coleccion_edit">Colección</label>
-                                <select class="form-select" name="coleccion_edit" id="coleccion_edit" required>
-                                    <option selected>Coleccion</option>
-                                    <?php
-                                    $coleccionesData = $coleccionesModel->viewAll();
-                                    foreach ($coleccionesData as $coleccion): ?>
-                                        <option value="<?php echo $coleccion["id_coleccion"] ?>"><?php echo $coleccion["coleccion"] ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <select class="form-select" name="color_edit" id="color_edit" require>
-                                    <option selected>Color</option>
-                                    <?php
-                                    $coloresData = $coloresModel->viewAll();
-                                    foreach ($coloresData as $color): ?>
-                                        <option value="<?php echo $color["id_color"] ?>"><?php echo $color["color"] ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
+            <!-- Modal Body -->
+            <div class="container modal-body mt-5">
+                <form class="needs-validation form" action="index.php?page=prendas&function=create" method="post" enctype="multipart/form-data" novalidate id="formPatron">
+                    <div class="row g-3">
+                        <!-- Sección de Datos de la Prenda -->
+                        <div class="container col-md-6 row">
 
-                            <div class="col-md-6">
-                                <label for="cant_edit">Cantidad</label>
-                                <input type="text" class="form-control" id="cant_edit"
-                                    placeholder="Ingrese la cantidad" name="cant_edit"
-                                    required>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <label for="genero_edit">Género</label>
-                                <select class="form-select" name="genero_edit" id="genero_edit" required>
-                                    <option selected>Seleccione un genero</option>
+                            <h4 class="text-center">Detalles de prenda</h4>
 
-                                    <option value="Niño">Niño</option>
-                                    <option value="Niño">Niña</option>
-
-
-                                </select>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="precio_edit">Precio</label>
-                                <input type="text" class="form-control" id="precio_edit"
-                                    placeholder="Ingrese el precio de la prenda" name="precio_edit"
-                                    required>
-                            </div>
-                        </div>
-
-                        <div class="row g-3"> <!-- Div info -->
-                            <div class="col-md-6">
-
-                                <h4 class="text-center text-body">Materiales de la prenda</h4>
-
-                                <!-- boton para agregar materiales -->
-                                <div class="text-center d-flex flex-column align-content-center align-items-center">
-                                    <button type="button" onclick="añadirMaterialEdit(<?php echo $patron['id_patron'] ?>)" name="btnAñadirMaterial"
-                                        class="btn btn-rj-blue w-50">Añadir Material +</button>
-                                    <small class="form-text text-muted">Minimo un Material, Maximo: 10 Materiales</small>
+                            <div class="col">
+                                <div>
+                                    <label for="descripcion" class="form-label fw-bold mt-3">Descripción</label>
+                                    <input type="text" class="form-control-input campo" id="desc_edit" name="nombre"
+                                        placeholder="Ingrese el nombre de la prenda">
+                                    <div class="invalid-feedback">Por favor, ingrese una descripción.</div>
                                 </div>
 
-                                <!-- Tabla de materiales agregados -->
-                                <div class="card mt-3">
-                                    <table class="table table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col"></th>
-                                                <th scope="col">Nombre</th>
-                                                <th scope="col">Cantidad</th>
-                                                <th scope="col">Acción</th>
-                                            </tr>
-                                        </thead>
+                                <div>
+                                    <label for="stock" class="form-label fw-bold mt-3">Stock</label>
+                                    <input type="" class="form-control-input campo" id="cantidad_edit" name="stock"
+                                        placeholder="Stock disponible">
+                                    <div class="invalid-feedback">Por favor, ingrese el stock.</div>
+                                </div>
 
-                                        <tbody class="tablaMateriales" data-patron="<?php echo $patron['id_patron'] ?>">
-                                            <tr>
-                                                <td>1</td>
-                                                <td>
-                                                    <div class="input-group">
-                                                        <select class="form-select materialSelect" name="material[0][id_Material]">
-                                                            <option value="none">Ninguno</option>
-                                                            <?php foreach ($materialesData as $material) : ?>
-                                                                <option value="<?php echo $material['id_material'] ?>">
-                                                                    <?php echo $material['nombre_material'] ?>
-                                                                </option>
-                                                            <?php endforeach; ?>
-                                                        </select>
-                                                        <div class="invalid-feedback">Por favor, selecciona un material.</div>
+                                <div class="p-4 text-center">
+                                    <label for="genero" class="form-label fw-bold mt-3">Género</label>
+                                    <div class="d-flex justify-content-around">
+                                        <input type="hidden" value="" name="id_genero_edit">
+
+                                        <div class="d-flex flex-column align-items-center">
+                                            <input type="radio" id="niño_edit" value="Niño" name="id_genero_edit">
+                                            <label for="niño">niño</label>
+                                        </div>
+                                        <div class="d-flex flex-column align-items-center">
+                                            <input type="radio" id="niña_edit" value="Niña" name="id_genero_edit">
+                                            <label for="niña">niña</label>
+                                        </div>
+                                        <div class="invalid-feedback">Por favor, seleccione un género.</div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col">
+
+                                <div class="p-2">
+                                    <label for="coleccion" class="form-label fw-bold mt-3">Colección</label>
+                                    <select  name="id_coleccion" id="coleccion_edit" class="custom-select-edit">
+                                        <option selected>Coleccion</option>
+                                        <?php
+                                        $coleccionesData = $coleccionesModel->viewAll();
+                                        foreach ($coleccionesData as $coleccion): ?>
+                                            <option value="<?php echo $coleccion["id_coleccion"] ?>"><?php echo $coleccion["coleccion"] ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    <div class="invalid-feedback">Por favor, seleccione una colección.</div>
+                                </div>
+
+                                <div class="p-2">
+                                    <label for="talla" class="form-label fw-bold mt-3">Talla</label>
+                                    <select class="custom-select-edit" name="id_talla" id="talla_edit">
+                                        <option selected>Talla</option>
+                                        <?php
+                                        $tallaData = $tallasModel->viewAll("");
+                                        foreach ($tallaData as $talla): ?>
+                                            <option value="<?php echo $talla["id_talla"] ?>"><?php echo $talla["edad"] ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    <div class="invalid-feedback">Por favor, seleccione una talla.</div>
+                                </div>
+
+                                <div class="p-2">
+                                    <label for="categoria" class="form-label fw-bold mt-3">Categoría</label>
+                                    <select class="custom-select-edit" name="id_categoria" id="categoria_edit">
+                                        <option selected>Categoria</option>
+                                        <?php
+                                        $categoriasData = $categoriasModel->viewAll("");
+                                        foreach ($categoriasData as $categoria): ?>
+                                            <option value="<?php echo $categoria["id_categoria"] ?>"><?php echo $categoria["nombre"] ?></option>
+                                        <?php endforeach; ?>
+
+                                    </select>
+                                    <div class="invalid-feedback">Por favor, seleccione una categoría.</div>
+                                </div>
+
+         
+
+                            </div>
+
+                            <div class>
+                                <!-- Vista previa de la prenda seleccionada -->
+                                <label for="file1">
+                                    <div
+                                        class="input-img-rj card mt-3 d-flex align-items-center justify-content-center flex-column">
+                                        <div class="col-md-12 text-center d-flex flex-column">
+                                            <p class="fw-bold m-0">Imagen de la prenda</p>
+                                            <input type="file" name="file1" class="form-control-file" id="file1"
+                                                accept="image/*">
+                                            <small class="form-text text-muted">Opcional. Tamaño máximo: 2MB</small>
+                                        </div>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Sección de Materiales -->
+                        <div class="col-md-6">
+
+                            <h4 class="text-center text-body">Materiales de la prenda</h4>
+
+                            <!-- boton para agregar materiales -->
+                            <div class="text-center d-flex flex-column align-content-center align-items-center">
+                                <button type="button" onclick="añadirMaterial()" name="btnAñadirMaterial"
+                                    class="btn btn-rj-blue w-50">Añadir Material +</button>
+                                <small class="form-text text-muted">Minimo un Material, Maximo: 10 Materiales</small>
+                            </div>
+
+                            <!-- Tabla de materiales agregados -->
+                            <div class="card shadow-sm mt-4 overflow-auto" style="max-height: 300px;">
+                                <table class="table table-striped mb-0">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Nombre</th>
+                                            <th scope="col">Cantidad</th>
+                                            <th scope="col">Acción</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody class="tablaMateriales">
+                                        <tr id="filaMaterial">
+                                            <td id="numberMaterial">1</td>
+                                            <td>
+                                                <div class="input-group">
+                                                    <select class="form-select" name="material[0][id_Material]" id="material">
+                                                        <option value="none">Ninguno</option>
+                                                        <?php
+                                                        // Incluimos el controlador para acceder a los materiales disponibles
+                                                        $materialesData = $materialesModel->viewAll(0,"estado");
+
+                                                        foreach ($materialesData as $material) : ?>
+                                                            <option value="<?php echo $material['id_material'] ?>">
+                                                                <?php echo $material['nombre_material'] ?>
+                                                            </option>
+                                                        <?php endforeach; ?>
+                                                    </select>
+                                                    <div class="invalid-feedback">Por favor, selecciona un material.
                                                     </div>
-                                                </td>
-                                                <td>
-                                                    <input type="number" class="cantidadInput form-control" name="material[0][cantidad]" placeholder="Cantidad de materiales">
-                                                    <div class="invalid-feedback">Por favor, introduce la cantidad.</div>
-                                                </td>
-                                                <td>
-                                                    <button type="button" class="btn btn-danger btn-sm eliminarBtn"><i class="fa-solid fa-xmark"></i></button>
-                                                </td>
-                                            </tr>
-                                        </tbody>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <input type="" class="" name="material[0][cantidad]"
+                                                    id="cantidadMaterial" placeholder="Cantidad de materiales">
+                                                <div class="invalid-feedback">Por favor, introduce la cantidad.</div>
+                                            </td>
+                                            <span class="error cantidadMaterialError"></span>
+                                            <td><button class="btn btn-danger btn-sm"><i
+                                                        class="fa-solid fa-xmark"></i></button></td>
+                                        </tr>
 
-                                    </table>
-                                </div>
 
-                                <!-- Botón para crear el patrón -->
-                                <div class="text-center mt-3">
-                                    <button type="submit" name="btnCrearPatron" value="crear"
-                                        class="btn btn-rj-blue w-100">Crear</button>
-                                </div>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- Botón para crear el patrón -->
+                            <div class="text-center mt-3">
+                                <button type="submit" name="btnCrearPatron" value="crear"
+                                    class="btn btn-rj-blue w-100">Crear</button>
                             </div>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                            Cerrar
-                        </button>
-                        <button type="submit" name="btnUpdate" value="edit" class="btn btn-rj-blue">
-                            Actualizar
-                        </button>
                     </div>
                 </form>
             </div>

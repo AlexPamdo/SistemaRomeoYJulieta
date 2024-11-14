@@ -59,6 +59,9 @@
 <script src="src/Assets/js/eliminarModal.js"></script>
 <script src="src/Assets/js/script.js"></script>
 
+<script src="src/Assets/js/fechaReporte.js"></script>
+
+
 <!-- Pedidos de prendas -->
  <script src="src/Assets/js/pedidosPrendas.js"></script>
 

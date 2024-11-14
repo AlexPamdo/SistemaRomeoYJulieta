@@ -73,7 +73,7 @@ require_once("Templates/Head.php");
                             <?php foreach ($prendaData as $prenda) : ?>
                                 <tr>
                                     <td><?php echo htmlspecialchars($prenda['id_prenda']); ?></td>
-                                    <td><img class="img-prenda" src="<?php echo htmlspecialchars($prenda['img_prenda']); ?>" alt="" height="60px" width="60px"></td>
+                                    <td><img class="img-prenda" src="<?php echo htmlspecialchars($prenda['img_prenda']); ?>" alt="" height="40px" width="40px"></td>
                                     <input type="hidden" name="img" id="img_edit" value="<?php echo htmlspecialchars($prenda['img_prenda']); ?>">
                                     <td class="desc"><?php echo htmlspecialchars($prenda['nombre_prenda']); ?></td>
                                     <td><?php echo htmlspecialchars($prenda['categoria']); ?></td>
@@ -91,11 +91,11 @@ require_once("Templates/Head.php");
                                             data-bs-target="#materialesPatron<?php echo $prenda['id_prenda']; ?>">
                                             <?php include './src/Assets/bootstrap-icons-1.11.3/eye-fill.svg'; ?>
                                         </button>
-                                        <button type="button" class="btn btn-danger me-1 eliminar" data-bs-toggle="modal" data-bs-target="#eliminar">
-                                            <i class="fa-solid fa-trash"></i>
+                                        <button type="button" class="btn btn-custom-danger m-1 btn-sm eliminar" data-bs-toggle="modal" data-bs-target="#eliminar">
+                                        <?php include './src/Assets/bootstrap-icons-1.11.3/trash-fill.svg'; ?>
                                         </button>
-                                        <button type="button" class="btn btn-success me-1 editar" data-bs-toggle="modal" data-bs-target="#editar">
-                                            <i class="fa-solid fa-pencil"></i>
+                                        <button type="button" class="btn btn-custom-success m-1 btn-sm editar" data-bs-toggle="modal" data-bs-target="#editar">
+                                        <?php include './src/Assets/bootstrap-icons-1.11.3/pencil-fill.svg'; ?>
                                         </button>
                                     </td>
                                 </tr>

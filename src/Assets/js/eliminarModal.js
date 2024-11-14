@@ -115,21 +115,17 @@ $(".editar").click(function () {
         categoria: "input.categoria",
         talla: "input.talla",
         coleccion: "input.coleccion",
-        color: "input.color",
         cantidad: "td.cantidad",
         genero: "input.genero",
-        precio: "td.precio",
       },
       inputs: {
         desc: "#img_edit",
         desc: "#desc_edit",
         categoria: "#categoria_edit",
         talla: "#talla_edit",
-        coleccion: "coleccion_edit",
-        color: "#color_edit",
+        coleccion: "#coleccion_edit",
         cantidad: "#cantidad_edit",
         genero: "#genero_edit",
-        precio: "#precio_edit",
       },
     },
   };
@@ -156,4 +152,5 @@ $(".editar").click(function () {
 
   // Seleccionar el radio button basado en el rol
   $("input[name='rol_usuario'][value='" + data.rol + "']").prop("checked", true);
+  $("input[name='id_genero_edit'][value='" + data.genero + "']").prop("checked", true);
 });
