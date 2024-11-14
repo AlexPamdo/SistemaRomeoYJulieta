@@ -96,13 +96,18 @@ class PrendasModel extends ModeloBase
 
     public function edit($id)
     {
-        $query = "UPDATE {$this->tabla} SET nombre_prenda = :nombre, id_categoria = :categoria, stock = :stock, id_coleccion = :coleccion, id_talla = :talla, id_genero = :genero WHERE id_prenda = :id";
+        $query = "UPDATE {$this->tabla} SET nombre_prenda = :nombre, genero = :genero, id_categoria = :categoria, stock = :stock, id_coleccion = :coleccion, id_talla = :talla WHERE id_prenda = :id";
 
         $stmt = $this->prepare($query);
 
-        foreach ($this->data as $param => $value) {
-            $stmt->bindParam(":$param", $value);
-        }
+        $stmt->bindParam(":nombre", $this->data["nombre"]);
+        $stmt->bindParam(":genero", $this->data["genero"]);
+        $stmt->bindParam(":categoria", $this->data["categoria"]);
+        $stmt->bindParam(":stock", $this->data["stock"]);
+        $stmt->bindParam(":coleccion", $this->data["coleccion"]);
+        $stmt->bindParam(":talla", $this->data["talla"]);
+        $stmt->bindParam(":id", $id);
+
 
         return $stmt->execute();
     }

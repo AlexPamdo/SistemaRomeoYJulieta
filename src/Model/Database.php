@@ -1,28 +1,24 @@
 <?php
 
 namespace src\Model;
-
 use PDO;
 use PDOException;
+require_once ("src/Config/ConnAtributes.php");
+
 
 class Database extends PDO
 {
-    private $host = "localhost";
-    private $user = "root";
-    private $password = "";
-    private $database = "romeoyjulieta";
-
-    private $conn;
-
     public function __construct(){
-        $dsn = "mysql:host=$this->host;dbname=$this->database;charset=utf8";
+        // Usa las constantes definidas en config/constants.php
+        $dsn = "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=" . DB_CHARSET;
 
-        try{
-            parent::__construct($dsn, $this->user, $this->password);
+        try {
+            // Llama al constructor de PDO usando las constantes
+            parent::__construct($dsn, DB_USER, DB_PASSWORD);
             $this->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $this->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-        }catch (PDOException $e){
-            die("Error en la conexion a la base de datos". $e->getMessage());
+        } catch (PDOException $e) {
+            die("Error en la conexión a la base de datos: " . $e->getMessage());
         }
     }
 }

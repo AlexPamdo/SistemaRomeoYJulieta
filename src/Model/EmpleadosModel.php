@@ -2,7 +2,6 @@
 
 namespace src\Model;
 
-use src\Config\Connection;
 use PDO;
 
 class EmpleadosModel extends ModeloBase
@@ -14,7 +13,7 @@ class EmpleadosModel extends ModeloBase
     {        
         $this->data = [
             "nombre" => trim($nombre), // Remueve espacios extra
-            "apellido" => trim($apellido),
+            "apellido" => trim( $apellido),
             "telefono" => preg_replace('/[^0-9]/', '', $telefono), // Asegura que solo haya números
             "email" => filter_var($email, FILTER_SANITIZE_EMAIL), // Limpia el correo
             "ocupacion" => (int)$ocupacion, // Asegura que sea un entero
@@ -32,7 +31,7 @@ class EmpleadosModel extends ModeloBase
         // Preparar la declaración
         $stmt = $this->prepare($sql);
 
-        // Agregar condición si se proporciona un valor y columna
+        // Agregar condición si se propor ciona un valor y columna
         if ($value !== "" && $column !== "") {
             // Asegurarse de que la columna sea válida (esto es importante para prevenir SQL Injection)
             $sql .= " WHERE $column = :value";
