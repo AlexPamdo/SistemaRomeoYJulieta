@@ -1,12 +1,13 @@
 $(document).ready(function () {
   //Actualizar tabla
-  const table = $("#myTable").DataTable({
-    ajax: {
-      url: "index.php?page=Proveedores&function=viewAll",
+  //Este codigo es para que la tabla se actualize mediante dataTable
+  const table = $("#myTable").DataTable({ //seleccionamos la tabla
+    ajax: { //realizamos la peticion ajax
+      url: "index.php?page=Proveedores&function=viewAll", //esto es practicamente como el action, solo cambia el nombre de "page"
       type: "GET",
       dataSrc: "",
     },
-    columns: [
+    columns: [ //estas sera las columnas, toma las mismas que las de las base de dates
       {
         data: "id_proveedor",
       },
@@ -26,7 +27,7 @@ $(document).ready(function () {
         data: "notas_proveedor",
       },
       {
-        data: null,
+        data: null, //esto es para que la ultima columna tenga los botones
         render: function (data, type, row) {
           return `<div class="d-flex">
                 <button type="button" class="btn btn-custom-danger m-1 eliminar" data-bs-toggle="modal" data-bs-target="#eliminar">
@@ -48,37 +49,37 @@ $(document).ready(function () {
 
   // AJAX
   //para crear
-    // Crear nuevo proveedor
-    $("#createProveedorForm").submit(function (e) {
-        e.preventDefault();
+  // Crear nuevo proveedor
+  $("#createProveedorForm").submit(function (e) {
+    e.preventDefault(); //evitamos que el formulario se mande
 
-        const formData = $(this).serialize();
+    const formData = $(this).serialize(); //serializar sirve para tomar todos los elementos del formulario (inputs, selects, textareas, etc.) y los convierte en una cadena de texto en el formato key=value (similar a cómo se verían los parámetros en una URL, como nombre=Juan&edad=30).
 
-        $.ajax({
-            url: "index.php?page=proveedores&function=create",
-            method: "POST",
-            data: formData,
-            success: function (respuesta) {
-                try {
-                    const data = JSON.parse(respuesta);
-                    if (data.success) {
-                        alertify.success('¡Proveedor registrado correctamente!');
-                        $("#createProveedorForm")[0].reset();
-                        $("#CrearModal").modal("hide");
+    $.ajax({ //hacemos la peticion ajax
+      url: "index.php?page=proveedores&function=create", //usamos la funcion de crear
+      method: "POST",
+      data: formData, //aplicamos la variable formData donde estan los datos del formulario
+      success: function (respuesta) {
+        try {
+          const data = JSON.parse(respuesta); //parseamos lo que sea que devolvio la peticion, en este caso un mensaje de exito o error
+          if (data.success) { //si debolvio "succes"
+            alertify.success("¡Proveedor registrado correctamente!"); //mostramos la notification con alertify
+            $("#createProveedorForm")[0].reset(); //resetamos el formulario
+            $("#CrearModal").modal("hide"); //cerramos el modal
 
-                        table.ajax.reload(null, false); // Recargar la tabla
-                    } else {
-                        alertify.error('Error: ' + data.message);
-                    }
-                } catch (error) {
-                    console.error("Error en la respuesta JSON:", error);
-                    alertify.error("Hubo un error al procesar la solicitud.");
-                }
-            },
-            error: function (xhr, status, error) {
-                console.error("Error: ", error);
-                alertify.error("Hubo un error al procesar la solicitud.");
-            },
-        });
+            table.ajax.reload(null, false); // Recargar la tabla
+          } else {
+            alertify.error("Error: " + data.message);
+          }
+        } catch (error) { //en caso de que la peticion falle
+          console.error("Error en la respuesta JSON:", error);
+          alertify.error("Hubo un error al procesar la solicitud.");
+        }
+      },
+      error: function (xhr, status, error) { //esto es en caso de que la solicidtud no se pueda hacer
+        console.error("Error: ", error);
+        alertify.error("Hubo un error al procesar la solicitud.");
+      },
     });
+  });
 });
