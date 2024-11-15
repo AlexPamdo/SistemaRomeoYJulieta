@@ -11,7 +11,7 @@
             </div>
             <div class="modal-body">
 
-                <form class="needs-validation form" action="index.php?page=proveedores&function=create" method="post">
+                <form class="needs-validation form" id="createProveedorForm" method="post">
                     <div class="container container-form d-flex flex-column p-3">
 
                         <div class="form-label input-group flex-nowrap m-2 d-flex flex-column">
@@ -81,3 +81,6 @@
         </div>
     </div>
 </div>
+<script>
+  
+</script>

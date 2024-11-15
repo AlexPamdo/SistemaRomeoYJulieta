@@ -61,6 +61,8 @@
 
 <script src="src/Assets/js/fechaReporte.js"></script>
 
+<!-- proveedores -->
+ <script src="src/Assets/js/proveedores.js"></script>
 
 <!-- Pedidos de prendas -->
  <script src="src/Assets/js/pedidosPrendas.js"></script>

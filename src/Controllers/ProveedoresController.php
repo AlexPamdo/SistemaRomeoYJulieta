@@ -18,11 +18,69 @@ class ProveedoresController implements CrudController
 
     public function show()
     {
-        $proveedoresDesabilitados = $this->model->viewProveedores(1,"estado");
-        $proveedoresData = $this->model->viewProveedores(0,"estado");
+        $proveedoresDesabilitados = $this->model->viewProveedores(1, "estado");
+        $proveedoresData = $this->model->viewProveedores(0, "estado");
         require_once("src/Views/Proveedores.php");
     }
+
+    // Funcion para mostrar en datatable
+    public function viewAll()
+    {
+        try {
+            $proveedoresData = $this->model->viewProveedores(0, "estado");
+            echo json_encode($proveedoresData);
+        } catch (Exception $e) {
+            echo json_encode([
+                "success" => false,
+                "message" => $e->getMessage()
+            ]);
+        }
+    }
+
     public function create()
+    {
+        try {
+            // Validar entrada
+            if (
+                empty($_POST["nombre_proveedor"]) || empty($_POST["rif_proveedor"]) ||
+                empty($_POST["telefono_proveedor"]) || empty($_POST["gmail_proveedor"])
+            ) {
+                throw new Exception("Faltan valores necesarios.");
+            }
+
+            // Asignar datos al modelo
+            $this->model->setData(
+                $_POST["nombre_proveedor"],
+                $_POST["rif_proveedor"],
+                $_POST["telefono_proveedor"],
+                $_POST["gmail_proveedor"],
+                $_POST["notas_proveedor"]
+            );
+
+            // Intentar guardar
+            if ($this->model->create()) {
+                echo json_encode([
+                    "success" => true,
+                    "message" => "Proveedor creado correctamente"
+                ]);
+            } else {
+                echo json_encode([
+                    "success" => false,
+                    "message" => "No se pudo crear el proveedor"
+                ]);
+            }
+        } catch (Exception $e) {
+            // Responder con error
+            echo json_encode([
+                "success" => false,
+                "message" => $e->getMessage()
+            ]);
+        }
+    }
+
+
+
+    /*  public function create()
     {
 
 
@@ -57,7 +115,7 @@ class ProveedoresController implements CrudController
 
         exit(); // Asegurarse de detener la ejecución después de redirigir
     }
-
+ */
     public function restore()
     {
         if ($this->model->active($_POST["id"])) {
