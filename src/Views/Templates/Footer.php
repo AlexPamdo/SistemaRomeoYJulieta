@@ -2,6 +2,8 @@
 <?php include_once("src/Views/Templates/Anular.php") ?>
 <?php include_once("src/Views/Templates/Actualizar.php") ?>
 <?php include_once("src/Views/Templates/Orden.php") ?>
+<?php include_once("src/Views/Templates/Papelera.php") ?>
+
 
 
 

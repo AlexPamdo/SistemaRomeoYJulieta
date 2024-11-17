@@ -24,6 +24,18 @@ class AlmacenController implements CrudController
         include_once("src/Views/Almacen.php");
     }
 
+    public function viewDelete(){
+        try {
+            $Data = $this->materialModel->viewAll(1, "estado");
+            echo json_encode($Data);
+        } catch (Exception $e) {
+            echo json_encode([
+                "success" => false,
+                "message" => $e->getMessage()
+            ]);
+        }
+    }
+
      // Funcion para mostrar en datatable
      public function viewAll()
      {

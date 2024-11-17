@@ -218,6 +218,19 @@ $(document).ready(function () {
     columns: columnas,
     responsive: true,
   });
+
+  const trashTable = $("#trashTable").DataTable({
+    ajax: {
+        url: `index.php?page=${page}&function=viewDelete`,
+      type: "GET",
+      dataSrc: "",
+      error: (jqXHR, textStatus, errorThrown) =>
+        console.error("Error en AJAX:", textStatus, errorThrown),
+    },
+    columns: columnas,
+    responsive: true,
+  })
+
   console.log("DataTable inicializado correctamente.");
 
   // -------------------------------- FUNCIONES REUTILIZABLES --------------------------------
@@ -237,6 +250,7 @@ $(document).ready(function () {
               alertify.success(successMessage);
               $(modalSelector).modal("hide");
               table.ajax.reload(null, false);
+              trashTable.ajax.reload(null, false);
             } else {
               console.warn(
                 "Error en la respuesta:",
