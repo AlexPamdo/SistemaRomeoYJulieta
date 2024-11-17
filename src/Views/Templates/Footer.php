@@ -1,4 +1,9 @@
 <?php include_once("src/Views/Templates/Eliminar.php") ?>
+<?php include_once("src/Views/Templates/Anular.php") ?>
+<?php include_once("src/Views/Templates/Actualizar.php") ?>
+<?php include_once("src/Views/Templates/Orden.php") ?>
+
+
 
 <!-- Footer -->
 <footer class="bg-dark text-white pt-4">
@@ -42,7 +47,11 @@
 
 
 <script src="src/Libraries/DataTables/datatables.min.js"></script>
+<script src="src/Assets/js/Ajax.js"></script>
 
+
+<!-- proveedores -->
+<script src="src/Assets/js/ConsultaTablas.js"></script>
 
 <!-- scrip de las estregas -->
 <script src="src/Assets/js/entregas.js"></script>
@@ -56,16 +65,13 @@
 
 <script src="src/Libraries/bootstrap-5.3.3-dist/js/bootstrap.min.js"></script>
 
-<script src="src/Assets/js/eliminarModal.js"></script>
+
 <script src="src/Assets/js/script.js"></script>
 
 <script src="src/Assets/js/fechaReporte.js"></script>
 
-<!-- proveedores -->
- <script src="src/Assets/js/proveedores.js"></script>
-
 <!-- Pedidos de prendas -->
- <script src="src/Assets/js/pedidosPrendas.js"></script>
+<script src="src/Assets/js/pedidosPrendas.js"></script>
 
 <!-- Pedidos a clientes -->
 
@@ -78,20 +84,33 @@
 
 
 <script>
-   $(document).ready(function() {
-    if (!$.fn.DataTable.isDataTable('#myTable')) {
-        $('#myTable').DataTable({
-            language: {
-                info: "Mostrando _START_ a _END_ de _TOTAL_ entradas",
-                infoEmpty: "Mostrando 0 a 0 de 0 entradas",
-                infoFiltered: "(filtrado de _MAX_ entradas totales)",
-                lengthMenu: "Mostrar _MENU_ entradas",
-                search: "Buscar:",
-                zeroRecords: "No se encontraron entradas"
-            }
-        });
-    }
-});
+    $(document).ready(function() {
+        if (!$.fn.DataTable.isDataTable('#myTable')) {
+            $('#myTable').DataTable({
+                language: {
+                    info: "Mostrando _START_ a _END_ de _TOTAL_ entradas",
+                    infoEmpty: "Mostrando 0 a 0 de 0 entradas",
+                    infoFiltered: "(filtrado de _MAX_ entradas totales)",
+                    lengthMenu: "Mostrar _MENU_ entradas",
+                    search: "Buscar:",
+                    zeroRecords: "No se encontraron entradas"
+                }
+            });
+        }
+
+        if (!$.fn.DataTable.isDataTable('#orderTable')) {
+            $('#orderTable').DataTable({
+                language: {
+                    info: "Mostrando _START_ a _END_ de _TOTAL_ entradas",
+                    infoEmpty: "Mostrando 0 a 0 de 0 entradas",
+                    infoFiltered: "(filtrado de _MAX_ entradas totales)",
+                    lengthMenu: "Mostrar _MENU_ entradas",
+                    search: "Buscar:",
+                    zeroRecords: "No se encontraron entradas"
+                }
+            });
+        }
+    });
 </script>
 
 

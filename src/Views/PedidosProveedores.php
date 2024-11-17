@@ -38,8 +38,7 @@ require_once("Templates/Head.php");
 
                     <?php
                     require_once("src/Views/Pedidos_proveedores/Crear.php");
-                    require_once("src/Views/Pedidos_proveedores/Actualizar.php");
-                    require_once("src/Views/Pedidos_proveedores/Eliminar.php")
+
                     ?>
 
                     <a href="index.php?page=pedidos&function=print" target="_blank" class="btn btn-warning ms-1">
@@ -95,10 +94,6 @@ require_once("Templates/Head.php");
                             <?php endforeach; ?>
                         </tbody>
                     </table>
-
-                    <?php foreach ($pedidosData as $pedido) :
-                        include("src/Views/Pedidos_proveedores/Orden.php");
-                    endforeach; ?>
                 </div>
 
                 <!-- Botón para ver usuarios items deshabilitados -->

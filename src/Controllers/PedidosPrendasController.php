@@ -36,6 +36,33 @@ class PedidosPrendasController
         include_once("src/Views/PedidosPrendas.php");
     }
 
+    public function viewAll()
+     {
+         try {
+             $pedidosPrendasData = $this->model->viewEntregas(0, "estado");
+             echo json_encode($pedidosPrendasData);
+         } catch (Exception $e) {
+             echo json_encode([
+                 "success" => false,
+                 "message" => $e->getMessage()
+             ]);
+         }
+     }
+
+     public function viewDetails()
+     {
+         $id = $_GET['id'];
+         try {
+             $ordenPedidoData = $this->ordenEntrega->viewPrendas($id, "id_entrega");
+             echo json_encode($ordenPedidoData);
+         } catch (Exception $e) {
+             echo json_encode([
+                 "success" => false,
+                 "message" => $e->getMessage()
+             ]);
+         }
+     }
+
     public function print()
     {
         $entregasData = $this->model->viewEntregas(0, "estado");

@@ -49,6 +49,19 @@ class ConfeccionesController implements CrudController
         include_once("src/Views/Confecciones.php");
     }
 
+    public function viewAll()
+     {
+         try {
+             $confeccionesData = $this->model->viewConfecciones(0, "estado");
+             echo json_encode($confeccionesData);
+         } catch (Exception $e) {
+             echo json_encode([
+                 "success" => false,
+                 "message" => $e->getMessage()
+             ]);
+         }
+     }
+
     public function print()
     {
         $confeccionesData = $this->model->viewAll();

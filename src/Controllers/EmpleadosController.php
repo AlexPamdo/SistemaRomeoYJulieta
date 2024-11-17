@@ -5,6 +5,8 @@ namespace src\Controllers;
 use src\Model\EmpleadosModel;
 use Interfaces\CrudController;
 
+use Exception;
+
 class EmpleadosController implements CrudController
 {
 
@@ -26,6 +28,21 @@ class EmpleadosController implements CrudController
         $empleadosData = $this->model->viewEmpleados(0,"estado");
         require_once("src/Views/Empleados.php");
     }
+
+       // Funcion para mostrar en datatable
+       public function viewAll()
+       {
+           try {
+               $empleadosData = $this->model->viewEmpleados(0, "estado");
+               echo json_encode($empleadosData);
+           } catch (Exception $e) {
+               echo json_encode([
+                   "success" => false,
+                   "message" => $e->getMessage()
+               ]);
+           }
+       }
+   
 
     public function create()    
     {

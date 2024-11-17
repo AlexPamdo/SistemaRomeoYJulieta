@@ -13,10 +13,10 @@
                     <h5>Podras recuperarlo luego</h5>
                     <div class="modal-footer">
                         <form class="needs-validation" action="" id="deleteForm" method="post" novalidate>
+                        <input type="text" name="id" id="eliminarId" value="">
                             <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
                                 Cerrar
                             </button>
-                            <input type="hidden" name="id" id="eliminarId" value="">
                             <button class="btn btn-danger" type="submit">eliminar</button>
                         </form>
                     </div>

@@ -41,27 +41,32 @@ class PrendasController implements CrudController
         require_once("src/Views/Prendas.php");
     }
 
+    public function viewAll()
+     {
+         try {
+             $prendasData = $this->prendaModel->viewPrendas(0, "estado");
+             echo json_encode($prendasData);
+         } catch (Exception $e) {
+             echo json_encode([
+                 "success" => false,
+                 "message" => $e->getMessage()
+             ]);
+         }
+     }
 
-    public function calcularPrecio($materialData)
-    {
-        $total = 0;
-
-        foreach ($materialData as $material) {
-            if (!empty($material['cantidad']) && $material['id_Material'] !== "none") {
-                // Verifica que getPrecio esté funcionando correctamente
-                $precio = $this->almacenModel->showColumn("precio", "id_Material", $material['id_Material']);
-                if ($precio === false) {
-                    throw new Exception("Error al obtener el precio del material con ID: " . $material['id_Material']);
-                }
-
-                $total += $precio;
-            } else {
-                return null; // Retornar null si hay un material no válido
-            }
-        }
-
-        return $total > 0 ? $total : null; // Retornar null si no hay materiales válidos
-    }
+     public function viewDetails()
+     {
+         $id = $_GET['id'];
+         try {
+             $ordenPedidoData = $this->prendaPatronModel->viewMaterials($id);
+             echo json_encode($ordenPedidoData);
+         } catch (Exception $e) {
+             echo json_encode([
+                 "success" => false,
+                 "message" => $e->getMessage()
+             ]);
+         }
+     }
 
     public function agregarMaterial($material, $ultimoId)
     {
@@ -158,10 +163,19 @@ class PrendasController implements CrudController
 
     public function delete()
     {
+        // Antes de llamar al softDelete
+        error_log("ID recibido: " . $_POST["id"]);
+
         if ($this->prendaModel->softDelete($_POST["id"])) {
-            header("Location: index.php?page=prendas&succes=delete");
+            echo json_encode([
+                "success" => true,
+                "message" => "Prenda eliminada correctamente"
+            ]);
         } else {
-            header("Location: index.php?page=prendas&succes=delete");
+            echo json_encode([
+                "success" => false,
+                "message" => "No se pudo eliminar la prenda"
+            ]);
         }
     }
 

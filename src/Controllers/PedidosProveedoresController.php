@@ -30,39 +30,36 @@ class PedidosProveedoresController implements CrudController
             exit;
         }
 
-        $pedidosDeleteData = $this->model->viewPedidos(1, "estado");
-        $pedidosData = $this->model->viewPedidos(0, "estado");
         include_once("src/Views/PedidosProveedores.php");
     }
 
-    public function print()
+    public function viewAll()
     {
-        $pedidosData = $this->model->viewPedidos(0, "estado");
-        include_once("src/Libraries/fpdf/PedidosPDF.php");
-    }
-
-
-    public function calcularPrecio($materialesData)
-    {
-        $total = 0;
-
-        foreach ($materialesData as $materiales) {
-            if (!empty($materiales['cantidad']) && $materiales['id_Material'] !== "none") {
-                // Verifica que getPrecio esté funcionando correctamente
-                $precio = $this->almacenModel->showColumn("precio", "id_Material", $materiales['id_Material']);
-                if ($precio === false) {
-                    throw new Exception("Error al obtener el precio del material con ID: " . $materiales['id_Material']);
-                }
-
-                // Multiplica el precio por la cantidad
-                $total += $precio * $materiales['cantidad'];
-            } else {
-                return null; // Retornar null si hay un material no válido
-            }
+        try {
+            $pedidosProveedoresData = $this->model->viewPedidos(0, "estado");
+            echo json_encode($pedidosProveedoresData);
+        } catch (Exception $e) {
+            echo json_encode([
+                "success" => false,
+                "message" => $e->getMessage()
+            ]);
         }
-
-        return $total > 0 ? $total : null; // Retornar null si no hay materiales válidos
     }
+
+    public function viewDetails()
+    {
+        $id = $_GET['id'];
+        try {
+            $ordenPedidoData = $this->ordenPedido->viewMaterials($id, "id_pedido");
+            echo json_encode($ordenPedidoData);
+        } catch (Exception $e) {
+            echo json_encode([
+                "success" => false,
+                "message" => $e->getMessage()
+            ]);
+        }
+    }
+
 
 
     public function subirStock($materialesData)
@@ -182,11 +179,24 @@ class PedidosProveedoresController implements CrudController
                 throw new Exception("Error al actualizar el estado del pedido");
             }
 
-            $this->model->commit();
-            header("Location: index.php?page=pedidosProveedores&succes=update");
+            if($this->model->commit()){
+                echo json_encode([
+                    "success" => true,
+                    "message" => "Pedido actualizado correctamente"
+                ]);
+            }else{
+                echo json_encode([
+                    "success" => false,
+                    "message" => "No se pudo actualizar el pedido"
+                ]);
+            }
         } catch (Exception $e) {
             $this->model->rollback();
-            header("Location: index.php?page=pedidosProveedores&error=other&errorDesc=" . urlencode($e->getMessage()));
+             // Responder con error
+             echo json_encode([
+                "success" => false,
+                "message" => $e->getMessage()
+            ]);
         }
         exit();
     }
@@ -289,4 +299,11 @@ class PedidosProveedoresController implements CrudController
             header("Location: index.php?page=pedidos&error=other&errorDesc=" . $e->getMessage());
         }
     }
+
+    public function print()
+    {
+        $pedidosData = $this->model->viewPedidos(0, "estado");
+        include_once("src/Libraries/fpdf/PedidosPDF.php");
+    }
+
 }

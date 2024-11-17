@@ -24,6 +24,20 @@ class AlmacenController implements CrudController
         include_once("src/Views/Almacen.php");
     }
 
+     // Funcion para mostrar en datatable
+     public function viewAll()
+     {
+         try {
+             $materialesData = $this->materialModel->viewAll(0, "estado");
+             echo json_encode($materialesData);
+         } catch (Exception $e) {
+             echo json_encode([
+                 "success" => false,
+                 "message" => $e->getMessage()
+             ]);
+         }
+     }
+
     public function print()
     {
         $materialData = $this->materialModel->viewAll(false);
@@ -61,10 +75,19 @@ class AlmacenController implements CrudController
 
     public function delete()
     {
+        // Antes de llamar al softDelete
+        error_log("ID recibido: " . $_POST["id"]);
+
         if ($this->materialModel->softDelete($_POST["id"])) {
-            header("Location: index.php?page=almacen&succes=delete");
+            echo json_encode([
+                "success" => true,
+                "message" => "Material eliminado correctamente"
+            ]);
         } else {
-            header("Location: index.php?page=almacen&error=delete");
+            echo json_encode([
+                "success" => false,
+                "message" => "No se pudo eliminar el material"
+            ]);
         }
     }
 

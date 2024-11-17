@@ -30,6 +30,19 @@ class UsuariosController implements CrudController
         include_once("src/Views/Usuarios.php");
     }
 
+    public function viewAll()
+     {
+         try {
+             $usuariosData = $this->usuariosModel->viewAll(0, "estado");
+             echo json_encode($usuariosData);
+         } catch (Exception $e) {
+             echo json_encode([
+                 "success" => false,
+                 "message" => $e->getMessage()
+             ]);
+         }
+     }
+
     public function create()
     {
         try {
@@ -72,10 +85,19 @@ class UsuariosController implements CrudController
 
     public function delete()
     {
+        // Antes de llamar al softDelete
+        error_log("ID recibido: " . $_POST["id"]);
+
         if ($this->usuariosModel->softDelete($_POST["id"])) {
-            header("Location: index.php?page=usuarios&succes=delete");
+            echo json_encode([
+                "success" => true,
+                "message" => "Usuario eliminado correctamente"
+            ]);
         } else {
-            header("Location: index.php?page=usuarios&error=delete");
+            echo json_encode([
+                "success" => false,
+                "message" => "No se pudo eliminar el usuario"
+            ]);
         }
     }
 

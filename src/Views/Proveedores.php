@@ -50,7 +50,6 @@ require_once("Templates/Head.php");
                                 <th scope="col">ID</th>
                                 <th scope="col">Nombre</th>
                                 <th scope="col">RIF</th>
-
                                 <th scope="col">Teléfono</th>
                                 <th scope="col">Correo</th>
                                 <th scope="col">Notas</th>
@@ -60,32 +59,7 @@ require_once("Templates/Head.php");
                             </tr>
                         </thead>
                         <tbody>
-                            <?php
-
-                            foreach ($proveedoresData as $proveedor) : ?>
-                                <tr>
-                                    <td><?php echo htmlspecialchars($proveedor['id_proveedor']); ?></td>
-                                    <td class="nombre"><?php echo htmlspecialchars($proveedor['nombre_proveedor']); ?></td>
-                                    <td class="rif"><?php echo htmlspecialchars($proveedor['rif_proveedor']); ?></td>
-                                    <td class="telefono"><?php echo htmlspecialchars($proveedor['telefono_proveedor']); ?></td>
-                                    <td class="correo"><?php echo htmlspecialchars($proveedor['gmail_proveedor']); ?></td>
-
-
-                                    <td class="notas"><?php echo htmlspecialchars($proveedor['notas_proveedor']); ?></td>
-
-                                    <?php if ($_SESSION['rol'] == 1) { ?>
-                                        <td class="d-flex">
-                                            <!-- Botones de editar y eliminar -->
-                                            <button type="button" class="btn btn-custom-danger m-1 eliminar" data-bs-toggle="modal" data-bs-target="#eliminar">
-                                                <?php include './src/Assets/bootstrap-icons-1.11.3/trash-fill.svg'; ?>
-                                            </button>
-                                            <button type="button" class="btn btn-custom-success m-1 editar" data-bs-toggle="modal" data-bs-target="#editar">
-                                                <?php include './src/Assets/bootstrap-icons-1.11.3/pencil-fill.svg'; ?>
-                                            </button>
-                                        </td>
-                                    <?php } ?>
-                                </tr>
-                            <?php endforeach; ?>
+                          
                         </tbody>
                     </table>
                 </div>

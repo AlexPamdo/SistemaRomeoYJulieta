@@ -70,9 +70,7 @@ require_once("Templates/Head.php");
                                     <?= $confeccion['proceso'] == 0 ? 'en_curso' : ($confeccion['proceso'] == 1 ? 'completado' : 'anulado') ?>">
                                     <?php echo $confeccion['proceso'] == 0 ? 'En proceso' : ($confeccion['proceso'] == 1 ? 'completada' : 'Cancelada'); ?></span></td>
                                     <td class="d-flex">
-                                        <!-- Botones de editar y eliminar -->
                                         <!-- El boton de actualizar sera removido si la confeccion ya esta actualizada -->
-
                                         <button type="button" class="btn btn-custom-danger m-1 anularConfeccion"
                                             <?= $confeccion['proceso'] == 1 ? 'disabled' : ""; ?>
                                             data-bs-toggle="modal" data-bs-target="#anularConfeccion">
@@ -84,7 +82,6 @@ require_once("Templates/Head.php");
                                             data-bs-toggle="modal" data-bs-target="#actualizarConfeccion">
                                             <i class="fa-solid fa-sync"></i>
                                         </button>
-
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

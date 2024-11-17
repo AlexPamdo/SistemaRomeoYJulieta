@@ -56,33 +56,7 @@ require_once("Templates/Head.php");
                             </tr>
                         </thead>
                         <tbody>
-                            <?php
-                            foreach ($empleadosData as $empleado) : ?>
-                                <tr class="table-custom-row">
-                                    <td><?php echo htmlspecialchars($empleado['id_empleado']); ?></td>
-                                    <td class="nombre"><?php echo htmlspecialchars($empleado['nombre_empleado']); ?></td>
-                                    <td class="apellido"><?php echo htmlspecialchars($empleado['apellido_empleado']); ?></td>
-                                    <td class="email"><?php echo htmlspecialchars($empleado['email_empleado']); ?></td>
-                                    <td class="telefono"><?php echo htmlspecialchars($empleado['telefono_empleado']); ?></td>
-                                    <td><?php echo htmlspecialchars($empleado['ocupaciones']); ?></td>
-                                    <input type="hidden" class="ocupacion" value="<?php echo htmlspecialchars($empleado['id_ocupacion']); ?>">
-                                    <td class="cedula"><?php echo htmlspecialchars($empleado['cedula_empleado']); ?></td>
-                                    <td>
-                                        <span class="<?= $empleado['ocupado'] == 1 ? 'en_curso' : 'completado'; ?>">
-                                            <?php echo $empleado['ocupado'] == 0 ? 'Libre' : ($empleado['ocupado'] == 1 ? 'ocupado' : 'Error'); ?>
-                                        </span>
-                                    </td>
-                                    <td class="d-flex">
-                                        <!-- Botones de editar y eliminar -->
-                                        <button type="button" class="btn btn-custom-danger m-1 eliminar" data-bs-toggle="modal" data-bs-target="#eliminar">
-                                            <?php include './src/Assets/bootstrap-icons-1.11.3/trash-fill.svg'; ?>
-                                        </button>
-                                        <button type="button" class="btn btn-custom-success m-1 editar" data-bs-toggle="modal" data-bs-target="#editar">
-                                            <?php include './src/Assets/bootstrap-icons-1.11.3/pencil-fill.svg'; ?>
-                                        </button>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
+                 
                         </tbody>
                     </table>
                 </div>

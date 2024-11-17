@@ -37,6 +37,24 @@ class ProveedoresController implements CrudController
         }
     }
 
+    public function delete()
+    {
+        // Antes de llamar al softDelete
+        error_log("ID recibido: " . $_POST["id"]);
+
+        if ($this->model->softDelete($_POST["id"])) {
+            echo json_encode([
+                "success" => true,
+                "message" => "Proveedor eliminado correctamente"
+            ]);
+        } else {
+            echo json_encode([
+                "success" => false,
+                "message" => "No se pudo eliminar el proveedor"
+            ]);
+        }
+    }
+
     public function create()
     {
         try {
@@ -125,14 +143,7 @@ class ProveedoresController implements CrudController
         }
     }
 
-    public function delete()
-    {
-        if ($this->model->softDelete($_POST["id"])) {
-            header("Location: index.php?page=proveedores&succes=delete");
-        } else {
-            header("Location: index.php?page=proveedores&error=delete");
-        }
-    }
+
 
 
 
