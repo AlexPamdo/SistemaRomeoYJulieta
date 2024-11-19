@@ -22,8 +22,7 @@ $controllerPath = "src/Controllers/$controller.php"; // Ruta correcta del contro
 // Verificar si el controlador existe
 if (file_exists($controllerPath)) {
     includeController($controller);
-
-    // Si la sesión no está iniciada con un usuario, redirigir al login
+    
     if (!isset($_SESSION['username']) && !in_array($page, ['login', 'logout'])) {
         header('Location: index.php?page=login');
         exit();

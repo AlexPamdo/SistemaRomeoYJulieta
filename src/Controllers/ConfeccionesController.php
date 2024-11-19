@@ -1,66 +1,78 @@
 <?php
 
-
 namespace src\Controllers;
 
-// Inclusión de los modelos necesarios para manejar los datos de confecciones, almacén, patrones, prendas y patron-material.
 use src\Model\ConfeccionesModel;
 use src\Model\AlmacenModel;
 use src\Model\PrendasModel;
 use src\Model\PrendaPatronModel;
-use src\Model\EmpleadosModel;
-use Interfaces\CrudController;
+use src\Model\SupervisoresModel;
+use src\Controllers\ControllerBase;
 use Exception;
+use src\Model\OrdenConfeccionModel;
+use src\Model\PedidosPrendasModel;
 
 
-class ConfeccionesController implements CrudController
+class ConfeccionesController extends ControllerBase
 {
-
-    // Explicacion general de las instacias que necesitaremos
-
-
-    private $model; // La instancia del modelo de confecciones (Para Accededer a y editar dicha tabla)
-    private $almacenModel; //La instacia del modelo de almacen para bajar el stock al momento de crear una prenda
-    private $prendasModel; //La instacia del modelo de prendas para subir el stock al momento de crear una prenda
-    private $prendaPatronModel; //la instancia del modelo de patron materiales, este es para saber que materiales y que cantidad se va a usar para la confeccion de dicha prenda
-
-    private $empleadosModel;
-
+    private $model;
+    private $almacenModel;
+    private $prendasModel;
+    private $prendaPatronModel;
+    private $supervisoresModel;
+    private $ordenConfeccion;
+    private $pedidosPrendas;
     public function __construct()
     {
         $this->model = new ConfeccionesModel();
         $this->almacenModel = new AlmacenModel();
         $this->prendasModel = new PrendasModel();
         $this->prendaPatronModel = new PrendaPatronModel();
-        $this->empleadosModel = new EmpleadosModel();
+        $this->supervisoresModel = new SupervisoresModel();
+        $this->ordenConfeccion = new OrdenConfeccionModel();
+        $this->pedidosPrendas = new PedidosPrendasModel();
     }
 
-    // Función que se encarga de renderizar la vista de confecciones.
     public function show()
     {
         if ($_SESSION['rol'] == 2) {
-            header('Location: index.php?page=dashboard');
-            exit;
+            $this->redirect('dashboard');
         }
 
         $confeccionesData = $this->model->viewConfecciones(0, "estado");
-
-        // Incluye la vista de confecciones para su visualización.
         include_once("src/Views/Confecciones.php");
     }
 
     public function viewAll()
-     {
-         try {
-             $confeccionesData = $this->model->viewConfecciones(0, "estado");
-             echo json_encode($confeccionesData);
-         } catch (Exception $e) {
-             echo json_encode([
-                 "success" => false,
-                 "message" => $e->getMessage()
-             ]);
-         }
-     }
+    {
+        $this->procesarRespuestaJson(function () {
+            return $this->model->viewConfecciones(0, "estado");
+        });
+    }
+
+    /**
+     * Retorna los detalles de una prenda específica en formato JSON.
+     */
+    public function viewDetails()
+    {
+        $this->procesarRespuestaJson(function () {
+            $id = $_GET['id'] ?? null;
+            if (!$id) {
+                throw new Exception("ID de prenda no especificado.");
+            }
+            return $this->ordenConfeccion->viewPrendas($id, 'id_confeccion');
+        });
+    }
+
+    /**
+     * Retorna todos los pedidos activos en formato JSON.
+     */
+    public function viewDelete()
+    {
+        $this->procesarRespuestaJson(function () {
+            return $this->model->viewConfecciones(1, "estado");
+        });
+    }
 
     public function print()
     {
@@ -69,218 +81,210 @@ class ConfeccionesController implements CrudController
     }
 
 
+    /**
+     * Registra los materiales de un pedido.
+     */
+    private function registrarPrenda($prendasData, $id_confeccion)
+    {
+        foreach ($prendasData as $prenda) {
+            $this->ordenConfeccion->setData(
+                $id_confeccion,
+                $prenda['id_prenda'],
+                $prenda['cantidad']
+            );
+
+            if (!$this->ordenConfeccion->create()) {
+                throw new Exception("Error al registrar la prenda en la entrega");
+            }
+        }
+        return true;
+    }
+
+    public function comprobarStock($ordenConfeccion)
+    {
+
+        foreach ($ordenConfeccion as $prenda) {
+
+            $dataPatron = $this->prendaPatronModel->viewMaterials($prenda["id_prenda"]);
+
+            foreach ($dataPatron as $material) {
+                $idMaterial = $material["id_material"];
+                $cantidadRequerida = $material["cantidad"] * $prenda["cantidad"];
+                $stockDisponible = $this->almacenModel->showColumn("stock", "id_material", $idMaterial);
+
+                if ($cantidadRequerida > $stockDisponible) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public function bajarStockMateriales($ordenConfeccion)
+    {
+
+        foreach ($ordenConfeccion as $prenda) {
+
+            $dataPatron = $this->prendaPatronModel->viewMaterials($prenda["id_prenda"]);
+
+            foreach ($dataPatron as $material) {
+                $idMaterial = $material["id_material"];
+                $cantidadRequerida = $material["cantidad"] * $prenda["cantidad"];
+                $nuevoStock = $this->almacenModel->showColumn("stock", "id_material", $idMaterial) - $cantidadRequerida;
+
+                if (!$this->almacenModel->updateColumn("stock", $nuevoStock, "id_material", $idMaterial)) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    public function subirStockPrendas($ordenConfeccion)
+    {
+
+        foreach ($ordenConfeccion as $prenda) {
+
+            $idPrenda = $prenda["id_prenda"];
+            $cantidadSumar = $prenda["cantidad"];
+
+            $nuevoStock = $this->prendasModel->showColumn("stock", "id_prenda", $idPrenda) + $cantidadSumar;
+
+            if (!$this->prendasModel->updateColumn("stock", $nuevoStock, "id_prenda", $idPrenda)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 
 
     public function create()
     {
+        $this->procesarRespuestaJson(function () {
 
-        try {
+            $ordenConfeccion = $_POST["prenda"]; //Array con las prendas y su cantidad
 
-            // Asignación de los datos del formulario a los atributos del objeto confección.
+            if (!$ordenConfeccion || !is_array($ordenConfeccion)) {
+                throw new Exception("No se pudo obtener el objeto de prendas con los datos");
+            }
+
+            if (!$this->comprobarStock($ordenConfeccion)) {
+                throw new Exception("Insuficientes materiales en inventario para realizar la confección");
+            }
+
             $this->model->setData(
-                $_POST["prenda"],
-                $_POST["cantidad"],
-                date('Y-m-d H:i:s'),
-                $_POST["empleado"],
+            $_POST['pedido'],
+            date('Y-m-d H:i:s'),
+            $_POST["supervisor"],
             );
 
-            // Obtención de los datos del patrón y los materiales asociados al patrón.
-            $dataPatron =  $this->prendaPatronModel->viewMaterials($_POST["prenda"]);
-
-            if (!$this->comprobarStock($dataPatron, $_POST["cantidad"])) {
-                throw new Exception("Insuficientes Materiales en el inventario para realizar la accion");
+            $id_confeccion = $this->model->create();
+            if (!$id_confeccion) {
+                throw new Exception("No se pudo registrar la confección");
             }
 
-            //Cambiamos el estado a "ocupado" del empleado seleccionado
-            $this->empleadosModel->updateColumn("ocupado", 1, "id_empleado", $_POST["empleado"]);
-
-            // Comprobamos si las funciones para crear la confeccion 
-            if ($this->model->create()) {
-
-                // Redirecciona a la página con mensaje de éxito.
-                header("Location: index.php?page=confecciones&succes=create");
-            } else {
-                // Redirecciona a la página con mensaje de error.
-                header("Location: index.php?page=confecciones&error=create");
+            if (!$this->registrarPrenda($ordenConfeccion, $id_confeccion)) {
+                throw new Exception("Error al registrar las prendas en la entrega");
             }
-        } catch (Exception $e) {
 
-            header("Location: index.php?page=confecciones&error=other&errorDesc=" . $e->getMessage());
-        }
+            if (!$this->bajarStockMateriales($ordenConfeccion)) {
+                throw new Exception("Error al bajar el stock de los materiales");
+            }
+
+            $cantTrabajos = $this->supervisoresModel->showColumn("trabajando", "id_supervisor", $_POST["supervisor"]);
+            $newCantTrabajos = $cantTrabajos + 1;
+            if (!$this->supervisoresModel->updateColumn("trabajando", $newCantTrabajos, "id_supervisor", $_POST["supervisor"])) {
+                throw new Exception("No se pudo actualizar la cantidad de trabajos en el supervisor");
+            }
+
+            if (!$this->pedidosPrendas->updateColumn("proceso", 1, "id_pedido_prenda", $_POST["pedido"])) {
+                throw new Exception("No se pudo actualizar el estado del pedido");
+            }
+
+            return [
+                "success" => true,
+                "message" => "Confeccion registrada correctamente"
+            ];
+        });
     }
 
 
 
-    public function comprobarStock($dataPatron, $cantidadPrenda)
-    {
-        // Iteración para obtener la cantidad total de material necesaria para la confección.
-        foreach ($dataPatron as $material):
 
-            // Extracción del id del material y la cantidad necesaria para el patrón.
-            $idMaterial = $material["id_material"];
-            $cantidad = $material["cantidad"];
-
-
-            // Cálculo de la cantidad total de material necesaria.
-            $cantidaTotal = $cantidad * $cantidadPrenda;
-
-            // Obtención del stock disponible para el material.
-            $stock = $this->almacenModel->showColumn("stock", "id_material", $idMaterial);
-
-            // Comprobación de que hay suficiente stock para crear la confección.
-            if ($cantidaTotal > $stock) {
-                return false;
-            }
-        endforeach;
-
-        return true;
-    }
-
-    public function bajarStock($dataPatron, $cantidadPrenda)
-    {
-        foreach ($dataPatron as $material):
-            // Extracción del id del material y la cantidad necesaria para el patrón.
-            $idMaterial = $material["id_material"];
-            $cantidad = $material["cantidad"];
-
-            // Obtención del stock disponible para el material.
-            $stockActual = $this->almacenModel->showColumn("stock", "id_material", $idMaterial);
-
-            // Cálculo de la cantidad total de material necesaria.
-            $cantidaTotal = $cantidad * $cantidadPrenda;
-
-            //Calculamos cuanto stock queda
-            $nuevoStock = $stockActual - $cantidaTotal;
-
-            // Actualización del stock en el almacén y en las prendas.
-            if (!$this->almacenModel->updateColumn("stock", $nuevoStock, "id_material", $idMaterial,)) {
-                return false;
-            };
-        endforeach;
-        return true;
-    }
 
     public function update()
     {
-        $idConfeccion = $_POST["id"];
-        try {
+        $this->procesarRespuestaJson(function () {
+
+            $idConfeccion = $_POST["id"];
+            $idPedido = $this->model->showColumn("id_pedido", "id_confeccion", $idConfeccion);
+            $supervisor = $this->model->showColumn("id_supervisor", "id_confeccion", $idConfeccion);
+
             $this->model->beginTransaction();
-            //Buscamos que prenda fue la que se mando a confeccionar
-            $prenda = $this->model->showColumn("id_prenda", "id_confeccion", $idConfeccion);
-            $cantidad = $this->model->showColumn("cantidad", "id_confeccion", $idConfeccion);
-            $empleado = $this->model->showColumn("id_empleado", "id_confeccion", $idConfeccion);
 
-            if (!$prenda) {
-                throw new Exception("No se pudo obtener la prenda a confeccionar");
+            $ordenConfeccion = $this->ordenConfeccion->viewAll($idConfeccion, "id_confeccion");
+
+            if (!$this->subirStockPrendas($ordenConfeccion)) {
+                throw new Exception("No se pudo subir el stock de alguna prenda");
             }
 
-            // Obtención de los datos de la prenda y sus dichos materiales
-            $dataPatron =  $this->prendaPatronModel->viewMaterials($prenda);
-            if (!$dataPatron) {
-                throw new Exception("No se pudieron obtener los detalles de la prenda a confeccionar");
+            if (!$this->model->updateColumn("proceso", 1,"id_confeccion", $idConfeccion )) {
+                throw new Exception("No se pudo cambiar el estado de la confeccion");
             }
 
-            if (!$this->comprobarStock($dataPatron, $cantidad)) {
-                throw new Exception("Insuficientes Materiales en el inventario para realizar la accion");
+            if(!$this->pedidosPrendas->updateColumn("proceso",2,"id_pedido_prenda", $idPedido)){
+                throw new Exception("No se pudo cambiar el estado del pedido");
+            };
+
+            $cantTrabajos = $this->supervisoresModel->showColumn("trabajando", "id_supervisor", $supervisor);
+            $newCantTrabajos = $cantTrabajos - 1;
+            if (!$this->supervisoresModel->updateColumn("trabajando", $newCantTrabajos, "id_supervisor", $supervisor)) {
+                throw new Exception("No se pudo actualizar la cantidad de trabajos en el supervisor");
             }
 
-            // Si hay stock suficiente se actualiza el stock.
-            if (!$this->bajarStock($dataPatron, $cantidad)) {
-                throw new Exception("No se pudo bajar el stock");
-            }
-
-            // obtenemos el stock de prendas actual
-            $actualStockPrenda = $this->prendasModel->showColumn("stock", "id_prenda", $prenda);
-            $nuevoStockPrenda = $actualStockPrenda + $cantidad;
-
-            if (!$this->prendasModel->updateColumn("stock", $nuevoStockPrenda, "id_prenda", $prenda)) {
-                throw new Exception("No se pudo actualiza el stock de la prenda");
-            }
-
-            //cambiamos la confeccion a completada
-            if (!$this->model->updateColumn("proceso", 1, "id_confeccion", $idConfeccion)) {
-                throw new Exception("No se pudo actualizar el estado de la confeccion");
-            }
-
-            //Cambiamos el estado a "libre" del empleado seleccionado
-            if (!$this->empleadosModel->updateColumn("ocupado", 0, "id_empleado", $empleado)) {
-                throw new Exception("No se pudo actualizar el estado del empleado");
-            }
-
-
-            // Redirecciona a la página con mensaje de éxito.
             $this->model->commit();
-            header("Location: index.php?page=confecciones&succes=update");
-        } catch (Exception $e) {
-            $this->model->rollBack();
-            header("Location: index.php?page=confecciones&error=other&errorDesc=" . $e->getMessage());
-        }
-        exit();
+
+            return ["success" => true, "message" => "Confección actualizada correctamente"];
+        });
     }
 
     public function delete()
     {
-        $confeccion = $_POST["id"];
-        $empleado = $this->model->showColumn("id_empleado", "id_confeccion", $_POST["id"]);
+        $this->procesarRespuestaJson(function () {
+            $confeccion = $_POST["id"];
+            $supervisor = $this->model->showColumn("id_supervisor", "id_confeccion", $confeccion);
 
-        try {
-            // Si se elimina correctamente la confección, redirecciona con mensaje de éxito.
-            if (!$this->model->softDelete($confeccion)) {
-                throw new Exception("Error al anular la confeccion");
+            if (
+                !$this->model->softDelete($confeccion) ||
+                !$this->model->updateColumn("proceso", 3, "id_confeccion", $confeccion) ||
+                !$this->supervisoresModel->updateColumn("ocupado", 0, "id_supervisor", $supervisor)
+            ) {
+                throw new Exception("Error al anular la confección");
             }
 
-            //Actualizamos el estado de la confeccion a cancelado
-            if(!$this->model->updateColumn("proceso",3,"id_confeccion",$confeccion)) {
-                throw new Exception("Error al marcar la confeccion como anulada");
-            }
-
-            //y el empleado pasara a estar libre
-            if(!$this->empleadosModel->updateColumn("ocupado",0,"id_empleado",$empleado)) {
-                throw new Exception("Error al marcar la confeccion como anulada");
-            }
-
-            header("Location: index.php?page=confecciones&succes=delete");
-           
-        } catch (Exception $e) {
-            header("Location: index.php?page=confecciones&error=other&errorDesc=" . $e->getMessage());
-        }
+            return ["success" => true, "message" => "Confección anulada correctamente"];
+        });
     }
 
     public function remove()
     {
-        if ($this->model->remove($_POST["id"])) {
-            header("Location: index.php?page=confecciones&succes=remove");
-        } else {
-            header("Location: index.php?page=confecciones&error=remove");
-        }
+        $this->procesarRespuestaJson(function () {
+            if (!$this->model->remove($_POST["id"])) {
+                throw new Exception("No se pudo remover la confección");
+            }
+            return ["success" => true, "message" => "Confección removida correctamente"];
+        });
     }
 
     public function restore()
     {
-        if ($this->model->active($_POST["id"])) {
-            header("Location: index.php?page=confecciones&succes=restore");
-        } else {
-            header("Location: index.php?page=confecciones&error=restore");
-        }
-    }
-
-    public function edit()
-    {
-        // Asignación de los datos del formulario a los atributos del objeto confección.
-        $this->model->setData(
-            $_POST["patron"],
-            $_POST["cantidad"],
-            date('Y-m-d H:i:s'),
-            $_POST["empleado"],
-        );
-
-        // Si la edición es exitosa, redirecciona con mensaje de éxito.
-        if ($this->model->edit($_POST["id"])) {
-            header("Location: index.php?page=confecciones&succes=3");
-            exit;
-        } else {
-            // Redirecciona con mensaje de error si no se puede editar.
-            header("Location: index.php?page=confecciones&error=3");
-        }
+        $this->procesarRespuestaJson(function () {
+            if (!$this->model->active($_POST["id"])) {
+                throw new Exception("No se pudo restaurar la confección");
+            }
+            return ["success" => true, "message" => "Confección restaurada correctamente"];
+        });
     }
 }

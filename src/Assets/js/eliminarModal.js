@@ -16,7 +16,7 @@ $(document).ready(function () {
     // Páginas con botones de editar y eliminar
     editAndDelete: [
       "almacen",
-      "empleados",
+      "supervisores",
       "prendas",
       "proveedores",
       "usuarios",
@@ -112,7 +112,7 @@ $(document).ready(function () {
       { data: "proceso" },
       { data: null, render: () => buttons },
     ],
-    empleados: [
+    supervisores: [
       { data: "id_empleado" },
       { data: "cedula_empleado" },
       { data: "nombre_empleado" },
@@ -437,7 +437,7 @@ $(document).ready(function () {
           notas: "#notas_edit",
         },
       },
-      empleados: {
+      supervisores: {
         fields: {
           nombre: "td.nombre",
           apellido: "td.apellido",

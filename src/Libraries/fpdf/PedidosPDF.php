@@ -46,7 +46,7 @@ class PDF extends FPDF
       $this->SetFont('Arial', 'B', 11);
       $this->Cell(45); // Mueve la tabla a la derecha
       $this->Cell(55, 10, utf8_decode('PROVEEDOR'), 1, 0, 'C', 1);
-      $this->Cell(45, 10, utf8_decode('FECHA'), 1, 0, 'C', 1);
+      $this->Cell(55, 10, utf8_decode('FECHA'), 1, 0, 'C', 1);
       $this->Cell(45, 10, utf8_decode('ESTADO'), 1, 0, 'C', 1);
       $this->Cell(45, 10, utf8_decode('USUARIO'), 1, 1, 'C', 1);
    }
@@ -84,7 +84,7 @@ $pdf->SetFont('Arial', '', 12);
 $pdf->SetDrawColor(163, 163, 163);
 
 // Construir la consulta según los filtros
-$query = "SELECT id_proveedor, fecha_pedido, estado_pedido, id_usuario FROM pedidos_proveedores WHERE 1=1";
+$query = "SELECT id_proveedor, fecha_pedido, proceso, id_usuario FROM pedidos_proveedores WHERE 1=1";
 
 $parametros = [];
 
@@ -118,8 +118,8 @@ foreach ($pedidosData as $pedido) :
     // Mostrar los datos en el PDF
     $pdf->Cell(45); // Mueve la tabla a la derecha
     $pdf->Cell(55, 10, $nombreProveedor, 1, 0, 'C', 0);
-    $pdf->Cell(45, 10, utf8_decode($pedido["fecha_pedido"]), 1, 0, 'C', 0);
-    $pdf->Cell(45, 10, utf8_decode($pedido["estado_pedido"] == 1 ? 'Pago' : 'No pago'), 1, 0, 'C', 0);
+    $pdf->Cell(55, 10, utf8_decode($pedido["fecha_pedido"]), 1, 0, 'C', 0);
+    $pdf->Cell(45, 10, utf8_decode($pedido["proceso"] == 1 ? 'Pago' : 'No pago'), 1, 0, 'C', 0);
     $pdf->Cell(45, 10, $nombreUsuario, 1, 1, 'C', 0);
 endforeach;
 

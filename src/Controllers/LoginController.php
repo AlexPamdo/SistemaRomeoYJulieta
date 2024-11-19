@@ -30,14 +30,13 @@ class LoginController
         try {
             // Sanitiza y asigna los datos del formulario
             $this->loginModel->setData(
-                filter_input(INPUT_POST, 'gmail_usuario', FILTER_SANITIZE_EMAIL),
-                filter_input(INPUT_POST, 'contraseña_usuario', FILTER_SANITIZE_STRING),
+                $_POST["gmail_usuario"],
+                $_POST["contrasena_usuario"]
             );
 
             $result = $this->loginModel->login();
 
             if ($result) {
-              session_start();  
                 $_SESSION["username"] = $result["nombre_usuario"];
                 $_SESSION["lastname"] = $result["apellido_usuario"];
                 $_SESSION["email"] = $result["gmail_usuario"];

@@ -25,30 +25,20 @@ require_once("Templates/Head.php");
                     <!-- Menú desplegable del perfil -->
                     <?php include_once("src/Views/Templates/MenuDesplegable.php"); ?>
                 </div>
-
-
-
             </header>
 
             <!-- Contenido principal -->
             <div class="p-4">
                 <!-- Barra de búsqueda y botón de crear -->
                 <div class="d-flex justify-content-between mb-4">
-
                     <button type="button" class="btn btn-rj-blue" data-bs-toggle="modal" data-intro="Desde este boton podemos registrar un nuevo patron en el sistema" data-step="2"
-                        data-bs-target="#CrearModal">
+                        data-bs-target="#crear">
                         Crear Prenda/Patron <?php include './src/Assets/bootstrap-icons-1.11.3/plus-lg.svg'; ?>
                     </button>
-
                     <?php
                     require_once("src/Views/Prendas/Registrar.php");
+                    include("src/Views/Prendas/Editar.php");
                     ?>
-
-                    <a href="index.php?page=prendas&function=print" target="_blank" class="btn btn-warning ms-1">
-                        <?php include './src/Assets/bootstrap-icons-1.11.3/printer-fill.svg'; ?>
-                    </a>
-
-
                 </div>
 
 
@@ -70,67 +60,19 @@ require_once("Templates/Head.php");
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($prendaData as $prenda) : ?>
-                                <tr>
-                                    <td><?php echo htmlspecialchars($prenda['id_prenda']); ?></td>
-                                    <td><img class="img-prenda" src="<?php echo htmlspecialchars($prenda['img_prenda']); ?>" alt="" height="40px" width="40px"></td>
-                                    <input type="hidden" name="img" id="img_edit" value="<?php echo htmlspecialchars($prenda['img_prenda']); ?>">
-                                    <td class="desc"><?php echo htmlspecialchars($prenda['nombre_prenda']); ?></td>
-                                    <td><?php echo htmlspecialchars($prenda['categoria']); ?></td>
-                                    <input type="hidden" class="categoria" value="<?php echo htmlspecialchars($prenda['id_categoria']); ?>">
-                                    <td><?php echo htmlspecialchars($prenda['talla']); ?>cm</td>
-                                    <input type="hidden" class="talla" value="<?php echo htmlspecialchars($prenda['id_talla']); ?>">
-                                    <td><?php echo htmlspecialchars($prenda['coleccion']); ?></td>
-                                    <input type="hidden" class="coleccion" value="<?php echo htmlspecialchars($prenda['id_coleccion']); ?>">
-                                    <td class="cantidad"><?php echo htmlspecialchars($prenda['stock']); ?></td>
-                                    <td><?php echo htmlspecialchars($prenda['genero']); ?></td>
-                                    <input type="hidden" class="genero" value="<?php echo htmlspecialchars($prenda['genero']); ?>">
-                                    <td class="d-flex">
-                                        <!-- Botones de editar y eliminar -->
-                                        <button type="button" class="btn btn-warning m-1" data-bs-toggle="modal"
-                                            data-bs-target="#materialesPatron<?php echo $prenda['id_prenda']; ?>">
-                                            <?php include './src/Assets/bootstrap-icons-1.11.3/eye-fill.svg'; ?>
-                                        </button>
-                                        <button type="button" class="btn btn-custom-danger m-1 btn-sm eliminar" data-bs-toggle="modal" data-bs-target="#eliminar">
-                                        <?php include './src/Assets/bootstrap-icons-1.11.3/trash-fill.svg'; ?>
-                                        </button>
-                                        <button type="button" class="btn btn-custom-success m-1 btn-sm editar" data-bs-toggle="modal" data-bs-target="#editar">
-                                        <?php include './src/Assets/bootstrap-icons-1.11.3/pencil-fill.svg'; ?>
-                                        </button>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
+                         
                         </tbody>
                     </table>
                 </div>
 
-
-                <!-- Botón para ver prendas sin stocl -->
-                <div class="d-flex justify-content-end mt-4">
-                    <button class="btn btn-rj-blue p-3" data-bs-toggle="modal" data-bs-target="#ningunStock" data-intro="Aqui se ven las prendas que no tienen stock" data-step="2">
-                        <?php include './src/Assets/bootstrap-icons-1.11.3/trash-fill.svg'; ?> Prendas sin stock
-                    </button>
-                </div>
-
-                <?php
-                include("src/Views/Prendas/Editar.php");
-                include_once("src/Views/Prendas/SinStock.php");
-                ?>
-
                 <!-- Botón para ver usuarios items deshabilitados -->
                 <div class="d-flex justify-content-end mt-4">
-                    <button data-intro="Con este boton podremos visualizar todos aquellos usuarios que se han estado" data-step="7" class="btn btn-rj-blue p-3" data-bs-toggle="modal" data-bs-target="#elementosDesabilitados" data-intro="Desde este se puede ver las prendas deshabilitadas" data-step="2">
+                    <button data-intro="Con este boton podremos visualizar todos aquellos usuarios que se han estado" data-step="7" class="btn btn-rj-blue p-3" data-bs-toggle="modal" data-bs-target="#papelera" data-intro="Desde este se puede ver las prendas deshabilitadas" data-step="2">
                         <?php include './src/Assets/bootstrap-icons-1.11.3/trash-fill.svg'; ?> Ver Elementos Deshabilitados
                     </button>
                 </div>
 
-                <?php
-                // Restaurar
-                include_once("src/Views/Prendas/Papelera.php");
-                foreach ($prendaData as $prenda) :
-                        include("src/Views/Prendas/Editar.php");
-                        include("src/Views/Prendas/MaterialesPrenda.php");
-                endforeach; ?>
+
             </div>
         </div>
     </main>

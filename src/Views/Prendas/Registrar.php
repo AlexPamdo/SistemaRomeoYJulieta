@@ -16,7 +16,7 @@ $coleccionesModel = new ColeccionesModel();
 ?>
 
 
-<div class="modal fade" id="CrearModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+<div class="modal fade" id="crear" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="crearPatronLabel" aria-hidden="true">
     <div class="modal-dialog modal-fullscreen modal-dialog-centered">
         <div class="modal-content">

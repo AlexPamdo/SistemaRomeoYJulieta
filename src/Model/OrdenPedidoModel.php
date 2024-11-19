@@ -67,7 +67,6 @@ class OrdenPedidoModel extends ModeloBase
 
     try {
         if ($stmt->execute()) {
-            echo "Inserción exitosa: Pedido: {$this->data["pedido"]}, Material: {$this->data["material"]}, Cantidad: {$this->data["cantidad"]}\n";
             return true;
         } else {
             // Captura de errores específicos si falla el execute

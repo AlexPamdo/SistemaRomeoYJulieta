@@ -4,30 +4,27 @@ namespace src\Model;
 
 use PDO;
 
-class EmpleadosModel extends ModeloBase
+class SupervisoresModel extends ModeloBase
 {
     protected $data = [];
-    protected $tabla = "empleados";
+    protected $tabla = "supervisores";
 
-    public function setData($nombre, $apellido, $telefono, $email, $ocupacion, $cedula)
-    {        
+    public function setData($nombre, $apellido, $telefono, $email, $cedula)
+    {
         $this->data = [
             "nombre" => trim($nombre), // Remueve espacios extra
-            "apellido" => trim( $apellido),
+            "apellido" => trim($apellido),
             "telefono" => preg_replace('/[^0-9]/', '', $telefono), // Asegura que solo haya números
             "email" => filter_var($email, FILTER_SANITIZE_EMAIL), // Limpia el correo
-            "ocupacion" => (int)$ocupacion, // Asegura que sea un entero
             "cedula" => trim($cedula),
         ];
     }
 
 
-    public function viewEmpleados($value = "", $column = "")
+    public function viewSupervisores($value = "", $column = "")
     {
 
-        $sql = "SELECT u.*, r.ocupacion AS ocupaciones
-        FROM empleados u 
-        INNER JOIN ocupaciones r ON u.id_ocupacion = r.id_ocupacion";
+        $sql = "SELECT * FROM " . $this->tabla;
         // Preparar la declaración
         $stmt = $this->prepare($sql);
 
@@ -54,7 +51,7 @@ class EmpleadosModel extends ModeloBase
 
     public function create()
     {
-        $query = "INSERT INTO {$this->tabla} (nombre_empleado, apellido_empleado, telefono_empleado, email_empleado, id_ocupacion, cedula_empleado) VALUES (:nombre, :apellido, :telefono, :email, :ocupacion, :cedula)";
+        $query = "INSERT INTO {$this->tabla} (nombre_supervisor, apellido_supervisor, telefono_supervisor, email_supervisor, cedula_supervisor) VALUES (:nombre, :apellido, :telefono, :email, :cedula)";
 
         $stmt = $this->prepare($query);
 
@@ -71,7 +68,7 @@ class EmpleadosModel extends ModeloBase
 
     public function edit($id)
     {
-        $query = "UPDATE {$this->tabla} SET nombre_empleado = :nombre, apellido_empleado = :apellido, telefono_empleado = :telefono, email_empleado = :email, id_ocupacion = :ocupacion, cedula_empleado = :cedula WHERE id_empleado = :id";
+        $query = "UPDATE {$this->tabla} SET nombre_supervisor = :nombre, apellido_supervisor = :apellido, telefono_supervisor = :telefono, email_supervisor = :email, cedula_supervisor = :cedula WHERE id_supervisor = :id";
 
         $stmt = $this->prepare($query);
 
@@ -79,7 +76,7 @@ class EmpleadosModel extends ModeloBase
         foreach ($this->data as $param => $value) {
             $stmt->bindValue(":$param", $value);
         }
-        $stmt->bindParam(":id",$id,PDO::PARAM_INT);
+        $stmt->bindParam(":id", $id, PDO::PARAM_INT);
 
         // Ejecuta la consulta
         return $stmt->execute();
@@ -87,15 +84,15 @@ class EmpleadosModel extends ModeloBase
 
     public function softDelete($id)
     {
-        return $this->toggleStatus(1, "id_empleado", $id);
+        return $this->toggleStatus(1, "id_supervisor", $id);
     }
     public function remove($id)
     {
-        return $this->hardDelete("id_empleado", $id);
+        return $this->hardDelete("id_supervisor", $id);
     }
 
     public function active($id)
     {
-        return $this->toggleStatus(0, "id_empleado", $id);
+        return $this->toggleStatus(0, "id_supervisor", $id);
     }
 }

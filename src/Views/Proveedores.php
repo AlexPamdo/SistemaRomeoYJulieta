@@ -27,18 +27,18 @@ require_once("Templates/Head.php");
             </header>
 
             <!-- Contenido principal -->
-            <div class="ms-sm-auto p-4 bg-custom-content">
+            <div class="p-4">
+
                 <!-- Barra de búsqueda y botón de crear proveedor -->
                 <div class="d-flex justify-content-between mb-4">
-
                     <?php if ($_SESSION['rol'] == 1) { ?>
-                        <button type="button" class="btn btn-rj-blue" data-bs-toggle="modal" data-bs-target="#CrearModal" data-intro="Desde este boton podemos registrar un nuevo proveedor en el sistema" data-step="2">
+                        <button type="button" class="btn btn-rj-blue" data-bs-toggle="modal" data-bs-target="#crear" data-intro="Desde este boton podemos registrar un nuevo proveedor en el sistema" data-step="2">
                             Crear Proveedor <?php include './src/Assets/bootstrap-icons-1.11.3/plus-lg.svg'; ?>
                         </button>
                     <?php } ?>
-
                     <?php
                     require_once("src/Views/Proveedores/Registrar.php");
+                  /*   require_once("src/Views/Proveedores/Editar.php"); */
                     ?>
                 </div>
 
@@ -59,23 +59,18 @@ require_once("Templates/Head.php");
                             </tr>
                         </thead>
                         <tbody>
-                          
+
                         </tbody>
                     </table>
                 </div>
 
                 <!-- Botón para ver usuarios items deshabilitados -->
                 <div class="d-flex justify-content-end mt-4">
-                    <button data-intro="Con este boton podremos visualizar todos aquellos usuarios que se han estado" data-step="7" class="btn btn-rj-blue p-3" data-bs-toggle="modal" data-bs-target="#elementosDesabilitados">
+                    <button data-intro="Con este boton podremos visualizar todos aquellos usuarios que se han estado" data-step="7" class="btn btn-rj-blue p-3" data-bs-toggle="modal" data-bs-target="#papelera">
                         <?php include './src/Assets/bootstrap-icons-1.11.3/trash-fill.svg'; ?> Ver Proveedores Deshabilitados
                     </button>
                 </div>
 
-                <?php
-                include_once("src/Views/Proveedores/Papelera.php");
-                require_once("src/Views/Proveedores/Editar.php");
-
-                ?>
             </div>
         </div>
     </main>

@@ -14,15 +14,7 @@
                     <table class="table table-striped table-hover align-middle text-center" id="trashTable">
                         <thead>
                             <tr>
-                                <th scope="col">ID</th>
-                                <th scope="col">Descripción</th>
-                                <th scope="col">Tipo</th>
-                                <th scope="col">Color</th>
-                                <th scope="col">Stock</th>
-                                <th scope="col">Precio</th>
-                                <?php if ($_SESSION['rol'] == 1) { ?>
-                                    <th scope="col">Acciones</th>
-                                <?php } ?>
+                              
                             </tr>
                         </thead>
                         <tbody>

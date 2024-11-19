@@ -60,9 +60,9 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a id="empleados" class="nav-link-rj nav-link d-flex align-items-center gap-2" href="index.php?page=empleados">
+                    <a id="supervisores" class="nav-link-rj nav-link d-flex align-items-center gap-2" href="index.php?page=supervisores">
                     <?php include './src/Assets/bootstrap-icons-1.11.3/person-vcard-fill.svg'; ?>
-                        Empleados
+                    Supervisores
                     </a>
                 </li>
                 <li class="nav-item">

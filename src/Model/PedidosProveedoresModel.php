@@ -63,7 +63,7 @@ class PedidosProveedoresModel extends ModeloBase
     {
         try {
             // Preparar la consulta
-            $stmt = $this->prepare("INSERT INTO {$this->tabla} (id_proveedor, fecha_pedido, estado_pedido, id_usuario) 
+            $stmt = $this->prepare("INSERT INTO {$this->tabla} (id_proveedor, fecha_pedido, proceso, id_usuario) 
                                     VALUES (:proveedor, :fecha_pedido, :estado, :usuario)");
 
             // Vincular parámetros
@@ -103,7 +103,7 @@ class PedidosProveedoresModel extends ModeloBase
     }
     public function edit($id)
     {
-        $stmt = $this->prepare("UPDATE {$this->tabla} SET id_proveedor = :proveedor, fecha_pedido = :fecha_pedido, estado_pedido = :estado, id_usuario = :usuario, total_pedido = :total WHERE id_pedido = :id");
+        $stmt = $this->prepare("UPDATE {$this->tabla} SET id_proveedor = :proveedor, fecha_pedido = :fecha_pedido, proceso = :estado, id_usuario = :usuario, total_pedido = :total WHERE id_pedido = :id");
 
         foreach ($this->data as $param => $value) {
             $stmt->bindParam(":$param", $value);

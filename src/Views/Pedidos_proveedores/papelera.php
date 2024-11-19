@@ -31,7 +31,7 @@
                                     <td><?php echo htmlspecialchars($pedido['id_proveedor']); ?></td>
                                     <td><?php echo htmlspecialchars($pedido['fecha_pedido']); ?></td>
                                     <td>
-                                        <?php echo $pedido['estado_pedido'] ? "<div class='Entregado'>Pago</div>" : "<div class='no-Entregado text-center'>No pagado</div>"; ?>
+                                        <?php echo $pedido['proceso'] ? "<div class='Entregado'>Pago</div>" : "<div class='no-Entregado text-center'>No pagado</div>"; ?>
                                     </td>
                                     <td>
                                         <button type="button" class="btn btn-warning m-1" data-bs-toggle="modal"

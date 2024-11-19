@@ -23,7 +23,7 @@ class OrdenEntregaModel extends ModeloBase
     {
 
         $sql = "SELECT u.*, 
-        p.nombre_prenda AS id_prenda,
+        p.nombre_prenda AS prenda,
         l.coleccion AS coleccion,
         t.cm AS talla
         FROM {$this->tabla} u

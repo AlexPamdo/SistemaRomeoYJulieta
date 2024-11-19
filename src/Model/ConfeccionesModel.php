@@ -11,13 +11,12 @@ class ConfeccionesModel extends ModeloBase
     protected $tabla = "confeccion";
 
 
-    public function setData($prenda, $cantidad, $fechaFabricacion, $empleado)
+    public function setData($pedido, $fechaFabricacion, $supervisor)
     {
         $this->data = [
-            "prenda" => $prenda,
-            "cantidad" => $cantidad,
+            "pedido" => $pedido,
             "fecha_fabricacion" => $fechaFabricacion,
-            "empleado" => $empleado,
+            "supervisor" => $supervisor,
         ];
     }
 
@@ -26,14 +25,11 @@ class ConfeccionesModel extends ModeloBase
 
         $sql = "SELECT 
     u.*,
-    e.nombre_empleado AS id_empleado,
-    p.nombre_prenda AS id_prenda
+    e.nombre_supervisor AS id_supervisor
 FROM
     confeccion u
 INNER JOIN
-    empleados e ON u.id_empleado = e.id_empleado
-    INNER JOIN
-    prendas p ON u.id_prenda = p.id_prenda";
+    supervisores e ON u.id_supervisor = e.id_supervisor";
 
         // Agregar condición si se proporciona un valor y columna
         if ($value !== "" && $column !== "") {
@@ -59,17 +55,19 @@ INNER JOIN
 
     public function create()
     {
-        $query = "INSERT INTO {$this->tabla} (id_prenda, cantidad, fecha_fabricacion, id_empleado) VALUES (:prenda, :cantidad, :fecha_fabricacion, :empleado)";
+        $query = "INSERT INTO {$this->tabla} (id_pedido, fecha_fabricacion, id_supervisor) VALUES (:pedido, :fecha_fabricacion, :supervisor)";
 
         $stmt = $this->prepare($query);
 
-        $stmt->bindParam(":prenda", $this->data["prenda"]);
-        $stmt->bindParam(":cantidad", $this->data["cantidad"]);
+        $stmt->bindParam(":pedido", $this->data["pedido"]);
         $stmt->bindParam(":fecha_fabricacion", $this->data["fecha_fabricacion"]);
-        $stmt->bindParam(":empleado", $this->data["empleado"]);
+        $stmt->bindParam(":supervisor", $this->data["supervisor"]);
 
-
-        return $stmt->execute();
+        if ($stmt->execute()) {
+            return $this->lastInsertId();
+        } else {
+            return false;
+        }
     }
 
 
@@ -90,14 +88,14 @@ INNER JOIN
 
     public function edit($id)
     {
-        $query = "UPDATE {$this->tabla} SET id_prenda = :prenda, cantidad = :cantidad, fecha_fabricacion = :fecha_fabricacion, id_empleado = :empleado WHERE id_usuario = :id";
+        $query = "UPDATE {$this->tabla} SET id_prenda = :prenda, cantidad = :cantidad, fecha_fabricacion = :fecha_fabricacion, id_supervisor = :supervisor WHERE id_usuario = :id";
 
         $stmt = $this->prepare($query);
 
         $stmt->bindParam(":prenda", $this->data["prenda"]);
         $stmt->bindParam(":cantidad", $this->data["cantidad"]);
         $stmt->bindParam(":fecha_fabricacion", $this->data["fecha_fabricacion"]);
-        $stmt->bindParam(":empleado", $this->data["empleado"]);
+        $stmt->bindParam(":supervisor", $this->data["supervisor"]);
         $stmt->bindParam(":id", $id);
 
 

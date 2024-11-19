@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 14-11-2024 a las 17:30:45
+-- Tiempo de generación: 17-11-2024 a las 20:02:46
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -42,16 +42,19 @@ CREATE TABLE `almacen` (
 --
 
 INSERT INTO `almacen` (`id_material`, `nombre_material`, `tipo_material`, `color_material`, `stock`, `unidad_medida`, `estado`) VALUES
-(62, 'materia prima 5', 1, 17, 2, '', 1),
+(62, 'materia prima 5', 1, 17, 8, '', 1),
 (63, 'materia prima 5', 1, 17, -3, '', 1),
 (64, 'materia prima 5', 1, 17, -2, '', 1),
 (65, 'materia prima 5', 1, 17, -1, '', 1),
 (66, 'materia prima 5', 1, 17, 10, '', 1),
 (67, 'materia prima 5', 1, 17, 11, '', 1),
 (68, 'materia prima 5', 1, 17, 1, '', 1),
-(69, 'Pire Paletas', 1, 3, 26, '', 0),
-(70, 'materia prima 1', 1, 3, 23, 'Unidades', 0),
-(71, 'Tela algodon', 1, 4, 5, 'Metros', 0);
+(69, 'Pire Paletas', 1, 3, 529, '', 0),
+(70, 'materia prima 1', 1, 3, 23, 'Unidades', 1),
+(71, 'Tela algodon', 1, 4, 1005, 'Metros', 1),
+(72, 'materia prima 5', 1, 1, 1, 'Unidades', 0),
+(73, 'Holaasd', 1, 2, 4, 'Metros', 1),
+(74, 'materia prima 5', 1, 2, 1, 'Unidades', 0);
 
 -- --------------------------------------------------------
 
@@ -152,10 +155,8 @@ INSERT INTO `colores` (`id_color`, `color`) VALUES
 
 CREATE TABLE `confeccion` (
   `id_confeccion` int(11) NOT NULL,
-  `id_prenda` int(11) NOT NULL,
-  `cantidad` int(11) NOT NULL,
   `fecha_fabricacion` date DEFAULT NULL,
-  `id_empleado` int(11) DEFAULT NULL,
+  `id_supervisor` int(11) DEFAULT NULL,
   `proceso` int(1) NOT NULL,
   `estado` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -164,86 +165,34 @@ CREATE TABLE `confeccion` (
 -- Volcado de datos para la tabla `confeccion`
 --
 
-INSERT INTO `confeccion` (`id_confeccion`, `id_prenda`, `cantidad`, `fecha_fabricacion`, `id_empleado`, `proceso`, `estado`) VALUES
-(39, 109, 12, '2024-11-09', 1, 0, 1),
-(40, 106, 1, '2024-11-12', 1, 0, 1),
-(41, 109, 1, '2024-11-12', 1, 0, 1),
-(42, 109, 1, '2024-11-12', 1, 1, 0),
-(43, 109, 1, '2024-11-12', 1, 1, 0),
-(44, 109, 1, '2024-11-12', 1, 1, 0),
-(45, 109, 2, '2024-11-12', 5, 1, 0),
-(46, 109, 3, '2024-11-12', 5, 1, 0),
-(47, 109, 2, '2024-11-12', 1, 1, 0),
-(48, 109, 1, '2024-11-12', 1, 1, 0),
-(49, 109, 1, '2024-11-13', 1, 1, 0),
-(50, 109, 1, '2024-11-13', 1, 1, 0),
-(51, 109, 1, '2024-11-13', 1, 0, 1),
-(52, 109, 1, '2024-11-13', 1, 1, 0);
+INSERT INTO `confeccion` (`id_confeccion`, `fecha_fabricacion`, `id_supervisor`, `proceso`, `estado`) VALUES
+(39, '2024-11-09', 1, 0, 1),
+(40, '2024-11-12', 1, 0, 1),
+(41, '2024-11-12', 1, 0, 1),
+(42, '2024-11-12', 1, 1, 0),
+(43, '2024-11-12', 1, 1, 0),
+(44, '2024-11-12', 1, 1, 0),
+(45, '2024-11-12', 5, 1, 0),
+(46, '2024-11-12', 5, 1, 0),
+(47, '2024-11-12', 1, 1, 0),
+(48, '2024-11-12', 1, 1, 0),
+(49, '2024-11-13', 1, 1, 0),
+(50, '2024-11-13', 1, 1, 0),
+(51, '2024-11-13', 1, 0, 1),
+(52, '2024-11-13', 1, 1, 0);
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `empleados`
+-- Estructura de tabla para la tabla `orden_confeccion`
 --
 
-CREATE TABLE `empleados` (
-  `id_empleado` int(11) NOT NULL,
-  `cedula_empleado` varchar(20) NOT NULL,
-  `nombre_empleado` varchar(30) DEFAULT NULL,
-  `apellido_empleado` varchar(30) DEFAULT NULL,
-  `telefono_empleado` varchar(11) DEFAULT NULL,
-  `email_empleado` varchar(30) DEFAULT NULL,
-  `id_ocupacion` int(11) DEFAULT NULL,
-  `ocupado` tinyint(1) NOT NULL,
-  `estado` tinyint(4) NOT NULL
+CREATE TABLE `orden_confeccion` (
+  `id_orden_confeccion` int(11) NOT NULL,
+  `id_confeccion` int(11) NOT NULL,
+  `id_prenda` int(11) NOT NULL,
+  `cantidad` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `empleados`
---
-
-INSERT INTO `empleados` (`id_empleado`, `cedula_empleado`, `nombre_empleado`, `apellido_empleado`, `telefono_empleado`, `email_empleado`, `id_ocupacion`, `ocupado`, `estado`) VALUES
-(1, 'v-30873556', 'Alexito', 'Pérez', '04125640755', 'Alex123@gmail.com', 1, 0, 0),
-(5, 'v-13344799', 'Luis', 'Ramírez', '3344556677', 'luis.ramirez@example.com', 5, 0, 1),
-(19, '308722742', 'Alex', 'asd', '04145080744', 'asdsad@asdas.com', 18, 0, 0),
-(20, '308745311', 'Raul', 'Perez', '0417356457', 'raul@gmail.com', 12, 0, 0);
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `ocupaciones`
---
-
-CREATE TABLE `ocupaciones` (
-  `id_ocupacion` int(11) NOT NULL,
-  `ocupacion` varchar(30) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `ocupaciones`
---
-
-INSERT INTO `ocupaciones` (`id_ocupacion`, `ocupacion`) VALUES
-(1, 'costurero'),
-(2, 'Sastre'),
-(3, 'Asistente de tienda'),
-(4, 'Gerente de ventas'),
-(5, 'Contable'),
-(6, 'Operador de máquina de coser'),
-(7, 'Encargado de inventario'),
-(8, 'Representante de atención al c'),
-(9, 'Jefe de producción'),
-(10, 'Especialista en marketing'),
-(11, 'Diseñador gráfico'),
-(12, 'Cortador de tela'),
-(13, 'Técnico de calidad'),
-(14, 'Consultor de moda'),
-(15, 'Promotor de ventas'),
-(16, 'Analista de tendencias'),
-(17, 'Asistente administrativo'),
-(18, 'Estilista'),
-(19, 'Fotógrafo de productos'),
-(20, 'Coordinador de eventos');
 
 -- --------------------------------------------------------
 
@@ -257,6 +206,15 @@ CREATE TABLE `orden_entrega` (
   `id_prenda` int(11) NOT NULL,
   `cantidad_prenda` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `orden_entrega`
+--
+
+INSERT INTO `orden_entrega` (`id_orden_entrega`, `id_entrega`, `id_prenda`, `cantidad_prenda`) VALUES
+(37, 42, 109, 3),
+(39, 44, 105, 3),
+(40, 44, 109, 2);
 
 -- --------------------------------------------------------
 
@@ -291,7 +249,8 @@ INSERT INTO `orden_pedido` (`id_orden_pedido`, `id_pedido`, `id_material`, `cant
 (16, 35, 69, 500),
 (20, 39, 69, 3),
 (21, 40, 69, 3),
-(22, 41, 69, 10);
+(22, 41, 69, 10),
+(23, 42, 71, 1000);
 
 -- --------------------------------------------------------
 
@@ -307,6 +266,14 @@ CREATE TABLE `pedidos_prendas` (
   `proceso` int(1) NOT NULL,
   `estado` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `pedidos_prendas`
+--
+
+INSERT INTO `pedidos_prendas` (`id_pedido_prenda`, `desc_pedido_prenda`, `fecha_pedido_prenda`, `fecha_estimada`, `proceso`, `estado`) VALUES
+(42, 'llogomonssss', '2024-11-17', '2323-02-23', 0, 0),
+(44, 'llogomonssss', '2024-11-17', '0323-02-23', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -337,11 +304,12 @@ INSERT INTO `pedidos_proveedores` (`id_pedido`, `id_proveedor`, `fecha_pedido`, 
 (31, 27, '2024-11-06', 0, 1, 1),
 (32, 27, '2024-11-06', 1, 1, 1),
 (33, 26, '2024-11-06', 0, 1, 1),
-(34, 26, '2024-11-07', 0, 1, 0),
-(35, 26, '2024-11-08', 0, 1, 0),
-(39, 26, '2024-11-13', 0, 1, 0),
+(34, 26, '2024-11-07', 1, 1, 0),
+(35, 26, '2024-11-08', 1, 1, 0),
+(39, 26, '2024-11-13', 1, 1, 0),
 (40, 26, '2024-11-13', 1, 1, 0),
-(41, 26, '2024-11-13', 1, 1, 0);
+(41, 26, '2024-11-13', 1, 1, 0),
+(42, 36, '2024-11-17', 1, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -367,8 +335,9 @@ CREATE TABLE `prendas` (
 
 INSERT INTO `prendas` (`id_prenda`, `img_prenda`, `nombre_prenda`, `genero`, `id_categoria`, `stock`, `id_coleccion`, `id_talla`, `estado`) VALUES
 (105, 'src/Assets/img/prendas/prendaDefault.png', 'Camisa Negra', 'Niño', 1, -6, 1, 2, 0),
-(106, 'src/Assets/img/prendas/prendaDefault.png', 'Prueba 2', 'Niño', 4, 4, 3, 2, 0),
-(109, 'src/Assets/img/prendas/prendaDefault.png', 'Camisa de pire paletas', 'Niño', 2, 22, 1, 1, 0);
+(106, 'src/Assets/img/prendas/prendaDefault.png', 'Prueba 2', 'Niño', 4, 4, 3, 2, 1),
+(109, 'src/Assets/img/prendas/prendaDefault.png', 'Camisa de pire paletas', 'Niño', 2, 22, 1, 1, 0),
+(110, 'src/Assets/img/prendas/prendaDefault.png', 'Camisa Negra', 'Niño', 2, 4, 2, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -388,7 +357,9 @@ CREATE TABLE `prenda_patron` (
 --
 
 INSERT INTO `prenda_patron` (`id_prenda_patron`, `id_prenda`, `id_material`, `cantidad`) VALUES
-(29, 109, 69, 15);
+(29, 109, 69, 15),
+(30, 110, 69, 3),
+(31, 110, 71, 1);
 
 -- --------------------------------------------------------
 
@@ -411,8 +382,43 @@ CREATE TABLE `proveedores` (
 --
 
 INSERT INTO `proveedores` (`id_proveedor`, `rif_proveedor`, `nombre_proveedor`, `telefono_proveedor`, `gmail_proveedor`, `notas_proveedor`, `estado`) VALUES
-(26, 'E-33435464', 'Telas Alex calidad de telas', '0450807444444', 'TelasAlex@gmail.com', '123456789d', 0),
-(27, 'V305223212', 'sis', '15465465465456454654', 'asdsad@gmail.comn', 'dfs', 1);
+(26, 'E-33435464', 'Telas Alex calidad de telas', '0450807444444', 'TelasAlex@gmail.com', '123456789d', 1),
+(27, 'V305223212', 'sis', '15465465465456454654', 'asdsad@gmail.comn', 'dfs', 1),
+(28, 'V-30522323', 'Telas Alex', '15465465465456454654', 'alexm@gmail.com', '123dasdsad', 1),
+(29, 'v-32323232', 'alex', '323232323232', 'dsadsadsad@gmail.com', 'fddsadsadsad', 1),
+(31, 'V-30532323', 'Telas Alex', '15465465465456454654', 'asdsdad@gmail.comn', 'sdadsadsadsa', 1),
+(32, 'V-30522321', 'Telas Alexaaaaaaaaaaaaa', '0450807444444', 'edasdadsadsa@gmail.com', 'dsadsadsadsadsad', 1),
+(34, 'v-33323232', 'alex', '323232323232', 'dsadsadsad@gmail.com', 'asdsadsadsad', 1),
+(35, 'v-32333333', 'Ajax sirve', '3232323232323', 'dsadsadsad@gmail.com', 'sdsadsadsadsa', 1),
+(36, 'v3d3233333', 'Ajax sirve', '3232323232323', 'dsadsadsad@gmail.com', 'dsadsadasdsadsadsadsad', 1),
+(38, 'V-30523333', 'Telas Alex', '0450807444444', 'asdsadd@gmail.comn', 'sasdsadsadsad', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `supervisores`
+--
+
+CREATE TABLE `supervisores` (
+  `id_supervisor` int(11) NOT NULL,
+  `cedula_supervisor` varchar(20) NOT NULL,
+  `nombre_supervisor` varchar(30) DEFAULT NULL,
+  `apellido_supervisor` varchar(30) DEFAULT NULL,
+  `telefono_supervisor` varchar(11) DEFAULT NULL,
+  `email_supervisor` varchar(30) DEFAULT NULL,
+  `trabajando` int(11) NOT NULL,
+  `estado` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `supervisores`
+--
+
+INSERT INTO `supervisores` (`id_supervisor`, `cedula_supervisor`, `nombre_supervisor`, `apellido_supervisor`, `telefono_supervisor`, `email_supervisor`, `trabajando`, `estado`) VALUES
+(1, 'v-30873556', 'Alexito', 'Pérez', '04125640755', 'Alex123@gmail.com', 0, 0),
+(5, 'v-13344799', 'Luis', 'Ramírez', '3344556677', 'luis.ramirez@example.com', 0, 1),
+(19, '308722742', 'Alex', 'asd', '04145080744', 'asdsad@asdas.com', 0, 1),
+(20, '308745311', 'Raul', 'Perez', '0417356457', 'raul@gmail.com', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -485,7 +491,7 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id_usuario`, `nombre_usuario`, `apellido_usuario`, `gmail_usuario`, `contrasena_usuario`, `rol`, `img_usuario`, `estado`) VALUES
-(1, 'Alexis', 'Perezaa', 'alexmegasuper5@gmail.com', '$2y$10$ZJxy8OY7rw22oicmi2xOD.W', 1, '', 0);
+(1, 'Alexis', 'Perezaa', 'alexmegasuper5@gmail.com', '123456789', 1, '', 0);
 
 --
 -- Índices para tablas volcadas
@@ -522,22 +528,15 @@ ALTER TABLE `colores`
 --
 ALTER TABLE `confeccion`
   ADD PRIMARY KEY (`id_confeccion`),
-  ADD KEY `unq_confeccion_id_empleado` (`id_empleado`),
+  ADD KEY `unq_confeccion_id_empleado` (`id_supervisor`);
+
+--
+-- Indices de la tabla `orden_confeccion`
+--
+ALTER TABLE `orden_confeccion`
+  ADD PRIMARY KEY (`id_orden_confeccion`),
+  ADD KEY `id_confeccion` (`id_confeccion`,`id_prenda`),
   ADD KEY `id_prenda` (`id_prenda`);
-
---
--- Indices de la tabla `empleados`
---
-ALTER TABLE `empleados`
-  ADD PRIMARY KEY (`id_empleado`),
-  ADD UNIQUE KEY `cedula_empleado` (`cedula_empleado`),
-  ADD KEY `id_ocupacion` (`id_ocupacion`);
-
---
--- Indices de la tabla `ocupaciones`
---
-ALTER TABLE `ocupaciones`
-  ADD PRIMARY KEY (`id_ocupacion`);
 
 --
 -- Indices de la tabla `orden_entrega`
@@ -597,6 +596,13 @@ ALTER TABLE `proveedores`
   ADD UNIQUE KEY `rif` (`rif_proveedor`);
 
 --
+-- Indices de la tabla `supervisores`
+--
+ALTER TABLE `supervisores`
+  ADD PRIMARY KEY (`id_supervisor`),
+  ADD UNIQUE KEY `cedula_empleado` (`cedula_supervisor`);
+
+--
 -- Indices de la tabla `tallas`
 --
 ALTER TABLE `tallas`
@@ -622,7 +628,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `almacen`
 --
 ALTER TABLE `almacen`
-  MODIFY `id_material` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
+  MODIFY `id_material` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
 
 --
 -- AUTO_INCREMENT de la tabla `categorias_prenda`
@@ -649,58 +655,58 @@ ALTER TABLE `confeccion`
   MODIFY `id_confeccion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
--- AUTO_INCREMENT de la tabla `empleados`
+-- AUTO_INCREMENT de la tabla `orden_confeccion`
 --
-ALTER TABLE `empleados`
-  MODIFY `id_empleado` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
-
---
--- AUTO_INCREMENT de la tabla `ocupaciones`
---
-ALTER TABLE `ocupaciones`
-  MODIFY `id_ocupacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+ALTER TABLE `orden_confeccion`
+  MODIFY `id_orden_confeccion` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `orden_entrega`
 --
 ALTER TABLE `orden_entrega`
-  MODIFY `id_orden_entrega` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id_orden_entrega` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT de la tabla `orden_pedido`
 --
 ALTER TABLE `orden_pedido`
-  MODIFY `id_orden_pedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id_orden_pedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT de la tabla `pedidos_prendas`
 --
 ALTER TABLE `pedidos_prendas`
-  MODIFY `id_pedido_prenda` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id_pedido_prenda` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT de la tabla `pedidos_proveedores`
 --
 ALTER TABLE `pedidos_proveedores`
-  MODIFY `id_pedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id_pedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT de la tabla `prendas`
 --
 ALTER TABLE `prendas`
-  MODIFY `id_prenda` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=110;
+  MODIFY `id_prenda` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=111;
 
 --
 -- AUTO_INCREMENT de la tabla `prenda_patron`
 --
 ALTER TABLE `prenda_patron`
-  MODIFY `id_prenda_patron` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id_prenda_patron` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT de la tabla `proveedores`
 --
 ALTER TABLE `proveedores`
-  MODIFY `id_proveedor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id_proveedor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+
+--
+-- AUTO_INCREMENT de la tabla `supervisores`
+--
+ALTER TABLE `supervisores`
+  MODIFY `id_supervisor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT de la tabla `tallas`
@@ -735,14 +741,14 @@ ALTER TABLE `almacen`
 -- Filtros para la tabla `confeccion`
 --
 ALTER TABLE `confeccion`
-  ADD CONSTRAINT `confeccion_ibfk_2` FOREIGN KEY (`id_empleado`) REFERENCES `empleados` (`id_empleado`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_prenda_id` FOREIGN KEY (`id_prenda`) REFERENCES `prendas` (`id_prenda`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `confeccion_ibfk_2` FOREIGN KEY (`id_supervisor`) REFERENCES `supervisores` (`id_supervisor`) ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `empleados`
+-- Filtros para la tabla `orden_confeccion`
 --
-ALTER TABLE `empleados`
-  ADD CONSTRAINT `empleados_ibfk_1` FOREIGN KEY (`id_ocupacion`) REFERENCES `ocupaciones` (`id_ocupacion`) ON UPDATE CASCADE;
+ALTER TABLE `orden_confeccion`
+  ADD CONSTRAINT `id_confeccion` FOREIGN KEY (`id_confeccion`) REFERENCES `confeccion` (`id_confeccion`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `id_prenda` FOREIGN KEY (`id_prenda`) REFERENCES `prendas` (`id_prenda`) ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `orden_entrega`

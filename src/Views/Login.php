@@ -18,7 +18,7 @@ require_once("Templates/Head.php");
                 <label for="floatingInput">Email</label>
             </div>
             <div class="form-floating">
-                <input class="form-control" type="password" name="contraseña_usuario" id="floatingPassword" placeholder="Contraseña" required>
+                <input class="form-control" type="password" name="contrasena_usuario" id="floatingPassword" placeholder="Contraseña" required>
                 <label for="floatingPassword">Contraseña</label>
             </div>
          

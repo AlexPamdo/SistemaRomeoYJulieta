@@ -28,38 +28,113 @@ require_once("Templates/Head.php");
 
             <!-- Contenido principal -->
             <div class="container mt-4 p-4">
-
                 <div class="row">
                     <!-- Reporte de Almacén -->
                     <div class="col-md-4">
-                        <div class="card" style="min-height: 200px; margin-top: 40px">
-                            <div class="card-header" style="background-color: #212529; color: white;">
+                        <div class="card shadow-sm border-0" style="min-height: 250px; margin-top: 40px; border-radius: 15px; overflow: hidden;">
+                            <div class="card-header text-white" style="background: #212529; font-size: 1.25rem; font-weight: bold;">
+                                <?php include './src/Assets/bootstrap-icons-1.11.3/box-seam.svg'; ?>
                                 Reporte de Almacén
                             </div>
-                            <div class="card-body">
-                                <a class="btn btn-success mb-2" href="index.php?page=almacen&function=print" target="_blank">Generar Reporte</a>
-
-                                <!-- Formulario para reportes parametrizados -->
-
+                            <div class="card-body d-flex flex-column align-items-center justify-content-center">
+                                <a class="btn btn-success w-75 mb-2" href="index.php?page=almacen&function=print" target="_blank" style="border-radius: 20px;">
+                                    <?php include './src/Assets/bootstrap-icons-1.11.3/clipboard2-data-fill.svg'; ?>   
+                                    Generar Reporte
+                                </a>
+                                <button class="btn btn-warning w-75 mb-2 btnReporte" id="btn-reporte-almacen-fechas" style="border-radius: 20px;">
+                                    <?php include './src/Assets/bootstrap-icons-1.11.3/wrench-adjustable.svg'; ?>
+                                    Filtros
+                                </button>
+                                <div id="form-fechas-almacen" class="mt-3 formFiltros" style="display: none;">
+                              
+                                    <form id="form-almacen">
+                                        <div class="mb-2">
+                                        <label class="form-label">Medidas</label>
+                                        <select class="form-control" id="almacen-medidas" required>
+                                        <option value="" disabled selected>Selecciona una medida</option>
+                                        <option value="Metros">Metros</option>
+                                        <option value="Unidades">Unidades</option>
+                                        </select>
+                                    
+                                        </div>
+                                        <button type="submit" class="btn btn-primary mt-2">Generar</button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Reporte de Pedidos de Prenda (debajo de Almacén) -->
+                    <!-- Reporte de Prendas Terminadas -->
                     <div class="col-md-4">
-                        <div class="card" style="min-height: 200px; margin-top: 40px">
-                            <div class="card-header" style="background-color: #212529; color: white;">
-                                Reporte de Pedidos de Prenda
+                        <div class="card shadow-sm border-0" style="min-height: 250px; margin-top: 40px; border-radius: 15px; overflow: hidden;">
+                            <div class="card-header text-white" style="background: #212529; font-size: 1.25rem; font-weight: bold;">
+                                <?php include './src/Assets/bootstrap-icons-1.11.3/patch-check.svg'; ?>
+                                Reporte de Prendas Terminadas
                             </div>
-                            <div class="card-body">
-                                <a class="btn btn-success mb-2" href="index.php?page=PedidosPrendas&function=print" target="_blank">
+                            <div class="card-body d-flex flex-column align-items-center justify-content-center">
+                                <a class="btn btn-success w-75 mb-2" href="index.php?page=prendas&function=print" target="_blank" style="border-radius: 20px;">
+                                    <?php include './src/Assets/bootstrap-icons-1.11.3/clipboard2-data-fill.svg'; ?>     
                                     Generar Reporte
                                 </a>
-                                <button class="btn btn-warning mb-2" id="btn-reporte-pedidos-prenda-fechas">Generar Reporte Parametrizado</button>
+                                <button class="btn btn-warning w-75 mb-2 btnReporte" id="btn-reporte-prendas-fechas" style="border-radius: 20px;">
+                                    <?php include './src/Assets/bootstrap-icons-1.11.3/wrench-adjustable.svg'; ?>
+                                    Filtros
+                                </button>
+                                <div id="form-fechas-prendas" class="mt-3 formFiltros" style="display: none;">
+                                    <form id="form-prendas">
+                                    <div class="mb-2">
+                                        <label class="form-label">Coleccion</label>
+                                        <select class="form-control" id="almacen-medidas" required>
+                                        <option value="" disabled selected>Selecciona una medida</option>
+                                        <option value="lima limón">lima limón</option>
+                                        <option value="Verano 2024">Verano 2024</option>
+                                        <option value="Otoño 2024">Otoño 2024</option>
+                                        <option value="Invierno 2024">Invierno 2024</option>
+                                        <option value="Colección Nupcial">Colección Nupcial</option>
+                                        <option value="Ropa Casual">Ropa Casual</option>
+                                        <option value="Deportes y Aventura">Deportes y Aventura</option>
+                                        <option value="Moda Sostenible">Moda Sostenible</option>
+                                        <option value="Ropa de Trabajo">Ropa de Trabajo</option>
+                                        <option value="Estilo Urbano">Estilo Urbano</option>
+                                        </select>
 
-                                <!-- Formulario para reportes parametrizados -->
-                                <div id="form-fechas-pedidos-prenda" class="mt-3" style="display: none;">
-                                    <form id="form-pedidos-prenda">
+                                        </div>
+                                        <div class="mb-2">
+
+                                        <label class="form-label">Genero</label>
+                                        <select class="form-control" id="genero-prendas" required>
+                                        <option value="" disabled selected>Selecciona un genero</option>
+                                        <option value="niño">Niño</option>
+                                        <option value="niña">Niña</option>
+                                        <option value="unisex">Unisex</option>
+                                        </select>
+                                        
+                                        </div>
+                                        <button type="submit" class="btn btn-primary mt-2">Generar</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Reporte de Pedidos de Prenda -->
+                    <div class="col-md-4">
+                        <div class="card shadow-sm border-0" style="min-height: 250px; margin-top: 40px; border-radius: 15px; overflow: hidden;">
+                            <div class="card-header text-white" style="background: #212529; font-size: 1.25rem; font-weight: bold;">
+                                <?php include './src/Assets/bootstrap-icons-1.11.3/clipboard2-check.svg'; ?>
+                                Reporte de Pedidos de Prenda
+                            </div>
+                            <div class="card-body d-flex flex-column align-items-center justify-content-center">
+                                <a class="btn btn-success w-75 mb-2" href="index.php?page=PedidosPrendas&function=print" target="_blank" style="border-radius: 20px;">
+                                    <?php include './src/Assets/bootstrap-icons-1.11.3/clipboard2-data-fill.svg'; ?>   
+                                    Generar Reporte
+                                </a>
+                                <button class="btn btn-warning w-75 mb-2 btnReporte" id="btn-reporte-pedidos-prenda-fechas" style="border-radius: 20px;">
+                                    <?php include './src/Assets/bootstrap-icons-1.11.3/wrench-adjustable.svg'; ?>
+                                    Filtros
+                                </button>
+                                <div id="form-fechas-pedidos-prenda" class="mt-3 formFiltros" style="display: none;">
+                                    <form id="form-pedidosPrendas">
                                         <div class="mb-2">
                                             <label for="fecha-inicio-pedidos-prenda" class="form-label">Fecha Inicio</label>
                                             <input type="date" class="form-control" id="fecha-inicio-pedidos-prenda" required>
@@ -67,6 +142,15 @@ require_once("Templates/Head.php");
                                         <div class="mb-2">
                                             <label for="fecha-fin-pedidos-prenda" class="form-label">Fecha Fin</label>
                                             <input type="date" class="form-control" id="fecha-fin-pedidos-prenda" required>
+                                        </div>
+                                        <div class="mb-2">
+                                        <label class="form-label">Estado</label>
+                                        <select class="form-control" id="almacen-medidas" required>
+                                        <option value="" disabled selected>Selecciona el estado</option>
+                                        <option value="completado">Completado</option>
+                                        <option value="en curso">En curso</option>
+                                        <option value="cancelado">Cancelado</option>
+                                        </select>
                                         </div>
                                         <button type="submit" class="btn btn-primary mt-2">Generar</button>
                                     </form>
@@ -77,19 +161,21 @@ require_once("Templates/Head.php");
 
                     <!-- Reporte de Confecciones -->
                     <div class="col-md-4">
-                        <div class="card" style="min-height: 200px; margin-top: 40px">
-                            <div class="card-header" style="background-color: #212529; color: white;">
+                        <div class="card shadow-sm border-0" style="min-height: 250px; margin-top: 40px; border-radius: 15px; overflow: hidden;">
+                            <div class="card-header text-white" style="background: #212529; font-size: 1.25rem; font-weight: bold;">
+                                <?php include './src/Assets/bootstrap-icons-1.11.3/scissors2.svg'; ?>
                                 Reporte de Confecciones
                             </div>
-                            <div class="card-body">
-                                <a class="btn btn-success mb-2" href="index.php?page=confecciones&function=print" target="_blank" class="btn btn-warning ms-1">
-                                  Generar Reporte
+                            <div class="card-body d-flex flex-column align-items-center justify-content-center">
+                                <a class="btn btn-success w-75 mb-2" href="index.php?page=confecciones&function=print" target="_blank" style="border-radius: 20px;">
+                                    <?php include './src/Assets/bootstrap-icons-1.11.3/clipboard2-data-fill.svg'; ?>   
+                                    Generar Reporte
                                 </a>
-
-                                <button class="btn btn-warning mb-2" id="btn-reporte-confecciones-fechas">Generar Reporte Parametrizado</button>
-
-                                <!-- Formulario para reportes parametrizados -->
-                                <div id="form-fechas-confecciones" class="mt-3" style="display: none;">
+                                <button class="btn btn-warning w-75 mb-2 btnReporte" id="btn-reporte-confecciones-fechas" style="border-radius: 20px;">
+                                    <?php include './src/Assets/bootstrap-icons-1.11.3/wrench-adjustable.svg'; ?>
+                                    Filtros
+                                </button>
+                                <div id="form-fechas-confecciones" class="mt-3 formFiltros" style="display: none;">
                                     <form id="form-confecciones">
                                         <div class="mb-2">
                                             <label for="fecha-inicio-confecciones" class="form-label">Fecha Inicio</label>
@@ -99,6 +185,15 @@ require_once("Templates/Head.php");
                                             <label for="fecha-fin-confecciones" class="form-label">Fecha Fin</label>
                                             <input type="date" class="form-control" id="fecha-fin-confecciones" required>
                                         </div>
+
+                                        <label class="form-label">Estado</label>
+                                        <select class="form-control" id="almacen-medidas" required>
+                                        <option value="" disabled selected>Selecciona el estado</option>
+                                        <option value="completado">Completado</option>
+                                        <option value="en curso">En curso</option>
+                                        <option value="anulado">Anulado</option>
+                                        </select>
+
                                         <button type="submit" class="btn btn-primary mt-2">Generar</button>
                                     </form>
                                 </div>
@@ -106,21 +201,24 @@ require_once("Templates/Head.php");
                         </div>
                     </div>
 
-                    <!-- Reporte de Pedidos -->
+                    <!-- Reporte de Pedidos Proveedores -->
                     <div class="col-md-4">
-                        <div class="card" style="min-height: 200px; margin-top: 40px">
-                            <div class="card-header" style="background-color: #212529; color: white;">
-                                Reporte de Pedidos
+                        <div class="card shadow-sm border-0" style="min-height: 250px; margin-top: 40px; border-radius: 15px; overflow: hidden;">
+                            <div class="card-header text-white" style="background: #212529; font-size: 1.25rem; font-weight: bold;">
+                                <?php include './src/Assets/bootstrap-icons-1.11.3/person-check.svg'; ?>
+                                Reporte de Pedidos Proveedores
                             </div>
-                            <div class="card-body">
-                                <a class="btn btn-success mb-2" href="index.php?page=PedidosProveedores&function=print" target="_blank" class="btn btn-warning ms-1">
+                            <div class="card-body d-flex flex-column align-items-center justify-content-center">
+                                <a class="btn btn-success w-75 mb-2" href="index.php?page=PedidosProveedores&function=print" target="_blank" style="border-radius: 20px;">
+                                    <?php include './src/Assets/bootstrap-icons-1.11.3/clipboard2-data-fill.svg'; ?>     
                                     Generar Reporte
                                 </a>
-                                <button class="btn btn-warning mb-2" id="btn-reporte-pedidos-fechas">Generar Reporte Parametrizado</button>
-
-                                <!-- Formulario para reportes parametrizados -->
-                                <div id="form-fechas-pedidos" class="mt-3" style="display: none;">
-                                    <form id="form-pedidos">
+                                <button class="btn btn-warning w-75 mb-2 btnReporte" id="btn-reporte-pedidos-fechas" style="border-radius: 20px;">
+                                    <?php include './src/Assets/bootstrap-icons-1.11.3/wrench-adjustable.svg'; ?>
+                                    Filtros
+                                </button>
+                                <div id="form-fechas-pedidos" class="mt-3 formFiltros" style="display: none;">
+                                    <form id="form-pedidosProveedores">
                                         <div class="mb-2">
                                             <label for="fecha-inicio-pedidos" class="form-label">Fecha Inicio</label>
                                             <input type="date" class="form-control" id="fecha-inicio-pedidos" required>
@@ -129,7 +227,15 @@ require_once("Templates/Head.php");
                                             <label for="fecha-fin-pedidos" class="form-label">Fecha Fin</label>
                                             <input type="date" class="form-control" id="fecha-fin-pedidos" required>
                                         </div>
+                                        <div class="mb-2">
+                                              <label class="form-label">Estado</label>
+                                        <select class="form-control" id="almacen-medidas" required>
+                                        <option value="" disabled selected>Selecciona el estado</option>
+                                        <option value="pago`">Pago</option>
+                                        <option value="no pago">No pago</option>
                                         <button type="submit" class="btn btn-primary mt-2">Generar</button>
+                                        </div>
+    
                                     </form>
                                 </div>
                             </div>
@@ -137,13 +243,13 @@ require_once("Templates/Head.php");
                     </div>
 
                 </div>
-
             </div>
         </div>
+        <!-- Footer -->
+    <?php include 'src/Views/Templates/Footer.php'; ?>
     </main>
 
-    <!-- Footer -->
-    <?php include 'src/Views/Templates/Footer.php'; ?>
+    
     
 </body>
 </html>

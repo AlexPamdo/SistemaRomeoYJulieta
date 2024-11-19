@@ -31,7 +31,7 @@ require_once("Templates/Head.php");
                 <div class="d-flex justify-content-between mb-4">
 
                 <?php if ($_SESSION['rol'] == 1) { ?>
-                    <button type="button" class="btn btn-rj-blue" data-bs-toggle="modal" data-bs-target="#CrearModal"  data-intro="Desde este boton podemos registrar materiales en el sistema" data-step="2">
+                    <button type="button" class="btn btn-rj-blue" data-bs-toggle="modal" data-bs-target="#crear"  data-intro="Desde este boton podemos registrar materiales en el sistema" data-step="2">
                         Registrar Elemento <?php include './src/Assets/bootstrap-icons-1.11.3/plus-lg.svg'; ?>
                     </button>
                     <?php } ?>
@@ -64,33 +64,7 @@ require_once("Templates/Head.php");
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($materialData as $material) : ?>
-                               
-                                <tr class="table-custom-row">
-                                    <td><?php echo htmlspecialchars($material['id_material']); ?></td>
-                                    <td class="desc"><?php echo htmlspecialchars($material['nombre_material']); ?></td>
-                                    <td><?php echo htmlspecialchars($material['tipo']); ?></td>
-                                    <input type="hidden" class="tipo" value="<?php echo htmlspecialchars($material['tipo_material']); ?>">
-                                    <td class="color"><?php echo htmlspecialchars($material['color_name']); ?></td>
-                                    <input type="hidden" class="color" value="<?php echo htmlspecialchars($material['color_material']); ?>">
-                                    <td class="stock"><?php echo htmlspecialchars($material['stock']); ?></td>
-                                    <td class="stock"><?php echo htmlspecialchars($material['unidad_medida']); ?></td>
-
-                                  
-
-                                    <?php if ($_SESSION['rol'] == 1) { ?>
-                                    <td class="d-flex">
-                                        <!-- Botones de editar y eliminar -->
-                                        <button type="button" class="btn btn-custom-danger m-1 eliminar" data-bs-toggle="modal" data-bs-target="#eliminar">
-                                            <?php include './src/Assets/bootstrap-icons-1.11.3/trash-fill.svg'; ?>
-                                        </button>
-                                        <button type="button" class="btn btn-custom-success m-1 editar" data-bs-toggle="modal" data-bs-target="#editar">
-                                            <?php include './src/Assets/bootstrap-icons-1.11.3/pencil-fill.svg'; ?>
-                                        </button>
-                                    </td>
-                                    <?php } ?>
-                                </tr>
-                            <?php endforeach; ?>
+                        
                         </tbody>
                     </table>
                 </div>

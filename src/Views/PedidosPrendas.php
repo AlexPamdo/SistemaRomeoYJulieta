@@ -30,7 +30,7 @@ require_once("Templates/Head.php");
             <div class="p-4 bg-custom-content">
                 <!-- Barra de búsqueda y botón de crear pedido -->
                 <div class="d-flex justify-content-between mb-4">
-                    <button type="button" class="btn btn-rj-blue" data-bs-toggle="modal" data-bs-target="#CrearModal" data-intro="Desde este boton podemos registrar un nuevo pedido en el sistema" data-step="2">
+                    <button type="button" class="btn btn-rj-blue" data-bs-toggle="modal" data-bs-target="#crear" data-intro="Desde este boton podemos registrar un nuevo pedido en el sistema" data-step="2">
                         Crear <?php include './src/Assets/bootstrap-icons-1.11.3/plus-lg.svg'; ?>
                     </button>
 
@@ -61,57 +61,19 @@ require_once("Templates/Head.php");
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($entregasData as $entrega) : ?>
-                                <tr>
-                                    <td><?php echo htmlspecialchars($entrega['id_pedido_prenda']); ?></td>
-                                    <td><?php echo htmlspecialchars($entrega['desc_pedido_prenda']); ?></td>
-                                    <td><?php echo htmlspecialchars($entrega['fecha_pedido_prenda']); ?></td>
-                                    <td><?php echo htmlspecialchars($entrega['fecha_estimada']); ?></td>
-                                    <td>
-                                        <span class="<?= $entrega["proceso"] == 0 ? 'en_curso' : ($entrega["proceso"] == 1 ? 'completado' : 'cancelado') ?>">
-                                            <?= $entrega["proceso"] == 0 ? 'En Curso' : ($entrega["proceso"] == 1 ? 'Entregado' : 'Cancelado') ?>
-                                    </td>
-                                    </span>
-                                    <td class="d-flex">
-                                        <!-- Boton de eliminar -->
-                                        <form class="d-flex" action="index.php" method="get">
-                                            <button type="button" class="btn btn-warning m-1" data-bs-toggle="modal"
-                                                data-bs-target="#orden<?php echo $entrega['id_pedido_prenda'] ?>">
-                                                <?php include './src/Assets/bootstrap-icons-1.11.3/eye-fill.svg'; ?>
-                                            </button>
-                                            <button type="button" class="btn btn-custom-success m-1 btn-sm actualizarPedidoPrenda" data-bs-toggle="modal" data-bs-target="#actualizarPedidoPrenda"
-                                                <?= $entrega["proceso"] == 1 ? 'disabled' : "" ?>>
-                                                <?php include './src/Assets/bootstrap-icons-1.11.3/currency-dollar.svg'; ?>
-                                            </button>
-                                            <button type="button" class="btn btn-custom-danger m-1 btn-sm anularPedidoPrenda" data-bs-toggle="modal" data-bs-target="#anularPedidoPrenda"
-                                                <?= $entrega["proceso"] == 1 ? 'disabled' : "" ?>>
-                                                <?php include './src/Assets/bootstrap-icons-1.11.3/ban.svg'; ?>
-                                            </button>
-
-                                        </form>
-                                    </td>
-
-                                </tr>
-                            <?php endforeach; ?>
+                          
                         </tbody>
                     </table>
-
-                    <?php foreach ($entregasData as $entrega) :
-                        include("src/Views/Pedidos_prendas/Orden.php");
-                    endforeach; ?>
                 </div>
 
                 <!-- Botón para ver usuarios items deshabilitados -->
                 <div class="d-flex justify-content-end mt-4">
-                    <button data-intro="Con este boton podremos visualizar todos aquellos usuarios que se han estado" data-step="7" class="btn btn-rj-blue p-3" data-bs-toggle="modal" data-bs-target="#elementosDesabilitados">
+                    <button data-intro="Con este boton podremos visualizar todos aquellos usuarios que se han estado" data-step="7" class="btn btn-rj-blue p-3" data-bs-toggle="modal" data-bs-target="#papelera">
                         <?php include './src/Assets/bootstrap-icons-1.11.3/trash-fill.svg'; ?> Elementos Deshabilitados
                     </button>
                 </div>
 
-                <?php
-                // Restaurar
-                include_once("src/Views/Pedidos_prendas/Papelera.php");
-                ?>
+        
             </div>
         </div>
     </main>

@@ -4,7 +4,7 @@
     <div class="modal-dialog modal-dialog-centered modal-fullscreen">
         <div class="modal-content">
             <div class="modal-header bg-dark text-white">
-                <h5 class="modal-title" id="UsuariosDesabilitadosLabel">Empleados Deshabilitado</h5>
+                <h5 class="modal-title" id="UsuariosDesabilitadosLabel">Supervisors Deshabilitado</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                     aria-label="Close"></button>
                 <link rel="stylesheet" href="src/Libraries/DataTables/datatables.min.css">
@@ -26,25 +26,25 @@
                         </thead>
                         <tbody>
                            <?php
-                             foreach ($empleadosDesabilitadosData as $empleado) : ?>
+                             foreach ($supervisoresDesabilitadosData as $supervisor) : ?>
                                 <tr class="table-custom-row">
-                                    <td><?php echo htmlspecialchars($empleado['id_empleado']); ?></td>
-                                    <td><?php echo htmlspecialchars($empleado['nombre_empleado']); ?></td>
-                                    <td><?php echo htmlspecialchars($empleado['apellido_empleado']); ?></td>
-                                    <td><?php echo htmlspecialchars($empleado['email_empleado']); ?></td>
-                                    <td><?php echo htmlspecialchars($empleado['telefono_empleado']); ?></td>
-                                    <td><?php echo htmlspecialchars($empleado['id_ocupacion']); ?></td>
-                                    <td><?php echo htmlspecialchars($empleado['cedula_empleado']); ?></td>
+                                    <td><?php echo htmlspecialchars($supervisor['id_supervisor']); ?></td>
+                                    <td><?php echo htmlspecialchars($supervisor['nombre_supervisor']); ?></td>
+                                    <td><?php echo htmlspecialchars($supervisor['apellido_supervisor']); ?></td>
+                                    <td><?php echo htmlspecialchars($supervisor['email_supervisor']); ?></td>
+                                    <td><?php echo htmlspecialchars($supervisor['telefono_supervisor']); ?></td>
+                                    <td><?php echo htmlspecialchars($supervisor['id_ocupacion']); ?></td>
+                                    <td><?php echo htmlspecialchars($supervisor['cedula_supervisor']); ?></td>
                                     <td class="d-flex">
                                         <form class="d-flex justify-content-center"
-                                            action="index.php?page=empleados&function=restore" method="post">
-                                            <input type="hidden" name="id" value="<?php echo $empleado['id_empleado']; ?>">
+                                            action="index.php?page=supervisores&function=restore" method="post">
+                                            <input type="hidden" name="id" value="<?php echo $supervisor['id_supervisor']; ?>">
                                             <button type="submit"
                                                 class="btn btn-warning mx-1"><?php include './src/Assets/bootstrap-icons-1.11.3/recycle.svg'; ?></button>
                                         </form>
                                         <form class="d-flex justify-content-center"
-                                            action="index.php?page=empleados&function=remove" method="post">
-                                            <input type="hidden" name="id" value="<?php echo $empleado['id_empleado']; ?>">
+                                            action="index.php?page=supervisores&function=remove" method="post">
+                                            <input type="hidden" name="id" value="<?php echo $supervisor['id_supervisor']; ?>">
                                             <button type="submit"
                                                 class="btn btn-danger mx-1"><?php include './src/Assets/bootstrap-icons-1.11.3/trash-fill.svg'; ?></button>
                                         </form>

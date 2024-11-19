@@ -29,7 +29,7 @@ require_once("Templates/Head.php");
             <div class="ms-sm-auto p-4 bg-custom-content">
                 <!-- Barra de búsqueda y botones -->
                 <div class="d-flex justify-content-between mb-4">
-                    <button type="button" class="btn btn-rj-blue" data-bs-toggle="modal" data-bs-target="#CrearModal" data-intro="Desde este boton podemos crear una nueva confeccion en el sistema" data-step="2">
+                    <button type="button" class="btn btn-rj-blue crear" data-bs-toggle="modal" data-bs-target="#crear" data-intro="Desde este boton podemos crear una nueva confeccion en el sistema" data-step="2">
                         Crear <?php include './src/Assets/bootstrap-icons-1.11.3/plus-lg.svg'; ?>
                     </button>
 
@@ -50,43 +50,22 @@ require_once("Templates/Head.php");
                         <thead class="table-custom-header">
                             <tr>
                                 <th scope="col">ID</th>
-                                <th scope="col">Prenda</th>
-                                <th scope="col">Cantidad</th>
                                 <th scope="col">Fecha de fabricación</th>
-                                <th scope="col">Empleado encargado</th>
+                                <th scope="col">Supervisor encargado</th>
                                 <th scope="col">Estado</th>
                                 <th scope="col">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($confeccionesData as $confeccion) : ?>
-                                <tr>
-                                    <td><?php echo htmlspecialchars($confeccion['id_confeccion']); ?></td>
-                                    <td><?php echo htmlspecialchars($confeccion['id_prenda']); ?></td>
-                                    <td><?php echo htmlspecialchars($confeccion['cantidad']); ?></td>
-                                    <td><?php echo htmlspecialchars($confeccion['fecha_fabricacion']); ?></td>
-                                    <td><?php echo htmlspecialchars($confeccion['id_empleado']); ?></td>
-                                    <td><span class="
-                                    <?= $confeccion['proceso'] == 0 ? 'en_curso' : ($confeccion['proceso'] == 1 ? 'completado' : 'anulado') ?>">
-                                    <?php echo $confeccion['proceso'] == 0 ? 'En proceso' : ($confeccion['proceso'] == 1 ? 'completada' : 'Cancelada'); ?></span></td>
-                                    <td class="d-flex">
-                                        <!-- El boton de actualizar sera removido si la confeccion ya esta actualizada -->
-                                        <button type="button" class="btn btn-custom-danger m-1 anularConfeccion"
-                                            <?= $confeccion['proceso'] == 1 ? 'disabled' : ""; ?>
-                                            data-bs-toggle="modal" data-bs-target="#anularConfeccion">
-                                            <?php include './src/Assets/bootstrap-icons-1.11.3/ban.svg'; ?>
-                                        </button>
-
-                                        <button type="button" class="btn btn-custom-success m-1 actualizarConfeccion"
-                                            <?= $confeccion['proceso'] == 1 ? 'disabled' : ""; ?>
-                                            data-bs-toggle="modal" data-bs-target="#actualizarConfeccion">
-                                            <i class="fa-solid fa-sync"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
+                           
                         </tbody>
                     </table>
+                </div>
+                  <!-- Botón para ver usuarios items deshabilitados -->
+                  <div class="d-flex justify-content-end mt-4">
+                    <button data-intro="Con este boton podremos visualizar todos aquellos usuarios que se han estado" data-step="7" class="btn btn-rj-blue p-3" data-bs-toggle="modal" data-bs-target="#papelera">
+                        <?php include './src/Assets/bootstrap-icons-1.11.3/trash-fill.svg'; ?> Ver Elementos Deshabilitados
+                    </button>
                 </div>
             </div>
         </div>

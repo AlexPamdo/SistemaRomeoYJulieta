@@ -13,7 +13,7 @@ class PrendasModel extends ModeloBase
     protected $tabla = "prendas";
 
 
-    public function viewPrendas($value = "", $column = "", $stock = "")
+    public function viewPrendas($value = "", $column = "")
     {
 
         $sql = "SELECT 
@@ -33,13 +33,6 @@ class PrendasModel extends ModeloBase
         if ($value !== "" && $column !== "") {
             // Asegurarse de que la columna sea válida (esto es importante para prevenir SQL Injection)
             $sql .= " WHERE u.$column = :value";
-
-            // Agregar condición si se proporciona stock
-            if ($stock === "") {
-                $sql.= " AND stock > 0";
-            }if( $stock === 0) {
-                $sql.= " AND stock <= 0";
-            }
         }
 
         // Preparar la consulta

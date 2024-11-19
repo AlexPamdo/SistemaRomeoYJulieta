@@ -1,5 +1,5 @@
 <?php 
-use src\Model\EmpleadosModel;
+use src\Model\SupervisorsModel;
 use src\Model\PrendasModel;
 ?>
 
@@ -55,21 +55,21 @@ use src\Model\PrendasModel;
                         </div>
 
                         <div class="">
-                            <!-- Buscador de Empleado -->
-                            <label class="fw-bold" for="validationCustom01">Empleado encargado</label>
+                            <!-- Buscador de Supervisor -->
+                            <label class="fw-bold" for="validationCustom01">Supervisor encargado</label>
                             <div class="form-label input-group flex-nowrap m-2">
-                                <select class="form-select" name="empleado" id="">
+                                <select class="form-select" name="supervisor" id="">
                                     <?php
                                     //incluimos el controlador para acceder a la funcion ver todo
 
-                                    $empleados = new EmpleadosModel();
-                                    $empleadosData = $empleados->viewAll(false);
+                                    $supervisores = new SupervisorsModel();
+                                    $supervisoresData = $supervisores->viewAll(false);
 
-                                    foreach ($empleadosData as $empleado) : ?>
+                                    foreach ($supervisoresData as $supervisor) : ?>
 
                                         <!-- usamos el foreach para mostrar todas las recetas disponibles -->
-                                        <option value="<?php echo $empleado['id_empleado'] ?>">
-                                            <?php echo $empleado['nombre_empleado'] ?></option>
+                                        <option value="<?php echo $supervisor['id_supervisor'] ?>">
+                                            <?php echo $supervisor['nombre_supervisor'] ?></option>
                                     <?php endforeach; ?>
                                 </select>
                                 <div class="valid-feedback"></div>

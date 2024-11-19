@@ -1,53 +1,60 @@
 .bg-custom-header {
-    background-color: #1e2125;
-    color: #fff;
+  background-color: #1e2125;
+  color: #fff;
 }
 
 .bg-custom-content {
-    background-color: #f8f9fa;
+  background-color: #f8f9fa;
 }
 
 .btn-custom-primary {
-    background-color: #007bff;
-    border-color: #007bff;
-    color: #fff;
+  background-color: #007bff;
+  border-color: #007bff;
+  color: #fff;
 }
 
+/* Botones */
 .btn-custom-danger {
-    background-color: #dc3545;
-    border-color: #dc3545;
-    color: #fff;
+  background-color: #dc3545;
+  border-color: #dc3545;
+  color: #fff;
 }
 
 .btn-custom-success {
-    background-color: #28a745;
-    border-color: #28a745;
-    color: #fff;
+  background-color: #28a745;
+  border-color: #28a745;
+  color: #fff;
+}
+
+.btn:hover {
+    color: white;
+    background-color: #00c99d;
+  border: solid 2px #ffffff;
 }
 
 .table-custom-header {
-    background-color: #343a40;
-    color: #fff;
+  background-color: #343a40;
+  color: #fff;
 }
 
 .table-custom-row:hover {
-    background-color: #e9ecef;
+  background-color: #e9ecef;
 }
 
 .password-toggle-icon {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .img-perfil {
-    border-radius: 50%;
-    border: 2px solid #007bff;
+  border-radius: 50%;
+  border: 2px solid #007bff;
 }
 
 .img-perfil {
-    border-radius: 50%;
-    object-fit: cover;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 .form-control[disabled] {
-    background-color: #f8f9fa;
+  background-color: #f8f9fa;
 }

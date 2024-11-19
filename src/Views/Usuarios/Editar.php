@@ -6,7 +6,7 @@
                 <h1 class="modal-title text-white fs-5" id="staticBackdropLabel">Editar usuario</h1>
             </div>
             <div class="modal-body">
-                <form class="needs-validation form" method="post" action="index.php?page=usuarios&function=edit" enctype="multipart/form-data">
+                <form class="needs-validation form" method="post" id="updateForm" enctype="multipart/form-data">
 
                     <input type="hidden" name="id" id="id_edit">
 
@@ -47,12 +47,12 @@
                                 <input type="hidden" name="rol_usuario" value="">
 
                                 <div class="d-flex flex-column align-items-center">
-                                    <input type="radio" id="id_roles1_edit" class="rol_edit" name="rol_usuario" value="1" required>
+                                    <input type="radio" id="id_roles1_edit" class="rol_edit" name="rol_usuario" value="1" >
                                     <label for="rol1">Admin</label>
                                 </div>
 
                                 <div class="d-flex flex-column align-items-center">
-                                    <input type="radio" id="id_roles2_edit" class="rol_edit" name="rol_usuario" value="2" required>
+                                    <input type="radio" id="id_roles2_edit" class="rol_edit" name="rol_usuario" value="2" >
                                     <label for="rol2">User</label>
                                 </div>
                             </div>

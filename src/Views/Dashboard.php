@@ -184,19 +184,19 @@ require_once("Templates/Head.php");
                         <div class="col-lg-4 col-md-6">
                             <div class="card card-dashboard-rj mb-3">
                                 <div class="card-body">
-                                    <a href="index.php?page=empleados" class="text-decoration-none text-blue-rj">
+                                    <a href="index.php?page=supervisores" class="text-decoration-none text-blue-rj">
                                         <div class="d-flex align-items-center">
                                             <i class='bx bxs-user bx-lg'></i>
-                                            <h5 class="ms-3">Empleados</h5>
+                                            <h5 class="ms-3">Supervisors</h5>
                                         </div>
                                         <div class="mt-3 d-flex justify-content-around">
                                             <div>
-                                                <p class="mb-0 p-1">Empleados Registrados</p>
-                                                <h4 class="mb-0"><?php echo count($dashboardData["empleados"]["active"]) ?></h4>
+                                                <p class="mb-0 p-1">Supervisors Registrados</p>
+                                                <h4 class="mb-0"><?php echo count($dashboardData["supervisores"]["active"]) ?></h4>
                                             </div>
                                             <div>
-                                                <p class="mb-0 p-1">Empleados Inactivos</p>
-                                                <h4 class="mb-0"><?php echo count($dashboardData["empleados"]["inactive"]) ?></h4>
+                                                <p class="mb-0 p-1">Supervisors Inactivos</p>
+                                                <h4 class="mb-0"><?php echo count($dashboardData["supervisores"]["inactive"]) ?></h4>
                                             </div>
                                         </div>
                                     </a>

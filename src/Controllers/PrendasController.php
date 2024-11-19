@@ -6,10 +6,9 @@ use src\Model\PatronesModel;
 use src\Model\PrendasModel;
 use src\Model\PrendaPatronModel;
 use src\Model\AlmacenModel;
-use Interfaces\CrudController;
 use Exception;
 
-class PrendasController implements CrudController
+class PrendasController extends ControllerBase
 {
     private $patronModel;
     private $prendaModel;
@@ -23,56 +22,54 @@ class PrendasController implements CrudController
         $this->almacenModel = new AlmacenModel();
     }
 
+    /**
+     * Renderiza la vista principal de prendas.
+     */
     public function show()
-
     {
-
-        if ($_SESSION['rol'] == 2) {
-            header('Location: index.php?page=dashboard');
-            exit;
-        }
-        //Recordatorio QUe me quede imprimiendo el stock
-        $prendaDesabilitadosData = $this->prendaModel->viewPrendas(1, "estado", "");
-        $prendaData = $this->prendaModel->viewPrendas(0, "estado", "");
-        $prendasNoStockData = $this->prendaModel->viewPrendas(0, "estado", 0);
-
-        $patronesData = $this->prendaPatronModel->viewAll();
-
-        require_once("src/Views/Prendas.php");
+        include_once("src/Views/Prendas.php");
     }
 
+    /**
+     * Retorna todas las prendas activas en formato JSON.
+     */
     public function viewAll()
-     {
-         try {
-             $prendasData = $this->prendaModel->viewPrendas(0, "estado");
-             echo json_encode($prendasData);
-         } catch (Exception $e) {
-             echo json_encode([
-                 "success" => false,
-                 "message" => $e->getMessage()
-             ]);
-         }
-     }
-
-     public function viewDetails()
-     {
-         $id = $_GET['id'];
-         try {
-             $ordenPedidoData = $this->prendaPatronModel->viewMaterials($id);
-             echo json_encode($ordenPedidoData);
-         } catch (Exception $e) {
-             echo json_encode([
-                 "success" => false,
-                 "message" => $e->getMessage()
-             ]);
-         }
-     }
-
-    public function agregarMaterial($material, $ultimoId)
     {
+        $this->procesarRespuestaJson(function () {
+            return $this->prendaModel->viewPrendas(0, "estado");
+        });
+    }
 
-        if ($material['cantidad'] !== '' && $material['id_Material'] !== "none") {
+    /**
+     * Retorna todas las prendas inactivas en formato JSON.
+     */
+    public function viewDelete()
+    {
+        $this->procesarRespuestaJson(function () {
+            return $this->prendaModel->viewPrendas(1, "estado");
+        });
+    }
 
+    /**
+     * Retorna los detalles de una prenda específica en formato JSON.
+     */
+    public function viewDetails()
+    {
+        $this->procesarRespuestaJson(function () {
+            $id = $_GET['id'] ?? null;
+            if (!$id) {
+                throw new Exception("ID de prenda no especificado.");
+            }
+            return $this->prendaPatronModel->viewMaterials($id);
+        });
+    }
+
+    /**
+     * Agrega materiales a una prenda.
+     */
+    private function agregarMaterial($material, $ultimoId)
+    {
+        if (!empty($material['cantidad']) && $material['id_Material'] !== "none") {
             $this->prendaPatronModel->setData(
                 $ultimoId,
                 $material['id_Material'],
@@ -80,44 +77,45 @@ class PrendasController implements CrudController
             );
 
             if (!$this->prendaPatronModel->create()) {
-                throw new Exception("Error al insertar los materiales del patrón");
+                throw new Exception("Error al insertar los materiales de la prenda.");
             }
             return true;
         } else {
-            throw new Exception("No se han proporcionado materiales válidos");
+            throw new Exception("No se han proporcionado materiales válidos.");
         }
     }
 
-    public function subirImagen($file)
+    /**
+     * Maneja la subida de imágenes para las prendas.
+     */
+    private function subirImagen($file)
     {
-        if ($_FILES["file1"]["error"] === UPLOAD_ERR_OK) {
-            $nom_archivo = basename($_FILES['file1']['name']);
+        if ($file["error"] === UPLOAD_ERR_OK) {
+            $nom_archivo = basename($file['name']);
             $ruta = "src/Assets/img/prendas/" . $nom_archivo;
-            $archivo = $_FILES['file1']['tmp_name'];
+            $archivo = $file['tmp_name'];
 
             if (!move_uploaded_file($archivo, $ruta)) {
-                throw new Exception("Error al subir la imagen");
+                throw new Exception("Error al subir la imagen.");
             }
 
             return $ruta;
-        } else {
-            return "src/Assets/img/prendas/prendaDefault.png";
         }
+        return "src/Assets/img/prendas/prendaDefault.png";
     }
 
+    /**
+     * Crea una nueva prenda.
+     */
     public function create()
     {
-        try {
-            // $this->prendaModel->beginTransaction();
-
-            if (!isset($_POST['material']) && !is_array($_POST['material'])) {
-                throw new Exception("No se han proporcionado materiales válidos: No se pudo verificar si existe y es un array");
+        $this->procesarRespuestaJson(function () {
+            if (!isset($_POST['material']) || !is_array($_POST['material'])) {
+                throw new Exception("No se han proporcionado materiales válidos.");
             }
 
-            // Subir la imagen de la prenda
             $ruta = $this->subirImagen($_FILES["file1"]);
 
-            // Asignar los atributos de la prenda con el ID del patrón recién creado
             $this->prendaModel->setData(
                 $ruta,
                 $_POST["nombre"],
@@ -125,84 +123,81 @@ class PrendasController implements CrudController
                 $_POST["id_categoria"],
                 $_POST["id_talla"],
                 $_POST["id_coleccion"],
-                $_POST["stock"],
+                $_POST["stock"]
             );
 
-
-            // Obtener el ID del patrón recién creado
             $ultimoId = $this->prendaModel->create();
-
             if (!$ultimoId) {
-                throw new Exception("Error al crear la prenda");
+                throw new Exception("Error al crear la prenda.");
             }
 
-            //Asignamos los datos de materiales necesarios para crear la prenda
             foreach ($_POST['material'] as $material) {
-                if (!$this->agregarMaterial($material, $ultimoId)) {
-                    throw new Exception('No se pudo agregar algun material al patron');
-                }
+                $this->agregarMaterial($material, $ultimoId);
             }
 
-            // $this->prendaModel->commit();
-            header("location:index.php?page=prendas&succes=create");
-            exit();
-        } catch (Exception $e) {
-            // $this->prendaModel->rollback();
-            header("location:index.php?page=prendas&error=other&errorDesc=" . urlencode($e->getMessage()));
-            exit();
-        }
+            return ["success" => true, "message" => "Prenda creada correctamente."];
+        });
     }
 
-
+    /**
+     * Genera un reporte PDF de las prendas.
+     */
     public function print()
     {
         $prendaData = $this->prendaModel->viewAll(false);
-        include_once("src/Libraries/fpdf/PrendasPDF.php");
+        include_once("src/Libraries/fpdf/PrendasTerminadasPDF.php");
     }
 
-
+    /**
+     * Realiza un borrado lógico de una prenda.
+     */
     public function delete()
     {
-        // Antes de llamar al softDelete
-        error_log("ID recibido: " . $_POST["id"]);
+        $this->procesarRespuestaJson(function () {
+            $id = $_POST["id"] ?? null;
+            if (!$id) {
+                throw new Exception("ID de prenda no especificado.");
+            }
 
-        if ($this->prendaModel->softDelete($_POST["id"])) {
-            echo json_encode([
-                "success" => true,
-                "message" => "Prenda eliminada correctamente"
-            ]);
-        } else {
-            echo json_encode([
-                "success" => false,
-                "message" => "No se pudo eliminar la prenda"
-            ]);
-        }
+            if (!$this->prendaModel->softDelete($id)) {
+                throw new Exception("No se pudo eliminar la prenda.");
+            }
+
+            return ["success" => true, "message" => "Prenda eliminada correctamente."];
+        });
     }
 
-    public function remove()
-    {
-        if ($this->prendaModel->remove($_POST["id"])) {
-            header("Location: index.php?page=prendas&succes=remove");
-        } else {
-            header("Location: index.php?page=prendas&error=remove");
-        }
-    }
-
+    /**
+     * Restaura una prenda eliminada.
+     */
     public function restore()
     {
-        if ($this->prendaModel->active($_POST["id"])) {
-            header("Location: index.php?page=prendas&succes=restore");
-        } else {
-            header("Location: index.php?page=prendas&error=restore");
-        }
+        $this->procesarRespuestaJson(function () {
+            $id = $_POST["id"] ?? null;
+            if (!$id) {
+                throw new Exception("ID de prenda no especificado.");
+            }
+
+            if (!$this->prendaModel->active($id)) {
+                throw new Exception("No se pudo restaurar la prenda.");
+            }
+
+            return ["success" => true, "message" => "Prenda restaurada correctamente."];
+        });
     }
 
-
+    /**
+     * Edita una prenda existente.
+     */
     public function edit()
     {
-        $prenda = $_POST["id"];
-        $materialesPrenda = $_POST['material'];
-        try {
+        $this->procesarRespuestaJson(function () {
+            $prendaId = $_POST["id"] ?? null;
+            $materialesPrenda = $_POST['material'] ?? null;
+
+            if (!$prendaId || !is_array($materialesPrenda)) {
+                throw new Exception("Datos de entrada inválidos.");
+            }
 
             $this->prendaModel->setData(
                 "",
@@ -214,36 +209,23 @@ class PrendasController implements CrudController
                 $_POST["stock"]
             );
 
-            // Iniciamos la transacción
             $this->prendaModel->beginTransaction();
 
-            if(!$this->prendaModel->edit($prenda)){
-                throw new Exception("No pudo editar la prenda");
+            if (!$this->prendaModel->edit($prendaId)) {
+                throw new Exception("No se pudo editar la prenda.");
             }
 
-            // Verificación inicial de los datos de entrada
-            if (!isset($materialesPrenda) || !is_array($materialesPrenda)) {
-                throw new Exception("No se han proporcionado materiales válidos: No es un array");
+            if (!$this->prendaPatronModel->delete($prendaId)) {
+                throw new Exception("No se pudo limpiar los materiales de la prenda.");
             }
 
-            // Limpiamos los datos del antiguo patron
-            if (!$this->prendaPatronModel->delete($prenda)) {
-                throw new Exception("No pudo limpiar la lista de materiales");
+            foreach ($materialesPrenda as $material) {
+                $this->agregarMaterial($material, $prendaId);
             }
 
-            // Registramos los nuevos materiales a dicho patron
-            $this->agregarMaterial($materialesPrenda, $prenda);
-
-            // Commit de la transacción y redirección exitosa
             $this->prendaModel->commit();
-            header("location:index.php?page=prendas&succes=edit");
-        } catch (Exception $e) {
-            $this->prendaModel->rollBack();
 
-            // Mensaje de error limpio y seguro
-            $errorDesc = htmlspecialchars($e->getMessage());
-            header("location:index.php?page=prendas&error=other&errorDesc=" . $errorDesc);
-            exit();
-        }
+            return ["success" => true, "message" => "Prenda editada correctamente."];
+        });
     }
 }

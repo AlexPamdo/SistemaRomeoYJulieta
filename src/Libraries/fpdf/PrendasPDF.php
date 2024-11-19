@@ -48,10 +48,10 @@ class PDF extends FPDF
         $this->SetDrawColor(163, 163, 163);
         $this->SetFont('Arial', 'B', 11);
         $this->Cell(40);
-        $this->Cell(30, 10, utf8_decode('ID PEDIDO'), 1, 0, 'C', 1);
+        $this->Cell(40, 10, utf8_decode('IDENTIFICADOR'), 1, 0, 'C', 1);
         $this->Cell(55, 10, utf8_decode('DESCRIPCION'), 1, 0, 'C', 1);
         $this->Cell(40, 10, utf8_decode('FECHA PEDIDO'), 1, 0, 'C', 1);
-        $this->Cell(30, 10, utf8_decode('FECHA ESTIMADA'), 1, 0, 'C', 1);
+        $this->Cell(40, 10, utf8_decode('FECHA ESTIMADA'), 1, 0, 'C', 1);
         $this->Cell(25, 10, utf8_decode('ESTADO'), 1, 1, 'C', 1);
     }
 
@@ -107,10 +107,10 @@ $entregasData = $stmt->fetchAll(PDO::FETCH_ASSOC);
 // Llenar los datos en el PDF
 foreach ($entregasData as $entrega) :
     $pdf->Cell(40);
-    $pdf->Cell(30, 10, utf8_decode($entrega['id_pedido_prenda']), 1, 0, 'C', 0);
+    $pdf->Cell(40, 10, utf8_decode($entrega['id_pedido_prenda']), 1, 0, 'C', 0);
     $pdf->Cell(55, 10, utf8_decode($entrega['desc_pedido_prenda']), 1, 0, 'C', 0);
     $pdf->Cell(40, 10, utf8_decode($entrega['fecha_pedido_prenda']), 1, 0, 'C', 0);
-    $pdf->Cell(30, 10, utf8_decode($entrega['fecha_estimada']), 1, 0, 'C', 0);
+    $pdf->Cell(40, 10, utf8_decode($entrega['fecha_estimada']), 1, 0, 'C', 0);
     
     // Aquí cambiamos la lógica del estado (proceso)
     $estado = $entrega["proceso"] == 0 ? 'En Curso' : ($entrega["proceso"] == 1 ? 'Completado' : 'Cancelado');

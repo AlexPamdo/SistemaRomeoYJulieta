@@ -2,13 +2,12 @@
 
 namespace src\Controllers;
 
+use src\Controllers\ControllerBase;
 use src\Model\UsuariosModel;
-use Interfaces\CrudController;
 use Exception;
 
-class UsuariosController implements CrudController
+class UsuariosController extends ControllerBase
 {
-
     private $usuariosModel;
 
     public function __construct()
@@ -16,128 +15,141 @@ class UsuariosController implements CrudController
         $this->usuariosModel = new UsuariosModel();
     }
 
+    /**
+     * Renderiza la vista principal de usuarios.
+     */
     public function show()
     {
-
         if ($_SESSION['rol'] == 2) {
-            header('Location: index.php?page=dashboard');
-            exit;
+            $this->redirect('dashboard');
         }
-
-        $usuariosDesabilitadosData = $this->usuariosModel->showUsers(1, "estado");
-        $usuariosData = $this->usuariosModel->showUsers(0, "estado");
 
         include_once("src/Views/Usuarios.php");
     }
 
+    /**
+     * Retorna todos los usuarios activos en formato JSON.
+     */
     public function viewAll()
-     {
-         try {
-             $usuariosData = $this->usuariosModel->viewAll(0, "estado");
-             echo json_encode($usuariosData);
-         } catch (Exception $e) {
-             echo json_encode([
-                 "success" => false,
-                 "message" => $e->getMessage()
-             ]);
-         }
-     }
+    {
+        $this->procesarRespuestaJson(function () {
+            return $this->usuariosModel->viewAll(0, "estado");
+        });
+    }
 
+     /**
+     * Retorna datos de materiales en formato JSON.
+     */
+    public function viewDelete()
+    {
+        $this->procesarRespuestaJson(function () {
+            return $this->usuariosModel->viewAll(1, "estado");
+        });
+    }
+
+    /**
+     * Crea un nuevo usuario.
+     */
     public function create()
     {
-        try {
-
+        $this->procesarRespuestaJson(function () {
+            // Validar email único
             if ($this->usuariosModel->viewAll($_POST["gmail_usuario"], "email_usuario")) {
-                throw new Exception("Email ya existe");
+                throw new Exception("El email ya existe");
             }
 
+            // Manejo de imagen
             if ($_FILES["file1"]["error"] === UPLOAD_ERR_OK) {
-                $nom_archivo = basename($_FILES['file1']['name']);
-                $ruta = "src/Assets/img/users/" . $nom_archivo;
-                $archivo = $_FILES['file1']['tmp_name'];
+                $nomArchivo = basename($_FILES['file1']['name']);
+                $ruta = "src/Assets/img/users/" . $nomArchivo;
+                $archivoTmp = $_FILES['file1']['tmp_name'];
 
-                if (!move_uploaded_file($archivo, $ruta)) {
+                if (!move_uploaded_file($archivoTmp, $ruta)) {
                     throw new Exception("Error al subir la imagen");
                 }
             } else {
-                // Podrías asignar una imagen predeterminada o dejar la imagen vacía
                 $ruta = "src/Assets/img/users/User_default_icon.png";
             }
 
+            // Configurar datos y guardar usuario
             $this->usuariosModel->setData(
                 $_POST["nombre_usuario"],
                 $_POST["apellido_usuario"],
                 $_POST["gmail_usuario"],
                 $_POST["password_usuario"],
                 $_POST["rol_usuario"],
-                $ruta,
+                $ruta
             );
 
-            if ($this->usuariosModel->create()) {
-                header("Location: index.php?page=usuarios&succes=create");
-            } else {
-                header("Location: index.php?page=usuarios&error=create");
-            }
-        } catch (Exception $e) {
-            header("Location: index.php?page=usuarios&error=other&errorDesc=" . $e->getMessage());
-        };
+            $resultado = $this->usuariosModel->create();
+            return [
+                "success" => $resultado,
+                "message" => $resultado ? "Usuario creado correctamente" : "No se pudo crear el usuario"
+            ];
+        });
     }
 
-    public function delete()
-    {
-        // Antes de llamar al softDelete
-        error_log("ID recibido: " . $_POST["id"]);
-
-        if ($this->usuariosModel->softDelete($_POST["id"])) {
-            echo json_encode([
-                "success" => true,
-                "message" => "Usuario eliminado correctamente"
-            ]);
-        } else {
-            echo json_encode([
-                "success" => false,
-                "message" => "No se pudo eliminar el usuario"
-            ]);
-        }
-    }
-
-    public function restore()
-    {
-        if ($this->usuariosModel->active($_POST["id"])) {
-            header("Location: index.php?page=usuarios&succes=restore");
-        } else {
-            header("Location: index.php?page=usuarios&error=restore");
-        }
-    }
-
-    public function remove()
-    {
-        if ($this->usuariosModel->remove($_POST["id"])) {
-            header("Location: index.php?page=usuarios&succes=remove");
-        } else {
-            header("Location: index.php?page=usuarios&error=remove");
-        }
-    }
-
+    /**
+     * Edita los datos de un usuario existente.
+     */
     public function edit()
     {
-        try {
+        $this->procesarRespuestaJson(function () {
             $this->usuariosModel->setData(
                 $_POST["nombre_usuario"],
                 $_POST["apellido_usuario"],
                 $_POST["gmail_usuario"],
                 $_POST["password_usuario"],
                 $_POST["rol_usuario"],
-                "none",
+                "none"
             );
+            $resultado = $this->usuariosModel->edit($_POST["id"] ?? null);
+            return [
+                "success" => $resultado,
+                "message" => $resultado ? "Usuario editado correctamente" : "No se pudo editar el usuario"
+            ];
+        });
+    }
 
-            if ($this->usuariosModel->edit($_POST["id"])) {
-                header("Location: index.php?page=usuarios&succes=edit");
-            } else {
-                header("Location: index.php?page=usuarios&error=edit");
-            }
-        } catch (Exception $e) {
-            header("Location: index.php?page=usuarios&error=other&errorDesc=" . $e->getMessage());
-        };
+    /**
+     * Realiza un borrado lógico del usuario.
+     */
+    public function delete()
+    {
+        $this->procesarRespuestaJson(function () {
+            $resultado = $this->usuariosModel->softDelete($_POST["id"]);
+            return [
+                "success" => $resultado,
+                "message" => $resultado ? "Usuario eliminado correctamente" : "No se pudo eliminar el usuario"
+            ];
+        });
+    }
+
+    /**
+     * Restaura un usuario eliminado.
+     */
+    public function restore()
+    {
+        $this->procesarRespuestaJson(function () {
+            $resultado = $this->usuariosModel->active($_POST["id"]);
+            return [
+                "success" => $resultado,
+                "message" => $resultado ? "Usuario restaurado correctamente" : "No se pudo restaurar el usuario"
+            ];
+        });
+    }
+
+    /**
+     * Elimina permanentemente un usuario.
+     */
+    public function remove()
+    {
+        $this->procesarRespuestaJson(function () {
+            $resultado = $this->usuariosModel->remove($_POST["id"]);
+            return [
+                "success" => $resultado,
+                "message" => $resultado ? "Usuario eliminado permanentemente" : "No se pudo eliminar el usuario permanentemente"
+            ];
+        });
     }
 }

@@ -1,3 +1,18 @@
+17/11/24
+
+Eliminado: 
+1-la opcion para abrir el modal de prendas sin stock
+2-se elimino la tabla de ocupaciones y la columna de de ocupaciones en empleados
+3-columna "id_prenda" y "cantidad" eliminida de la tabla "confecciones"
+
+Agregados:
+
+1-Se cambio la logica de confecciones, ahora el proceso para crear es diferente
+2-se cambio el nombre de empleados a supervisores (modelos, controladores y todo asociado cambiado)
+3-Se creo la tabla puente de confecciones llamada "orden_confeccion"
+4-Columna de "ocupado" de la tabla empleados se cambio a "trabajando" (entero, 11)
+
+
 -------------------------------------13/11/24-------------------------------------
 Eliminados:
 

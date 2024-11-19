@@ -30,7 +30,7 @@ require_once("Templates/Head.php");
             <div class="p-4 bg-custom-content">
                 <!-- Barra de búsqueda y botón de crear pedido -->
                 <div class="d-flex justify-content-between mb-4">
-                    <button type="button" class="btn btn-rj-blue" data-bs-toggle="modal" data-bs-target="#CrearModal" data-intro="Desde este boton podemos registrar un nuevo pedido en el sistema" data-step="2">
+                    <button type="button" class="btn btn-rj-blue" data-bs-toggle="modal" data-bs-target="#crear" data-intro="Desde este boton podemos registrar un nuevo pedido en el sistema" data-step="2">
                         Crear <?php include './src/Assets/bootstrap-icons-1.11.3/plus-lg.svg'; ?>
                     </button>
 
@@ -61,52 +61,16 @@ require_once("Templates/Head.php");
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($pedidosData as $pedido) : ?>
-                                <tr>
-                                    <td><?php echo htmlspecialchars($pedido['id_pedido']); ?></td>
-                                    <td><?php echo htmlspecialchars($pedido['id_proveedor']); ?></td>
-                                    <td><?php echo htmlspecialchars($pedido['fecha_pedido']); ?></td>
-                                    <td><?php echo htmlspecialchars($pedido['id_usuario']); ?></td>
-                                    <td>
-                                        <span class="
-                                        <?= $pedido['estado_pedido'] == 0 ? 'en_curso' : ($pedido['estado_pedido'] == 1 ? 'completado' : 'anulado') ?>">
-                                            <?php echo $pedido['estado_pedido'] == 0 ? 'En proceso' : ($pedido['estado_pedido'] == 1 ? 'completado' : 'Cancelado'); ?></span>
-                                    </td>
-                                    <td class="d-flex">
-                                        <form class="d-flex" action="index.php" method="get">
-                                            <button type="button" class="btn btn-warning m-1" data-bs-toggle="modal"
-                                                data-bs-target="#orden<?php echo $pedido['id_pedido'] ?>">
-                                                <?php include './src/Assets/bootstrap-icons-1.11.3/eye-fill.svg'; ?>
-                                            </button>
-                                            <!-- Boton de eliminar -->
-
-                                            <button type="button" class="btn btn-custom-danger m-1 btn-sm anularPedidoProveedor" data-bs-toggle="modal" data-bs-target="#anularPedidoProveedor" <?= $pedido['estado_pedido'] == 1 ? 'disabled' : ""; ?>>
-                                                <?php include './src/Assets/bootstrap-icons-1.11.3/ban.svg'; ?>
-                                            </button>
-
-                                            <!-- Botón para abrir el modal de actualización -->
-                                            <button type="button" class="btn btn-custom-success m-1 btn-sm actualizarPedidoProveedor" data-bs-toggle="modal" data-bs-target="#actualizar" <?= $pedido['estado_pedido'] == 1 ? 'disabled' : ""; ?>>
-                                                <?php include './src/Assets/bootstrap-icons-1.11.3/currency-dollar.svg'; ?>
-                                            </button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
                         </tbody>
                     </table>
                 </div>
 
                 <!-- Botón para ver usuarios items deshabilitados -->
                 <div class="d-flex justify-content-end mt-4">
-                    <button data-intro="Con este boton podremos visualizar todos aquellos usuarios que se han estado" data-step="7" class="btn btn-rj-blue p-3" data-bs-toggle="modal" data-bs-target="#elementosDesabilitados">
+                    <button data-intro="Con este boton podremos visualizar todos aquellos usuarios que se han estado" data-step="7" class="btn btn-rj-blue p-3" data-bs-toggle="modal" data-bs-target="#papelera">
                         <?php include './src/Assets/bootstrap-icons-1.11.3/trash-fill.svg'; ?> Elementos Deshabilitados
                     </button>
                 </div>
-
-                <?php
-                // Restaurar
-                include_once("src/Views/Pedidos_proveedores/Papelera.php");
-                ?>
             </div>
         </div>
     </main>

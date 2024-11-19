@@ -5,7 +5,7 @@
     ?>
 
  <!-- Modal Para Crear -->
- <div class="modal fade" id="CrearModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+ <div class="modal fade" id="crear" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
      aria-labelledby="staticBackdropLabel" aria-hidden="true">
      <div class="modal-dialog modal-dialog-centered modal-lg">
          <div class="modal-content">
@@ -16,7 +16,7 @@
 
              <!-- Cuerpo del Modal -->
              <div class="modal-body container">
-                 <form class="needs-validation" action="index.php?page=pedidosPrendas&function=create" method="post">
+                 <form class="needs-validation form" id="createForm" method="post">
                      <div class="row g-4 m-3">
                          <div class="col-md-10 mx-auto">
 
@@ -91,7 +91,7 @@
 
                      <!-- Pie del Modal -->
                      <div class="modal-footer d-flex justify-content-between p-3">
-                         <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cerrar</button>
+                         <button type="button" class="btn btn-outline-secondary " data-bs-dismiss="modal">Cerrar</button>
                          <button type="submit" name="btnCrear" value="crear" class="btn btn-rj-blue">Registrar</button>
                      </div>
                  </form>

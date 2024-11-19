@@ -28,7 +28,7 @@ class PDF extends FPDF
 
       // Teléfono
       $this->Cell(178);
-      $this->Cell(96, 10, utf8_decode(" Primer Piso Local 5. El Tocuyo Estado Lara +58 412-8507007"), 0, 0, '', 0);
+      $this->Cell(96, 10, utf8_decode("Primer Piso Local 5. El Tocuyo Estado Lara +58 412-8507007"), 0, 0, '', 0);
       $this->Ln(5);
 
       // Correo
@@ -49,11 +49,10 @@ class PDF extends FPDF
       $this->SetDrawColor(163, 163, 163);
       $this->SetFont('Arial', 'B', 11);
       $this->Cell(30);
-      $this->Cell(30, 10, utf8_decode('ID'), 1, 0, 'C', 1);
-      $this->Cell(50, 10, utf8_decode('NOMBRE PRENDA'), 1, 0, 'C', 1);
-      $this->Cell(40, 10, utf8_decode('CANTIDAD'), 1, 0, 'C', 1);
+      $this->Cell(40, 10, utf8_decode('IDENTIFICADOR'), 1, 0, 'C', 1);
       $this->Cell(60, 10, utf8_decode('FECHA DE FABRICACION'), 1, 0, 'C', 1);
-      $this->Cell(50, 10, utf8_decode('EMPLEADO'), 1, 1, 'C', 1);
+      $this->Cell(50, 10, utf8_decode('SUPERVISOR'), 1, 0, 'C', 1);
+      $this->Cell(50, 10, utf8_decode('ESTADO'), 1, 1, 'C', 1);
    }
 
    // Pie de página
@@ -105,32 +104,24 @@ $confeccionesData = $stmtConfecciones->fetchAll(PDO::FETCH_ASSOC);
 
 // Cargar Datos de la Tabla
 foreach ($confeccionesData as $confecciones) :
-    // Consulta para obtener el nombre de la prenda
-    $queryPrenda = "SELECT nombre_prenda FROM prendas WHERE id_prenda = ?";
-    $stmtPrenda = $pdo->prepare($queryPrenda);
-    $stmtPrenda->execute([$confecciones['id_prenda']]);
-    $prenda = $stmtPrenda->fetch(PDO::FETCH_ASSOC);
-    
-    // Si se encuentra la prenda, muestra el nombre, si no, muestra el ID
-    $nombrePrenda = $prenda ? utf8_decode($prenda['nombre_prenda']) : utf8_decode($confecciones['id_prenda']);
-
     // Consulta para obtener el nombre del empleado
-    $queryEmpleado = "SELECT nombre_empleado FROM empleados WHERE id_empleado = ?";
-    $stmtEmpleado = $pdo->prepare($queryEmpleado);
-    $stmtEmpleado->execute([$confecciones['id_empleado']]);
-    $empleado = $stmtEmpleado->fetch(PDO::FETCH_ASSOC);
-    
+    $querysupervisor = "SELECT nombre_supervisor FROM supervisores WHERE id_supervisor = ?";
+    $stmtsupervisor = $pdo->prepare($querysupervisor);
+    $stmtsupervisor->execute([$confecciones['id_supervisor']]);
+    $supervisor = $stmtsupervisor->fetch(PDO::FETCH_ASSOC);
+
     // Si se encuentra el empleado, muestra el nombre, si no, muestra el ID
-    $nombreEmpleado = $empleado ? utf8_decode($empleado['nombre_empleado']) : utf8_decode($confecciones['id_empleado']);
+    $nombresupervisor = $supervisor ? utf8_decode($supervisor['nombre_supervisor']) : utf8_decode($confecciones['id_supervisor']);
+
+    // Determinar el estado del proceso
+    $estado = $confecciones['proceso'] == 1 ? "Finalizado" : "En Curso";
 
     // Imprimir los datos en el PDF
     $pdf->Cell(30);
-    $pdf->Cell(30, 10, utf8_decode($confecciones['id_confeccion']), 1, 0, 'C', 0);
-    $pdf->Cell(50, 10, $nombrePrenda, 1, 0, 'C', 0); 
-    $pdf->Cell(40, 10, utf8_decode($confecciones['cantidad']), 1, 0, 'C', 0);
+    $pdf->Cell(40, 10, utf8_decode($confecciones['id_confeccion']), 1, 0, 'C', 0);
     $pdf->Cell(60, 10, utf8_decode($confecciones['fecha_fabricacion']), 1, 0, 'C', 0);
-    $pdf->Cell(50, 10, $nombreEmpleado, 1, 1, 'C', 0); // Mostrar el nombre del empleado
+    $pdf->Cell(50, 10, $nombresupervisor, 1, 0, 'C', 0); // Mostrar el nombre del empleado
+    $pdf->Cell(50, 10, utf8_decode($estado), 1, 1, 'C', 0); // Mostrar el estado del proceso
 endforeach;
 
 $pdf->Output('ReporteConfecciones.pdf', 'I'); // Mostrar el PDF
-

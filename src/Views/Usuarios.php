@@ -30,11 +30,9 @@ require_once("Templates/Head.php");
                 <!-- Barra de búsqueda y botón de crear usuario -->
                 <div class="d-flex justify-content-between mb-4">
 
-                    <button data-intro="Con este boton podemos crear nuevos usuarios que podran acceder al sistema" data-step="2" type="button" class="btn btn-rj-blue" data-bs-toggle="modal" data-bs-target="#crearModal">
+                    <button data-intro="Con este boton podemos crear nuevos usuarios que podran acceder al sistema" data-step="2" type="button" class="btn btn-rj-blue crear" data-bs-toggle="modal" data-bs-target="#crear">
                         Crear Usuario <?php include './src/Assets/bootstrap-icons-1.11.3/plus-lg.svg'; ?>
                     </button>
-
-
 
                     <!-- Incluimos el modal del formulario de crear -->
                     <?php include_once("src/Views/Usuarios/Crear.php"); ?>
@@ -57,55 +55,17 @@ require_once("Templates/Head.php");
                             </tr>
                         </thead>
                         <tbody>
-                            <?php
-                            // Buscador de usuarios
-                            foreach ($usuariosData as $usuario) :
-                            ?>
-                                <tr class="table-custom-row">
-                                    <td class="idUsuario"><?php echo htmlspecialchars($usuario['id_usuario']); ?></td>
-                                    <td>
-                                        <?php
-                                        // Verifica si el usuario tiene una imagen de perfil
-                                        $imgUser = empty($usuario['img_usuario']) ? "src/Assets/img/users/User_default_icon.png" : $usuario['img_usuario'];
-                                        ?>
-                                        <img class="img-perfil" src="<?php echo htmlspecialchars($imgUser); ?>" width="50px" height="50px">
-                                    </td>
-                                    <td class="nombreUsuario"><?php echo htmlspecialchars($usuario['nombre_usuario']); ?></td>
-                                    <td class="apellidoUsuario"><?php echo htmlspecialchars($usuario['apellido_usuario']); ?></td>
-                                    <td class="emailUsuario"><?php echo htmlspecialchars($usuario['gmail_usuario']); ?></td>
-                                    <td class="passwordUsuario">
-                                        <div class="position-relative">
-                                            <input type="password" class="form-control" id="passwordInput<?php echo $usuario['id_usuario']; ?>" value="<?php echo htmlspecialchars($usuario['contrasena_usuario']); ?>" readonly>
-                                            <i class="fas fa-eye position-absolute end-0 top-50 translate-middle-y pe-3 password-toggle-icon" id="togglePasswordIcon<?php echo $usuario['id_usuario']; ?>" onclick="togglePasswordVisibility(<?php echo $usuario['id_usuario']; ?>)"></i>
-                                        </div>
-                                    </td>
-                                    <td class="rolUsuario"><?php echo $usuario['rol'] == 1 ? 'admin' : ($usuario['rol'] == 2 ? 'usuario' : 'otro rol'); ?></td>
-                                    <td class="d-flex">
-                                        <!-- Botones de editar y eliminar -->
-                                        <button data-intro="Si se requiere eliminar algun usuario se puede hacer con este boton" data-step="5" type="button" class="btn btn-custom-danger m-1 eliminar" data-bs-toggle="modal" data-bs-target="#eliminar">
-                                            <?php include './src/Assets/bootstrap-icons-1.11.3/trash-fill.svg'; ?>
-                                        </button>
-                                        <button data-intro="Y si se requiere hacer alguna modificacion se puede hacer con este otro" data-step="6" type="button" class="btn btn-custom-success m-1 editar" data-bs-toggle="modal" data-bs-target="#editar">
-                                            <?php include './src/Assets/bootstrap-icons-1.11.3/pencil-fill.svg'; ?>
-                                        </button>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
+                       
                         </tbody>
                     </table>
                 </div>
 
                 <!-- Botón para ver usuarios deshabilitados -->
                 <div class="d-flex justify-content-end mt-4">
-                    <button data-intro="Con este boton podremos visualizar todos aquellos usuarios que se han estado" data-step="7" class="btn btn-rj-blue p-3" data-bs-toggle="modal" data-bs-target="#UsuariosDesabilitados">
+                    <button data-intro="Con este boton podremos visualizar todos aquellos usuarios que se han estado" data-step="7" class="btn btn-rj-blue p-3" data-bs-toggle="modal" data-bs-target="#papelera">
                         <?php include './src/Assets/bootstrap-icons-1.11.3/trash-fill.svg'; ?> Ver Usuarios Deshabilitados
                     </button>
                 </div>
-
-                <?php
-                // Restaurar usuarios deshabilitados
-                include_once("src/Views/Usuarios/Papelera.php");
-                ?>
             </div>
         </div>
     </main>
@@ -114,25 +74,6 @@ require_once("Templates/Head.php");
     include_once("src/Views/Templates/Log.php");
     include_once("src/Views/Templates/Footer.php"); ?>
 
-
-
-    <!-- Script para mostrar/ocultar contraseñas -->
-    <script>
-        function togglePasswordVisibility(userId) {
-            const passwordInput = document.getElementById(`passwordInput${userId}`);
-            const togglePasswordIcon = document.getElementById(`togglePasswordIcon${userId}`);
-
-            if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
-                togglePasswordIcon.classList.remove('fa-eye');
-                togglePasswordIcon.classList.add('fa-eye-slash');
-            } else {
-                passwordInput.type = 'password';
-                togglePasswordIcon.classList.remove('fa-eye-slash');
-                togglePasswordIcon.classList.add('fa-eye');
-            }
-        }
-    </script>
 </body>
 
 </html>

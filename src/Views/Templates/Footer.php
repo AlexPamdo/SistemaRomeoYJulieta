@@ -2,6 +2,8 @@
 <?php include_once("src/Views/Templates/Anular.php") ?>
 <?php include_once("src/Views/Templates/Actualizar.php") ?>
 <?php include_once("src/Views/Templates/Orden.php") ?>
+<?php include_once("src/Views/Templates/Restaurar.php") ?>
+<?php include_once("src/Views/Templates/Remover.php") ?>
 <?php include_once("src/Views/Templates/Papelera.php") ?>
 
 
@@ -59,7 +61,7 @@
 <script src="src/Assets/js/entregas.js"></script>
 
 <!-- validaciones -->
-<script type="text/javascript" src="src/Assets/js/vals.js"></script>
+
 
 <script src="src/Libraries/Intro/intro.min.js"></script>
 

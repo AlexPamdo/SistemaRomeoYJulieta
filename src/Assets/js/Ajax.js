@@ -13,7 +13,7 @@ $(document).ready(function () {
   const pagesConfig = {
     editAndDelete: [
       "almacen",
-      "empleados",
+      "supervisores",
       "prendas",
       "proveedores",
       "usuarios",
@@ -27,6 +27,41 @@ $(document).ready(function () {
     ],
   };
 
+  function estadoPedidoProveedor($estado) {
+    switch ($estado) {
+      case 0:
+        return "<span class='en_curso' > En Curso </span>";
+      case 1:
+        return "<span class='completado' > Finalizado </span>";
+      default:
+        return "<span class='anulado' > Anulado </span>";
+    }
+  }
+  function estadoPedidoPrenda($estado) {
+    switch ($estado) {
+      case 0:
+        return "<span class='en_curso' > No Iniciada </span>";
+      case 1:
+        return "<span class='en_curso' > En curso </span>";
+      case 2:
+        return "<span class='completado' > Terminado </span>";
+      case 3:
+        return "<span class='completado' > Entregado </span>";
+      default:
+        return "<span class='anulado' > Anulado </span>";
+    }
+  }
+  function estadoConfeccion($estado) {
+    switch ($estado) {
+      case 0:
+        return "<span class='en_curso' > En Curso </span>";
+      case 1:
+        return "<span class='completado' > Finalizado </span>";
+      default:
+        return "<span class='anulado' > Anulado </span>";
+    }
+  }
+
   const columnasPorPagina = {
     almacen: [
       { data: "id_material" },
@@ -39,22 +74,22 @@ $(document).ready(function () {
     ],
     confecciones: [
       { data: "id_confeccion" },
-      { data: "id_prenda" },
-      { data: "cantidad" },
       { data: "fecha_fabricacion" },
-      { data: "id_empleado" },
-      { data: "proceso" },
+      { data: "id_supervisor" },
+      {
+        data: null,
+        render: (data, type, row) => estadoConfeccion(row.proceso),
+      },
       { data: null, render: () => buttons },
     ],
-    empleados: [
-      { data: "id_empleado" },
-      { data: "cedula_empleado" },
-      { data: "nombre_empleado" },
-      { data: "apellido_empleado" },
-      { data: "telefono_empleado" },
-      { data: "email_empleado" },
-      { data: "id_ocupacion" },
-      { data: "ocupado" },
+    supervisores: [
+      { data: "id_supervisor" },
+      { data: "cedula_supervisor" },
+      { data: "nombre_supervisor" },
+      { data: "apellido_supervisor" },
+      { data: "telefono_supervisor" },
+      { data: "email_supervisor" },
+      { data: "trabajando" },
       { data: null, render: () => buttons },
     ],
     pedidosPrendas: [
@@ -62,7 +97,10 @@ $(document).ready(function () {
       { data: "desc_pedido_prenda" },
       { data: "fecha_pedido_prenda" },
       { data: "fecha_estimada" },
-      { data: "proceso" },
+      {
+        data: null,
+        render: (data, type, row) => estadoPedidoPrenda(row.proceso),
+      },
       { data: null, render: () => buttons },
     ],
     pedidosProveedores: [
@@ -70,7 +108,11 @@ $(document).ready(function () {
       { data: "id_proveedor" },
       { data: "fecha_pedido" },
       { data: "id_usuario" },
-      { data: "estado_pedido" },
+      {
+        data: null,
+        render: (data, type, row) => estadoPedidoProveedor(row.proceso),
+      },
+
       { data: null, render: () => buttons },
     ],
     prendas: [
@@ -98,16 +140,27 @@ $(document).ready(function () {
       { data: "notas_proveedor" },
       { data: null, render: () => buttons },
     ],
-    usuario: [
+    usuarios: [
       { data: "id_usuario" },
+      {
+        data: null,
+        render: (data, type, row) =>
+          `<img class="img-prenda" src="${row.img_usuario}" alt="" height="40px" width="40px">`,
+      },
       { data: "nombre_usuario" },
       { data: "apellido_usuario" },
       { data: "gmail_usuario" },
-      { data: "contraseña_usuario" },
+      { data: "contrasena_usuario" },
       { data: "rol" },
-      { data: "img_usuario" },
       { data: null, render: () => buttons },
     ],
+  };
+
+  const columnasDetailsName = {
+    prendas: ["Material", "Tipo", "Color", "Cantidad"],
+    pedidosPrendas: ["Prenda", "Coleccion", "Talla", "Cantidad"],
+    pedidosProveedores: ["Material", "Tipo", "Color", "Cantidad"],
+    confecciones: ["Prenda", "Coleccion", "Talla", "Cantidad"], // Si no tiene columnas, asegúrate de no dejarlo vacío o añade columnas válidas
   };
 
   const columnasDetail = {
@@ -130,19 +183,26 @@ $(document).ready(function () {
       { data: "cantidad_material" },
     ],
     confecciones: [
-      // Ejemplo de columnas válidas (si se conocen)
-      { data: "id_confeccion" },
-      { data: "nombre_proceso" },
-      { data: "estado" },
-      { data: "fecha_inicio" },
-      { data: "fecha_fin" },
+      { data: "prenda" },
+      { data: "coleccion" },
+      { data: "talla" },
+      { data: "cantidad" },
     ],
   };
 
   const actionsByPage = {
+    create: `index.php?page=${page}&function=create`,
     delete: `index.php?page=${page}&function=delete`,
     update: `index.php?page=${page}&function=update`,
+    restore: `index.php?page=${page}&function=restore`,
+    remove: `index.php?page=${page}&function=remove`,
     viewDetails: (id) => `index.php?page=${page}&function=viewDetails&id=${id}`,
+  };
+
+  const buttonDisabled = {
+    confecciones: 1,
+    pedidosPrendas: 3,
+    pedidosProveedores: 1,
   };
 
   // -------------------------------- GENERACIÓN DE BOTONES --------------------------------
@@ -209,34 +269,248 @@ $(document).ready(function () {
     ajax: {
       url: `index.php?page=${page}&function=viewAll`,
       type: "GET",
-      dataSrc: "",
-      beforeSend: () => console.log("Realizando petición AJAX..."),
-      complete: () => console.log("Petición AJAX completada."),
+      dataSrc: "data",
+      beforeSend: () =>
+        console.log("Realizando petición AJAX para la tabla principal..."),
+      complete: () =>
+        console.log("Petición AJAX para la tabla principal completada."),
       error: (jqXHR, textStatus, errorThrown) =>
         console.error("Error en AJAX:", textStatus, errorThrown),
     },
     columns: columnas,
     responsive: true,
+    drawCallback: function (settings) {
+      const api = this.api();
+      api.rows().every(function () {
+        const row = this.node();
+        const data = this.data();
+
+        // Aquí puedes habilitar o deshabilitar los botones según el estado de los datos
+        if (data.proceso === buttonDisabled[page]) {
+          $(row).find(".actualizar, .anular").prop("disabled", true); // Deshabilitar botones
+        } else {
+          $(row).find(".actualizar, .anular").prop("disabled", false); // Deshabilitar botones
+        }
+      });
+    },
   });
+
+  //Cabeceras de detalles
+  if (pagesConfig.viewOrder.includes(page)) {
+    let orderRows = columnasDetailsName[page];
+    console.log("Columnas para los detalles generados");
+    for (let i = 0; i < orderRows.length; i++) {
+      let th = `<th scope="col">${orderRows[i]}</th>`;
+      $("#orderTable thead tr").append(th);
+    }
+  } else {
+    console.log("Esta página no necesita mostrar pedidos de tablas");
+  }
+
+  // Poner las cabeceras en la tabla de la papelera
+  var spans = $("#myTable thead tr span");
+  spans.each(function (index, span) {
+    if ($(span).text() !== "") {
+      let column = `<th scope="col">${$(span).text()}</th>`;
+      $("#trashTable thead tr").append(column);
+    }
+  });
+  console.log("Se renombraron las cabeceras de la papelera"); // Mostrar el texto de cada <span>
 
   const trashTable = $("#trashTable").DataTable({
     ajax: {
-        url: `index.php?page=${page}&function=viewDelete`,
+      url: `index.php?page=${page}&function=viewDelete`,
       type: "GET",
-      dataSrc: "",
+      dataSrc: "data",
+      beforeSend: () =>
+        console.log("Realizando petición AJAX para la tabla de la papelera..."),
+      complete: () => console.log("Petición AJAX para la papelera completada."),
       error: (jqXHR, textStatus, errorThrown) =>
         console.error("Error en AJAX:", textStatus, errorThrown),
     },
     columns: columnas,
     responsive: true,
-  })
+    createdRow: function (row, data, dataIndex) {
+      let buttoms = '<button class="btn btn-custom-success m-1 restaurar " data-bs-toggle="modal" data-bs-target="#restaurar"><i class="fa-solid fa-sync"></i></button><button class="btn btn-custom-danger m-1 remover" data-bs-toggle="modal" data-bs-target="#remover">X</button> '
+      // Cambiar el contenido de la última columna después de que la fila se haya creado
+      $("td", row).eq(-1).html(buttoms);
+    },
+  });
 
   console.log("DataTable inicializado correctamente.");
+ 
+   // -------------------------------- OBJETO DE VALIDACIONES --------------------------------
+   const validaciones = {
+    almacen: {//pagina de almacen
+      nombreMaterial: {
+        required: true,
+        regex: /^.{5,}$/,
+        mensaje: "Minimo 5 caracteres",
+      },
+      stockMaterial: {
+        required: true,
+        regex: /^\d+$/,
+        mensaje: "El stock debe ser un número entero válido.",
+      },tipoMaterial: {
+        required: true,
+        regex: /^(?!\s*$).+/, // Asegura que se seleccione una opción distinta a la primera (vacía)
+        mensaje: "Por favor, seleccione una opción para el primer select.",
+      },
+      medidaMaterial: {
+        required: true,
+        regex: /^(?!\s*$).+/, // Asegura que se seleccione una opción distinta a la primera (vacía)
+        mensaje: "Por favor, seleccione una opción para el segundo select.",
+      },colorMaterial:{
+        required: true,
+        regex: /^(?!\s*$).+/, // Asegura que se seleccione una opción distinta a la primera (vacía)
+        mensaje: "Por favor, seleccione una opción para el segundo select.",
+      }
+    },
+    supervisores: {//supervisores
+      nameSupervisor: {
+        required: true,
+        regex: /^[a-zA-Z\s]{3,}$/,
+        mensaje: "El nombre debe tener minimo 3 caracteres y solo letras.",
+      }, apellidoSupervisor: {
+        required: true,
+        regex: /^[a-zA-Z\s]{3,}$/,
+        mensaje: "El apellido debe tener minimo 3 caracteres y solo letras.",
+      },
+      cedulaSupervisor: {
+        required: true,
+        regex: /^[A-Za-z0-9]{1,3}[-\s]?[0-9]{3,4}[-\s]?[0-9]{3,4}$/,
+       mensaje: "Documento inválido",
+      },
+      emailSupervisor: {
+        required: true,
+        regex: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+        mensaje: "Correo electrónico debe tener NombreUsuario@(gmail,hotmail u otros).(com,net u otros)",
+      },telefonoSupervisor: {
+        required: true,
+        regex: /^\+?(\d{1,3})?[-.\s]?\(?\d{1,4}\)?[-.\s]?(\d{4,})[-.\s]?\d{1,9}$/,
+        mensaje: "Número telefónico solo numeros separado opcionalmente por guiones o espacios (con o sin codigo de pais)",
+      }
+    },
+    proveedores: {//proveedores
+      nombreProveedor: {
+        required: true,
+        regex: /^.{5,}$/,
+      mensaje: "Minimo 5 caracteres",
+      },
+      telefonoProveedor: {
+        required: true,
+        regex: /^\+?(\d{1,3})?[-.\s]?\(?\d{1,4}\)?[-.\s]?(\d{4,})[-.\s]?\d{1,9}$/,
+        mensaje: "Número telefónico solo numeros separado opcionalmente por guiones o espacios (con o sin codigo de pais)",
+      },rifProveedor: {
+        required: true,
+        regex: /^[VEJGPvejgp]-\d{9}$/,
+        mensaje: "RIF debe comenzar con V, E, J, G o P , seguido de un - y tener 9 dígitos.",
+      },emailProveedor:{
+        required: true,
+        regex: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+        mensaje: "Correo electrónico debe tener NombreUsuario@(gmail,hotmail u otros).(com,net u otros)",
+      },
+      notasProveedor:{
+        required: true,
+        regex: /^.{10,}$/,
+        mensaje: "Mínimo 10 caracteres",
+      }
+    },
+    usuarios: {//usuarios
+      nombreUsuario: {
+        required: true,
+        regex: /^[a-zA-Z\s]{3,}$/,
+        mensaje: "El nombre debe tener minimo 3 caracteres y solo letras.",
+      },apellidoUsuario:{
+        required: true,
+        regex: /^[a-zA-Z\s]{3,}$/,
+        mensaje: "El apellido debe tener minimo 3 caracteres y solo letras.",
+      },
+      passwordUsuario: {
+        required: true,
+        regex: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/,
+        mensaje: "La contraseña debe tener al menos 8 caracteres, incluir mayúsculas, minúsculas y números.",
+      },emailUsuario:{
+        required: true,
+        regex: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+        mensaje: "Correo electrónico debe tener NombreUsuario@(gmail,hotmail u otros).(com,net u otros)",
+      }, rolUsuario: {
+        required: true,
+        mensaje: "Por favor, seleccione un rol.",
+      },
+    },
+    confecciones: {
+      pedidos: {
+        required: true,
+        regex: /^(?!\s*$).+/, // Asegura que se seleccione una opción distinta a la primera (vacía)
+        mensaje: "Por favor, seleccione una opción para el segundo select.",
+      }
+    }
+  };
+
+  // Función de validación general
+  function validarFormulario(page, formSelector) {
+    const campos = validaciones[page];//busca las validaciones segun la pagina actual
+    if (!campos) return true; // Si no hay validaciones para la página, pasar automáticamente
+
+    let esValido = true;
+
+    // Recorrer cada campo y validar
+    for (const [campo, reglas] of Object.entries(campos)) {//buscamos dentro del objeto con el nombre de la pagina actual
+      const input = $(formSelector).find('.' + campo);//busacamos el name del campo
+      const valor = input.val().trim();//verificamos el valor del campo
+      const errorSpan = input.next('.error-span');//span de error
+
+      // Crear el span de error si no existe
+      if (errorSpan.length === 0) {
+        input.after(`<span class="error-span text-danger"></span>`);
+      }
+
+      
+  // Validación para campos requeridos
+  if (reglas.required) {
+    if (campo === 'rol_usuario') {  // Si el campo es del tipo radio
+      // Verifica si al menos uno de los radios con el nombre 'rol_usuario' está seleccionado
+      if (!$(`input["${campo}"]:checked`).length) {
+        // Mostrar el mensaje de error en el span adecuado
+     $('.errorRol').text(reglas.mensaje);
+        esValido = false;
+      } else {
+        $('.errorRol').text('');
+      }
+    } else if (valor === "" || valor === null) {  // Para otros campos
+      input.next('.error-span').text(`Rellene este campo.`);
+      esValido = false;
+    }
+    // Validación para el regex (si existe)
+    else if (reglas.regex && !reglas.regex.test(valor)) {
+      input.next('.error-span').text(reglas.mensaje);
+      esValido = false;
+    } 
+    // Si es válido, limpiar el mensaje de error
+    else {
+      input.next('.error-span').text('');
+    }
+  }
+    }
+
+    return esValido;
+  }
 
   // -------------------------------- FUNCIONES REUTILIZABLES --------------------------------
   function handleAction(action, formSelector, modalSelector, successMessage) {
     $(formSelector).submit(function (e) {
       e.preventDefault();
+
+     
+    if (action === "create") {//sola mente valida el action es create
+        // Validar formulario antes de enviar
+        if (!validarFormulario(page, formSelector)) {
+          console.warn("El formulario contiene errores, no se enviará.");
+          return;
+        }
+    }
+
       console.log(`Enviando solicitud AJAX para acción: ${action}`);
       $.ajax({
         url: actionsByPage[action],
@@ -260,16 +534,22 @@ $(document).ready(function () {
             }
           } catch (err) {
             console.error("Error procesando respuesta JSON:", err);
-            alertify.error("Hubo un error al procesar la solicitud.");
+            alertify.error("Ocurrió un error al procesar la respuesta.");
           }
         },
-        error: (xhr, status, error) => {
-          console.error("Error en la solicitud AJAX:", error);
-          alertify.error("Hubo un error al procesar la solicitud.");
+        error: (jqXHR, textStatus, errorThrown) => {
+          console.error("Error en AJAX:", textStatus, errorThrown);
+          alertify.error("Ocurrió un error al enviar la solicitud.");
         },
       });
     });
   }
+
+  // -------------------------------- CREAR --------------------------------
+  $(document).on("click", ".crear", function () {
+    console.log(`Preparando para crear un nuevo elemento`);
+  });
+  handleAction("create", "#createForm", "#crear", "Elemento Creado");
 
   // -------------------------------- ELIMINAR --------------------------------
   $(document).on("click", ".eliminar", function () {
@@ -296,12 +576,29 @@ $(document).ready(function () {
       ajax: {
         url: actionsByPage.viewDetails(id),
         type: "GET",
-        dataSrc: "",
+        dataSrc: "data",
       },
       columns: columnasDetail[page],
       responsive: true,
     });
   });
+
+   // -------------------------------- RESTAURAR --------------------------------
+   $(document).on("click", ".restaurar", function () {
+    const id = $(this).closest("tr").find("td:first").text();
+    console.log(`Preparando para restaurar el elemento con ID: ${id}`);
+    $("#idRestaurar").val(id);
+  });
+  handleAction("restore", "#restoreForm", "#restaurar", "Elemento Restaurado");
+
+  // -------------------------------- REMOVER --------------------------------
+     $(document).on("click", ".remover", function () {
+      const id = $(this).closest("tr").find("td:first").text();
+      console.log(`Preparando para restaurar el elemento con ID: ${id}`);
+      $("#idRemover").val(id);
+    });
+    handleAction("remove", "#removeForm", "#remover", "Elemento Removido");
+  
 
   console.log("Configuración completada.");
 });

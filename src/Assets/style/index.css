@@ -401,7 +401,7 @@ main {
 .modal.fade .modal-dialog {
   transform: none !important;
   opacity: 0;
-  transition: opacity 0.1s ease-in-out; /* Solo animación de opacidad */
+  transition: opacity 0.1s ease; /* Solo animación de opacidad */
 }
 
 .modal.fade.show .modal-dialog {

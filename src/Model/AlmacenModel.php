@@ -11,7 +11,7 @@ class AlmacenModel extends ModeloBase
     protected $data = [];
     protected $tabla = "almacen";
 
-    public function setData($nombre, $tipo, $color, $stock, $medida, $precio)
+    public function setData($nombre, $tipo, $color, $stock, $medida)
     {
         $this->data = [
             'nombre' => $nombre,
@@ -19,7 +19,6 @@ class AlmacenModel extends ModeloBase
             'color' => $color,
             'stock' => $stock,
             'medida' => $medida,
-            'precio' => $precio
         ];
     }
 
@@ -64,8 +63,8 @@ class AlmacenModel extends ModeloBase
     public function create()
     {
         // Prepara la consulta SQL
-        $query = "INSERT INTO {$this->tabla} (nombre_material, tipo_material, color_material, stock, unidad_medida, precio) 
-              VALUES (:nombre, :tipo, :color, :stock, :medida, :precio)";
+        $query = "INSERT INTO {$this->tabla} (nombre_material, tipo_material, color_material, stock, unidad_medida) 
+              VALUES (:nombre, :tipo, :color, :stock, :medida)";
 
         $stmt = $this->prepare($query);
 
@@ -74,7 +73,6 @@ class AlmacenModel extends ModeloBase
         $stmt->bindParam(":color", $this->data["color"]);
         $stmt->bindParam(":stock", $this->data["stock"]);
         $stmt->bindParam(":medida", $this->data["medida"]);
-        $stmt->bindParam(":precio", $this->data["precio"]);
 
 
         // Ejecuta la consulta
@@ -99,7 +97,7 @@ class AlmacenModel extends ModeloBase
     public function edit($id)
     {
         $query = "UPDATE {$this->tabla}
-                  SET nombre_material = :nombre, tipo_material = :tipo, color_material = :color, stock = :stock, unidad_medida = :medida, precio = :precio 
+                  SET nombre_material = :nombre, tipo_material = :tipo, color_material = :color, stock = :stock, unidad_medida = :medida
                   WHERE id_material = :id";
         $stmt = $this->prepare($query);
         // Bindea los parámetros usando los datos del array $data
@@ -108,7 +106,6 @@ class AlmacenModel extends ModeloBase
         $stmt->bindParam(':color', $this->data['color'], PDO::PARAM_INT);
         $stmt->bindParam(':stock', $this->data['stock'], PDO::PARAM_INT);
         $stmt->bindParam(":medida", $this->data["medida"]);
-        $stmt->bindParam(':precio', $this->data['precio'], PDO::PARAM_STR);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
 
         if ($stmt->execute()) {

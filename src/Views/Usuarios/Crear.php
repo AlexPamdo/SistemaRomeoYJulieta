@@ -1,12 +1,12 @@
 <!-- Modal Para Crear Usuario -->
-<div class="modal fade" id="crearModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="crear" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered ">
         <div class="modal-content">
             <div class="bg-dark modal-header">
                 <h1 class="modal-title text-white fs-5" id="tituloModal">Crear usuario</h1>
             </div>
             <div class="modal-body">
-                <form class="needs-validation form" id="formCreateUser" action="index.php?page=usuarios&function=create" method="post" enctype="multipart/form-data">
+                <form class="needs-validation form" id="createForm" method="post" enctype="multipart/form-data">
 
                     <input type="hidden" name="id" id="id">
 
@@ -14,28 +14,27 @@
 
                         <div class="p-3">
                             <label class="fw-bold" for="nameUser">Nombres</label>
-                            <input type="text" name="nombre_usuario" class="form-control-input campo name" id="nameUser" placeholder="Introduzca los nombres" />
+                            <input type="text" name="nombre_usuario" class="form-control-input campo name nombreUsuario" id="nameUser" placeholder="Introduzca los nombres" />
                             <span id="nameUserError" class="error"></span>
                         </div>
 
                         <div class="p-3">
                             <label class="fw-bold" for="apellidoUser">Apellidos</label>
-                            <input type="text" name="apellido_usuario" class="form-control-input campo name" id="apellidoUser" placeholder="Introduzca los apellidos" />
+                            <input type="text" name="apellido_usuario" class="form-control-input campo name apellidoUsuario" id="apellidoUser" placeholder="Introduzca los apellidos" />
                             <span id="apellidoUserError" class="error"></span>
                         </div>
 
                         <div class="p-3">
                             <label class="fw-bold" for="gmail_usuario">Correo electrónico</label>
-                            <input type="email" name="gmail_usuario" class="form-control-input campo email" id="gmail_usuario" autocomplete="new-email" placeholder="Introduzca el email" />
+                            <input type="text" name="gmail_usuario" class="form-control-input campo emailUsuario" id="gmail_usuario" autocomplete="new-email" placeholder="Introduzca el email" />
                             <span id="gmail_usuarioError" class="error"></span>
                         </div>
 
                         <div class="p-3">
                             <label class="fw-bold" for="password_create">Contraseña</label>
 
-                            <input type="password" name="password_usuario" class="form-control-input campo pass" id="password_create" autocomplete="off"
-                                placeholder="Introduzca la contraseña" minlength="8"
-                                pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                            <input type="password" name="password_usuario" class="form-control-input campo pass passwordUsuario" id="password_create" autocomplete="off"
+                                
                                 title="La contraseña debe tener al menos 8 caracteres, incluyendo al menos una letra mayúscula, una letra minúscula y un número." />
 
                         </div>
@@ -48,18 +47,21 @@
                                 <input type="hidden" name="rol_usuario" value="">
 
                                 <div class="d-flex flex-column align-items-center">
-                                    <input type="radio" id="rol1" name="rol_usuario" value="1" required>
+                                    <input type="radio" id="rol1" name="rol_usuario" value="1" class="rolUsuario">
                                     <label for="rol1">Admin</label>
                                 </div>
 
                                 <div class="d-flex flex-column align-items-center">
-                                    <input type="radio" id="rol2" name="rol_usuario" value="2" required>
+                                    <input type="radio" id="rol2" name="rol_usuario" value="2"  class="rolUsuario">
                                     <label for="rol2">User</label>
                                 </div>
+                            
                             </div>
+                          
                         </div>
 
                     </div>
+                    <span class="errorRol error d-block text-center"></span>
 
                     <div class="row mb-3 p-3">
                         <div class="col-md-12 text-center">
@@ -80,15 +82,3 @@
     </div>
 </div>
 </div>
-
-<!-- Script para Mostrar/Ocultar Contraseña -->
-<script>
-    const togglePassword_create = document.querySelector('#togglePassword_create');
-    const password_create = document.querySelector('#password_create');
-
-    togglePassword_create.addEventListener('click', function(e) {
-        const type = password_create.getAttribute('type') === 'password' ? 'text' : 'password';
-        password_create.setAttribute('type', type);
-        this.textContent = type === 'password' ? 'Mostrar' : 'Ocultar';
-    });
-</script>

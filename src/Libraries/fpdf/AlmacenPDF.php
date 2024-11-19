@@ -48,11 +48,13 @@ class PDF extends FPDF
       $this->SetDrawColor(163, 163, 163);
       $this->SetFont('Arial', 'B', 11);
       $this->Cell(45);
-      $this->Cell(30, 10, utf8_decode('ID MATERIAL'), 1, 0, 'C', 1);
+      $this->Cell(40, 10, utf8_decode('IDENTIFICADOR'), 1, 0, 'C', 1);
       $this->Cell(40, 10, utf8_decode('NOMBRE MATERIAL'), 1, 0, 'C', 1);
       $this->Cell(40, 10, utf8_decode('TIPO MATERIAL'), 1, 0, 'C', 1);
       $this->Cell(45, 10, utf8_decode('COLOR MATERIAL'), 1, 0, 'C', 1);
-      $this->Cell(25, 10, utf8_decode('STOCK'), 1, 1, 'C', 1);
+      $this->Cell(25, 10, utf8_decode('STOCK'), 1, 0, 'C', 1);
+      $this->Cell(25, 10, utf8_decode('MEDIDA'), 1, 1, 'C', 1);
+
    }
 
    // Pie de página
@@ -108,13 +110,26 @@ foreach ($materialData as $material) :
    $colorMaterial = $stmtColorMaterial->fetch(PDO::FETCH_ASSOC);
    $nombreColorMaterial = $colorMaterial ? utf8_decode($colorMaterial['color']) : utf8_decode($material['color_material']);
    
-   // Imprimir los datos en el PDF
-   $pdf->Cell(45);
-   $pdf->Cell(30, 10, utf8_decode($material['id_material']), 1, 0, 'C', 0);
-   $pdf->Cell(40, 10, utf8_decode($material['nombre_material']), 1, 0, 'C', 0);
-   $pdf->Cell(40, 10, $nombreTipoMaterial, 1, 0, 'C', 0); // Mostrar nombre del tipo de material
-   $pdf->Cell(45, 10, $nombreColorMaterial, 1, 0, 'C', 0); // Mostrar nombre del color de material
-   $pdf->Cell(25, 10, utf8_decode($material['stock']), 1, 1, 'C', 0);
+   $fechaInicio = isset($_GET['fecha_inicio']) ? $_GET['fecha_inicio'] : '1900-01-01';
+   $fechaFin = isset($_GET['fecha_fin']) ? $_GET['fecha_fin'] : '2100-12-31';
+   $unidadMedida = isset($_GET['unidad_medida']) ? $_GET['unidad_medida'] : null;
+   
+   if ($unidadMedida) {
+       // Consulta con filtros
+       $queryMaterial = "SELECT * FROM almacen WHERE unidad_medida = :unidad_medida 
+                         AND fecha_registro BETWEEN :fecha_inicio AND :fecha_fin";
+       $stmtMaterial = $pdo->prepare($queryMaterial);
+       $stmtMaterial->bindParam(':unidad_medida', $unidadMedida, PDO::PARAM_STR);
+       $stmtMaterial->bindParam(':fecha_inicio', $fechaInicio, PDO::PARAM_STR);
+       $stmtMaterial->bindParam(':fecha_fin', $fechaFin, PDO::PARAM_STR);
+       $stmtMaterial->execute();
+   
+       $materialData = $stmtMaterial->fetchAll(PDO::FETCH_ASSOC);
+   } else {
+       echo "Unidad de medida no especificada.";
+       exit;
+   }
+
    
 endforeach;
 

@@ -25,6 +25,25 @@ class PedidosPrendasModel extends ModeloBase
         return $this->viewAll($value, $column);
     }
 
+    public function viewPedidosDisponibles($value = "", $column = ""){
+        try {
+            $sql = "SELECT * FROM {$this->tabla} WHERE proceso = 0 AND estado = 0";
+
+            if ($value !== "" && $column !== "") {
+                $sql .= " AND $column = $value";
+            }
+          
+            $stmt = $this->prepare($sql);
+
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+        } catch (\PDOException $e) {
+            echo "Error:" . $e->getMessage();
+            return [];
+        } 
+    }
+
 
     public function create()
     {

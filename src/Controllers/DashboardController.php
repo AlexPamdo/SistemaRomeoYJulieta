@@ -16,7 +16,7 @@ class DashboardController
             "prendas" => \src\Model\PrendasModel::class,
             "confecciones" => \src\Model\ConfeccionesModel::class,
             // "patrones" => \src\Model\PatronesModel::class,
-            "empleados" => \src\Model\EmpleadosModel::class,
+            "supervisores" => \src\Model\SupervisoresModel::class,
             "usuarios" => \src\Model\UsuariosModel::class
         ];
         
@@ -34,7 +34,7 @@ class DashboardController
             "prendas" => ["active" => 0, "inactive" => 0, "outOfStock" => 0,],
             "confecciones" => ["active" => 0, "inactive" => 0],
             "patrones" => ["active" => 0, "inactive" => 0],
-            "empleados" => ["active" => 0, "inactive" => 0],
+            "supervisores" => ["active" => 0, "inactive" => 0],
             "usuarios" => ["active" => 0, "inactive" => 0]
         ];
 
@@ -48,8 +48,8 @@ class DashboardController
                 switch ($key) {
 
                     case "pedidos":
-                        $metrics["pending"] = $data[$key]->viewAll(0, "estado_pedido");
-                        $metrics["completed"] = $data[$key]->viewAll(1, "estado_pedido");
+                        $metrics["pending"] = $data[$key]->viewAll(0, "proceso");
+                        $metrics["completed"] = $data[$key]->viewAll(1, "proceso");
                         break;
                     case "prendas":
                         $metrics["outOfStock"] = $data[$key]->viewAll(0, "stock");
