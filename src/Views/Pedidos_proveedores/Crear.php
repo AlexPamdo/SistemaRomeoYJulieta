@@ -16,7 +16,7 @@ $materialesData = $materiales->viewAll(0, "estado");
 
             <!-- Cuerpo del Modal -->
             <div class="container modal-body">
-                <form class="needs-validation" action="index.php?page=pedidosProveedores&function=create" method="post">
+                <form class="needs-validation" id="createForm" method="post">
                     <div class="col-md-10 mx-auto container d-flex align-items-center flex-column m-3">
                         <!-- Sección del Proveedor -->
                         <div class="col-5 m-4 ">

@@ -43,6 +43,16 @@ class AlmacenController extends ControllerBase
         });
     }
 
+      /**
+     * Retorna un elemento especifico mediante su ID en formato JSON.
+     */
+    public function viewElement()
+    {
+        $this->procesarRespuestaJson(function () {
+            return $this->materialModel->viewAll($_GET["id"], "id_material");
+        });
+    }
+
     /**
      * Genera un reporte PDF de los materiales.
      */

@@ -21,17 +21,17 @@ $coloresData = $coloresModel->viewAll();
                 </h1>
             </div>
             <div class="modal-body">
-                <form class="needs-validation form" action="index.php?page=almacen&function=edit" method="post">
+                <form class="needs-validation form" id="editForm" method="post">
                     <div class=" d-flex flex-column p-3">
                         <!-- Campo oculto para el ID del material -->
-                        <input type="hidden" name="id" id="id_edit">
+                        <input type="hidden" name="id" id="id_edit" data-field="id_material">
 
                         <!-- Nombre del Material -->
                         <div class="form-label input-group flex-nowrap m-2 d-flex flex-column">
                             <label class="fw-bold" class="form-label">Descripción</label>
 
                             <input type="text" name="nombre_material" class="form-control-input campo descripcion w-100" id="desc_edit"
-                                placeholder="Nombre del Material" aria-label="Nombre">
+                                placeholder="Nombre del Material" aria-label="Nombre" data-field="nombre_material">
                             <div class="valid-feedback"></div>
                         </div>
 
@@ -40,7 +40,7 @@ $coloresData = $coloresModel->viewAll();
                             <label class="fw-bold" class="form-label">Stock</label>
 
                             <input type="" name="stock" class="form-control-input campo stock w-100" id="stock_edit" placeholder="Stock"
-                                aria-label="Stock">
+                                aria-label="Stock" data-field="stock">
                         </div>
 
                         <div class="container p-3">
@@ -50,7 +50,7 @@ $coloresData = $coloresModel->viewAll();
                                     <label class="fw-bold" for="tipo_edit">Tipo</label>
                                 </div>
                                 <div class="col-9">
-                                    <select class="form-control custom-select-edit" name="tipo_material" id="tipo_edit" required>
+                                    <select class="form-control custom-select-edit" name="tipo_material" id="tipo_edit" data-field="tipo_material" required>
                                     <option value="" select>Seleccione un tipo</option>
 
                                         <?php foreach ($tiposData as $tipo): ?>
@@ -60,13 +60,27 @@ $coloresData = $coloresModel->viewAll();
                                 </div>
                             </div>
 
+                            <div class="row align-items-center py-2">
+                                <div class="col-2 ">
+                                    <label class="fw-bold" for="tipo_edit">Medida</label>
+                                </div>
+                                <div class="col-9">
+                                    <select class="form-control custom-select-edit medidaMaterial" name="medida_material" data-field="unidad_medida" >
+                                    <option value="" select >Seleccione un tipo de medida</option>
+                                    <option value="Unidades" >Unidades</option>
+                                    <option value="Metros" >Metros</option>
+                                    </select>
+                                </div>
+                                <span class="errorMedidaMaterial d-block text-center"></span>
+                            </div>
+
                             <!-- Color del Material -->
                             <div class="row align-items-center py-2">
                                 <div class="col-2 ">
                                     <label class="fw-bold" for="color_edit">Color</label>
                                 </div>
                                 <div class="col-9">
-                                    <select class="form-control custom-select-edit" name="color_material" id="color_edit">
+                                    <select class="form-control custom-select-edit" name="color_material" id="color_edit" data-field="color_material">
                                     <option value="" select>Seleccione un color</option>
 
                                         <?php foreach ($coloresData as $color): ?>

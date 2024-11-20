@@ -47,6 +47,18 @@ class UsuariosController extends ControllerBase
         });
     }
 
+    
+    /**
+     * Retorna un elemento especifico mediante su ID en formato JSON.
+     */
+    public function viewElement()
+    {
+        $this->procesarRespuestaJson(function () {
+            return $this->usuariosModel->viewAll($_GET["id"], "id_usuario");
+        });
+    }
+
+
     /**
      * Crea un nuevo usuario.
      */
@@ -54,12 +66,12 @@ class UsuariosController extends ControllerBase
     {
         $this->procesarRespuestaJson(function () {
             // Validar email único
-            if ($this->usuariosModel->viewAll($_POST["gmail_usuario"], "email_usuario")) {
+            if ($this->usuariosModel->showColumn("gmail_usuario","gmail_usuario", $_POST["gmail_usuario"])) {
                 throw new Exception("El email ya existe");
             }
 
             // Manejo de imagen
-            if ($_FILES["file1"]["error"] === UPLOAD_ERR_OK) {
+            if (isset($_FILES["file1"]) && $_FILES["file1"]["error"] === UPLOAD_ERR_OK) {
                 $nomArchivo = basename($_FILES['file1']['name']);
                 $ruta = "src/Assets/img/users/" . $nomArchivo;
                 $archivoTmp = $_FILES['file1']['tmp_name'];

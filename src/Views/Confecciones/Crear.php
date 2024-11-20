@@ -66,7 +66,7 @@ use src\Model\SupervisoresModel;
                                     </select>
                                     <div class="valid-feedback"></div>
                                 </div>
-                                <span class="error-span"></span>
+                                <span class="errorPedidos error"></span>
                             </div>
                         </div>
 

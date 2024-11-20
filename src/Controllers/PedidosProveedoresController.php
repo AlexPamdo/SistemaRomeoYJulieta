@@ -157,7 +157,7 @@ class PedidosProveedoresController extends ControllerBase
                 throw new Exception("ID de pedido no especificado.");
             }
 
-            if (!$this->model->updateColumn("proceso", 3, "id_pedido", $id)) {
+            if (!$this->model->updateColumn("proceso", 4, "id_pedido", $id)) {
                 throw new Exception("Error al actualizar el estado del pedido.");
             }
 
@@ -173,7 +173,7 @@ class PedidosProveedoresController extends ControllerBase
         foreach ($materialesData as $material) {
             $this->ordenPedido->setData(
                 $id_pedido,
-                $material['id_material'],
+                $material['id_Material'],
                 $material['cantidad']
             );
 

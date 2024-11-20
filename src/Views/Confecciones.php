@@ -50,6 +50,7 @@ require_once("Templates/Head.php");
                         <thead class="table-custom-header">
                             <tr>
                                 <th scope="col">ID</th>
+                                <th scope="col">Desc del pedido</th>
                                 <th scope="col">Fecha de fabricación</th>
                                 <th scope="col">Supervisor encargado</th>
                                 <th scope="col">Estado</th>

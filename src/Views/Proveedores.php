@@ -38,7 +38,6 @@ require_once("Templates/Head.php");
                     <?php } ?>
                     <?php
                     require_once("src/Views/Proveedores/Registrar.php");
-                  /*   require_once("src/Views/Proveedores/Editar.php"); */
                     ?>
                 </div>
 
@@ -76,7 +75,9 @@ require_once("Templates/Head.php");
     </main>
     <?php
     include_once("src/Views/Templates/Log.php");
-    include_once("src/Views/Templates/Footer.php"); ?>
+    include_once("src/Views/Templates/Footer.php");
+    require_once("src/Views/Proveedores/Editar.php");
+    ?>
 
 
 

@@ -1,5 +1,6 @@
 <?php include_once("src/Views/Templates/Eliminar.php") ?>
 <?php include_once("src/Views/Templates/Anular.php") ?>
+<?php include_once("src/Views/Templates/Anular.php") ?>
 <?php include_once("src/Views/Templates/Actualizar.php") ?>
 <?php include_once("src/Views/Templates/Orden.php") ?>
 <?php include_once("src/Views/Templates/Restaurar.php") ?>
@@ -54,13 +55,11 @@
 <script src="src/Assets/js/Ajax.js"></script>
 
 
-<!-- proveedores -->
-<script src="src/Assets/js/ConsultaTablas.js"></script>
-
 <!-- scrip de las estregas -->
 <script src="src/Assets/js/entregas.js"></script>
 
-<!-- validaciones -->
+<!-- Modales de editar -->
+
 
 
 <script src="src/Libraries/Intro/intro.min.js"></script>
@@ -69,18 +68,9 @@
 
 <script src="src/Libraries/bootstrap-5.3.3-dist/js/bootstrap.min.js"></script>
 
-
 <script src="src/Assets/js/script.js"></script>
 
 <script src="src/Assets/js/fechaReporte.js"></script>
-
-<!-- Pedidos de prendas -->
-<script src="src/Assets/js/pedidosPrendas.js"></script>
-
-<!-- Pedidos a clientes -->
-
-<!-- Pedidos a proveedores -->
-<script src="src/Assets/js/pedidosProveedores.js"></script>
 
 <!-- confecciones -->
 <script src="src/Assets/js/confecciones.js"></script>

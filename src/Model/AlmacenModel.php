@@ -22,7 +22,7 @@ class AlmacenModel extends ModeloBase
         ];
     }
 
-    public function showMaterials($value = "", $column = "")
+    public function viewAll($value = "", $column = "")
     {
         // Comenzar la consulta SQL
         $sql = "SELECT 

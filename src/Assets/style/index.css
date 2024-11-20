@@ -560,7 +560,9 @@ input[type="radio"]:checked + label {
 
 .completado,
 .en_curso,
-.anulado{
+.anulado,
+.terminado,
+.no_iniciado {
   border-radius: 10px;
   color: white;
   padding: 5px;
@@ -575,4 +577,15 @@ input[type="radio"]:checked + label {
 }
 .anulado{
   background-color: #e95f5f;
+}
+
+.no_iniciado{
+background-color: white;
+color: black;
+border: solid 1px rgba(0, 0, 0, 0.404);
+}
+
+.terminado{
+  background-color: #1594bb;
+
 }

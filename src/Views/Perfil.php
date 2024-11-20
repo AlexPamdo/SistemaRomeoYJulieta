@@ -31,7 +31,7 @@ require_once("Templates/Head.php");
                     <div class="col-lg-8">
                         <div class="card shadow-sm">
                             <div class="card-header bg-dark text-white">
-                                <h4 class="fw-bold">INFORMACIÓN GENERAL</h4>
+                                <h4 class="fw-bold text-white">INFORMACIÓN GENERAL</h4>
                                 <h6>Datos generales de la cuenta</h6>
                             </div>
                             <div class="card-body">
@@ -39,7 +39,7 @@ require_once("Templates/Head.php");
                                     <!-- Imagen del usuario -->
                                     <form method="post" enctype="multipart/form-data" class="text-center me-4">
                                         <?php
-                                        $imgUser = empty($_SESSION['img']) ? "Assets/img/users/User_default_icon.png" : $_SESSION['img'];
+                                        $imgUser = empty($_SESSION['img']) ? "src/Assets/img/users/User_default_icon.png" : $_SESSION['img'];
                                         ?>
                                         <label for="file1">
                                             <img src="<?php echo $imgUser; ?>" class="img-perfil" width="100px" height="100px" alt="Perfil">
@@ -84,7 +84,7 @@ require_once("Templates/Head.php");
                     <div class="col-lg-4">
                         <div class="card shadow-sm">
                             <div class="card-header bg-dark text-white">
-                                <h4 class="fw-bold">OPCIONES ADICIONALES</h4>
+                                <h4 class="fw-bold text-white">OPCIONES ADICIONALES</h4>
                             </div>
                             <div class="card-body">
                                 <ul class="list-group">

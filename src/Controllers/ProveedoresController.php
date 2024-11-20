@@ -33,6 +33,18 @@ class ProveedoresController extends ControllerBase
         });
     }
 
+    
+      /**
+     * Retorna un elemento especifico mediante su ID en formato JSON.
+     */
+    public function viewElement()
+    {
+        $this->procesarRespuestaJson(function () {
+            return $this->model->viewAll($_GET["id"], "id_proveedor");
+        });
+    }
+
+
     /**
      * Retorna todos los proveedores deshabilitados en formato JSON.
      */

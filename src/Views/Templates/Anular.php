@@ -12,7 +12,7 @@
                     <h3>¿Estas seguro?</h3>
                     <h5>no podras recuperarlo luego</h5>
                     <div class="d-flex justify-content-center modal-footer">
-                        <form class="needs-validation" action="index.php?page=pedidosPrendas&function=delete" method="post" novalidate>
+                        <form class="needs-validation" id="anuleForm" method="post" novalidate>
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                                 Cerrar
                             </button>

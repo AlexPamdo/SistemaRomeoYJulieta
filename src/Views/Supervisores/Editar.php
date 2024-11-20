@@ -11,16 +11,16 @@
             </div>
             <div class="modal-body">
                 <div class="">
-                    <form class="needs-validation form" action="index.php?page=supervisores&function=edit" method="post">
+                    <form class="needs-validation form" id="editForm" method="post">
 
                         <div class="container container-form d-flex flex-column p-3">
 
-                            <input type="hidden" name="id" id="id_edit">
+                            <input type="hidden" name="id" data-field="id_supervisor" id="id_edit">
 
                             <div class="input-group flex-nowrap m-2 d-flex flex-column p-2">
                                 <label class="fw-bold form-label" for="nombre_supervisor_edit">Nombres</label>
                                 <input type="text" name="nombre_supervisor_edit" class="form-control-input campo name w-100"
-                                    placeholder="Nombre" aria-label="Username" id="nombre_edit" require
+                                    placeholder="Nombre" aria-label="Username" id="nombre_edit" data-field="nombre_supervisor" require
                                     aria-describedby="addon-wrapping" />
                                 <div class="valid-feedback"></div>
 
@@ -29,14 +29,14 @@
                             <div class="input-group flex-nowrap m-2 d-flex flex-column p-2">
                                 <labe class="fw-bold" for="">Apellidos</label>
                                     <input type="text" name="apellido_supervisor_edit" class="form-control-input campo name w-100"
-                                        placeholder="Apellido" aria-label="Username" aria-describedby="addon-wrapping" id="apellido_edit" require />
+                                        placeholder="Apellido" aria-label="Username" aria-describedby="addon-wrapping" id="apellido_edit" data-field="apellido_supervisor" require />
                             </div>
 
                             <div class="input-group flex-nowrap m-2 d-flex flex-column p-2">
                                 <label class="fw-bold" for="password_create">Cedula</label>
 
                                 <input type="text" name="cedula_supervisor_edit" class="form-control-input campo cedula w-100" placeholder="V-"
-                                    aria-label="Username" aria-describedby="addon-wrapping" id="cedula_edit" require />
+                                    aria-label="Username" aria-describedby="addon-wrapping" id="cedula_edit" data-field="cedula_supervisor" require />
                             </div>
 
                             <div class="input-group flex-nowrap m-2 d-flex flex-column p-2">
@@ -44,7 +44,7 @@
 
                                 <input type="" name="email_supervisor_edit" class="form-control-input campo email w-100"
                                     placeholder="example@gmail.com" aria-label="Username"
-                                    aria-describedby="addon-wrapping" id="email_edit" require />
+                                    aria-describedby="addon-wrapping" id="email_edit" data-field="email_supervisor" require />
                             </div>
 
                             <div class="input-group flex-nowrap m-2 d-flex flex-column p-2">
@@ -52,7 +52,7 @@
 
                                 <input type="tel" name="telefono_supervisor_edit" class="form-control-input campo telf w-100"
                                     placeholder="Introduzca el numero de telefono" aria-label="Username"
-                                    aria-describedby="addon-wrapping" id="telefono_edit" />
+                                    aria-describedby="addon-wrapping" id="telefono_edit" data-field="telefono_supervisor" />
                             </div>
 
                    

@@ -54,7 +54,7 @@ class UsuariosModel extends ModeloBase
 
         $stmt->bindParam(':nombre', $this->data['nombre']);
         $stmt->bindParam(':apellido', $this->data['apellido']);
-        $stmt->bindParam(':gmail', $this->data['email']);
+        $stmt->bindParam(":gmail", $this->data['email'],PDO::PARAM_STR);
         $stmt->bindParam(':contrasena', $this->data['password']);
         $stmt->bindParam(':roles', $this->data['rol']);
         $stmt->bindParam(':img', $this->data['img']);

@@ -40,11 +40,11 @@ $(document).ready(function () {
   function estadoPedidoPrenda($estado) {
     switch ($estado) {
       case 0:
-        return "<span class='en_curso' > No Iniciada </span>";
+        return "<span class='no_iniciado' > No Iniciada </span>";
       case 1:
         return "<span class='en_curso' > En curso </span>";
       case 2:
-        return "<span class='completado' > Terminado </span>";
+        return "<span class='terminado' > Terminado </span>";
       case 3:
         return "<span class='completado' > Entregado </span>";
       default:
@@ -66,14 +66,15 @@ $(document).ready(function () {
     almacen: [
       { data: "id_material" },
       { data: "nombre_material" },
-      { data: "tipo_material" },
-      { data: "color_material" },
+      { data: "tipo" },
+      { data: "color_name" },
       { data: "stock" },
       { data: "unidad_medida" },
       { data: null, render: () => buttons },
     ],
     confecciones: [
       { data: "id_confeccion" },
+      { data: "desc_pedido" },
       { data: "fecha_fabricacion" },
       { data: "id_supervisor" },
       {
@@ -192,16 +193,18 @@ $(document).ready(function () {
 
   const actionsByPage = {
     create: `index.php?page=${page}&function=create`,
+    edit: `index.php?page=${page}&function=edit`,
     delete: `index.php?page=${page}&function=delete`,
     update: `index.php?page=${page}&function=update`,
     restore: `index.php?page=${page}&function=restore`,
     remove: `index.php?page=${page}&function=remove`,
     viewDetails: (id) => `index.php?page=${page}&function=viewDetails&id=${id}`,
+    viewElement: (id) => `index.php?page=${page}&function=viewElement&id=${id}`,
   };
 
   const buttonDisabled = {
     confecciones: 1,
-    pedidosPrendas: 3,
+    pedidosPrendas: 0,
     pedidosProveedores: 1,
   };
 
@@ -285,11 +288,23 @@ $(document).ready(function () {
         const row = this.node();
         const data = this.data();
 
-        // Aquí puedes habilitar o deshabilitar los botones según el estado de los datos
-        if (data.proceso === buttonDisabled[page]) {
-          $(row).find(".actualizar, .anular").prop("disabled", true); // Deshabilitar botones
+        if (page === "pedidosPrendas") {
+          if (data.proceso !== buttonDisabled[page]) {
+            if (data.proceso == 2) {
+              $(row).find(".anular").prop("disabled", true); // Deshabilitar botones
+            } else {
+              $(row).find(".actualizar, .anular").prop("disabled", true); // Deshabilitar botones
+            }
+          } else {
+            $(row).find(".actualizar, .anular").prop("disabled", false); // Deshabilitar botones
+          }
         } else {
-          $(row).find(".actualizar, .anular").prop("disabled", false); // Deshabilitar botones
+          // Aquí puedes habilitar o deshabilitar los botones según el estado de los datos
+          if (data.proceso === buttonDisabled[page]) {
+            $(row).find(".actualizar, .anular").prop("disabled", true); // Deshabilitar botones
+          } else {
+            $(row).find(".actualizar, .anular").prop("disabled", false); // Deshabilitar botones
+          }
         }
       });
     },
@@ -331,17 +346,19 @@ $(document).ready(function () {
     columns: columnas,
     responsive: true,
     createdRow: function (row, data, dataIndex) {
-      let buttoms = '<button class="btn btn-custom-success m-1 restaurar " data-bs-toggle="modal" data-bs-target="#restaurar"><i class="fa-solid fa-sync"></i></button><button class="btn btn-custom-danger m-1 remover" data-bs-toggle="modal" data-bs-target="#remover">X</button> '
+      let buttoms =
+        '<button class="btn btn-custom-success m-1 restaurar " data-bs-toggle="modal" data-bs-target="#restaurar"><i class="fa-solid fa-sync"></i></button><button class="btn btn-custom-danger m-1 remover" data-bs-toggle="modal" data-bs-target="#remover">X</button> ';
       // Cambiar el contenido de la última columna después de que la fila se haya creado
       $("td", row).eq(-1).html(buttoms);
     },
   });
 
   console.log("DataTable inicializado correctamente.");
- 
-   // -------------------------------- OBJETO DE VALIDACIONES --------------------------------
-   const validaciones = {
-    almacen: {//pagina de almacen
+
+  // -------------------------------- OBJETO DE VALIDACIONES --------------------------------
+  const validaciones = {
+    almacen: {
+      //pagina de almacen
       nombreMaterial: {
         required: true,
         regex: /^.{5,}$/,
@@ -351,77 +368,89 @@ $(document).ready(function () {
         required: true,
         regex: /^\d+$/,
         mensaje: "El stock debe ser un número entero válido.",
-      },tipoMaterial: {
+      },
+      tipoMaterial: {
         required: true,
         regex: /^(?!\s*$).+/, // Asegura que se seleccione una opción distinta a la primera (vacía)
-        mensaje: "Por favor, seleccione una opción para el primer select.",
+        mensaje: "Por favor, seleccione una opción",
       },
       medidaMaterial: {
         required: true,
         regex: /^(?!\s*$).+/, // Asegura que se seleccione una opción distinta a la primera (vacía)
-        mensaje: "Por favor, seleccione una opción para el segundo select.",
-      },colorMaterial:{
+        mensaje: "Por favor, seleccione una opción.",
+      },
+      colorMaterial: {
         required: true,
         regex: /^(?!\s*$).+/, // Asegura que se seleccione una opción distinta a la primera (vacía)
-        mensaje: "Por favor, seleccione una opción para el segundo select.",
-      }
+        mensaje: "Por favor, seleccione una opción.",
+      },
     },
-    supervisores: {//supervisores
+    supervisores: {
+      //supervisores
       nameSupervisor: {
         required: true,
-        regex: /^[a-zA-Z\s]{3,}$/,
+        regex: /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]{3,}$/,
         mensaje: "El nombre debe tener minimo 3 caracteres y solo letras.",
-      }, apellidoSupervisor: {
+      },
+      apellidoSupervisor: {
         required: true,
-        regex: /^[a-zA-Z\s]{3,}$/,
+        regex: /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]{3,}$/,
         mensaje: "El apellido debe tener minimo 3 caracteres y solo letras.",
       },
       cedulaSupervisor: {
         required: true,
         regex: /^[A-Za-z0-9]{1,3}[-\s]?[0-9]{3,4}[-\s]?[0-9]{3,4}$/,
-       mensaje: "Documento inválido",
+        mensaje: "Documento inválido",
       },
       emailSupervisor: {
         required: true,
         regex: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-        mensaje: "Correo electrónico debe tener NombreUsuario@(gmail,hotmail u otros).(com,net u otros)",
-      },telefonoSupervisor: {
+        mensaje:
+          "Correo electrónico debe tener NombreUsuario@(gmail,hotmail u otros).(com,net u otros)",
+      },
+      telefonoSupervisor: {
         required: true,
-        regex: /^\+?(\d{1,3})?[-.\s]?\(?\d{1,4}\)?[-.\s]?(\d{4,})[-.\s]?\d{1,9}$/,
-        mensaje: "Número telefónico solo numeros separado opcionalmente por guiones o espacios (con o sin codigo de pais)",
-      }
+        regex:
+          /^\+?(\d{1,3})?[-.\s]?\(?\d{1,4}\)?[-.\s]?(\d{4,})[-.\s]?\d{1,9}$/,
+        mensaje:
+          "Número telefónico solo numeros separado opcionalmente por guiones o espacios (con o sin codigo de pais)",
+      },
     },
-    proveedores: {//proveedores
+    proveedores: {
+      //proveedores
       nombreProveedor: {
         required: true,
         regex: /^.{5,}$/,
-      mensaje: "Minimo 5 caracteres",
+        mensaje: "Minimo 5 caracteres",
       },
       telefonoProveedor: {
         required: true,
-        regex: /^\+?(\d{1,3})?[-.\s]?\(?\d{1,4}\)?[-.\s]?(\d{4,})[-.\s]?\d{1,9}$/,
-        mensaje: "Número telefónico solo numeros separado opcionalmente por guiones o espacios (con o sin codigo de pais)",
-      },rifProveedor: {
+        regex:
+          /^\+?(\d{1,3})?[-.\s]?\(?\d{1,4}\)?[-.\s]?(\d{4,})[-.\s]?\d{1,9}$/,
+        mensaje:
+          "Número telefónico solo numeros separado opcionalmente por guiones o espacios (con o sin codigo de pais)",
+      },
+      rifProveedor: {
         required: true,
         regex: /^[VEJGPvejgp]-\d{9}$/,
-        mensaje: "RIF debe comenzar con V, E, J, G o P , seguido de un - y tener 9 dígitos.",
-      },emailProveedor:{
+        mensaje:
+          "RIF debe comenzar con V, E, J, G o P , seguido de un - y tener 9 dígitos.",
+      },
+      emailProveedor: {
         required: true,
         regex: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-        mensaje: "Correo electrónico debe tener NombreUsuario@(gmail,hotmail u otros).(com,net u otros)",
+        mensaje:
+          "Correo electrónico debe tener NombreUsuario@(gmail,hotmail u otros).(com,net u otros)",
       },
-      notasProveedor:{
-        required: true,
-        regex: /^.{10,}$/,
-        mensaje: "Mínimo 10 caracteres",
-      }
     },
-    usuarios: {//usuarios
+    usuarios: {
+      //usuarios
       nombreUsuario: {
         required: true,
         regex: /^[a-zA-Z\s]{3,}$/,
         mensaje: "El nombre debe tener minimo 3 caracteres y solo letras.",
-      },apellidoUsuario:{
+      },
+      apellidoUsuario: {
         required: true,
         regex: /^[a-zA-Z\s]{3,}$/,
         mensaje: "El apellido debe tener minimo 3 caracteres y solo letras.",
@@ -429,12 +458,16 @@ $(document).ready(function () {
       passwordUsuario: {
         required: true,
         regex: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/,
-        mensaje: "La contraseña debe tener al menos 8 caracteres, incluir mayúsculas, minúsculas y números.",
-      },emailUsuario:{
+        mensaje:
+          "La contraseña debe tener al menos 8 caracteres, incluir mayúsculas, minúsculas y números.",
+      },
+      emailUsuario: {
         required: true,
         regex: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-        mensaje: "Correo electrónico debe tener NombreUsuario@(gmail,hotmail u otros).(com,net u otros)",
-      }, rolUsuario: {
+        mensaje:
+          "Correo electrónico debe tener NombreUsuario@(gmail,hotmail u otros).(com,net u otros)",
+      },
+      rolUsuario: {
         required: true,
         mensaje: "Por favor, seleccione un rol.",
       },
@@ -442,56 +475,98 @@ $(document).ready(function () {
     confecciones: {
       pedidos: {
         required: true,
-        regex: /^(?!\s*$).+/, // Asegura que se seleccione una opción distinta a la primera (vacía)
-        mensaje: "Por favor, seleccione una opción para el segundo select.",
-      }
-    }
+        regex: /^(?!\s*$).+$/, // Asegura que se seleccione una opción distinta a la primera (vacía)
+        mensaje: "Por favor, seleccione una opción.",
+      },
+    },
   };
 
   // Función de validación general
   function validarFormulario(page, formSelector) {
-    const campos = validaciones[page];//busca las validaciones segun la pagina actual
+    const campos = validaciones[page]; //busca las validaciones segun la pagina actual
     if (!campos) return true; // Si no hay validaciones para la página, pasar automáticamente
 
     let esValido = true;
 
     // Recorrer cada campo y validar
-    for (const [campo, reglas] of Object.entries(campos)) {//buscamos dentro del objeto con el nombre de la pagina actual
-      const input = $(formSelector).find('.' + campo);//busacamos el name del campo
-      const valor = input.val().trim();//verificamos el valor del campo
-      const errorSpan = input.next('.error-span');//span de error
+    for (const [campo, reglas] of Object.entries(campos)) {
+      //buscamos dentro del objeto con el nombre de la pagina actual
+      const input = $(formSelector).find("." + campo); //busacamos el name del campo
+      const valor = input.val(); //verificamos el valor del campo
+      const errorSpan = input.next(".error-span"); //span de error
 
       // Crear el span de error si no existe
-      if (errorSpan.length === 0) {
+      if (
+        errorSpan.length === 0 &&
+        campo !== "rolUsuario" &&
+        campo !== "TipoMaterial" &&
+        campo !== "medidaMaterial" &&
+        campo !== "colorMaterial" &&
+        campo !== "pedidos"
+      ) {
         input.after(`<span class="error-span text-danger"></span>`);
       }
 
-      
-  // Validación para campos requeridos
-  if (reglas.required) {
-    if (campo === 'rol_usuario') {  // Si el campo es del tipo radio
-      // Verifica si al menos uno de los radios con el nombre 'rol_usuario' está seleccionado
-      if (!$(`input["${campo}"]:checked`).length) {
-        // Mostrar el mensaje de error en el span adecuado
-     $('.errorRol').text(reglas.mensaje);
-        esValido = false;
-      } else {
-        $('.errorRol').text('');
+      // Validación para campos requeridos
+      if (reglas.required) {
+        if (campo === "rolUsuario") {
+          // Si el campo es del tipo radio
+          // Verifica si al menos uno de los radios con el nombre 'rol_usuario' está seleccionado
+          if (!$(`.${campo}:checked`).length) {
+            // Mostrar el mensaje de error en el span adecuado
+            $(".errorRol").text(reglas.mensaje);
+            esValido = false;
+          } else {
+            $(".errorRol").text("");
+          }
+        } else if (campo === "pedidos") {
+          if (valor === "") {
+            // Mostrar el mensaje de error en el span adecuado
+            $(".errorPedidos").text(reglas.mensaje);
+            esValido = false;
+          } else {
+            $(".errorPedidos").text("");
+          }
+        } else if (campo === "tipoMaterial") {
+          if (valor === "") {
+            // Mostrar el mensaje de error en el span adecuado
+            $(".errorTipoMaterial").text(reglas.mensaje);
+            esValido = false;
+          } else {
+            $(".errorTipoMaterial").text("");
+          }
+        } else if (campo === "colorMaterial") {
+          if (valor === "") {
+            // Mostrar el mensaje de error en el span adecuado
+            $(".errorColorMaterial").text(reglas.mensaje);
+            esValido = false;
+          } else {
+            $(".errorColorMaterial").text("");
+          }
+        } else if (campo === "medidaMaterial") {
+          if (valor === "") {
+            // Mostrar el mensaje de error en el span adecuado
+            $(".errorMedidaMaterial").text(reglas.mensaje);
+            esValido = false;
+          } else {
+            $(".errorMedidaMaterial").text("");
+          }
+        } else if (valor === "" || valor === null) {
+          // Para otros campos
+          input.next(".error-span").text(`Rellene este campo.`);
+          esValido = false;
+          console.log(campo);
+        }
+        // Validación para el regex (si existe)
+        else if (reglas.regex && !reglas.regex.test(valor)) {
+          input.next(".error-span").text(reglas.mensaje);
+          esValido = false;
+        }
+        // Si es válido, limpiar el mensaje de error
+        else {
+          input.next(".error-span").text("");
+        }
       }
-    } else if (valor === "" || valor === null) {  // Para otros campos
-      input.next('.error-span').text(`Rellene este campo.`);
-      esValido = false;
-    }
-    // Validación para el regex (si existe)
-    else if (reglas.regex && !reglas.regex.test(valor)) {
-      input.next('.error-span').text(reglas.mensaje);
-      esValido = false;
-    } 
-    // Si es válido, limpiar el mensaje de error
-    else {
-      input.next('.error-span').text('');
-    }
-  }
     }
 
     return esValido;
@@ -502,14 +577,14 @@ $(document).ready(function () {
     $(formSelector).submit(function (e) {
       e.preventDefault();
 
-     
-    if (action === "create") {//sola mente valida el action es create
+      if (action === "create") {
+        //sola mente valida el action es create
         // Validar formulario antes de enviar
         if (!validarFormulario(page, formSelector)) {
           console.warn("El formulario contiene errores, no se enviará.");
           return;
         }
-    }
+      }
 
       console.log(`Enviando solicitud AJAX para acción: ${action}`);
       $.ajax({
@@ -522,6 +597,7 @@ $(document).ready(function () {
             if (data.success) {
               console.log("Solicitud completada con éxito:", data);
               alertify.success(successMessage);
+              $(this)[0].reset();
               $(modalSelector).modal("hide");
               table.ajax.reload(null, false);
               trashTable.ajax.reload(null, false);
@@ -551,6 +627,9 @@ $(document).ready(function () {
   });
   handleAction("create", "#createForm", "#crear", "Elemento Creado");
 
+  // -------------------------------- EDITAR --------------------------------
+  handleAction("edit", "#editForm", "#editar", "Elemento Editado");  
+
   // -------------------------------- ELIMINAR --------------------------------
   $(document).on("click", ".eliminar", function () {
     const id = $(this).closest("tr").find("td:first").text();
@@ -558,6 +637,14 @@ $(document).ready(function () {
     $("#eliminarId").val(id);
   });
   handleAction("delete", "#deleteForm", "#eliminar", "Elemento Eliminado");
+
+  // -------------------------------- ANULAR --------------------------------
+  $(document).on("click", ".anular", function () {
+    const id = $(this).closest("tr").find("td:first").text();
+    console.log(`Preparando para anular el elemento con ID: ${id}`);
+    $("#idAnular").val(id);
+  });
+  handleAction("delete", "#anuleForm", "#anular", "Elemento Anulado");
 
   // -------------------------------- ACTUALIZAR --------------------------------
   $(document).on("click", ".actualizar", function () {
@@ -583,8 +670,8 @@ $(document).ready(function () {
     });
   });
 
-   // -------------------------------- RESTAURAR --------------------------------
-   $(document).on("click", ".restaurar", function () {
+  // -------------------------------- RESTAURAR --------------------------------
+  $(document).on("click", ".restaurar", function () {
     const id = $(this).closest("tr").find("td:first").text();
     console.log(`Preparando para restaurar el elemento con ID: ${id}`);
     $("#idRestaurar").val(id);
@@ -592,13 +679,73 @@ $(document).ready(function () {
   handleAction("restore", "#restoreForm", "#restaurar", "Elemento Restaurado");
 
   // -------------------------------- REMOVER --------------------------------
-     $(document).on("click", ".remover", function () {
-      const id = $(this).closest("tr").find("td:first").text();
-      console.log(`Preparando para restaurar el elemento con ID: ${id}`);
-      $("#idRemover").val(id);
-    });
-    handleAction("remove", "#removeForm", "#remover", "Elemento Removido");
+  $(document).on("click", ".remover", function () {
+    const id = $(this).closest("tr").find("td:first").text();
+    console.log(`Preparando para restaurar el elemento con ID: ${id}`);
+    $("#idRemover").val(id);
+  });
+  handleAction("remove", "#removeForm", "#remover", "Elemento Removido");
+
+  // -------------------------------- VISUALIZAR ElEMENTO --------------------------------
+  $(document).on("click", ".editar", function () {
+    const id = $(this).closest("tr").find("td:first").text();
+    const modalSelector = "#editar";
   
+    console.log(`ID del elemento a editar: ${id}`);
+  
+    $.ajax({
+      url: actionsByPage.viewElement(id),
+      method: "GET",
+      success: (respuesta) => {
+        try {
+          console.log(`Respuesta recibida del servidor: ${respuesta}`);
+  
+          const data = JSON.parse(respuesta);
+          if (data.success) {
+            console.log(`Datos procesados correctamente:`, data);
+  
+            // Extraemos el primer elemento del array `data`
+            const item = data.data[0];
+  
+            // Iterar por cada campo del formulario con `data-field`
+            $(modalSelector).find("[data-field]").each(function () {
+              const field = $(this).data("field");
+              if (item[field] !== undefined) {
+                if ($(this).is(":radio")) {
+                  // Manejo especial para radios
+                  if ($(this).val() == item[field]) {
+                    $(this).prop("checked", true);
+                  }
+                } else {
+                  // Campos normales y ocultos
+                  console.log(`Rellenando campo [data-field="${field}"] con valor: ${item[field]}`);
+                  $(this).val(item[field]);
+                }
+              } else {
+                console.warn(`No se encontró el campo "${field}" en los datos recibidos.`);
+              }
+            });
+  
+          } else {
+            console.warn(`Error en la respuesta del servidor: ${data.message || "Mensaje no definido"}`);
+            alertify.error(data.message || "Error desconocido");
+          }
+        } catch (err) {
+          console.error(`Error al procesar la respuesta JSON:`, err);
+          alertify.error("Ocurrió un error al procesar la respuesta.");
+        }
+      },
+      error: (jqXHR, textStatus, errorThrown) => {
+        console.error(`Error en AJAX:`, {
+          textStatus: textStatus,
+          errorThrown: errorThrown,
+          responseText: jqXHR.responseText,
+        });
+        alertify.error("Ocurrió un error al enviar la solicitud.");
+      },
+    });
+  });
 
   console.log("Configuración completada.");
+  
 });

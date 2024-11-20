@@ -49,6 +49,7 @@ $coloresData = $coloresModel->viewAll();
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
+                                <span class="errorTipoMaterial error d-block text-center"></span>
                             </div>
 
                             <div class="row align-items-center py-2">
@@ -62,6 +63,7 @@ $coloresData = $coloresModel->viewAll();
                                     <option value="Metros" >Metros</option>
                                     </select>
                                 </div>
+                                <span class="errorMedidaMaterial d-block text-center"></span>
                             </div>
 
                             <!-- Color del Material -->
@@ -78,6 +80,7 @@ $coloresData = $coloresModel->viewAll();
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
+                                <span class="errorColorMaterial error d-block text-center"></span>
                             </div>
                         </div>
 

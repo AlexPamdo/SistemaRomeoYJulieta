@@ -25,11 +25,14 @@ class ConfeccionesModel extends ModeloBase
 
         $sql = "SELECT 
     u.*,
-    e.nombre_supervisor AS id_supervisor
+    e.nombre_supervisor AS id_supervisor,
+    p.desc_pedido_prenda AS desc_pedido
 FROM
     confeccion u
 INNER JOIN
-    supervisores e ON u.id_supervisor = e.id_supervisor";
+    supervisores e ON u.id_supervisor = e.id_supervisor
+    INNER JOIN
+    pedidos_prendas p on u.id_pedido = p.id_pedido_prenda ";
 
         // Agregar condición si se proporciona un valor y columna
         if ($value !== "" && $column !== "") {

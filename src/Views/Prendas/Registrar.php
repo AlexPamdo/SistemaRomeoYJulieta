@@ -28,7 +28,7 @@ $coleccionesModel = new ColeccionesModel();
 
             <!-- Modal Body -->
             <div class="container modal-body mt-5">
-                <form class="needs-validation form" action="index.php?page=prendas&function=create" method="post" enctype="multipart/form-data" novalidate id="formPatron">
+                <form class="needs-validation form " method="post" enctype="multipart/form-data" novalidate id="createForm">
                     <div class="row g-3">
                         <!-- Sección de Datos de la Prenda -->
                         <div class="container col-md-6 row">

@@ -64,6 +64,13 @@ class PrendasController extends ControllerBase
         });
     }
 
+    public function viewElement()
+    {
+        $this->procesarRespuestaJson(function () {
+            return $this->prendaModel->viewAll($_GET["id"], "id_prenda");
+        });
+    }
+
     /**
      * Agrega materiales a una prenda.
      */
@@ -90,7 +97,8 @@ class PrendasController extends ControllerBase
      */
     private function subirImagen($file)
     {
-        if ($file["error"] === UPLOAD_ERR_OK) {
+
+        if (isset($file) && $file["error"] === UPLOAD_ERR_OK) {
             $nom_archivo = basename($file['name']);
             $ruta = "src/Assets/img/prendas/" . $nom_archivo;
             $archivo = $file['tmp_name'];
@@ -114,7 +122,11 @@ class PrendasController extends ControllerBase
                 throw new Exception("No se han proporcionado materiales válidos.");
             }
 
-            $ruta = $this->subirImagen($_FILES["file1"]);
+            if (isset($_FILES["file1"])) {
+                $ruta = $this->subirImagen($_FILES["file1"]);
+            } else {
+                $ruta = "src/Assets/img/prendas/prendaDefault.png";
+            }
 
             $this->prendaModel->setData(
                 $ruta,

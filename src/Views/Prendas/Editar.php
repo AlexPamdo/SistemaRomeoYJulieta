@@ -29,7 +29,7 @@ $coleccionesModel = new ColeccionesModel();
             <!-- Modal Body -->
             <div class="container modal-body mt-5">
                 <form class="needs-validation form" action="index.php?page=prendas&function=edit" method="post" enctype="multipart/form-data" novalidate id="formPatron">
-                    <input type="hidden" name="id" id="id_edit">
+                    <input type="hidden" name="id" id="id_edit" data-field="id_prenda">
                     <div class="row g-3">
                         <!-- Sección de Datos de la Prenda -->
                         <div class="container col-md-6 row">
@@ -40,28 +40,28 @@ $coleccionesModel = new ColeccionesModel();
                                 <div>
                                     <label for="descripcion" class="form-label fw-bold mt-3">Descripción</label>
                                     <input type="text" class="form-control-input campo" id="desc_edit" name="nombre"
-                                        placeholder="Ingrese el nombre de la prenda">
+                                        placeholder="Ingrese el nombre de la prenda" data-field="nombre_prenda"> 
                                     <div class="invalid-feedback">Por favor, ingrese una descripción.</div>
                                 </div>
 
                                 <div>
                                     <label for="stock" class="form-label fw-bold mt-3">Stock</label>
                                     <input type="" class="form-control-input campo" id="cantidad_edit" name="stock"
-                                        placeholder="Stock disponible">
+                                        placeholder="Stock disponible" data-field="stock">
                                     <div class="invalid-feedback">Por favor, ingrese el stock.</div>
                                 </div>
 
                                 <div class="p-4 text-center">
                                     <label for="genero" class="form-label fw-bold mt-3">Género</label>
                                     <div class="d-flex justify-content-around">
-                                        <input type="hidden" value="" name="id_genero_edit">
+                                        <input type="hidden" value="" name="id_genero_edit" >
 
                                         <div class="d-flex flex-column align-items-center">
-                                            <input type="radio" id="niño_edit" value="Niño" name="id_genero_edit">
+                                            <input type="radio" id="niño_edit" value="Niño" name="id_genero_edit" data-field="genero">
                                             <label for="niño">niño</label>
                                         </div>
                                         <div class="d-flex flex-column align-items-center">
-                                            <input type="radio" id="niña_edit" value="Niña" name="id_genero_edit">
+                                            <input type="radio" id="niña_edit" value="Niña" name="id_genero_edit" data-field="genero">
                                             <label for="niña">niña</label>
                                         </div>
                                         <div class="invalid-feedback">Por favor, seleccione un género.</div>
@@ -74,7 +74,7 @@ $coleccionesModel = new ColeccionesModel();
 
                                 <div class="p-2">
                                     <label for="coleccion" class="form-label fw-bold mt-3">Colección</label>
-                                    <select  name="id_coleccion" id="coleccion_edit" class="custom-select-edit">
+                                    <select  name="id_coleccion" id="coleccion_edit" class="custom-select-edit" data-field="id_coleccion">
                                         <option selected>Coleccion</option>
                                         <?php
                                         $coleccionesData = $coleccionesModel->viewAll();
@@ -87,7 +87,7 @@ $coleccionesModel = new ColeccionesModel();
 
                                 <div class="p-2">
                                     <label for="talla" class="form-label fw-bold mt-3">Talla</label>
-                                    <select class="custom-select-edit" name="id_talla" id="talla_edit">
+                                    <select class="custom-select-edit" name="id_talla" id="talla_edit" data-field="id_talla">
                                         <option selected>Talla</option>
                                         <?php
                                         $tallaData = $tallasModel->viewAll("");
@@ -100,7 +100,7 @@ $coleccionesModel = new ColeccionesModel();
 
                                 <div class="p-2">
                                     <label for="categoria" class="form-label fw-bold mt-3">Categoría</label>
-                                    <select class="custom-select-edit" name="id_categoria" id="categoria_edit">
+                                    <select class="custom-select-edit" name="id_categoria" id="categoria_edit" data-field="id_categoria">
                                         <option selected>Categoria</option>
                                         <?php
                                         $categoriasData = $categoriasModel->viewAll("");

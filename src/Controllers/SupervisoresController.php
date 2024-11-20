@@ -43,6 +43,16 @@ class SupervisoresController extends ControllerBase
         });
     }
 
+      /**
+     * Retorna un elemento especifico mediante su ID en formato JSON.
+     */
+    public function viewElement()
+    {
+        $this->procesarRespuestaJson(function () {
+            return $this->model->viewAll($_GET["id"], "id_supervisor");
+        });
+    }
+
     /**
      * Crea un nuevo supervisor.
      */

@@ -55,8 +55,8 @@
                         </div>
 
                         <div class="form-label input-group flex-nowrap m-2 d-flex flex-column p-2">
-                            <label class="fw-bold" for="notasProveedor">Notas</label>
-
+                            <label class="fw-bold" for="notasProveedor">Notas (opcional)</label>
+                            
                             <textarea class="form-control-input campo notas w-100 notasProveedor" id="notasProveedor" placeholder="notas del proveedor"
                                 aria-label="Username" aria-describedby="addon-wrapping"
                                 name="notas_proveedor"></textarea>

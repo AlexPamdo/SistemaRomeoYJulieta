@@ -35,7 +35,7 @@
 
                             <input type="password" name="password_usuario" class="form-control-input campo pass passwordUsuario" id="password_create" autocomplete="off"
                                 
-                                title="La contraseña debe tener al menos 8 caracteres, incluyendo al menos una letra mayúscula, una letra minúscula y un número." />
+                                title="La contraseña debe tener al menos 8 caracteres, incluyendo al menos una letra mayúscula, una letra minúscula y un número." / placeholder="Introduzca la contraseña">
 
                         </div>
 
@@ -44,7 +44,7 @@
 
                             <div class="d-flex justify-content-around">
 
-                                <input type="hidden" name="rol_usuario" value="">
+                                <input type="hidden" name="rol_usuario" value="" class="rolUsuario">
 
                                 <div class="d-flex flex-column align-items-center">
                                     <input type="radio" id="rol1" name="rol_usuario" value="1" class="rolUsuario">
@@ -59,9 +59,9 @@
                             </div>
                           
                         </div>
-
+                            <span class="errorRol error d-block text-center"></span>
                     </div>
-                    <span class="errorRol error d-block text-center"></span>
+                   
 
                     <div class="row mb-3 p-3">
                         <div class="col-md-12 text-center">

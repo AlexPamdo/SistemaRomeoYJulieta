@@ -186,11 +186,15 @@ class PedidosPrendasController extends ControllerBase
     public function restore()
     {
         $this->procesarRespuestaJson(function () {
-            $result = $this->model->active($_POST["id"]);
-            return [
-                "success" => $result,
-                "message" => $result ? "Pedido restaurado correctamente" : "No se pudo restaurar el pedido"
-            ];
+            throw new Exception("No se puede restaurar un pedido eliminado");
+        });
+    }
+
+    public function remove()
+    {
+        $this->procesarRespuestaJson(function () {
+            throw new Exception("No se puede remover un pedido eliminado");
+
         });
     }
 
@@ -208,6 +212,29 @@ class PedidosPrendasController extends ControllerBase
             }
 
             return ["success" => true, "message" => "Estado del pedido actualizado correctamente"];
+        });
+    }
+
+    /**
+     * Elimina un pedido de forma lógica.
+     */
+    public function delete()
+    {
+        $this->procesarRespuestaJson(function () {
+            $id = $_POST["id"] ?? null;
+            if (!$id) {
+                throw new Exception("ID de pedido no especificado.");
+            }
+
+            if (!$this->model->updateColumn("estado", 1, "id_pedido_prenda", $id)) {
+                throw new Exception("Error al actualizar el estado a eliminado del pedido.");
+            }
+
+            if (!$this->model->updateColumn("proceso", 4, "id_pedido_prenda", $id)) {
+                throw new Exception("Error al actualizar el estado del pedido.");
+            }
+
+            return ["success" => true, "message" => "Pedido eliminado correctamente."];
         });
     }
 }
