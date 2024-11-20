@@ -1,6 +1,6 @@
 <?php
 ob_start(); // Iniciar el almacenamiento en búfer de salida
-require("src/Libraries/fpdf/fpdf.php");
+require 'vendor/autoload.php';
 
 // Crear una instancia de la clase Database para obtener la conexión
 require_once('src/Model/Database.php');

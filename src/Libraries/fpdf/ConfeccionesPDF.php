@@ -1,7 +1,7 @@
 <?php
 
 ob_start(); // Iniciar el almacenamiento en búfer de salida
-require("src/Libraries/fpdf/fpdf.php");
+require 'vendor/autoload.php';
 
 // Incluir el archivo de la clase Database
 require_once('src/Model/Database.php');

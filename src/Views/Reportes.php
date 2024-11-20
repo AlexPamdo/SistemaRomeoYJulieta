@@ -246,10 +246,10 @@ require_once("Templates/Head.php");
             </div>
         </div>
         <!-- Footer -->
-    <?php include 'src/Views/Templates/Footer.php'; ?>
+    
     </main>
 
-    
+    <?php include 'src/Views/Templates/Footer.php'; ?>
     
 </body>
 </html>
