@@ -10,7 +10,7 @@
 
                     <h1><i class="fa-solid fa-circle-exclamation fs-1 " style="color: #da1010;"></i></h1>
                     <h3>¿Esta seguro?</h3>
-                    <h5>No podras recuperarlo luego</h5>
+                    <h5>Esta acción sera permanente</h5>
                     <div class="modal-footer">
                         <form class="needs-validation" action="" id="removeForm" method="post" novalidate>
                             <input type="text" name="id" id="idRemover" value="">

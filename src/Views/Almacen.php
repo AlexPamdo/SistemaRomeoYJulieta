@@ -2,7 +2,7 @@
 require_once("Templates/Head.php");
 ?>
 
-<title>Almacen</title>
+<title>Almacén</title>
 </head>
 
 <body class="bg-body-secondary" data-bs-spy="scroll">
@@ -72,7 +72,7 @@ require_once("Templates/Head.php");
                  <!-- Botón para ver usuarios items deshabilitados -->
                  <div class="d-flex justify-content-end mt-4">
                     <button  data-intro="Con este boton podremos visualizar todos aquellos usuarios que se han estado" data-step="7" class="btn btn-rj-blue p-3 " data-bs-toggle="modal" data-bs-target="#papelera">
-                        <?php include './src/Assets/bootstrap-icons-1.11.3/trash-fill.svg'; ?> Ver Elementos Deshabilitados
+                        <?php include './src/Assets/bootstrap-icons-1.11.3/trash-fill.svg'; ?> Ver Materiales Deshabilitados
                     </button>
                 </div>
             </div>

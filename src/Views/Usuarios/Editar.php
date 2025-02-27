@@ -41,7 +41,7 @@
                         </div>
 
                         <div class="p-3 text-center">
-                            <label class="fw-bold">Rol</label>
+                            <label class="fw-bold">Tipo de Usuario</label>
                             <div class="d-flex justify-content-around">
 
                                 <!-- Campo oculto para prevenir conflictos -->
@@ -49,12 +49,12 @@
 
                                 <div class="d-flex flex-column align-items-center">
                                     <input type="radio" id="id_roles1_edit" class="rol_edit" name="rol_usuario" value="1" data-field="rol">
-                                    <label for="rol1">Admin</label>
+                                    <label for="rol1">Administrador</label>
                                 </div>
 
                                 <div class="d-flex flex-column align-items-center">
                                     <input type="radio" id="id_roles2_edit" class="rol_edit" name="rol_usuario" value="2" data-field="rol">
-                                    <label for="rol2">User</label>
+                                    <label for="rol2">Usuario</label>
                                 </div>
                             </div>
                         </div>

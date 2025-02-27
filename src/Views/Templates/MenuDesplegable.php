@@ -19,8 +19,8 @@
             </a>
             <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="index.php?page=perfil">Perfil</a></li>
-                <li><a class="dropdown-item" href="#">Configuracion</a></li>
-                <li><a class="dropdown-item" href="src/Views/logout.php">Cerrar sesion</a></li>
+                <li><a class="dropdown-item" href="#">Configuración</a></li>
+                <li><a class="dropdown-item" href="src/Views/logout.php">Cerrar sesión</a></li>
             </ul>
         </li>
 

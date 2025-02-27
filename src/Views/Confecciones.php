@@ -49,7 +49,7 @@ require_once("Templates/Head.php");
                     <table class="table table-hover" id="myTable">
                         <thead class="table-custom-header">
                             <tr>
-                                <th scope="col">ID</th>
+                                <th scope="col">Código de confección</th>
                                 <th scope="col">Desc del pedido</th>
                                 <th scope="col">Fecha de fabricación</th>
                                 <th scope="col">Supervisor encargado</th>
@@ -65,7 +65,7 @@ require_once("Templates/Head.php");
                   <!-- Botón para ver usuarios items deshabilitados -->
                   <div class="d-flex justify-content-end mt-4">
                     <button data-intro="Con este boton podremos visualizar todos aquellos usuarios que se han estado" data-step="7" class="btn btn-rj-blue p-3" data-bs-toggle="modal" data-bs-target="#papelera">
-                        <?php include './src/Assets/bootstrap-icons-1.11.3/trash-fill.svg'; ?> Ver Elementos Deshabilitados
+                        <?php include './src/Assets/bootstrap-icons-1.11.3/trash-fill.svg'; ?> Ver Confecciones Anuladas
                     </button>
                 </div>
             </div>

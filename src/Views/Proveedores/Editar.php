@@ -44,7 +44,7 @@
                             </div>
 
                             <div class="form-label input-group flex-nowrap m-2 d-flex flex-column p-2">
-                                <label class="fw-bold">Telefono</label>
+                                <label class="fw-bold">Teléfono</label>
 
                                 <input type="text" class="form-control-input campo w-100 telf"
                                     placeholder="telefono del proveedor" aria-label="Username"

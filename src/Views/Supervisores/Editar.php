@@ -33,7 +33,7 @@
                             </div>
 
                             <div class="input-group flex-nowrap m-2 d-flex flex-column p-2">
-                                <label class="fw-bold" for="password_create">Cedula</label>
+                                <label class="fw-bold" for="password_create">Cédula</label>
 
                                 <input type="text" name="cedula_supervisor_edit" class="form-control-input campo cedula w-100" placeholder="V-"
                                     aria-label="Username" aria-describedby="addon-wrapping" id="cedula_edit" data-field="cedula_supervisor" require />
@@ -48,7 +48,7 @@
                             </div>
 
                             <div class="input-group flex-nowrap m-2 d-flex flex-column p-2">
-                                <label class="fw-bold" for="">Telefono</label>
+                                <label class="fw-bold" for="">Teléfono</label>
 
                                 <input type="tel" name="telefono_supervisor_edit" class="form-control-input campo telf w-100"
                                     placeholder="Introduzca el numero de telefono" aria-label="Username"

@@ -100,7 +100,7 @@ $coleccionesModel = new ColeccionesModel();
                                 <div class="p-2">
                                     <label for="categoria" class="form-label fw-bold mt-3">Categoría</label>
                                     <select class="custom-select" name="id_categoria" id="categoria">
-                                        <option selected>Categoria</option>
+                                        <option selected>Categoría</option>
                                         <?php
                                         $categoriasData = $categoriasModel->viewAll("");
                                         foreach ($categoriasData as $categoria): ?>

@@ -21,7 +21,7 @@
                          <div class="col-md-10 mx-auto">
 
                              <div class="input-group flex-nowrap m-2 d-flex flex-column p-2">
-                                 <label class="fw-bold" for="descEntrega">Descripcion</label>
+                                 <label class="fw-bold" for="descEntrega">Descripción</label>
 
                                  <input type="text" name="desc_pedido_prenda" class="form-control-input campo name w-100" id="descEntrega"
                                      placeholder="Introduzca una descripcion" aria-label="Username"

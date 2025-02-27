@@ -24,7 +24,7 @@ $coloresData = $coloresModel->viewAll();
                     <div class="container container-form d-flex flex-column p-3">
 
                         <div class="form-label input-group flex-nowrap m-2 d-flex flex-column">
-                            <label class="fw-bold" for="descripcionMaterial">Descripcion del material</label>
+                            <label class="fw-bold" for="descripcionMaterial">Descripción del material</label>
                             <input type="text" name="nombre_material" class="form-control-input campo descripcion w-100 nombreMaterial" id="descripcionMaterial" placeholder="descripcion" aria-label="Username" aria-describedby="addon-wrapping"/>
                             <div class="valid-feedback"></div>
                         </div>

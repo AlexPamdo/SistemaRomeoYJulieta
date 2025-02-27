@@ -83,7 +83,7 @@ require_once("Templates/Head.php");
                                 <div id="form-fechas-prendas" class="mt-3 formFiltros" style="display: none;">
                                     <form id="form-prendas">
                                     <div class="mb-2">
-                                        <label class="form-label">Coleccion</label>
+                                        <label class="form-label">Colección</label>
                                         <select class="form-control" id="almacen-medidas" required>
                                         <option value="" disabled selected>Selecciona una medida</option>
                                         <option value="lima limón">lima limón</option>

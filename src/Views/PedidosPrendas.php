@@ -53,7 +53,7 @@ require_once("Templates/Head.php");
                         <thead class="table-custom-header">
                             <tr>
                                 <th scope="col">ID</th>
-                                <th scope="col">Descripcion</th>
+                                <th scope="col">Descripción</th>
                                 <th scope="col">Fecha</th>
                                 <th scope="col">Fecha Estimada</th>
                                 <th scope="col">Estado</th>
@@ -69,7 +69,7 @@ require_once("Templates/Head.php");
                 <!-- Botón para ver usuarios items deshabilitados -->
                 <div class="d-flex justify-content-end mt-4">
                     <button data-intro="Con este boton podremos visualizar todos aquellos usuarios que se han estado" data-step="7" class="btn btn-rj-blue p-3" data-bs-toggle="modal" data-bs-target="#papelera">
-                        <?php include './src/Assets/bootstrap-icons-1.11.3/trash-fill.svg'; ?> Elementos Deshabilitados
+                        <?php include './src/Assets/bootstrap-icons-1.11.3/trash-fill.svg'; ?>Ver Pedidos Anulados
                     </button>
                 </div>
 

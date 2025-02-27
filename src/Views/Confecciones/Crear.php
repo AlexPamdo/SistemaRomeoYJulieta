@@ -13,7 +13,7 @@ use src\Model\SupervisoresModel;
         <div class="modal-content">
             <div class="bg-rj-blue modal-header">
                 <h1 class="modal-title text-white fs-5" id="staticBackdropLabel">
-                    Registrar confeccion
+                    Registrar confección
                 </h1>
             </div>
             <div class="modal-body">

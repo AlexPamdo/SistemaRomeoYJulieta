@@ -10,7 +10,7 @@
 
                     <h1><i class="fa-solid fa-circle-exclamation fs-1 " style="color: #da1010;"></i></h1>
                     <h3>¿Estas seguro?</h3>
-                    <h5>no podras recuperarlo luego</h5>
+                    <h5>no podrás recuperarlo luego</h5>
                     <div class="d-flex justify-content-center modal-footer">
                         <form class="needs-validation" id="anuleForm" method="post" novalidate>
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">

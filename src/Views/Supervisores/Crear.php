@@ -35,7 +35,7 @@
                         </div>
 
                         <div class="input-group flex-nowrap m-2 d-flex flex-column p-2">
-                            <label class="fw-bold" for="cedulaSupervisor">Cedula</label>
+                            <label class="fw-bold" for="cedulaSupervisor">Cédula</label>
 
                             <input type="text" name="cedula_supervisor" class="form-control-input w-100 cedulaSupervisor" id="cedulaSupervisor"
                                 placeholder="Introduzca la cedula" aria-label="Username"
@@ -50,7 +50,7 @@
                         </div>
 
                         <div class="input-group flex-nowrap m-2 d-flex flex-column p-2">
-                            <label class="fw-bold" for="">Telefono</label>
+                            <label class="fw-bold" for="">Teléfono</label>
                             <input type="text" name="telefono_supervisor" class="form-control-input telefonoSupervisor w-100" id="telfSupervisor"
                                 placeholder="Introduzca el numero de telefono" aria-label="Username"
                                 aria-describedby="addon-wrapping" />

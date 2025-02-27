@@ -45,7 +45,7 @@
         </div>
         <hr class="bg-white">
         <div class="text-center py-3">
-            &copy; 2024 Romeo y julieta. Todos los derechos reservados.
+            &copy; 2024 Romeo y Julieta. Todos los derechos reservados.
         </div>
     </div>
 </footer>

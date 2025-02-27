@@ -40,7 +40,7 @@
                         </div>
 
                         <div class="p-3 text-center">
-                            <label class="fw-bold">Rol</label>
+                            <label class="fw-bold">Tipo de Usuario</label>
 
                             <div class="d-flex justify-content-around">
 
@@ -48,12 +48,12 @@
 
                                 <div class="d-flex flex-column align-items-center">
                                     <input type="radio" id="rol1" name="rol_usuario" value="1" class="rolUsuario">
-                                    <label for="rol1">Admin</label>
+                                    <label for="rol1">Administrador</label>
                                 </div>
 
                                 <div class="d-flex flex-column align-items-center">
                                     <input type="radio" id="rol2" name="rol_usuario" value="2"  class="rolUsuario">
-                                    <label for="rol2">User</label>
+                                    <label for="rol2">Usuario</label>
                                 </div>
                             
                             </div>

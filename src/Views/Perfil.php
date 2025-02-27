@@ -72,7 +72,7 @@ require_once("Templates/Head.php");
                                         <input type="email" id="email" class="form-control" value="<?php echo $_SESSION["email"]; ?>" disabled>
                                     </div>
                                     <div class="col-md-6">
-                                        <label for="telefono">Teléfono</label>
+                                        <label for="teléfono">Teléfono</label>
                                         <input type="tel" id="telefono" class="form-control" value="<?php echo $_SESSION["cedula"]; ?>" disabled>
                                     </div>
                                 </div>

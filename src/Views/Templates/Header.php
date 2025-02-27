@@ -22,7 +22,7 @@
             <li class="nav-item">
                 <a id="almacen" class="nav-link-rj nav-link d-flex align-items-center gap-2" href="index.php?page=almacen">
                 <?php include './src/Assets/bootstrap-icons-1.11.3/box-seam-fill.svg'; ?>
-                    Almacen
+                    Almacén
                 </a>
             </li>
             <li class="nav-item">
